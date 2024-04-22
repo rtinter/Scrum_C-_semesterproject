@@ -1,0 +1,41 @@
+# use the official gcc image, based on debian
+# can use versions as well, like gcc:5.2
+# see https://hub.docker.com/_/gcc/
+
+image: gcc
+
+build:
+  rules: 
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+    # This Job runs in merge requests and also when pushed to main
+  stage: build
+  # instead of calling g++ directly you can also use some build toolkit like make
+  # install the necessary build tools when needed
+  before_script:
+    - apt update && apt -y install cmake
+    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev
+    - rm -Rf build
+    - mkdir build
+    - cd build
+    - cmake ..
+  script:
+    - cmake --build . --config Release
+  artifacts:
+    paths:
+      - triton
+      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
+      # cache:
+      #   paths:
+      #     - "*.o"
+
+# run tests using the binary built before
+#test:
+#  stage: test
+#  script:
+#    - ./runmytests.sh
+
+#deploy:
+#  stage: deploy
+#  script: echo "Define your deployment script!"
+#  environment: production
