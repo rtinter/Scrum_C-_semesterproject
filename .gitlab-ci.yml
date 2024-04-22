@@ -21,9 +21,9 @@ build:
     - cmake ..
   script:
     - cmake --build . --config Release
-  artifacts:
-    paths:
-      - triton
+  #artifacts:
+  #  paths:
+  #    - athena 
       # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
       # cache:
       #   paths:
