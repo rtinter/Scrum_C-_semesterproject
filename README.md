@@ -6,9 +6,9 @@ Gruppe: AEM-1
 | ----- | ---------- | --------- |
 | PO | Jane Schönfeld | 941120 |
 | SM | Benjamin Puhani | 941077 |
+| DEV | Jannik Brozy | 940986 |
 | DEV | René Marcel Tinter | 940995 |
 | DEV | Caspar Quast | 941155 |
-| DEV | | |
 | DEV | | |
 | DEV | | |
 | DEV | | |
