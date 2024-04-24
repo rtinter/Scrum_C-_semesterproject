@@ -2,20 +2,20 @@
 
 Gruppe: AEM-1
  
-| Rolle | Teilnehmer         | Matr.-Nr. |
-| ----- |--------------------|-----------|
-| PO | Jane Schönfeld     | 941120    |
-| SM | Benjamin Puhani    | 941077    |
-| DEV | Jannik Brozy       | 940986    |
-| DEV | René Marcel Tinter | 940995    |
-| DEV | Caspar Quast       | 941155    |
-| DEV | Noah Zepner        | 941167    |
-| DEV | Timo Michaelis     | 941362    |
-| DEV |                    |           |
-| DEV |                    |           |
-| DEV |                    |           |
-| DEV |                    |           |
-| DEV |                    |           |
+| Rolle | Teilnehmer              | Matr.-Nr. |
+| ----- |-------------------------|-----------|
+| PO | Jane Schönfeld          | 941120    |
+| SM | Benjamin Puhani         | 941077    |
+| DEV | Jannik Brozy            | 940986    |
+| DEV | René Marcel Tinter      | 940995    |
+| DEV | Caspar Quast            | 941155    |
+| DEV | Noah Zepner             | 941167    |
+| DEV | Timo Michaelis          | 941362    |
+| DEV | Sebastian Elisa Reineke | 941070    |
+| DEV |                         |           |
+| DEV |                         |           |
+| DEV |                         |           |
+| DEV |                         |           |
 
 ## Produktvision
 Die **Zielgruppe** von Human Benchmark umfasst potenzielle Teilnehmer:innen an Assessment-Centern von 
