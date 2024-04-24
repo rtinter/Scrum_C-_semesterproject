@@ -12,7 +12,7 @@ Gruppe: AEM-1
 | DEV | Noah Zepner             | 941167    |
 | DEV | Timo Michaelis          | 941362    |
 | DEV | Sebastian Elisa Reineke | 941070    |
-| DEV |                         |           |
+| DEV | Karlina Jung            | 941169    |
 | DEV |                         |           |
 | DEV |                         |           |
 | DEV |                         |           |
