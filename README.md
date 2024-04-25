@@ -14,7 +14,7 @@ Gruppe: AEM-1
 | DEV | Sebastian Elisa Reineke | 941070    |
 | DEV | Karlina Jung            | 941169    |
 | DEV | Jonas Neumann           | 941341    |
-| DEV |                         |           |
+| DEV | Gerrit Koch             | 941213    |
 | DEV |                         |           |
 
 ## Produktvision
