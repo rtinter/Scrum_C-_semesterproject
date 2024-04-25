@@ -15,7 +15,6 @@ Gruppe: AEM-1
 | DEV | Karlina Jung            | 941169    |
 | DEV | Jonas Neumann           | 941341    |
 | DEV | Gerrit Koch             | 941213    |
-| DEV |                         |           |
 
 ## Produktvision
 Die **Zielgruppe** von Human Benchmark umfasst potenzielle Teilnehmer:innen an Assessment-Centern von 
