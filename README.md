@@ -13,7 +13,7 @@ Gruppe: AEM-1
 | DEV | Timo Michaelis          | 941362    |
 | DEV | Sebastian Elisa Reineke | 941070    |
 | DEV | Karlina Jung            | 941169    |
-| DEV |                         |           |
+| DEV | Jonas Neumann           | 941341    |
 | DEV |                         |           |
 | DEV |                         |           |
 
