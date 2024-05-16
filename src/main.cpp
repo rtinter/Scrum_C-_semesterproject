@@ -5,14 +5,12 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
+#include <iostream>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Athena");
     window.setFramerateLimit(60);
     ImGui::SFML::Init(window);
-
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
 
     sf::Clock deltaClock;
     while (window.isOpen()) {
@@ -27,14 +25,22 @@ int main() {
 
         ImGui::SFML::Update(window, deltaClock.restart());
 
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
 
-        ImGui::Begin("Hello, world!");
+        ImGui::Begin("React-Game-Window");
+
+        //React-Game
+
         ImGui::Button("Look at this pretty button");
+        if (ImGui::Button("Click me")) {
+            std::cout << "You clicked the button!" << std::endl;
+        }
+
+
         ImGui::End();
 
-        window.clear();
-        window.draw(shape);
+
+        window.clear(sf::Color::Red);
         ImGui::SFML::Render(window);
         window.display();
     }
