@@ -30,6 +30,8 @@ FetchContent_Declare(box2d
 FetchContent_MakeAvailable(box2d)
 
 add_executable(Athena src/main.cpp
+        lib/commons/StyleManager.hpp
+        lib/commons/StyleManager.cpp
         src/App.cpp
         src/db/DbService.cpp
         src/views/Dashboard.cpp
