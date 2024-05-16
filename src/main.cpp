@@ -7,11 +7,10 @@
 #include <SFML/Window/Event.hpp>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "Human Benchmark");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
     window.setFramerateLimit(60);
 
     ImGui::SFML::Init(window);
-
 
     sf::Clock deltaClock;
     while (window.isOpen()) {
