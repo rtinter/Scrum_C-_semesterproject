@@ -10,6 +10,7 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Athena");
     window.setFramerateLimit(60);
+    bool isColorRed {true};
     ImGui::SFML::Init(window);
 
     sf::Clock deltaClock;
@@ -27,20 +28,31 @@ int main() {
 
         //ImGui::ShowDemoWindow();
 
+
         ImGui::Begin("React-Game-Window");
 
         //React-Game
 
+
         ImGui::Button("Look at this pretty button");
         if (ImGui::Button("Click me")) {
             std::cout << "You clicked the button!" << std::endl;
+            if (isColorRed)
+                isColorRed = false;
+            else
+                isColorRed = true;
         }
 
 
         ImGui::End();
 
+        if (isColorRed) {
+            window.clear(sf::Color::Red);
+        } else {
+            window.clear(sf::Color::Green);
+        }
 
-        window.clear(sf::Color::Red);
+        //window.clear(sf::Color::Red);
         ImGui::SFML::Render(window);
         window.display();
     }
