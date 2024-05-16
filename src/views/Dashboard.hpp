@@ -1,9 +1,10 @@
 //
-// Created by zepi on 16.05.24.
+// Created by Rene Tinter on 16.05.24.
 //
 
-#ifndef ATHENA_DASHBOARD_HPP
-#define ATHENA_DASHBOARD_HPP
+#ifndef ATHENA_DASHBOARD_H
+#define ATHENA_DASHBOARD_H
+
 
 
 class Dashboard {
@@ -11,4 +12,5 @@ class Dashboard {
 };
 
 
-#endif //ATHENA_DASHBOARD_HPP
+
+#endif //ATHENA_DASHBOARD_H
