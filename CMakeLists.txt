@@ -38,7 +38,11 @@ add_executable(Athena src/main.cpp
 
 add_subdirectory(lib)
 
-target_link_libraries(Athena PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML box2d)
+set(games calc reaction)
+
+set(customLibs commons ui_elements abstract_game ${games})
+
+target_link_libraries(Athena PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML box2d ${customLibs})
 target_compile_features(Athena PRIVATE cxx_std_17)
 
 if (WIN32)
