@@ -8,6 +8,8 @@
 
 class App {
 
+public:
+    static void start();
 };
 
 
