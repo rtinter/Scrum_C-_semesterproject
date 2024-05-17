@@ -1,12 +1,8 @@
 #!/bin/bash
 
-function info(){
-    echo "Running Configuration: " $1
-    echo $CI_PROJECT_DIR
-    echo $CI_COMMIT_TAG
-}
-
 function build() {
+    echo $1
+
     rm -rf build
     mkdir -p build
     cd build || exit 1
@@ -16,6 +12,8 @@ function build() {
 }
 
 function release() {
+    echo $1
+
     rm -rf build
     mkdir -p build
     cd build || exit 1
@@ -32,11 +30,9 @@ function release() {
 }
 
 if [ $1 == "Release" ]; then
-    info
     release
 fi
 
 if [ $1 == "Build-Only" ]; then
-    info
     build
 fi
