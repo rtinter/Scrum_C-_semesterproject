@@ -7,8 +7,9 @@
 
 namespace ui_elements {
 
-    class UiElement {
 
+    class UiElement {
+        virtual void render() = 0; // abstract
     };
 
 } // ui_elements

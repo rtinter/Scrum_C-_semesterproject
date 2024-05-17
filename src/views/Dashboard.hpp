@@ -1,16 +1,13 @@
-//
-// Created by Rene Tinter on 16.05.24.
-//
-
-#ifndef ATHENA_DASHBOARD_H
-#define ATHENA_DASHBOARD_H
-
-
+#include "Header.hpp"
+#include <imgui.h>
+#include <imgui-SFML.h>
+#include <SFML/Graphics.hpp>
 
 class Dashboard {
+public:
+
+    void render();
+
+private:
 
 };
-
-
-
-#endif //ATHENA_DASHBOARD_H
