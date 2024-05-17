@@ -1,1 +1,2 @@
-add_subdirectory(calc reaction)
+add_subdirectory(calc)
+add_subdirectory(reaction)
