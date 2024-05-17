@@ -18,13 +18,15 @@ function release() {
     rm -rf build
     mkdir -p build
     cd build || exit 1
+
     cmake .. -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
     cmake --build . --config Release -j $(nproc)
+
     ls -lah
     ls -lah ./bin/
 
-    zip -j -r release.zip ./bin/Athena
-    mv ./release.zip $CI_PROJECT_DIR"/athena-release-"$CI_COMMIT_TAG".zip"
+    zip -j -r release.zip $CI_PROJECT_DIR/build/bin/Athena
+    mv $CI_PROJECT_DIR/release.zip $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip
 
     echo "BUILD_JOB_ID="$CI_JOB_ID >> $CI_PROJECT_DIR/build.env
 }
