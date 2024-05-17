@@ -2,40 +2,57 @@
 # can use versions as well, like gcc:5.2
 # see https://hub.docker.com/_/gcc/
 
-image: gcc
+variables:
+  CCACHE_BASEDIR: $CI_PROJECT_DIR
+  CCACHE_DIR: $CI_PROJECT_DIR/ccache
+  CCACHE_COMPILERCHECK: content
 
 build:
-  rules: 
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+  image: gcc
     # This Job runs in merge requests and also when pushed to main
-  stage: build
   # instead of calling g++ directly you can also use some build toolkit like make
   # install the necessary build tools when needed
+  
+  rules:
+    - if: $CI_COMMIT_BRANCH == "dev" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ( $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" ))
   before_script:
     - apt update && apt -y install cmake
-    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev
+    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy
     - rm -Rf build
     - mkdir build
-    - cd build
-    - cmake ..
   script:
-    - cmake --build . --config Release
-  #artifacts:
-  #  paths:
-  #    - athena 
+    - cd build
+    - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+    - cmake --build . --config Release -j $(nproc)
+    - cp $(pwd)/bin/Athena $CI_PROJECT_DIR/Athena
+    - echo BUILD_JOB_ID=$CI_JOB_ID >> $CI_PROJECT_DIR/CI_JOB_ID.env
+    - clang-tidy ../src/*.cpp
+  artifacts:
+    paths:
+      - Athena
+    reports:
+      dotenv: CI_JOB_ID.env 
       # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
       # cache:
       #   paths:
       #     - "*.o"
 
-# run tests using the binary built before
-#test:
-#  stage: test
-#  script:
-#    - ./runmytests.sh
-
-#deploy:
-#  stage: deploy
-#  script: echo "Define your deployment script!"
-#  environment: production
+release:
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  needs: [ build ]
+  script:
+    - echo "release application..."
+    - echo "Application successfully released."
+  release:
+    name: 'Release Executables $CI_COMMIT_SHORT_SHA'
+    description: 'Created using the release-cli'
+    # tag_name is a memandatory field and can not be an empty string
+    tag_name: '$CI_COMMIT_SHORT_SHA'
+    assets:
+      links:
+        - name: 'Athena'
+          # Use variables to build a URL to access the artifacts
+          # ${CI_PROJECT_URL} is the repository URL
+          # ${BUILD_JOB_ID} is from the previous job,
+          # the build stage, that contains the artifact
+          url: '${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/file/Athena'
