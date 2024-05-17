@@ -76,14 +76,22 @@ int main() {
         ImGui::End();
 
         if (showModal) {
+            ImGui::SetNextWindowSize(ImVec2(1000, 600));
+
             ImGui::OpenPopup("Overlay??");
             showModal = false; //Zum resetten
         }
 
-        if (ImGui::BeginPopupModal("Overlay??", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-            ImGui::Text("Unser Overlay für Spiele.");
-            if (ImGui::Button("Schließen")) {
+        if (ImGui::BeginPopupModal("Overlay??", NULL, ImGuiWindowFlags_NoResize)) {
+            ImGui::Text("SPIELENAME");
+            ImGui::Text("SPIELBESCHREIBUNG");
+            ImGui::Text("SPIELREGELN");
+            //ImGui::
+            if (ImGui::Button("Zurück zum Menü")) {
                 ImGui::CloseCurrentPopup();
+            }
+            if (ImGui::Button("Spiel starten!")) {
+                //noch nichts
             }
             ImGui::EndPopup();
         }
