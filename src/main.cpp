@@ -1,22 +1,26 @@
-#include "imgui.h"
-#include "imgui-SFML.h"
-
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
-
+#include <SFML/Graphics.hpp>
+#include <imgui.h>
+#include <imgui-SFML.h>
 #include "Tile.h"
+#include "Dashboard.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
     window.setFramerateLimit(60);
 
     ImGui::SFML::Init(window);
-    ui_elements::Tile tileItem(200, 300, ImVec4(0.39f, 0.58f, 0.93f, 1.0f), "Pictogram", "Spielname", "Beschreibung");
-
 
     sf::Clock deltaClock;
+
+    Dashboard dashboard;
+
+    // Füge Tiles zur Kategorie 1 hinzu
+    dashboard.addTileToCategory1(ui_elements::Tile(300, 400, "Pictogram", "Spielname", "Beschreibung"));
+    dashboard.addTileToCategory1(ui_elements::Tile(300, 400, "Pictogram", "Spielname", "Beschreibung"));
+
+    // Füge Tiles zur Kategorie 2 hinzu
+    dashboard.addTileToCategory2(ui_elements::Tile(300, 400, "Pictogram", "Spielname", "Beschreibung"));
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -28,13 +32,14 @@ int main() {
         }
 
         ImGui::SFML::Update(window, deltaClock.restart());
-
-        //ImGui::ShowDemoWindow();
-        tileItem.render();
-
         window.clear();
+
+        dashboard.render();
+
         ImGui::SFML::Render(window);
         window.display();
     }
+
     ImGui::SFML::Shutdown();
+    return 0;
 }
