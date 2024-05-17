@@ -10,9 +10,14 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
+const int App::_windowWidth{1920};
+const int App::_windowHeight{1080};
+const std::string App::_title{"Human Benchmark"};
+const int App::_frameRate{60};
+
 void App::start() {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
-    window.setFramerateLimit(60);
+    sf::RenderWindow window(sf::VideoMode(_windowWidth, _windowHeight), _title);
+    window.setFramerateLimit(_frameRate);
     [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
 
 
