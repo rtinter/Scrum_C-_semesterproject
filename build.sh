@@ -24,7 +24,7 @@ function release() {
     ls -lah ./bin/
 
     zip -j -r release.zip ./bin/Athena
-    cp ./release.zip $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip
+    mv ./release.zip $CI_PROJECT_DIR"/athena-release-"$CI_COMMIT_TAG".zip"
 
     echo "BUILD_JOB_ID="$CI_JOB_ID >> $CI_PROJECT_DIR/build.env
 }
