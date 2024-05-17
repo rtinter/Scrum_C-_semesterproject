@@ -1,4 +1,4 @@
-set(LIBRARY_NAME reaction)
+set(LIBRARY_NAME views)
 
 file(GLOB SOURCES *.cpp)
 
