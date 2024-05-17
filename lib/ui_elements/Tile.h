@@ -1,40 +1,28 @@
-
 #include "UiElement.hpp"
 #include <string>
 #include <imgui.h>
+#pragma once
 
 namespace ui_elements {
 
-    class Tile {
-        int height;
-        int width;
-        ImVec4 color;
+    class Tile : public UiElement {
+        float height;
+        float width;
         std::string pictogram;
         std::string gameName;
         std::string description;
+        std::string buttonText;
 
         // Setter-Methoden in den privaten Bereich verschieben
-        void setHeight(int h);
-        void setWidth(int w);
-        void setPictogram(const std::string& pic);
-        void setGameName(const std::string& name);
-        void setDescription(const std::string& desc);
+        void setButtonText();
 
     public:
         // Konstruktor
         Tile() = delete;
-        explicit Tile(int h, int w, ImVec4 c, const std::string& pic, const std::string& name, const std::string& desc);
-
-        // Getter-Methoden
-        int getHeight() const;
-        int getWidth() const;
-        const std::string& getPictogram() const;
-        const std::string& getGameName() const;
-        const std::string& getDescription() const;
-        ImVec4 getColor() const;
+        explicit Tile(int h, int w, const std::string& pic, const std::string& name, const std::string& desc);
 
         // Render-Methode
-        void render();
+        void render() override;
     };
 
 

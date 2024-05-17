@@ -1,51 +1,50 @@
 #include "Dashboard.hpp"
+#include <imgui.h>
 
-void Dashboard::render() {
+#include "Window.hpp"
 
-    // Render header
-    ImGui::SetNextWindowPos(ImVec2(0, 50), ImGuiCond_Always);
-    ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50), ImGuiCond_Always);
-    ImGui::Begin("Dashboard", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove);
+namespace views {
 
-    float windowWidth = ImGui::GetWindowSize().x;
-    float buttonWidth = 300.0f;
-    float buttonHeight = 200.0f;
-    float padding = 10.0f;
-    float totalButtonWidth = buttonWidth * 2 + padding;
-    float spacing = (windowWidth - totalButtonWidth) / 2.0f;
-
-    // Category 1
-    ImGui::Text("Kategorie 1");
-    ImGui::Spacing();
-
-    ImGui::SetCursorPosX(spacing);
-    if (ImGui::Button("Pictogram\nSpielname\nBeschreibung", ImVec2(buttonWidth, buttonHeight))) {
-        // Button 1 action
+    void Dashboard::addTileToCategory1(const ui_elements::Tile& tile) {
+        _category1Tiles.emplace_back(tile);
     }
 
-    ImGui::SameLine();
-    ImGui::SetCursorPosX(spacing + buttonWidth + padding);
-    if (ImGui::Button("Pictogram\nSpielname\nBeschreibung", ImVec2(buttonWidth, buttonHeight))) {
-        // Button 2 action
+    void Dashboard::addTileToCategory2(const ui_elements::Tile& tile) {
+        _category2Tiles.emplace_back(tile);
     }
 
-    ImGui::Spacing();
-    ImGui::Spacing();
+    void Dashboard::render() {
 
-    // Category 2
-    ImGui::Text("Kategorie 2");
-    ImGui::Spacing();
+        ui_elements::Window window("Dashboard");
 
-    ImGui::SetCursorPosX(spacing);
-    if (ImGui::Button("Pictogram\nSpielname\nBeschreibung", ImVec2(buttonWidth, buttonHeight))) {
-        // Button 3 action
+        window.render([this]() {
+
+            //  Render Category 1
+            ImGui::Text("Kategorie 1");ImGui::Spacing();
+            ImGui::Spacing();
+            for (int i = 0; i < _category1Tiles.size(); ++i) {
+                if (i > 0 && i % 2 == 0) {
+                    ImGui::NewLine();
+                }
+                _category1Tiles[i].render();
+                if (i % 2 == 0) {ImGui::SameLine();
+            }
+            }ImGui::NewLine();
+
+
+            // Render Category 2
+            ImGui::Text("Kategorie 2");
+            ImGui::Spacing();
+            ImGui::Spacing();
+    for (int i = 0; i < _category2Tiles.size(); ++i) {
+                if (i > 0 && i % 2 == 0) {
+                    ImGui::NewLine();
+                }
+                _category2Tiles[i].render();
+        if (i % 2 == 0) {
+                ImGui::SameLine();}
+            }
+            ImGui::NewLine();
+        });
     }
-
-    ImGui::SameLine();
-    ImGui::SetCursorPosX(spacing + buttonWidth + padding);
-    if (ImGui::Button("Pictogram\nSpielname\nBeschreibung", ImVec2(buttonWidth, buttonHeight))) {
-        // Button 4 action
-    }
-
-    ImGui::End();
 }

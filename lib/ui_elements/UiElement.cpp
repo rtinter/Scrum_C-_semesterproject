@@ -1,5 +1,3 @@
-
-#include "UiElement.hpp"
-
-namespace ui_elements {
-}
+//
+// Created by zepi on 17.05.24.
+//

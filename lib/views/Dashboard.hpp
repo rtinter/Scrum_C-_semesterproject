@@ -1,12 +1,15 @@
-#include <imgui.h>
-#include <imgui-SFML.h>
-#include <SFML/Graphics.hpp>
+#include "Tile.h"
+#include <vector>
 
-class Dashboard {
-public:
+namespace views {
+    class Dashboard {
 
-    void render();
+        std::vector<ui_elements::Tile> _category1Tiles;
+        std::vector<ui_elements::Tile> _category2Tiles;
 
-private:
-
-};
+    public:
+        void addTileToCategory1(const ui_elements::Tile& tile);
+        void addTileToCategory2(const ui_elements::Tile& tile);
+        void render();
+    };
+}
