@@ -21,19 +21,19 @@ function release() {
     cmake .. -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
     cmake --build . --config Release -j $(nproc)
 
-    zip -j -r release.zip "$(pwd)/bin/Athena"
-    cp "$(pwd)/release.zip" "$CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip"
+    zip -j -r release.zip $(pwd)/bin/Athena
+    cp $(pwd)/release.zip $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip
 
-    echo "BUILD_JOB_ID=$CI_JOB_ID" >> "$CI_PROJECT_DIR/build.env"
+    echo "BUILD_JOB_ID="$CI_JOB_ID >> $CI_PROJECT_DIR/build.env
 }
 
-if [ "$1" == "Release" ]; then
+if [ $1 == "Release" ]; then
     info
     build
     release
 fi
 
-if [ "$1" == "Build-Only" ]; then
+if [ $1 == "Build-Only" ]; then
     info
     build
 fi
