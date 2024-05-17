@@ -4,7 +4,6 @@
 
 #include "App.hpp"
 #include "imgui-SFML.h"
-#include "imgui.h"
 
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
