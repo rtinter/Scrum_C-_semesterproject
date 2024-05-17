@@ -26,6 +26,7 @@ build:
     - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
     - ccache --zero-stats  
   script:
+    - chmod +x ./build.sh
     - ./build.sh Build-Only
   cache:
     - key: ccache-$CI_JOB_NAME
@@ -42,6 +43,7 @@ prepare:
     - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
     - ccache --zero-stats  
   script:
+    - chmod +x ./build.sh
     - ./build.sh Release
   cache:
     - key: ccache-$CI_JOB_NAME
