@@ -10,10 +10,17 @@ function build() {
     mkdir -p build
     cd build || exit 1
     cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    clang-tidy ../src/*.cpp
     cmake --build . --config Release -j $(nproc)
 }
 
 function release() {
+    rm -rf build
+    mkdir -p build
+    cd build || exit 1
+    cmake .. -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    cmake --build . --config Release -j $(nproc)
+
     zip -j -r release.zip "$(pwd)/bin/Athena"
     cp "$(pwd)/release.zip" "$CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip"
 
