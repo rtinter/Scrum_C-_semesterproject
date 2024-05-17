@@ -20,6 +20,8 @@ function release() {
     cd build || exit 1
     cmake .. -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
     cmake --build . --config Release -j $(nproc)
+    ls -lah
+    ls -lah ./bin/
 
     zip -j -r release.zip ./bin/Athena
     cp ./release.zip $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip
