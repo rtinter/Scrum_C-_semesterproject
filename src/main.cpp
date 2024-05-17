@@ -4,13 +4,14 @@
 #include "Tile.h"
 #include "Dashboard.hpp"
 #include "Header.hpp"
-
+#include "StyleManager.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
     window.setFramerateLimit(60);
 
     [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
+    commons::StyleManager::loadStyle();
 
     sf::Clock deltaClock;
 
@@ -42,6 +43,14 @@ int main() {
 
         header.render();
         dashboard.render();
+
+        /* Font Example
+        ImGui::Begin("test");
+        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::HEADER1));
+        ImGui::Text("Test");
+        ImGui::PopFont();
+        ImGui::End();
+         */
 
         ImGui::SFML::Render(window);
         window.display();
