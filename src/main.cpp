@@ -10,6 +10,20 @@
 #include <chrono>  // For std::chrono
 #include <iostream>
 
+std::string getDurationRating(int duration) {
+    if (duration < 260) {
+        return "Herausragend";
+    } else if (duration < 340) {
+        return "Super Schnell";
+    } else if (duration < 540) {
+        return "Guter Durchschnitt";
+    } else if (duration < 640) {
+        return "Ganz OK";
+    } else {
+        return "Langsam";
+    }
+}
+
 int main() {
     sf::RenderWindow window(sf::VideoMode(2*640, 1.5*480), "ImGui + SFML = <3");
     window.setFramerateLimit(60);
@@ -43,6 +57,7 @@ int main() {
                 if (event.mouseButton.button == sf::Mouse::Left && !isRed) {
                     finish = std::chrono::high_resolution_clock::now();
                     std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << " ms" << std::endl;
+                    std::cout << "Duration rating: " << getDurationRating(std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() ) << std::endl;
                 }
             }
         }
