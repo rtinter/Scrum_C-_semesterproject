@@ -1,8 +1,11 @@
 #include <SFML/Graphics.hpp>
 #include <imgui.h>
 #include <imgui-SFML.h>
+#include "iostream"
 #include "Tile.h"
 #include "Dashboard.hpp"
+#include "Header.hpp"
+
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
@@ -13,6 +16,10 @@ int main() {
     sf::Clock deltaClock;
 
     Dashboard dashboard;
+    //Testcallback funktion, da atm keine Logik
+    Header header("Home", "Meine Stats", []() {
+        std::cout << "Stats button clicked!" << std::endl;
+    });
 
     // Füge Tiles zur Kategorie 1 hinzu
     dashboard.addTileToCategory1(ui_elements::Tile(300, 400, "Pictogram", "Spielname", "Beschreibung"));
@@ -34,6 +41,7 @@ int main() {
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
 
+        header.render();
         dashboard.render();
 
         ImGui::SFML::Render(window);
