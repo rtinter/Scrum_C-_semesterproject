@@ -12,7 +12,6 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Athena");
     window.setFramerateLimit(60);
-    bool isColorRed {true};
 
     std::chrono::time_point<std::chrono::system_clock> start, finish;
 
@@ -62,13 +61,16 @@ int main() {
             ImGui::Text("SPIELENAME");
             ImGui::Text("SPIELBESCHREIBUNG");
             ImGui::Text("SPIELREGELN");
-            //ImGui::
+
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, sf::Color::Red);
             if (ImGui::Button("Zurück zum Menü")) {
                 ImGui::CloseCurrentPopup();
             }
             if (ImGui::Button("Spiel starten!")) {
                 //noch nichts
             }
+            ImGui::PopStyleColor();
+
             ImGui::EndPopup();
         }
 
