@@ -25,8 +25,7 @@ function release() {
     ls -lah
     ls -lah ./bin/
 
-    zip -j -r release.zip $CI_PROJECT_DIR/build/bin/Athena
-    mv $CI_PROJECT_DIR/release.zip $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip
+    zip -j -r $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip $CI_PROJECT_DIR/build/bin/Athena
 
     echo "BUILD_JOB_ID="$CI_JOB_ID >> $CI_PROJECT_DIR/build.env
 }
