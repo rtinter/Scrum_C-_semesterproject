@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function info(){
+    echo "Running Configuration: " $1
     echo $CI_PROJECT_DIR
     echo $CI_COMMIT_TAG
 }
@@ -32,7 +33,6 @@ function release() {
 
 if [ $1 == "Release" ]; then
     info
-    build
     release
 fi
 
