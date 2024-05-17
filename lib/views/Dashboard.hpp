@@ -1,16 +1,15 @@
 #include "Tile.h"
 #include <vector>
 
-class Dashboard {
+namespace views {
+    class Dashboard {
 
-    std::vector<ui_elements::Tile> category1Tiles;
-    std::vector<ui_elements::Tile> category2Tiles;
+        std::vector<ui_elements::Tile> _category1Tiles;
+        std::vector<ui_elements::Tile> _category2Tiles;
 
-public:
-
-    void addTileToCategory1(const ui_elements::Tile& tile);
-    void addTileToCategory2(const ui_elements::Tile& tile);
-    void render();
-};
-
-
+    public:
+        void addTileToCategory1(const ui_elements::Tile& tile);
+        void addTileToCategory2(const ui_elements::Tile& tile);
+        void render();
+    };
+}

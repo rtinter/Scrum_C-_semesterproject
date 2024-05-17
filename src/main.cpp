@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-#include <imgui.h>
 #include <imgui-SFML.h>
 #include "iostream"
 #include "Tile.h"
@@ -11,11 +10,11 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
     window.setFramerateLimit(60);
 
-    ImGui::SFML::Init(window);
+    [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
 
     sf::Clock deltaClock;
 
-    Dashboard dashboard;
+    views::Dashboard dashboard;
     //Testcallback funktion, da atm keine Logik
     Header header("Home", "Meine Stats", []() {
         std::cout << "Stats button clicked!" << std::endl;
