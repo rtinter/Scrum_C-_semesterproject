@@ -29,17 +29,12 @@ FetchContent_Declare(box2d
         GIT_TAG v2.4.1)
 FetchContent_MakeAvailable(box2d)
 
-add_executable(Athena src/main.cpp)
-target_link_libraries(Athena PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML box2d)
-target_compile_features(Athena PRIVATE cxx_std_17)
+add_subdirectory(lib)
+add_subdirectory(src)
 
-if (WIN32)
-    add_custom_command(
-            TARGET Athena
-            COMMENT "Copy OpenAL DLL"
-            PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy
-            ${SFML_SOURCE_DIR}/extlibs/bin/$<IF:$<EQUAL:${CMAKE_SIZEOF_VOID_P},8>,x64,x86>/openal32.dll $<TARGET_FILE_DIR:Athena>
-            VERBATIM)
-endif ()
+target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_17)
 
-install(TARGETS Athena)
+
+
+
+install(TARGETS ${CMAKE_PROJECT_NAME})
