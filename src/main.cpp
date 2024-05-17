@@ -36,7 +36,7 @@ int main() {
 
         //ALL WIDGETS IN BETWEEN Update and Render
 
-        ImGui::ShowDemoWindow();
+        //ImGui::ShowDemoWindow();
         //ImGui::ShowUserGuide();
 
 
@@ -49,7 +49,6 @@ int main() {
         }
 
 
-        ImGui::Button("Look at this pretty button");
         if (ImGui::Button("Click me")) {
             std::cout << "You clicked the button!" << std::endl;
             if (isColorRed)
@@ -66,7 +65,7 @@ int main() {
                 finish = std::chrono::high_resolution_clock::now();
                 testtext = "MouseButton has been Pressed";
                 std::chrono::duration<double> elapsed {finish - start};
-                std::cout << "Mousebutton has been pressed" << elapsed.count() << "s after the color changed to red.";
+                //std::cout << "Mousebutton has been pressed" << elapsed.count() << "s after the color changed to red.";
             }
 
 
