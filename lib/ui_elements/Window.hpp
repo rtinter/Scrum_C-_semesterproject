@@ -1,4 +1,3 @@
-#include "UiElement.hpp"
 #include "imgui.h"
 
 #include <string>
@@ -8,20 +7,23 @@ namespace ui_elements {
 
     class Window {
 
-
     public:
-        explicit Window(const char *name, bool *p_open = nullptr, ImGuiWindowFlags flags = 0) : _name(name),
+        explicit Window(const char *name, bool *p_open = nullptr, ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar) : _name(name),
                                                                                                 _pOpen(p_open),
                                                                                                 _flags(flags) {}
 
-        virtual ~Window();
 
         bool begin();
 
         static void end();
 
         template<typename Functor>
-        void render(Functor &&functor);
+        void render(Functor &&functor) {
+            if (begin()) {
+                functor();
+                end();
+            }
+        }
 
     private:
         const char *_name{};
