@@ -35,12 +35,19 @@ add_executable(Athena src/main.cpp
         src/views/Dashboard.cpp
         src/views/Statistics.cpp
 )
-
 add_subdirectory(lib)
 
-set(games calc reaction)
+set(games
+        calc
+        reaction
+)
 
-set(customLibs commons ui_elements abstract_game ${games})
+set(customLibs
+        commons
+        ui_elements
+        abstract_game
+        ${games}
+)
 
 target_link_libraries(Athena PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML box2d ${customLibs})
 target_compile_features(Athena PRIVATE cxx_std_17)
