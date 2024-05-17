@@ -1,4 +1,4 @@
-set(LIBRARY_NAME ui_elements)
+set(LIBRARY_NAME views)
 
 file(GLOB SOURCES *.cpp)
 
