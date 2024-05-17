@@ -30,3 +30,9 @@ Büchern und Anwendungen zum Thema Assessment-Center gestützt.
 
 Der Mehrwert unserer Anwendung besteht darin, das Konzept der Leistungsmessung spielerisch zu vermitteln, 
 ähnlich wie es in Assessment-Centern praktiziert wird.
+
+## Naming conventions
+
+| Type | Style |
+| ---- | ----- |
+| |
