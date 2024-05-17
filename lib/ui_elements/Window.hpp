@@ -8,7 +8,7 @@ namespace ui_elements {
     class Window {
 
     public:
-        explicit Window(const char *name, bool *p_open = nullptr, ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar) : _name(name),
+        explicit Window(const char *name, bool *p_open = nullptr, ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoDecoration) : _name(name),
                                                                                                 _pOpen(p_open),
                                                                                                 _flags(flags) {}
 

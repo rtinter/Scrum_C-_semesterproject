@@ -11,7 +11,7 @@ class Header {
 
 public:
     // Konstruktor
-    Header(const std::string& left, const std::string& right, std::function<void()> callback);
+    Header(std::string  left, std::string  right, std::function<void()> callback);
 
     // Render-Methode
     void render();
