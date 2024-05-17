@@ -11,7 +11,6 @@
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Athena");
-    sf::Mouse mouse;
     window.setFramerateLimit(60);
     bool isColorRed {true};
 
@@ -63,7 +62,7 @@ int main() {
 
         const char *testtext {""};
 
-            if (mouse.isButtonPressed(sf::Mouse::Button::Left)) {
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
                 finish = std::chrono::high_resolution_clock::now();
                 testtext = "MouseButton has been Pressed";
                 std::chrono::duration<double> elapsed {finish - start};
