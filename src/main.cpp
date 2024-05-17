@@ -48,30 +48,6 @@ int main() {
             showModal = true;
         }
 
-
-        if (ImGui::Button("Click me")) {
-            std::cout << "You clicked the button!" << std::endl;
-            if (isColorRed)
-                isColorRed = false;
-            else {
-                isColorRed = true;
-                start = std::chrono::high_resolution_clock::now();
-            }
-        }
-
-        const char *testtext {""};
-
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Button::Left)) {
-                finish = std::chrono::high_resolution_clock::now();
-                testtext = "MouseButton has been Pressed";
-                std::chrono::duration<double> elapsed {finish - start};
-                //std::cout << "Mousebutton has been pressed" << elapsed.count() << "s after the color changed to red.";
-            }
-
-
-
-        ImGui::BulletText(testtext);
-
         ImGui::End();
 
         if (showModal) {
@@ -82,6 +58,7 @@ int main() {
         }
 
         if (ImGui::BeginPopupModal("Overlay??", NULL, ImGuiWindowFlags_NoResize)) {
+
             ImGui::Text("SPIELENAME");
             ImGui::Text("SPIELBESCHREIBUNG");
             ImGui::Text("SPIELREGELN");
@@ -95,13 +72,7 @@ int main() {
             ImGui::EndPopup();
         }
 
-        if (isColorRed) {
-            window.clear(sf::Color::Red);
-        } else {
-            window.clear(sf::Color::Green);
-        }
-
-        //window.clear(sf::Color::Red);
+        window.clear(sf::Color::Blue);
         ImGui::SFML::Render(window);
         window.display();
     }
