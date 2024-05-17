@@ -25,13 +25,8 @@ build:
     - apt update && apt -y install cmake
     - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
     - ccache --zero-stats  
-    - rm -Rf build
-    - mkdir build
   script:
-    - cd build
-    - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-    - cmake --build . --config Release -j $(nproc)
-    - clang-tidy ../src/*.cpp
+    - ./build.sh Build-Only
   cache:
     - key: ccache-$CI_JOB_NAME
       paths:
@@ -46,15 +41,8 @@ prepare:
     - apt update && apt -y install cmake
     - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
     - ccache --zero-stats  
-    - rm -Rf build
-    - mkdir build
   script:
-    - cd build
-    - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-    - cmake --build . --config Release -j $(nproc)
-    - zip -j -r release.zip $(pwd)/bin/Athena
-    - cp $(pwd)/release.zip $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip
-    - echo BUILD_JOB_ID=$CI_JOB_ID >> $CI_PROJECT_DIR/build.env
+    - ./build.sh Release
   cache:
     - key: ccache-$CI_JOB_NAME
       paths:
