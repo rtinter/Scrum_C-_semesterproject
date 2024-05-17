@@ -6,13 +6,15 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
-int main() {
-    sf::RenderWindow window(sf::VideoMode(640, 480), "ImGui + SFML = <3");
-    window.setFramerateLimit(60);
-    ImGui::SFML::Init(window);
+#include "Tile.h"
 
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
+int main() {
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
+    window.setFramerateLimit(60);
+
+    ImGui::SFML::Init(window);
+    ui_elements::Tile tileItem(200, 300, ImVec4(0.39f, 0.58f, 0.93f, 1.0f), "Pictogram", "Spielname", "Beschreibung");
+
 
     sf::Clock deltaClock;
     while (window.isOpen()) {
@@ -27,15 +29,12 @@ int main() {
 
         ImGui::SFML::Update(window, deltaClock.restart());
 
-        ImGui::ShowDemoWindow();
-
-        ImGui::Begin("Hello, world!");
-        ImGui::Button("Look at this pretty button");
-        ImGui::End();
+        //ImGui::ShowDemoWindow();
+        tileItem.render();
 
         window.clear();
-        window.draw(shape);
         ImGui::SFML::Render(window);
         window.display();
     }
+    ImGui::SFML::Shutdown();
 }

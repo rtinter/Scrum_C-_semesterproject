@@ -1,14 +1,12 @@
-//
-// Created by zepi on 16.05.24.
-//
-
-#ifndef ATHENA_DASHBOARD_HPP
-#define ATHENA_DASHBOARD_HPP
-
+#include <imgui.h>
+#include <imgui-SFML.h>
+#include <SFML/Graphics.hpp>
 
 class Dashboard {
+public:
+
+    void render();
+
+private:
 
 };
-
-
-#endif //ATHENA_DASHBOARD_HPP

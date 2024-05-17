@@ -8,7 +8,8 @@
 namespace commons {
 
     class StyleManager {
-
+        static void loadStyle();
+        StyleManager()=delete;
     };
 
 } // commons
