@@ -7,7 +7,7 @@
 
 namespace ui_elements {
 
-    class Container : ui_elements::UiElement {
+    class Container {
 
     };
 

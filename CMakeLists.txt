@@ -29,9 +29,11 @@ FetchContent_Declare(box2d
         GIT_TAG v2.4.1)
 FetchContent_MakeAvailable(box2d)
 
-add_executable(Athena src/main.cpp)
-target_link_libraries(Athena PRIVATE sfml-graphics ImGui-SFML::ImGui-SFML box2d)
-target_compile_features(Athena PRIVATE cxx_std_17)
+add_subdirectory(lib)
+add_subdirectory(src)
+
+target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_17)
+
 
 if (WIN32)
     add_custom_command(
@@ -42,4 +44,4 @@ if (WIN32)
             VERBATIM)
 endif ()
 
-install(TARGETS Athena)
+install(TARGETS ${CMAKE_PROJECT_NAME})
