@@ -44,13 +44,32 @@ int main() {
         header.render();
         dashboard.render();
 
-        /* Font Example
-        ImGui::Begin("test");
+        /* Font Example*/
+        ImGui::SetNextWindowSize(ImVec2(1100.f, 400.f));
+        ImGui::Begin("Font Example");
+
         ImGui::PushFont(commons::StyleManager::getFont(commons::Font::HEADER1));
-        ImGui::Text("Test");
+        ImGui::Text("Header 1");
         ImGui::PopFont();
+
+        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::HEADER2));
+        ImGui::Text("Header 2");
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::HEADER3));
+        ImGui::Text("Header 3");
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::BODY));
+        ImGui::Text("Body:\n"
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr,\n"
+                    "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
+                    "\At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.\n"
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam");
+        ImGui::PopFont();
+
         ImGui::End();
-         */
+
 
         ImGui::SFML::Render(window);
         window.display();
