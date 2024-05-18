@@ -7,7 +7,13 @@ variables:
   CCACHE_DIR: $CI_PROJECT_DIR/ccache
   CCACHE_COMPILERCHECK: content
 
+stages:
+  - build
+  - prepare
+  - release
+
 build:
+  stage: build
   image: gcc
     # This Job runs in merge requests and also when pushed to main
   # instead of calling g++ directly you can also use some build toolkit like make
@@ -17,42 +23,59 @@ build:
     - if: $CI_COMMIT_BRANCH == "dev" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ( $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" ))
   before_script:
     - apt update && apt -y install cmake
-    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy
-    - rm -Rf build
-    - mkdir build
+    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
+    - ccache --zero-stats  
   script:
-    - cd build
-    - cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-    - cmake --build . --config Release -j $(nproc)
-    - cp $(pwd)/bin/Athena $CI_PROJECT_DIR/Athena
-    - echo BUILD_JOB_ID=$CI_JOB_ID >> $CI_PROJECT_DIR/CI_JOB_ID.env
-    - clang-tidy ../src/*.cpp
+    - chmod +x ./build.sh
+    - ./build.sh Build-Only
+  cache:
+    - key: ccache-$CI_JOB_NAME
+      paths:
+        - $CCACHE_DIR
+
+prepare:
+  image: gcc
+  stage: prepare
+  rules:
+    - if: $CI_COMMIT_TAG
+  before_script:
+    - apt update && apt -y install cmake
+    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
+    - ccache --zero-stats  
+  script:
+    - chmod +x ./build.sh
+    - ./build.sh Release
+  cache:
+    - key: ccache-$CI_JOB_NAME
+      paths:
+        - $CCACHE_DIR
   artifacts:
     paths:
-      - Athena
+      - athena-release-$CI_COMMIT_TAG.zip
     reports:
-      dotenv: CI_JOB_ID.env 
-      # depending on your build setup it's most likely a good idea to cache outputs to reduce the build time
-      # cache:
-      #   paths:
-      #     - "*.o"
+      dotenv: build.env 
 
 release:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  needs: [ build ]
+  stage: release
   script:
     - echo "release application..."
     - echo "Application successfully released."
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs:
+    - job: prepare
+      artifacts: true
   release:
-    name: 'Release Executables $CI_COMMIT_SHORT_SHA'
-    description: 'Created using the release-cli'
+    name: 'Athena $CI_COMMIT_TAG'
+    description: '$CI_COMMIT_TAG_MESSAGE'
     # tag_name is a memandatory field and can not be an empty string
-    tag_name: '$CI_COMMIT_SHORT_SHA'
+    tag_name: '$CI_COMMIT_TAG'
     assets:
       links:
-        - name: 'Athena'
+        - name: 'athena-release-$CI_COMMIT_TAG'
           # Use variables to build a URL to access the artifacts
           # ${CI_PROJECT_URL} is the repository URL
           # ${BUILD_JOB_ID} is from the previous job,
           # the build stage, that contains the artifact
-          url: '${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/file/Athena'
+          url: '${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG.zip'
