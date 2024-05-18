@@ -44,6 +44,9 @@ int main() {
         header.render();
         dashboard.render();
 
+        /* Style Example */
+        ImGui::ShowDemoWindow();
+
         /* Font Example*/
         ImGui::SetNextWindowSize(ImVec2(1100.f, 400.f));
         ImGui::Begin("Font Example");

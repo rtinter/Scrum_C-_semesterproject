@@ -12,12 +12,14 @@
 namespace commons {
 
     class StyleManager {
-        StyleManager()=delete;
+        StyleManager()=delete; // static class
 
 
-    public:
+    public: // has to be public, because static (TODO: better solution?)
         static std::map<Font, ImFont*> fontMap;
         static void setupFonts();
+        static void setupColors();
+        static ImVec4 adjustBrightness(const ImVec4& color, float percentage);
         static void loadStyle();
         static ImFont * getFont(Font const font);
     };
