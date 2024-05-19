@@ -7,10 +7,10 @@ void Game::setStatistic(const std::string& name, const long& value) {
 
 void Game::stop() {
     updateStatistics();
-    _sendStatistics();
+    sendStatistics();
 }
 
-void Game::_sendStatistics() {
+void Game::sendStatistics() {
     // placeholder for actual data sending
     const auto& stats = _gameStats.getAllStatistics();
 

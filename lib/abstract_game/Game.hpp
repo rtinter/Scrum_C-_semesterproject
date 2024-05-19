@@ -65,7 +65,7 @@ private:
 	 * This function handles the logic for uploading the game results when the
 	 * game ends or exits.
 	 */
-	void _sendStatistics();
+	void sendStatistics();
 
 	std::string _gameUUID;
 	std::string _gameID;
