@@ -1,13 +1,13 @@
 #include "GameStats.hpp"
 
 void GameStats::setStatistic(const std::string& name, const long& value) {
-	statistics[name] = value;
+	_statistics[name] = value;
 }
 
 const std::map<std::string, long>& GameStats::getAllStatistics() const {
-	return statistics;
+	return _statistics;
 }
 
 void GameStats::clearStatistics() {
-	statistics.clear();
+	_statistics.clear();
 }

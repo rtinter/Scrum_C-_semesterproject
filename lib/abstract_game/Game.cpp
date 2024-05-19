@@ -4,20 +4,20 @@
 Game::Game() {}
 
 void Game::setStatistic(const std::string& name, const long& value) {
-    gameStats.setStatistic(name, value);
+    _gameStats.setStatistic(name, value);
 }
 
 void Game::stop() {
     updateStatistics();
-    sendStatistics();
+    _sendStatistics();
 }
 
-void Game::sendStatistics() {
+void Game::_sendStatistics() {
     // placeholder for actual data sending
-    const auto& stats = gameStats.getAllStatistics();
+    const auto& stats = _gameStats.getAllStatistics();
 
     for (const auto& pair : stats) {
-        std::cout << "Uploading: " << gameUUID << ", " << gameID << ", " << userID
+        std::cout << "Uploading: " << _gameUUID << ", " << _gameID << ", " << _userID
             << ", " << pair.first << ": " << pair.second << std::endl;
     }
 }
