@@ -16,7 +16,7 @@ set(CUSTOM_LIBS
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
-        sfml-graphics ImGui-SFML::ImGui-SFML box2d
+        sfml-graphics ImGui-SFML::ImGui-SFML box2d sqlpp11
         ${CUSTOM_LIBS}
 )
 

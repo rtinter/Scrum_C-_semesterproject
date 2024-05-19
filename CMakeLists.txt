@@ -29,6 +29,13 @@ FetchContent_Declare(box2d
         GIT_TAG v2.4.1)
 FetchContent_MakeAvailable(box2d)
 
+option(USE_SYSTEM_DATE ON)
+option(BUILD_MARIADB_CONNECTOR ON)
+FetchContent_Declare(sqlpp11
+        GIT_REPOSITORY https://github.com/rbock/sqlpp11.git
+        GIT_TAG 0.64)
+FetchContent_MakeAvailable(sqlpp11)
+
 add_subdirectory(lib)
 add_subdirectory(src)
 
