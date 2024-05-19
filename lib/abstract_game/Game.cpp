@@ -1,8 +1,6 @@
 #include "Game.hpp"
 #include <iostream>
 
-Game::Game() {}
-
 void Game::setStatistic(const std::string& name, const long& value) {
     _gameStats.setStatistic(name, value);
 }

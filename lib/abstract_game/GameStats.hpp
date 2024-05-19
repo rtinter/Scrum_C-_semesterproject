@@ -34,7 +34,7 @@ public:
 	void clearStatistics();
 
 private:
-	std::map<std::string, long> statistics;  ///< Map for storing statistics.
+	std::map<std::string, long> _statistics;  ///< Map for storing statistics.
 };
 
 #endif  // GAME_STATS_H

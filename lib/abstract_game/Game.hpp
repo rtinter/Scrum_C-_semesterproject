@@ -14,7 +14,7 @@
  */
 class Game {
 public:
-	Game();
+	Game() = default;
 	virtual ~Game() = default;
 
 	/**
@@ -65,12 +65,12 @@ private:
 	 * This function handles the logic for uploading the game results when the
 	 * game ends or exits.
 	 */
-	void sendStatistics();
+	void _sendStatistics();
 
-	std::string gameUUID;
-	std::string gameID;
-	std::string userID;
-	GameStats gameStats;
+	std::string _gameUUID;
+	std::string _gameID;
+	std::string _userID;
+	GameStats _gameStats;
 };
 
 #endif  // GAME_H
