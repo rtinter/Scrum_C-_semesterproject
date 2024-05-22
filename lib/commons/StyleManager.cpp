@@ -2,39 +2,15 @@
 #include "StyleManager.hpp"
 #include "imgui.h"
 #include "imgui-SFML.h"
+#include "Color.h"
+#include "Fonts.h"
 
 
 namespace commons {
-
-    //--------------------------//
-    //          Fonts           //
-    //--------------------------//
-    std::map<Font, ImFont*> StyleManager::fontMap;
-
-    void StyleManager::setupFonts(){
-        ImGuiIO &io{ImGui::GetIO()};
-        io.Fonts->Clear();
-        // current working directory is athena/cmake-build-debug/bin
-        fontMap[Font::BODY] =
-                io.Fonts->AddFontFromFileTTF("../../lib/commons/fonts/Roboto-Light.ttf", 25.0);
-        fontMap[Font::HEADER1] =
-                io.Fonts->AddFontFromFileTTF("../../lib/commons/fonts/Roboto-Bold.ttf", 80.0);
-        fontMap[Font::HEADER2] =
-                io.Fonts->AddFontFromFileTTF("../../lib/commons/fonts/Roboto-Medium.ttf", 40.0);
-        fontMap[Font::HEADER3] =
-                io.Fonts->AddFontFromFileTTF("../../lib/commons/fonts/Roboto-Medium.ttf", 30.0);
-        io.Fonts->Build();
-        ImGui::SFML::UpdateFontTexture();
-    }
-
-    ImFont * StyleManager::getFont(Font const font) {
-        return fontMap[font];
-    }
-
     //--------------------------//
     //          Colors          //
     //--------------------------//
-    ImVec4 StyleManager::adjustBrightness(const ImVec4& color, float percentage) {
+    ImVec4 StyleManager::adjustBrightness( ImVec4 const &color, float percentage) {
         ImVec4 adjusted = color;
         if (percentage > 1.0f) { // make brighter
             adjusted.x += (1.0f - color.x) * (percentage - 1.0f);
@@ -56,26 +32,19 @@ namespace commons {
         //---------------//
         // Define Colors //
         //---------------//
-        ImVec4 const NONE{0,0,0, 0}; // transparent
-        ImVec4 const SEAFOAM{0.15, 0.65, 0.67, 1};
-        ImVec4 const LIGHT_GRAY{0.92, 0.92, 0.92, 1};
-        ImVec4 const DARK_GRAY{0.22, 0.22, 0.22, 1};
-        ImVec4 const ORANGE{0.9, 0.53, 0.1, 1};
-        ImVec4 const BLUE{0.08, 0.45, 0.9, 1};
-        ImVec4 const RED{0.79, 0.15, 0.18, 1};
-        ImVec4 const GREEN{0.f, 0.63f, 0.f, 1.f};
-        ImVec4 const INDIGO{0.27, 0.27, 0.78, 1};
 
-        // TODO @Jane: Brauchen wir davon alles?
-        ImVec4 const primaryColor{SEAFOAM};
-        ImVec4 const secondaryColor{LIGHT_GRAY};
-        ImVec4 const backgroundColor{LIGHT_GRAY};
-        ImVec4 const textColor{DARK_GRAY};
-        ImVec4 const accentColor{INDIGO};
-        ImVec4 const infoColor{BLUE};
-        ImVec4 const successColor{GREEN};
-        ImVec4 const warningColor{ORANGE};
-        ImVec4 const errorColor{RED};
+        ImVec4 const primaryColor{Color::kSEAFOAM};
+        ImVec4 const secondaryColor{Color::kLIGHT_GRAY};
+        ImVec4 const backgroundColor{Color::kLIGHT_GRAY};
+        ImVec4 const textColor{Color::kDARK_GRAY};
+        ImVec4 const warningColor{Color::kORANGE};
+        /*
+        // Not used yet:
+        ImVec4 const accentColor{Color::kINDIGO};
+        ImVec4 const infoColor{Color::kBLUE};
+        ImVec4 const successColor{Color::kGREEN};
+        ImVec4 const errorColor{Color::kRED};
+         */
 
         //----------------//
         //  Assign Colors //
@@ -94,11 +63,11 @@ namespace commons {
 
         // Border Colors
         style.Colors[ImGuiCol_Border] = adjustBrightness(backgroundColor, 1.1f);
-        style.Colors[ImGuiCol_BorderShadow] = NONE;
+        style.Colors[ImGuiCol_BorderShadow] = Color::kNONE;
 
         // Background Colors
         style.Colors[ImGuiCol_WindowBg] = backgroundColor;
-        style.Colors[ImGuiCol_ChildBg] = NONE;
+        style.Colors[ImGuiCol_ChildBg] = Color::kNONE;
         style.Colors[ImGuiCol_PopupBg] =  adjustBrightness(backgroundColor, 1.1f); // applies also to tooltips
         style.Colors[ImGuiCol_FrameBg] = adjustBrightness(backgroundColor, 0.8f);
         style.Colors[ImGuiCol_FrameBgHovered] = adjustBrightness(backgroundColor, 0.6f);
@@ -129,7 +98,7 @@ namespace commons {
         style.Colors[ImGuiCol_PlotLinesHovered] = adjustBrightness(primaryColor, 0.8);
         style.Colors[ImGuiCol_PlotHistogram] = primaryColor;
         style.Colors[ImGuiCol_PlotHistogramHovered] = adjustBrightness(primaryColor, 0.8);
-        style.Colors[ImGuiCol_DragDropTarget] = ORANGE;
+        style.Colors[ImGuiCol_DragDropTarget] = warningColor;
         style.Colors[ImGuiCol_NavHighlight] = adjustBrightness(secondaryColor, 0.45);
         style.Colors[ImGuiCol_NavWindowingHighlight] = backgroundColor;
         style.Colors[ImGuiCol_NavWindowingDimBg] = adjustBrightness(backgroundColor, 0.8);
@@ -140,7 +109,7 @@ namespace commons {
     //          Load Style           //
     //-------------------------------//
     void StyleManager::loadStyle() {
-        setupFonts();
+        Fonts::setup();
         setupColors();
 
         // Some more style settings

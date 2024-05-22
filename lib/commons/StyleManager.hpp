@@ -8,20 +8,19 @@
 #include <map>
 #include "imgui.h"
 #include "Font.h"
+#include "Color.h"
 
 namespace commons {
 
     class StyleManager {
-        StyleManager()=delete; // static class
+
 
 
     public: // has to be public, because static (TODO: better solution?)
-        static std::map<Font, ImFont*> fontMap;
-        static void setupFonts();
+        StyleManager()=delete; // static class
         static void setupColors();
-        static ImVec4 adjustBrightness(const ImVec4& color, float percentage);
+        static ImVec4 adjustBrightness(ImVec4 const &color, float percentage);
         static void loadStyle();
-        static ImFont * getFont(Font const font);
     };
 
 } // commons

@@ -4,10 +4,10 @@
 namespace commons {
 
     enum class Font {
-        HEADER1,
-        HEADER2,
-        HEADER3,
-        BODY
+        kHEADER_1,
+        kHEADER_2,
+        kHEADER_3,
+        kBODY
     };
 
 } // commons

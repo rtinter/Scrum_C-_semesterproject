@@ -5,6 +5,7 @@
 #include "Dashboard.hpp"
 #include "Header.hpp"
 #include "StyleManager.hpp"
+#include "Fonts.h"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
@@ -47,27 +48,29 @@ int main() {
         /* Style Example */
         ImGui::ShowDemoWindow();
 
-        /* Font Example*/
+        /* Font Example */
         ImGui::SetNextWindowSize(ImVec2(1100.f, 400.f));
         ImGui::Begin("Font Example");
 
-        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::HEADER1));
+        ImGui::PushFont(commons::Fonts::_header1);
+        ImGui::PushStyleColor(ImGuiCol_Text, Color::kRED);
         ImGui::Text("Header 1");
+        ImGui::PopStyleColor();
         ImGui::PopFont();
 
-        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::HEADER2));
+        ImGui::PushFont(commons::Fonts::_header2);
         ImGui::Text("Header 2");
         ImGui::PopFont();
 
-        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::HEADER3));
+        ImGui::PushFont(commons::Fonts::_header3);
         ImGui::Text("Header 3");
         ImGui::PopFont();
 
-        ImGui::PushFont(commons::StyleManager::getFont(commons::Font::BODY));
+        ImGui::PushFont(commons::Fonts::_body);
         ImGui::Text("Body:\n"
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr,\n"
                     "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
-                    "\At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.\n"
+                    "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.\n"
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam");
         ImGui::PopFont();
 
