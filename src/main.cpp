@@ -5,7 +5,9 @@
 #include "Dashboard.hpp"
 #include "Header.hpp"
 #include "StyleManager.hpp"
-#include "Fonts.h"
+#include "Fonts.hpp"
+#include "Colors.hpp"
+#include "ColorTheme.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
@@ -48,14 +50,13 @@ int main() {
         /* Style Example */
         ImGui::ShowDemoWindow();
 
-        /* Font Example */
-        ImGui::SetNextWindowSize(ImVec2(1100.f, 400.f));
-        ImGui::Begin("Font Example");
 
+        ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
+        ImGui::Begin("Font & Color Example");
+
+        /* Font Example */
         ImGui::PushFont(commons::Fonts::_header1);
-        ImGui::PushStyleColor(ImGuiCol_Text, Color::kRED);
         ImGui::Text("Header 1");
-        ImGui::PopStyleColor();
         ImGui::PopFont();
 
         ImGui::PushFont(commons::Fonts::_header2);
@@ -69,13 +70,29 @@ int main() {
         ImGui::PushFont(commons::Fonts::_body);
         ImGui::Text("Body:\n"
                     "Lorem ipsum dolor sit amet, consetetur sadipscing elitr,\n"
-                    "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n"
-                    "At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.\n"
-                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam");
+                    "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n");
         ImGui::PopFont();
 
-        ImGui::End();
+        /* Color Example */
+        // choose freely
+        auto myColor{commons::Colors::kINDIGO};
 
+        // or use Color from ColorTheme
+        auto successColor{commons::ColorTheme::kSUCCESS_COLOR};
+
+        // Use PushStyleColor()
+        ImGui::PushStyleColor(ImGuiCol_Text, myColor);
+        ImGui::Text("My Color");
+        ImGui::PopStyleColor();
+
+        // Or use TextColored()
+        ImGui::TextColored(successColor, "Success Color");
+        ImGui::TextColored(commons::ColorTheme::kERROR_COLOR, "Error Color");
+        ImGui::TextColored(commons::ColorTheme::kWARNING_COLOR, "Warning Color");
+        ImGui::TextColored(commons::ColorTheme::kINFO_COLOR, "Info Color");
+        ImGui::TextColored(commons::ColorTheme::kACCENT_COLOR, "Accent Color");
+
+        ImGui::End();
 
         ImGui::SFML::Render(window);
         window.display();

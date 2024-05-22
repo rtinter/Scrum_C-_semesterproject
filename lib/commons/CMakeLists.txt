@@ -3,9 +3,14 @@ set(LIBRARY_NAME commons)
 file(GLOB SOURCES *.cpp)
 
 add_library(${LIBRARY_NAME} ${SOURCES}
-        Color.h
         Fonts.cpp
-        Fonts.h)
+        Fonts.h
+        Colors.h
+        ColorTheme.cpp
+        ColorTheme.h
+        ColorTheme.h
+        ColorHelper.cpp
+        ColorHelper.h)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC .)
 

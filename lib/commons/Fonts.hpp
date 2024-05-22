@@ -7,6 +7,7 @@ namespace commons {
 
     class Fonts {
     public:
+        Fonts() = delete;
         static ImFont* _header1;
         static ImFont* _header2;
         static ImFont* _header3;
