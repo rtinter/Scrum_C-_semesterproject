@@ -4,7 +4,9 @@
 #include "imgui.h"
 
 namespace commons {
-
+/**************************************************************************************
+ * ColorHelper contains methods to modify Color objects, e.g. adjust color brightness
+ **************************************************************************************/
     class ColorHelper {
     public:
         ColorHelper() = delete; // static class
