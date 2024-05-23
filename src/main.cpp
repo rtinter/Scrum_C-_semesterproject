@@ -42,9 +42,6 @@ int main() {
         imGuiStyle.FrameRounding = 5.0f;
         imGuiStyle.WindowRounding = 5.0f;
 
-        ImGuiIO &io = ImGui::GetIO();
-        ImFont *font1 = io.Fonts->AddFontDefault();
-        ImFont *font2 = io.Fonts->AddFontFromFileTTF("path/to/another_font.ttf", 24.0f);
 
         ImGui::Begin("Test Window");
 
