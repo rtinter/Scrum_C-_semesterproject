@@ -1,44 +1,18 @@
-#include "imgui.h"
-#include "imgui-SFML.h"
-
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
-#include <cstdlib> // For std::rand and std::srand
-#include <ctime>   // For std::time
-#include <chrono>  // For std::chrono
-#include <iostream>
-
-std::string getDurationRating(int duration) {
-    if (duration < 260) {
-        return "Herausragend";
-    } else if (duration < 340) {
-        return "Super Schnell";
-    } else if (duration < 540) {
-        return "Guter Durchschnitt";
-    } else if (duration < 640) {
-        return "Ganz OK";
-    } else {
-        return "Langsam";
-    }
-}
+#include <SFML/Graphics.hpp>
+#include <imgui-SFML.h>
+#include "StyleManager.hpp"
+#include "Fonts.hpp"
+#include "Colors.hpp"
+#include "ColorTheme.hpp"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(2*640, 1.5*480), "ImGui + SFML = <3");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
     window.setFramerateLimit(60);
-    ImGui::SFML::Init(window);
 
+    [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
+    commons::StyleManager::loadStyle();
 
-    sf::Color windowColor = sf::Color::Black;
     sf::Clock deltaClock;
-    sf::Clock colorClock; // Clock to track the duration of the color change
-    bool isRed = false;
-    float redDuration = 0.0f;
-    std::chrono::time_point<std::chrono::system_clock> start, finish;
-
-    // Seed the random number generator
-    std::srand(static_cast<unsigned int>(std::time(nullptr)));
 
     while (window.isOpen()) {
         sf::Event event;
@@ -47,36 +21,59 @@ int main() {
 
             if (event.type == sf::Event::Closed) {
                 window.close();
-            } else if (event.type == sf::Event::MouseButtonPressed) {
-                if (event.mouseButton.button == sf::Mouse::Right && !isRed) {
-                    windowColor = sf::Color::Red; // Change window color to red
-                    redDuration = static_cast<float>(std::rand() % 5000) / 1000.0f; // Random duration between 0 and 5 seconds
-                    colorClock.restart();
-                    isRed = true;
-                }
-                if (event.mouseButton.button == sf::Mouse::Left && !isRed) {
-                    finish = std::chrono::high_resolution_clock::now();
-                    std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() << " ms" << std::endl;
-                    std::cout << "Duration rating: " << getDurationRating(std::chrono::duration_cast<std::chrono::milliseconds>(finish - start).count() ) << std::endl;
-                }
             }
         }
 
-        // Check if the red duration has passed
-        if (isRed && colorClock.getElapsedTime().asSeconds() >= redDuration) {
-            windowColor = sf::Color::Green; // Change window color to green
-            start = std::chrono::high_resolution_clock::now();
-            isRed = false;
-        }
-
-
-
         ImGui::SFML::Update(window, deltaClock.restart());
+        window.clear();
 
+        /* Style Example */
         ImGui::ShowDemoWindow();
 
 
-        window.clear(windowColor); // Use the window color variable
+        ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
+        ImGui::Begin("Font & Color Example");
+
+        /* Font Example */
+        ImGui::PushFont(commons::Fonts::_header1);
+        ImGui::Text("Header 1");
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::Fonts::_header2);
+        ImGui::Text("Header 2");
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::Fonts::_header3);
+        ImGui::Text("Header 3");
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::Fonts::_body);
+        ImGui::Text("Body:\n"
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr,\n"
+                    "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n");
+        ImGui::PopFont();
+
+        /* Color Example */
+        // choose freely
+        auto myColor{commons::Colors::kINDIGO};
+
+        // or use Color from ColorTheme
+        auto successColor{commons::ColorTheme::kSUCCESS_COLOR};
+
+        // Use PushStyleColor()
+        ImGui::PushStyleColor(ImGuiCol_Text, myColor);
+        ImGui::Text("My Color");
+        ImGui::PopStyleColor();
+
+        // Or use TextColored()
+        ImGui::TextColored(successColor, "Success Color");
+        ImGui::TextColored(commons::ColorTheme::kERROR_COLOR, "Error Color");
+        ImGui::TextColored(commons::ColorTheme::kWARNING_COLOR, "Warning Color");
+        ImGui::TextColored(commons::ColorTheme::kINFO_COLOR, "Info Color");
+        ImGui::TextColored(commons::ColorTheme::kACCENT_COLOR, "Accent Color");
+
+        ImGui::End();
+
         ImGui::SFML::Render(window);
         window.display();
     }
