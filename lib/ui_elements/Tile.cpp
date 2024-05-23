@@ -1,22 +1,23 @@
 #include "Tile.hpp"
 #include "../commons/Fonts.hpp"
 #include <sstream>
+#include <utility>
 
 #pragma once
 
 namespace ui_elements {
 
 // Konstruktor
-    Tile::Tile(const std::string &pic, const std::string &name, const std::string &desc)
-            : pictogram(pic), gameName(name), description(desc) {
+    Tile::Tile(std::string pic, std::string name, std::string desc)
+            : _pictogram(std::move(pic)), _gameName(std::move(name)), _description(std::move(desc)) {
         setButtonText();
     }
 
 // Setter-Methode für den Button-Text
     void Tile::setButtonText() {
         std::stringstream ss;
-        ss << pictogram << "\n" << gameName << "\n" << description;
-        buttonText = ss.str();
+        ss << _pictogram << "\n" << _gameName << "\n" << _description;
+        _buttonText = ss.str();
     }
 
 // Render-Methode
@@ -28,7 +29,7 @@ namespace ui_elements {
         ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50), ImGuiCond_Always);
 
         ImGui::PushFont(commons::Fonts::_header2);
-        if (ImGui::Button(buttonText.c_str(), ImVec2(this->width, this->height))) {
+        if (ImGui::Button(_buttonText.c_str(), ImVec2(this->_width, this->_height))) {
             // Button action
         }
         ImGui::PopFont();

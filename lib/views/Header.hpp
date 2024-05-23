@@ -5,15 +5,15 @@
 #pragma once
 
 class Header {
-    std::string leftText;
-    std::string centerText;
-    std::string rightButtonText;
-    std::function<void()> buttonClickCallback;
+    std::string _leftText;
+    std::string _centerText;
+    std::string _rightButtonText;
+    std::function<void()> _buttonClickCallback;
 
-    static constexpr float headerHeight = 300.0f;
-    static constexpr float sideMargin = 30.0f;
-    static constexpr float topMargin = 10.0f;
-    static constexpr float bottomMargin = 10.0f;
+    static constexpr float kHEADER_HEIGHT = 300.0f;
+    static constexpr float kSIDE_MARGIN = 30.0f;
+    static constexpr float kTOP_MARGIN = 10.0f;
+    static constexpr float kBOTTOM_MARGIN = 10.0f;
 
 public:
     // Konstruktor

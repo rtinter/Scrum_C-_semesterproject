@@ -13,7 +13,7 @@ namespace views {
         _category2Tiles.emplace_back(tile);
     }
 
-    void Dashboard::renderCategory(const std::string &categoryName, const std::vector<ui_elements::Tile> &tiles) const {
+    void Dashboard::renderCategory(const std::string &categoryName, const std::vector<ui_elements::Tile> &tiles) {
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();

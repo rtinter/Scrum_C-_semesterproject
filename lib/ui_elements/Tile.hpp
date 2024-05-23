@@ -1,17 +1,18 @@
 #include "UiElement.hpp"
 #include <string>
 #include <imgui.h>
+
 #pragma once
 
 namespace ui_elements {
 
     class Tile : public UiElement {
-        float height {300};
-        float width {400};
-        std::string pictogram;
-        std::string gameName;
-        std::string description;
-        std::string buttonText;
+        float _height{300};
+        float _width{400};
+        std::string _pictogram;
+        std::string _gameName;
+        std::string _description;
+        std::string _buttonText;
 
         // Setter-Methoden in den privaten Bereich verschieben
         void setButtonText();
@@ -19,7 +20,8 @@ namespace ui_elements {
     public:
         // Konstruktor
         Tile() = delete;
-        explicit Tile(const std::string& pic, const std::string& name, const std::string& desc);
+
+        explicit Tile(std::string pic, std::string name, std::string desc);
 
         // Render-Methode
         void render() const override;
