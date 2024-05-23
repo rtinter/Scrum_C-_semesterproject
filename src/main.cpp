@@ -1,25 +1,18 @@
-#include "imgui.h"
-#include "imgui-SFML.h"
-
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
-#include <iostream>
-#include <chrono>
-#include <ctime>
+#include <SFML/Graphics.hpp>
+#include <imgui-SFML.h>
+#include "StyleManager.hpp"
+#include "Fonts.hpp"
+#include "Colors.hpp"
+#include "ColorTheme.hpp"
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Athena");
+    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
     window.setFramerateLimit(60);
 
-    std::chrono::time_point<std::chrono::system_clock> start, finish;
-
-    ImGui::SFML::Init(window);
+    [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
+    commons::StyleManager::loadStyle();
 
     sf::Clock deltaClock;
-    bool showModal {false};
-
 
     while (window.isOpen()) {
         sf::Event event;
@@ -32,72 +25,59 @@ int main() {
         }
 
         ImGui::SFML::Update(window, deltaClock.restart());
+        window.clear();
 
-        //ALL WIDGETS IN BETWEEN Update and Render
-
-        //ImGui::ShowDemoWindow();
-        //ImGui::ShowUserGuide();
-
-        ImGuiStyle &imGuiStyle{ImGui::GetStyle()};
-        imGuiStyle.FrameRounding = 5.0f;
-        imGuiStyle.WindowRounding = 5.0f;
+        /* Style Example */
+        ImGui::ShowDemoWindow();
 
 
-        ImGui::Begin("Test Window");
+        ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
+        ImGui::Begin("Font & Color Example");
 
-        //React-Game
+        /* Font Example */
+        ImGui::PushFont(commons::Fonts::_header1);
+        ImGui::Text("Header 1");
+        ImGui::PopFont();
 
-        if (ImGui::Button("Modal Popup Button")) {
-            showModal = true;
-        }
+        ImGui::PushFont(commons::Fonts::_header2);
+        ImGui::Text("Header 2");
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::Fonts::_header3);
+        ImGui::Text("Header 3");
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::Fonts::_body);
+        ImGui::Text("Body:\n"
+                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr,\n"
+                    "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n");
+        ImGui::PopFont();
+
+        /* Color Example */
+        // choose freely
+        auto myColor{commons::Colors::kINDIGO};
+
+        // or use Color from ColorTheme
+        auto successColor{commons::ColorTheme::kSUCCESS_COLOR};
+
+        // Use PushStyleColor()
+        ImGui::PushStyleColor(ImGuiCol_Text, myColor);
+        ImGui::Text("My Color");
+        ImGui::PopStyleColor();
+
+        // Or use TextColored()
+        ImGui::TextColored(successColor, "Success Color");
+        ImGui::TextColored(commons::ColorTheme::kERROR_COLOR, "Error Color");
+        ImGui::TextColored(commons::ColorTheme::kWARNING_COLOR, "Warning Color");
+        ImGui::TextColored(commons::ColorTheme::kINFO_COLOR, "Info Color");
+        ImGui::TextColored(commons::ColorTheme::kACCENT_COLOR, "Accent Color");
 
         ImGui::End();
 
-        if (showModal) {
-            ImGui::SetNextWindowSize(ImVec2(1000, 600));
-
-            ImGui::OpenPopup("Overlay");
-            showModal = false; //Zum resetten
-        }
-
-        if (ImGui::BeginPopupModal("Overlay", NULL,
-                                   ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoTitleBar)) {
-
-            ImGui::Text("TITEL: Reaktionsspiel");
-            ImGui::Text(
-                    "SPIELBESCHREIBUNG: Testen und verbessern Sie Ihre Reaktionsgeschwindigkeit, indem Sie so schnell wie möglich auf den Farbwechsel des Bildschirms reagieren.");
-            ImGui::Text("SPIELREGELN: Spielstart:\n"
-                        "\n"
-                        "Starten Sie das Spiel, indem Sie auf die Schaltfläche \"Start\" klicken.\n"
-                        "Warten:\n"
-                        "\n"
-                        "Nachdem Sie das Spiel gestartet haben, wird der Bildschirm in einer neutralen Farbe (z.B. Weiß) angezeigt.\n"
-                        "Warten Sie geduldig, bis der Bildschirm seine Farbe wechselt.\n"
-                        "Farbwechsel:\n"
-                        "\n"
-                        "Der Bildschirm wechselt zufällig nach einer bestimmten Zeitspanne seine Farbe (z.B. zu Grün).\n"
-                        "Reaktion:\n"
-                        "\n"
-                        "Sobald der Bildschirm die Farbe wechselt, klicken Sie so schnell wie möglich mit der Maus.\n"
-                        "Auswertung:\n"
-                        "\n"
-                        "Ihre Reaktionszeit wird in Millisekunden gemessen und angezeigt.\n"
-                        "Je schneller Ihre Reaktion, desto besser Ihr Ergebnis.");
-
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, sf::Color::Red);
-            if (ImGui::Button("Zurück zum Menü")) {
-                ImGui::CloseCurrentPopup();
-            }
-            if (ImGui::Button("Spiel starten!")) {
-                //noch nichts
-            }
-            ImGui::PopStyleColor();
-
-            ImGui::EndPopup();
-        }
-
-        window.clear(sf::Color::Blue);
         ImGui::SFML::Render(window);
         window.display();
     }
+
+    ImGui::SFML::Shutdown();
+    return 0;
 }
