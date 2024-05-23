@@ -9,8 +9,8 @@
 namespace ui_elements {
 
 // Konstruktor
-    Tile::Tile(std::string pic, std::string name, std::string desc)
-            : _pictogram(std::move(pic)), _gameName(std::move(name)), _description(std::move(desc)) {
+    Tile::Tile(std::string  pic, std::string  name, std::string  desc)
+            :_pictogram(std::move(pic)), _gameName(std::move(name)), _description(std::move(desc)) {
         setButtonText();
     }
 

@@ -2,8 +2,7 @@ set(LIBRARY_NAME views)
 
 file(GLOB SOURCES *.cpp)
 
-add_library(${LIBRARY_NAME} ${SOURCES} Header.hpp
-        Statistics.hpp)
+add_library(${LIBRARY_NAME} ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC .)
 

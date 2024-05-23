@@ -9,7 +9,7 @@ Header::Header(std::string left, std::string right, std::function<void()> callba
 }
 
 void Header::render() {
-    ui_elements::Window("Header").render([this]() {
+    ui_elements::Window("Header").render([this](){
         ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
         ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, kHEADER_HEIGHT + kTOP_MARGIN + kBOTTOM_MARGIN),
                              ImGuiCond_Always);
