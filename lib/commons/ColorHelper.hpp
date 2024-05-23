@@ -10,7 +10,7 @@ namespace commons {
     class ColorHelper {
     public:
         ColorHelper() = delete; // static class
-        static ImVec4 adjustBrightness(const ImVec4 &color, float percentage);
+        static ImVec4 adjustBrightness(const ImVec4 &color, float factor);
     };
 } // commons
 
