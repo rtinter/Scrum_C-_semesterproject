@@ -10,6 +10,11 @@
 
 namespace reaction {
 
+    Reaction::Reaction(ImVec2 const &size) :  size{size}, isOpen{true} {
+
+
+    }
+
     std::string Reaction::getDurationRating(int duration) {
         if (duration < 260) {
             return "Herausragend";
@@ -64,9 +69,15 @@ namespace reaction {
         window.setFramerateLimit(60);
         ImGui::SFML::Init(window);
 
+        isRunning = true;
+
+        ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
+        ImGui::Begin("Reaction Game");
+        ImGui::End();
 
 
-        sf::Color windowColor = sf::Color::Black;
+
+        windowColor = sf::Color::Black;
         // Display white text "Click to start" in the center of the window
         sf::Font font;
         font.loadFromFile("arial.ttf");

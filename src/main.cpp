@@ -25,8 +25,7 @@ int main() {
             }
         }
 
-        reaction::Reaction reaction;
-        reaction.start();
+        reaction::Reaction reaction{ImVec2(1100.f, 600.f)};
 
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
