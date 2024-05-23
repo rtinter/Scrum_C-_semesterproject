@@ -25,6 +25,9 @@ void App::start() {
 
     [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
 
+
+    commons::StyleManager::loadStyle();
+
     sf::Clock deltaClock;
 
     while (window.isOpen()) {
