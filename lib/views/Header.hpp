@@ -10,7 +10,7 @@ class Header {
     std::string rightButtonText;
     std::function<void()> buttonClickCallback;
 
-    static constexpr float headerHeight = 100.0f;
+    static constexpr float headerHeight = 300.0f;
     static constexpr float sideMargin = 30.0f;
     static constexpr float topMargin = 10.0f;
     static constexpr float bottomMargin = 10.0f;
