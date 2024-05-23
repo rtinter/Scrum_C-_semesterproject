@@ -1,7 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <imgui-SFML.h>
 #include "iostream"
-#include "Tile.h"
+#include "Tile.hpp"
 #include "Dashboard.hpp"
 #include "Header.hpp"
 #include "StyleManager.hpp"

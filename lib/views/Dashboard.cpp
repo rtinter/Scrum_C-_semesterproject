@@ -13,6 +13,9 @@ namespace views {
     }
 
     void Dashboard::renderCategory(const std::string& categoryName, const std::vector<ui_elements::Tile>& tiles) const {
+        ImGui::Spacing();
+        ImGui::Spacing();
+        ImGui::Spacing();
         ImGui::Text("%s", categoryName.c_str());
         ImGui::Spacing();
         ImGui::Spacing();

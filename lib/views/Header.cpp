@@ -4,7 +4,7 @@
 
 Header::Header(std::string left, std::string right, std::function<void()> callback)
         : leftText(std::move(left)), rightButtonText(std::move(right)), buttonClickCallback(std::move(callback)) {
-    centerText = "Human Benchmark";
+    centerText = "Athena";
 }
 
 void Header::render() {
@@ -14,6 +14,9 @@ void Header::render() {
 
         // Vertikale Abstände
         ImGui::SetCursorPosY(topMargin);
+
+        // Vertikale Abstände
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + bottomMargin);
 
         // Linker Text
         ImGui::SetCursorPosX(sideMargin);
@@ -30,8 +33,5 @@ void Header::render() {
                 buttonClickCallback();
             }
         }
-
-        // Vertikale Abstände
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + bottomMargin);
     });
 }
