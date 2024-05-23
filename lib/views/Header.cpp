@@ -17,20 +17,16 @@ void Header::render() {
         ImGui::SetCursorPosY(topMargin);
 
         // Linker Text
-        ImGui::SetCursorPosX(sideMargin);
         ImGui::PushFont(commons::Fonts::_header3);
+        ImGui::SetCursorPosX(sideMargin);
         ImGui::Text("%s", leftText.c_str());
-        ImGui::PopFont();
 
         // Zentraler Text
         ImGui::SameLine(ImGui::GetIO().DisplaySize.x / 2 - ImGui::CalcTextSize(centerText.c_str()).x / 2);
-        ImGui::PushFont(commons::Fonts::_header3);
         ImGui::Text("%s", centerText.c_str());
-        ImGui::PopFont();
 
         // Rechter Button mit Margin
         ImGui::SameLine(ImGui::GetIO().DisplaySize.x - ImGui::CalcTextSize(rightButtonText.c_str()).x - sideMargin);
-        ImGui::PushFont(commons::Fonts::_header3);
         if (ImGui::Button(rightButtonText.c_str())) {
             if (buttonClickCallback) {
                 buttonClickCallback();
