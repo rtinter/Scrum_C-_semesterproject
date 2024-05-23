@@ -2,6 +2,10 @@
 #include <vector>
 
 namespace views {
+    /********************************************************************
+     * The Dashboard is the home page of the game.
+     * It displays a tile for each game, separated by game categories
+     ********************************************************************/
     class Dashboard {
 
         std::vector<ui_elements::Tile> _category1Tiles;

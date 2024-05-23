@@ -5,7 +5,12 @@
 #pragma once
 
 namespace ui_elements {
-
+    /**************************************************************
+     * On the dashboard, there is a tile for each game.
+     * A Tile contains an icon for the game, the name of the game
+     * and a short description. By clicking on the tile, the game
+     * can be started.
+     **************************************************************/
     class Tile : public UiElement {
         float _height{300};
         float _width{400};

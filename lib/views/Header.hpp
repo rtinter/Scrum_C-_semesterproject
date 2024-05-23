@@ -4,6 +4,12 @@
 
 #pragma once
 
+/***********************************************************************************
+ * The Header is displayed above the home page and the game pages.
+ * In the center of the header is the title “Athena”,
+ * on the right there is a button to access the statistics.
+ * The text on the left shows where you are currently located (Home, Game X, ...)
+ ***********************************************************************************/
 class Header {
     std::string _leftText;
     std::string _centerText;
