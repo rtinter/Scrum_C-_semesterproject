@@ -47,6 +47,7 @@ int main() {
         header.render();
         dashboard.render();
 
+
         /* Style Example */
         ImGui::ShowDemoWindow();
 

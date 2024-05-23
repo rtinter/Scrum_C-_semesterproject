@@ -1,6 +1,7 @@
 #include "Dashboard.hpp"
 #include <imgui.h>
 #include "Window.hpp"
+#include "Fonts.hpp"
 
 namespace views {
 
@@ -12,11 +13,15 @@ namespace views {
         _category2Tiles.emplace_back(tile);
     }
 
-    void Dashboard::renderCategory(const std::string& categoryName, const std::vector<ui_elements::Tile>& tiles) const {
+    void Dashboard::renderCategory(const std::string &categoryName, const std::vector<ui_elements::Tile> &tiles) const {
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();
+
+        ImGui::PushFont(commons::Fonts::_header3);
         ImGui::Text("%s", categoryName.c_str());
+        ImGui::PopFont();
+
         ImGui::Spacing();
         ImGui::Spacing();
         for (int i = 0; i < tiles.size(); ++i) {
@@ -31,7 +36,7 @@ namespace views {
         ImGui::NewLine();
     }
 
-    void Dashboard::render() const{
+    void Dashboard::render() const {
         ui_elements::Window("Dashboard").render([this]() {
             renderCategory("Kategorie 1", _category1Tiles);
             renderCategory("Kategorie 2", _category2Tiles);
