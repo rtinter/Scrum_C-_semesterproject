@@ -19,13 +19,11 @@ namespace ui_elements {
         std::string _description;
         std::string _buttonText;
 
-        // Setter-Methoden in den privaten Bereich verschieben
         void setButtonText();
 
     public:
         // Konstruktor
         Tile() = delete;
-
         explicit Tile(std::string pic, std::string name, std::string desc);
 
         // Render-Methode
