@@ -6,8 +6,7 @@ add_library(${LIBRARY_NAME} ${SOURCES}
         Fonts.hpp
         Colors.hpp
         ColorTheme.hpp
-        ColorTheme.hpp
-        ColorHelper.hpp)
+        ColorHelper.hpp Colors.cpp)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC .)
 
