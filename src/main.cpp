@@ -4,6 +4,7 @@
 #include "Fonts.hpp"
 #include "Colors.hpp"
 #include "ColorTheme.hpp"
+#include "../games/reaction/Reaction.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
@@ -23,6 +24,9 @@ int main() {
                 window.close();
             }
         }
+
+        reaction::Reaction reaction;
+        reaction.start();
 
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();

@@ -4,6 +4,7 @@
 #include "GameStats.hpp"
 #include <string>
 
+
 /**
  * @brief Abstract base class representing a generic game.
  *
@@ -38,6 +39,7 @@ public:
 	 * Resets the game state, preparing it for a new session.
 	 */
 	virtual void reset() = 0;
+
 
 	/**
 	 * @brief Updates the game statistics.

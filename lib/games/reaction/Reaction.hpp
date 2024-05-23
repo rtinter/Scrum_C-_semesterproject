@@ -5,10 +5,50 @@
 #ifndef ATHENA_REACTION_H
 #define ATHENA_REACTION_H
 
+
+#include "imgui.h"
+#include "imgui-SFML.h"
+
+#include <SFML/Graphics/CircleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window/Event.hpp>
+#include <cstdlib> // For std::rand and std::srand
+#include <ctime>   // For std::time
+#include <chrono>  // For std::chrono
+#include <iostream>
+#include "../../lib/abstract_game/Game.hpp"
+#include "../../lib/commons/Fonts.hpp"
+#include "../../lib/commons/Colors.hpp"
+#include "../../lib/commons/ColorTheme.hpp"
+#include "../../lib/commons/StyleManager.hpp"
+
+
+
 namespace reaction {
 
-    class Reaction {
+    class Reaction : public Game{
 
+        sf::Color windowColor;
+        sf::Clock deltaClock;
+
+        sf::Clock colorClock; // Clock to track the duration of the color change
+        bool isRed;
+        float redDuration;
+        std::chrono::time_point<std::chrono::system_clock> startPoint, finishPoint;
+
+
+        std::string getDurationRating(int duration);
+
+    public:
+
+        void start() override;
+
+        void start2();
+
+        void reset() override;
+
+        void updateStatistics() override;
     };
 
 } // reaction
