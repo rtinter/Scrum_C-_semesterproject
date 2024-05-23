@@ -10,5 +10,4 @@ namespace commons {
     ImVec4 const Colors::kGREEN = {0.f, 0.63f, 0.f, 1.f};
     ImVec4 const Colors::kINDIGO = {0.27, 0.27, 0.78, 1};
     ImVec4 const Colors::kSEAFOAM = {0.15, 0.65, 0.67, 1};
-
 }

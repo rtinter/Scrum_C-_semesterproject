@@ -5,7 +5,10 @@
 #include "Colors.hpp"
 
 namespace commons {
-
+/*******************************************************************************
+ * ColorTheme defines which colors should be used for certain functionalities,
+ * e. g. text color, background color, ...
+ ******************************************************************************/
     class ColorTheme {
     public:
         ColorTheme() = delete; // static class
@@ -19,6 +22,10 @@ namespace commons {
         static ImVec4 const kINFO_COLOR;
         static ImVec4 const kERROR_COLOR;
 
+        /*********************************************************
+         * setup() assigns the chosen colors to ImGuiStyle,
+         * e. g. ImGuiCol_WindowBg, ImGuiCol_ButtonHovered,....
+         *********************************************************/
         static void setup();
     };
 
