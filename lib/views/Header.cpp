@@ -9,16 +9,16 @@ Header::Header(std::string left, std::string right, std::function<void()> callba
 }
 
 void Header::render() {
-    ui_elements::Window("Header").render([this](){
+    ui_elements::Window("Header").render([this]() {
         ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-        ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, kHEADER_HEIGHT + kTOP_MARGIN + kBOTTOM_MARGIN),
+        ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, kHEADER_HEIGHT + kTOP_MARGIN),
                              ImGuiCond_Always);
 
         // Vertikale Abstände
         ImGui::SetCursorPosY(kTOP_MARGIN);
 
         // Vertikale Abstände
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + kBOTTOM_MARGIN);
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY());
 
 
         // Linker Text

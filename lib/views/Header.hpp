@@ -16,10 +16,9 @@ class Header {
     std::string _rightButtonText;
     std::function<void()> _buttonClickCallback;
 
-    static constexpr float kHEADER_HEIGHT = 300.0f;
+    static constexpr float kHEADER_HEIGHT = 100.0f;
     static constexpr float kSIDE_MARGIN = 30.0f;
     static constexpr float kTOP_MARGIN = 10.0f;
-    static constexpr float kBOTTOM_MARGIN = 10.0f;
 
 public:
     // Konstruktor
