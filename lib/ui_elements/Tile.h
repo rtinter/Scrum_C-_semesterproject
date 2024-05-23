@@ -6,8 +6,8 @@
 namespace ui_elements {
 
     class Tile : public UiElement {
-        float height;
-        float width;
+        float height {300};
+        float width {400};
         std::string pictogram;
         std::string gameName;
         std::string description;
@@ -19,10 +19,10 @@ namespace ui_elements {
     public:
         // Konstruktor
         Tile() = delete;
-        explicit Tile(int h, int w, const std::string& pic, const std::string& name, const std::string& desc);
+        explicit Tile(const std::string& pic, const std::string& name, const std::string& desc);
 
         // Render-Methode
-        void render() override;
+        void render() const override;
     };
 
 

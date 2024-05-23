@@ -1,6 +1,5 @@
 #include "Dashboard.hpp"
 #include <imgui.h>
-
 #include "Window.hpp"
 
 namespace views {
@@ -13,39 +12,28 @@ namespace views {
         _category2Tiles.emplace_back(tile);
     }
 
-    void Dashboard::render() {
+    void Dashboard::renderCategory(const std::string& categoryName, const std::vector<ui_elements::Tile>& tiles) const {
+        ImGui::Text("%s", categoryName.c_str());
+        ImGui::Spacing();
+        ImGui::Spacing();
+        for (int i = 0; i < tiles.size(); ++i) {
+            if (i > 0 && i % 2 == 0) {
+                ImGui::NewLine();
+            }
+            tiles[i].render();
+            if (i % 2 == 0) {
+                ImGui::SameLine();
+            }
+        }
+        ImGui::NewLine();
+    }
+
+    void Dashboard::render() const{
         ui_elements::Window("Dashboard").render([this]() {
-
-            //  Render Category 1
-            ImGui::Text("Kategorie 1");
-            ImGui::Spacing();
-            ImGui::Spacing();
-            for (int i = 0; i < _category1Tiles.size(); ++i) {
-                if (i > 0 && i % 2 == 0) {
-                    ImGui::NewLine();
-                }
-                _category1Tiles[i].render();
-                if (i % 2 == 0) {
-                    ImGui::SameLine();
-                }
-            }
-            ImGui::NewLine();
-
-
-            // Render Category 2
-            ImGui::Text("Kategorie 2");
-            ImGui::Spacing();
-            ImGui::Spacing();
-            for (int i = 0; i < _category2Tiles.size(); ++i) {
-                if (i > 0 && i % 2 == 0) {
-                    ImGui::NewLine();
-                }
-                _category2Tiles[i].render();
-                if (i % 2 == 0) {
-                    ImGui::SameLine();
-                }
-            }
-            ImGui::NewLine();
+            renderCategory("Kategorie 1", _category1Tiles);
+            renderCategory("Kategorie 2", _category2Tiles);
         });
     }
+
+
 }

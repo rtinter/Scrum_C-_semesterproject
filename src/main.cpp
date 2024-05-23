@@ -25,11 +25,11 @@ int main() {
     });
 
     // Füge Tiles zur Kategorie 1 hinzu
-    dashboard.addTileToCategory1(ui_elements::Tile(300, 400, "Pictogram", "Spielname", "Beschreibung"));
-    dashboard.addTileToCategory1(ui_elements::Tile(300, 400, "Pictogram", "Spielname", "Beschreibung"));
+    dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
+    dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
 
     // Füge Tiles zur Kategorie 2 hinzu
-    dashboard.addTileToCategory2(ui_elements::Tile(300, 400, "Pictogram", "Spielname", "Beschreibung"));
+    dashboard.addTileToCategory2(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
 
     while (window.isOpen()) {
         sf::Event event;
