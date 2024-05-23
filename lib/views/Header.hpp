@@ -13,7 +13,6 @@ class Header {
     static constexpr float headerHeight = 50.0f;
     static constexpr float sideMargin = 30.0f;
     static constexpr float topMargin = 10.0f;
-    static constexpr float bottomMargin = 10.0f;
 
 public:
     // Konstruktor

@@ -24,6 +24,7 @@ int main() {
         std::cout << "Stats button clicked!" << std::endl;
     });
 
+
     // Füge Tiles zur Kategorie 1 hinzu
     dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
     dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
