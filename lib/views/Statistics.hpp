@@ -5,7 +5,9 @@
 #ifndef ATHENA_STATISTICS_HPP
 #define ATHENA_STATISTICS_HPP
 
-
+/*************************************************************************
+ * The statistics page shows an statistical overview of your game results
+ *************************************************************************/
 class Statistics {
 
 };

@@ -33,8 +33,6 @@ namespace ui_elements {
                 // Button action
             }
             ImGui::PopFont();
-
-
         });
     }
 }

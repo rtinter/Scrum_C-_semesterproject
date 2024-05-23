@@ -3,7 +3,7 @@
 
 namespace views {
     /********************************************************************
-     * The Dashboard is the home page of the game.
+     * The Dashboard is the home page of the app.
      * It displays a tile for each game, separated by game categories
      ********************************************************************/
     class Dashboard {
