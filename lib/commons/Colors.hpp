@@ -1,17 +1,19 @@
 #pragma once
+
 #include <imgui.h>
 
 namespace commons {
     class Colors {
     public:
-        static const ImVec4 kNONE;
-        static const ImVec4 kSEAFOAM;
-        static const ImVec4 kLIGHT_GRAY;
-        static const ImVec4 kDARK_GRAY;
-        static const ImVec4 kORANGE;
-        static const ImVec4 kINDIGO;
-        static const ImVec4 kBLUE;
-        static const ImVec4 kGREEN;
-        static const ImVec4 kRED;
+        static ImVec4 const kNONE;
+        static ImVec4 const kLIGHT_GRAY;
+        static ImVec4 const kDARK_GRAY;
+        static ImVec4 const kORANGE;
+        static ImVec4 const kBLUE;
+        static ImVec4 const kRED;
+        static ImVec4 const kGREEN;
+        static ImVec4 const kINDIGO;
+        static ImVec4 const kSEAFOAM;
+
     };
 }
