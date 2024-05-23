@@ -1,5 +1,7 @@
 #include "Tile.hpp"
+#include "../commons/Fonts.hpp"
 #include <sstream>
+
 #pragma once
 
 namespace ui_elements {
@@ -23,9 +25,11 @@ namespace ui_elements {
         ImGui::SetWindowPos(ImVec2(0, 50), ImGuiCond_Always);
         ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50), ImGuiCond_Always);
 
+        ImGui::PushFont(commons::Fonts::_header2);
         if (ImGui::Button(buttonText.c_str(), ImVec2(this->width, this->height))) {
             // Button action
         }
+        ImGui::PopFont();
 
         ImGui::End();
     }
