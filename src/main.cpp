@@ -9,10 +9,11 @@
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
     window.setFramerateLimit(60);
-
     [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
-    commons::StyleManager::loadStyle();
-
+    //commons::StyleManager::loadStyle();
+    /*reaction::Reaction reaction;
+    reaction.start();*/
+    
     sf::Clock deltaClock;
 
     while (window.isOpen()) {
@@ -25,20 +26,21 @@ int main() {
             }
         }
 
-        reaction::Reaction reaction;
-        reaction.start();
+
 
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
 
-        /* Style Example */
+/*        *//* Style Example *//*
         ImGui::ShowDemoWindow();
+
+
 
 
         ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
         ImGui::Begin("Font & Color Example");
 
-        /* Font Example */
+        *//* Font Example *//*
         ImGui::PushFont(commons::Fonts::_header1);
         ImGui::Text("Header 1");
         ImGui::PopFont();
@@ -57,7 +59,7 @@ int main() {
                     "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n");
         ImGui::PopFont();
 
-        /* Color Example */
+        *//* Color Example *//*
         // choose freely
         auto myColor{commons::Colors::kINDIGO};
 
@@ -76,7 +78,7 @@ int main() {
         ImGui::TextColored(commons::ColorTheme::kINFO_COLOR, "Info Color");
         ImGui::TextColored(commons::ColorTheme::kACCENT_COLOR, "Accent Color");
 
-        ImGui::End();
+        ImGui::End();*/
 
         ImGui::SFML::Render(window);
         window.display();

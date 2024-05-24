@@ -44,11 +44,10 @@ namespace reaction {
 
         void start() override;
 
-        void start2();
-
         void reset() override;
 
         void updateStatistics() override;
+
     };
 
 } // reaction

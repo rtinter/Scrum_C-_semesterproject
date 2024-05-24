@@ -38,26 +38,7 @@ namespace reaction {
 
     }
 
-    void Reaction::start2() {
-        ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
-        ImGui::Begin("Font & Color Example");
 
-        /* Font Example */
-        ImGui::PushFont(commons::Fonts::_header1);
-        ImGui::Text("Header 1");
-        ImGui::PopFont();
-
-        ImGui::PushFont(commons::Fonts::_header2);
-        ImGui::Text("Header 2");
-        ImGui::PopFont();
-
-
-        windowColor = sf::Color::Black;
-        // Display white text "Click to start" in the center of the window
-        sf::Font font;
-        font.loadFromFile("arial.ttf");
-        sf::Text text("Click to start", font);
-        }
 
     void Reaction::start() {
         sf::RenderWindow window(sf::VideoMode(2 * 640, 1.5 * 480), "ImGui + SFML = <3");
@@ -93,7 +74,7 @@ namespace reaction {
                     }
                     if (event.mouseButton.button == sf::Mouse::Left && !isRed) {
                         finishPoint = std::chrono::high_resolution_clock::now();
-                        windowColor = sf::Color::Blue; // Change window color to blue
+                        windowColor = sf::Color::Red; // Change window color to blue
                         std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(finishPoint - startPoint).count() << " ms" << std::endl;
                         std::cout << "Duration rating: " << getDurationRating(std::chrono::duration_cast<std::chrono::milliseconds>(finishPoint - startPoint).count() ) << std::endl;
                     }
