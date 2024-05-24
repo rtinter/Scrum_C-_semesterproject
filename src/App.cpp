@@ -10,6 +10,7 @@
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
 
+
 const int App::kWINDOW_WIDTH{1920};
 const int App::kWINDOW_HEIGHT{1080};
 const std::string App::kTITLE{"Human Benchmark"};
@@ -19,6 +20,8 @@ const int App::kFRAME_RATE{60};
 void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::kWINDOW_WIDTH, kWINDOW_HEIGHT), App::kTITLE);
     window.setFramerateLimit(App::kFRAME_RATE);
+
+
 
     if (!ImGui::SFML::Init(window)) {
         // Initialisierung fehlgeschlagen
@@ -48,7 +51,6 @@ void App::start() {
     //add tiles to the category
     dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
     dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
-
     sf::Clock deltaClock;
     while (window.isOpen()) {
         sf::Event event;
@@ -73,6 +75,7 @@ void App::start() {
         ImGui::SFML::Render(window);
         window.display();
     }
+
 
     ImGui::SFML::Shutdown();
 }
