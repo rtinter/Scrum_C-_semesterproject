@@ -13,7 +13,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
-#include <cstdlib> // For std::rand and std::srand
+#include <random>
 #include <ctime>   // For std::time
 #include <chrono>  // For std::chrono
 #include <iostream>
