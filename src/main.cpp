@@ -4,6 +4,8 @@
 #include "Fonts.hpp"
 #include "Colors.hpp"
 #include "ColorTheme.hpp"
+#include "InfoBox.h"
+#include "../ui_elements/Overlay.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
@@ -29,7 +31,13 @@ int main() {
 
         /* Style Example */
         ImGui::ShowDemoWindow();
-
+        bool logic{true};
+        const char *name {"Reaktion"};
+        const char *descr {"Das ist ein toltotltotltotles Spiel"};
+        const char *rules {"SPIELREGELN: Reagieren sie so schnell wie möglich wenn sich die Farbe des Fenster von Rot auf Grün ändert"};
+        const char *controls {"STEUERUNG: Sie reagieren indem sie die linke Maustaste auf dem Fenster betätigen"};
+        ui_elements::InfoBox object(name, descr, rules, controls);
+        object.render();
 
         ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
         ImGui::Begin("Font & Color Example");
