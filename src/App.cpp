@@ -13,6 +13,9 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
+//include reaction game
+
+#include "Reaction.hpp"
 
 const int App::_windowWidth{1920};
 const int App::_windowHeight{1080};
@@ -30,6 +33,9 @@ void App::start() {
 
     sf::Clock deltaClock;
 
+    reaction::Reaction reactionGame(ImVec2(1100.f, 600.f));
+
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -38,6 +44,7 @@ void App::start() {
             if (event.type == sf::Event::Closed) {
                 window.close();
             }
+            reactionGame.start();
         }
     }
 

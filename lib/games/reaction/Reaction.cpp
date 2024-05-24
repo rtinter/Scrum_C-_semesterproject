@@ -10,7 +10,7 @@
 
 namespace reaction {
 
-    Reaction::Reaction(ImVec2 const &size) :  size{size}, isOpen{true} {
+    Reaction::Reaction(ImVec2 const &size) : _size{size}, isOpen{true} {
 
 
     }
