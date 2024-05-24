@@ -6,7 +6,7 @@ namespace ui_elements {
      * implement the render method.
      ********************************************************/
     class UiElement {
-        virtual void render() const = 0; // abstract
+        virtual void render() = 0; // abstract
     };
 
 }

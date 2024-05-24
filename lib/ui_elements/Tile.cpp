@@ -1,6 +1,7 @@
 #include "Tile.hpp"
 #include "../commons/Fonts.hpp"
 #include "Window.hpp"
+#include "../games/reaction/Reaction.hpp"
 #include <sstream>
 #include <utility>
 
@@ -10,8 +11,10 @@ namespace ui_elements {
 
     // Konstruktor
     Tile::Tile(std::string pic, std::string name, std::string desc, std::function<void()> onClick)
-        : _pictogram(std::move(pic)), _gameName(std::move(name)), _description(std::move(desc)), _onClick(std::move(onClick)) {
+            : _pictogram(std::move(pic)), _gameName(std::move(name)), _description(std::move(desc)),
+              _onClick(std::move(onClick)) {
         setButtonText();
+        // Create games
     }
 
     // Setter-Methode für den Button-Text
@@ -22,7 +25,7 @@ namespace ui_elements {
     }
 
     // Render-Methode
-    void Tile::render() const {
+    void Tile::render() {
         ui_elements::Window("Dashboard").render([this]() {
             ImGui::SetWindowPos(ImVec2(0, 50), ImGuiCond_Always);
             ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50),
@@ -30,9 +33,13 @@ namespace ui_elements {
 
             ImGui::PushFont(commons::Fonts::_header2);
             if (ImGui::Button(_buttonText.c_str(), ImVec2(this->_width, this->_height))) {
-                 if (_onClick) {
+                if (_onClick) {
+                    _showGame = true;
                     _onClick();
                 }
+            }
+            if (_showGame) {
+                _reactionGame.start();
             }
             ImGui::PopFont();
         });
