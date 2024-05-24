@@ -36,7 +36,6 @@ namespace reaction {
         ImVec2 _size;
         bool _isOpen;
         bool _isClicked;
-        bool _wasReset;
 
         ImVec4 _windowColor;
         sf::Clock _deltaClock;
