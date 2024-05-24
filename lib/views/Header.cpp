@@ -17,7 +17,6 @@ void Header::render() {
         // Vertikale Abstände
         ImGui::SetCursorPosY(kTOP_MARGIN);
 
-
         // Linker Text
         ImGui::PushFont(commons::Fonts::_header3);
         ImGui::SetCursorPosX(kSIDE_MARGIN);

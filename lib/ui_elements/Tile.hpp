@@ -1,9 +1,9 @@
-#pragma once
-
 #include "UiElement.hpp"
 #include <string>
 #include <functional>
 #include <imgui.h>
+
+#pragma once
 
 namespace ui_elements {
     /**************************************************************
@@ -25,7 +25,7 @@ namespace ui_elements {
 
     public:
         // Constructors
-        Tile() = delete;  // Delete the default constructor
+        Tile() = delete;
         explicit Tile(std::string pic, std::string name, std::string desc, std::function<void()> onClick);
 
         // Render method

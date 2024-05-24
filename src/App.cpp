@@ -1,9 +1,6 @@
 #include "App.hpp"
 #include "imgui-SFML.h"
 #include "StyleManager.hpp"
-#include "Fonts.hpp"
-#include "Colors.hpp"
-#include "ColorTheme.hpp"
 #include "Dashboard.hpp"
 #include "Header.hpp"
 #include "iostream"
@@ -33,6 +30,7 @@ void App::start() {
         std::cout << "Stats button clicked!" << std::endl;
     });
 
+    // define each needed tile for the games
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
         ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
              // button action to run (render) the game
@@ -43,7 +41,7 @@ void App::start() {
     const std::vector<ui_elements::Tile> kCategory2Tiles = {
         ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
     };
-
+    //add tiles to the category
     dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
     dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
 
@@ -60,18 +58,20 @@ void App::start() {
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
 
+        //render header and dashboard
         header.render();
         dashboard.render();
 
-
         /* Style Example */
-        ImGui::ShowDemoWindow();
+        //  ImGui::ShowDemoWindow();
 
-
+/*      Test windows for fonts
         ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
         ImGui::Begin("Font & Color Example");
 
+/*
         /* Font Example */
+/*
         ImGui::PushFont(commons::Fonts::_header1);
         ImGui::Text("Header 1");
         ImGui::PopFont();
@@ -91,6 +91,7 @@ void App::start() {
         ImGui::PopFont();
 
         /* Color Example */
+/*
         // choose freely
         auto myColor{commons::Colors::kINDIGO};
 
@@ -110,7 +111,7 @@ void App::start() {
         ImGui::TextColored(commons::ColorTheme::kACCENT_COLOR, "Accent Color");
 
         ImGui::End();
-
+*/
         ImGui::SFML::Render(window);
         window.display();
     }

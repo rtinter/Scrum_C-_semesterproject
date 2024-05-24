@@ -1,5 +1,4 @@
 #include "Window.hpp"
-
 #include "imgui.h"
 
 namespace ui_elements {

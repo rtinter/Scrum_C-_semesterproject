@@ -34,18 +34,10 @@ namespace {
 
 namespace views {
 
-    // void Dashboard::addTileToCategory1(const ui_elements::Tile &tile) {
-    //     _category1Tiles.emplace_back(tile);
-    // }
-
-    // void Dashboard::addTileToCategory2(const ui_elements::Tile &tile) {
-    //     _category2Tiles.emplace_back(tile);
-    // }
-
     void Dashboard::addTileToCategory(const std::string& category, const ui_elements::Tile &tile) {
         _categoryTiles[category].emplace_back(tile);
     }
-
+    //add tiles to category
     void Dashboard::addTilesToCategory(const std::string& category, const std::vector<ui_elements::Tile>& tiles) {
         for (const auto& tile : tiles) {
             addTileToCategory(category, tile);
@@ -54,8 +46,6 @@ namespace views {
 
     void Dashboard::render() {
         ui_elements::Window("Dashboard").render([this]() {
-            // renderCategory("Kategorie 1", _category1Tiles);
-            // renderCategory("Kategorie 2", _category2Tiles);
             for (const auto& category : _categoryTiles) {
                 renderCategory(category.first, category.second);
             }

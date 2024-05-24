@@ -21,7 +21,7 @@ namespace ui_elements {
         _buttonText = ss.str();
     }
 
-    // Render-Methodej
+    // Render-Methode
     void Tile::render() const {
         ui_elements::Window("Dashboard").render([this]() {
             ImGui::SetWindowPos(ImVec2(0, 50), ImGuiCond_Always);
