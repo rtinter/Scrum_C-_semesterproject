@@ -1,23 +1,20 @@
 #include "Tile.hpp"
 #include <vector>
+#include <map>
 
 namespace views {
-    /********************************************************************
-     * The Dashboard is the home page of the app.
-     * It displays a tile for each game, separated by game categories
-     ********************************************************************/
     class Dashboard {
 
-        std::vector<ui_elements::Tile> _category1Tiles;
-        std::vector<ui_elements::Tile> _category2Tiles;
+        // std::vector<ui_elements::Tile> _category1Tiles;
+        // std::vector<ui_elements::Tile> _category2Tiles;
+        std::map<std::string, std::vector<ui_elements::Tile>> _categoryTiles;
 
     public:
-        void addTileToCategory1(const ui_elements::Tile &tile);
-
-        void addTileToCategory2(const ui_elements::Tile &tile);
-
-        static void renderCategory(const std::string &categoryName, const std::vector<ui_elements::Tile> &tiles);
-
-        void render() const;
+        // void addTileToCategory1(const ui_elements::Tile& tile);
+        // void addTileToCategory2(const ui_elements::Tile& tile);
+        void addTileToCategory(const std::string& category, const ui_elements::Tile& tile);
+        void addTilesToCategory(const std::string& category, const std::vector<ui_elements::Tile>& tiles);
+        // void renderCategory(const std::string& categoryName, const std::vector<ui_elements::Tile>& tiles);
+        void render();
     };
 }

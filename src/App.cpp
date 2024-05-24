@@ -37,13 +37,25 @@ void App::start() {
         std::cout << "Stats button clicked!" << std::endl;
     });
 
-
     // Füge Tiles zur Kategorie 1 hinzu
-    dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
-    dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
+    // dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
+    // dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
 
     // Füge Tiles zur Kategorie 2 hinzu
-    dashboard.addTileToCategory2(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
+    // dashboard.addTileToCategory2(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
+
+
+    const std::vector<ui_elements::Tile> kCategory1Tiles = {
+        ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {}),
+        ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
+    };
+
+    const std::vector<ui_elements::Tile> kCategory2Tiles = {
+        ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
+    };
+
+    dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
+    dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
 
     while (window.isOpen()) {
         sf::Event event;
