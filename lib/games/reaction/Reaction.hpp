@@ -37,7 +37,8 @@ namespace reaction {
         ImVec2 _size;
         bool _isOpen;
 
-        sf::Color _windowColor;
+
+        ImVec4 _windowColor;
         sf::Clock _deltaClock;
 
         sf::Clock _colorClock; // Clock to track the duration of the color change
@@ -49,8 +50,9 @@ namespace reaction {
         static std::string getDurationRating(int duration);
 
     public:
+        Reaction();
 
-        explicit Reaction(ImVec2 const &size);
+        //explicit Reaction(ImVec2 const &size);
 
         void start() override;
 
