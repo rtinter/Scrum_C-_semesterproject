@@ -46,7 +46,7 @@ namespace reaction {
         sf::Clock _colorClock; // Clock to track the duration of the color change
         bool _isRed, _isRunning;
         float _redDuration;
-        std::chrono::time_point<std::chrono::system_clock> _startPoint, _finishPoint;
+        std::chrono::steady_clock::time_point _startPoint, _finishPoint;
 
         static std::string getDurationRating(int duration);
 

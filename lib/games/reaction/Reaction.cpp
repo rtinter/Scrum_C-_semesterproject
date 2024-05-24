@@ -55,15 +55,12 @@ namespace reaction {
         if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
             if (!_isRed) {
                 _isRunning = false;
-                _finishPoint = std::chrono::high_resolution_clock::now();
-                std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(
-                        _finishPoint - _startPoint).count() << " ms" << std::endl;
-                std::cout << "Duration rating: " << getDurationRating(
-                        std::chrono::duration_cast<std::chrono::milliseconds>(
-                                _finishPoint - _startPoint).count()) << std::endl;
+                _finishPoint = std::chrono::steady_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(_finishPoint - _startPoint).count();
+                std::cout << "Time elapsed: " << duration << " ms" << std::endl;
+                std::cout << "Duration rating: " << getDurationRating(duration) << std::endl;
             } else {
                 std::cout << "Zu früh geklickt!" << std::endl;
-
             }
         }
 
@@ -74,7 +71,7 @@ namespace reaction {
     void Reaction::turnGreen() {
         _windowColor = commons::Colors::kGREEN; // Change window color to green
         _isRed = false;
-        _startPoint = std::chrono::high_resolution_clock::now();
+        _startPoint = std::chrono::steady_clock::now();
     }
 
     std::string Reaction::getDurationRating(int duration) {
