@@ -34,14 +34,14 @@ void App::start() {
 
     // define each needed tile for the games
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
-            ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
-                // button action to run (render) the game
-            }),
-            ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
+        ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
+             // button action to run (render) the game
+        }),
+        ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
     };
 
     const std::vector<ui_elements::Tile> kCategory2Tiles = {
-            ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
+        ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
     };
     //add tiles to the category
     dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
@@ -49,6 +49,8 @@ void App::start() {
 
     sf::Clock deltaClock;
 
+
+    reaction::Reaction reactionGame;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -71,6 +73,7 @@ void App::start() {
 
         /* Style Example */
         //ImGui::ShowDemoWindow();
+        reactionGame.start();
 
         ImGui::SFML::Render(window);
         window.display();

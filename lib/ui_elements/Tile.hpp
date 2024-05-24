@@ -1,6 +1,4 @@
 #include "UiElement.hpp"
-#include "../abstract_game/Game.hpp"
-#include "../games/reaction/Reaction.hpp"
 #include <string>
 #include <functional>
 #include <imgui.h>
@@ -22,18 +20,15 @@ namespace ui_elements {
         std::string _description;
         std::string _buttonText;
         std::function<void()> _onClick;
-        bool _showGame{false};
-        reaction::Reaction _reactionGame; // TODO: make general for all games
+
         void setButtonText();
 
     public:
         // Constructors
         Tile() = delete;
-
         explicit Tile(std::string pic, std::string name, std::string desc, std::function<void()> onClick);
 
         // Render method
-        void render();
-
+        void render() const override;
     };
 }
