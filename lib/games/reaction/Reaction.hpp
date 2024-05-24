@@ -29,24 +29,24 @@ namespace reaction {
 
     class Reaction : public Game{
 
-        std::string const kName {"Reaction"};
-        ImVec2 size;
-        bool isOpen;
+        std::string const _kNAME {"Reaction"};
+        ImVec2 _size;
+        bool _isOpen;
 
-        sf::Color windowColor;
-        sf::Clock deltaClock;
+        sf::Color _windowColor;
+        sf::Clock _deltaClock;
 
-        sf::Clock colorClock; // Clock to track the duration of the color change
-        bool isRed, isRunning;
-        float redDuration;
-        std::chrono::time_point<std::chrono::system_clock> startPoint, finishPoint;
+        sf::Clock _colorClock; // Clock to track the duration of the color change
+        bool _isRed, _isRunning;
+        float _redDuration;
+        std::chrono::time_point<std::chrono::system_clock> _startPoint, _finishPoint;
 
 
-        std::string getDurationRating(int duration);
+        static std::string getDurationRating(int duration);
 
     public:
 
-        Reaction(ImVec2 const &size);
+        explicit Reaction(ImVec2 const &size);
 
         void start() override;
 
