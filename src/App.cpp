@@ -46,59 +46,10 @@ void App::start() {
         }
 
 
-
-
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
 
         reactionGame.start();
-
-        /* Style Example */
-        ImGui::ShowDemoWindow();
-
-
-        ImGui::SetNextWindowSize(ImVec2(1100.f, 600.f));
-        ImGui::Begin("Font & Color Example");
-
-        /* Font Example */
-        ImGui::PushFont(commons::Fonts::_header1);
-        ImGui::Text("Header 1");
-        ImGui::PopFont();
-
-        ImGui::PushFont(commons::Fonts::_header2);
-        ImGui::Text("Header 2");
-        ImGui::PopFont();
-
-        ImGui::PushFont(commons::Fonts::_header3);
-        ImGui::Text("Header 3");
-        ImGui::PopFont();
-
-        ImGui::PushFont(commons::Fonts::_body);
-        ImGui::Text("Body:\n"
-                    "Lorem ipsum dolor sit amet, consetetur sadipscing elitr,\n"
-                    "sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n");
-        ImGui::PopFont();
-
-        /* Color Example */
-        // choose freely
-        auto myColor{commons::Colors::kINDIGO};
-
-        // or use Color from ColorTheme
-        auto successColor{commons::ColorTheme::kSUCCESS_COLOR};
-
-        // Use PushStyleColor()
-        ImGui::PushStyleColor(ImGuiCol_Text, myColor);
-        ImGui::Text("My Color");
-        ImGui::PopStyleColor();
-
-        // Or use TextColored()
-        ImGui::TextColored(successColor, "Success Color");
-        ImGui::TextColored(commons::ColorTheme::kERROR_COLOR, "Error Color");
-        ImGui::TextColored(commons::ColorTheme::kWARNING_COLOR, "Warning Color");
-        ImGui::TextColored(commons::ColorTheme::kINFO_COLOR, "Info Color");
-        ImGui::TextColored(commons::ColorTheme::kACCENT_COLOR, "Accent Color");
-
-        ImGui::End();
 
         ImGui::SFML::Render(window);
         window.display();

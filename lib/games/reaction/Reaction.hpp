@@ -24,7 +24,6 @@
 #include "../../lib/commons/StyleManager.hpp"
 
 
-
 namespace reaction {
     /******************************************************
      *<b>Reaction Test Game</b><br>
@@ -34,9 +33,9 @@ namespace reaction {
      * um deine Reaktionszeit in Millisekunden zu messen.
      **************************************************+***/
 
-    class Reaction : public Game{
+    class Reaction : public Game {
 
-        std::string const _kNAME {"Reaction"};
+        std::string const _kNAME{"Reaction"};
         ImVec2 _size;
         bool _isOpen;
         bool _isClicked;
@@ -50,22 +49,21 @@ namespace reaction {
         float _redDuration;
         std::chrono::time_point<std::chrono::system_clock> _startPoint, _finishPoint;
 
-
         static std::string getDurationRating(int duration);
 
     public:
-        Reaction();
-
-        //explicit Reaction(ImVec2 const &size);
+        explicit Reaction();
 
         void start() override;
 
         void reset() override;
-        void render();
-        void setup();
+
         void updateStatistics() override;
 
-        void updateColor();
+        void render();
+
+
+        void turnGreen();
 
     };
 
