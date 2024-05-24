@@ -1,10 +1,8 @@
-set(LIBRARY_NAME calc)
+set(LIBRARY_NAME test)
 
 file(GLOB SOURCES *.cpp)
 
-add_library(${LIBRARY_NAME} ${SOURCES}
-        ../test/TestGame.cpp
-        ../test/TestGame.hpp)
+add_library(${LIBRARY_NAME} ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC .)
 

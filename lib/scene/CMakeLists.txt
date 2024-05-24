@@ -1,4 +1,4 @@
-set(LIBRARY_NAME views)
+set(LIBRARY_NAME scene)
 
 file(GLOB SOURCES *.cpp)
 

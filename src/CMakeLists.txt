@@ -1,10 +1,13 @@
 file(GLOB SOURCES *.cpp)
 
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES}
+        SceneManager.cpp
+        SceneManager.hpp)
 
 set(GAME_LIBS
         calc
         reaction
+        test
 )
 
 set(CUSTOM_LIBS
@@ -12,11 +15,12 @@ set(CUSTOM_LIBS
         ui_elements
         abstract_game
         views
+        scene
         ${GAME_LIBS}
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
-        sfml-graphics ImGui-SFML::ImGui-SFML box2d
+        sfml-graphics ImGui-SFML::ImGui-SFML box2d views scene abstract_game commons ui_elements scene
         ${CUSTOM_LIBS}
 )
 

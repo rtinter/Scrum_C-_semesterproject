@@ -47,6 +47,9 @@ public:
 	 */
 	virtual void updateStatistics() = 0;
 
+    virtual std::string getGameInfo();
+
+
 protected:
 	/**
 	 * @brief Updates a statistic value.
