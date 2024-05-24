@@ -36,7 +36,8 @@ namespace reaction {
         std::string const _kNAME {"Reaction"};
         ImVec2 _size;
         bool _isOpen;
-
+        bool _isClicked;
+        bool _wasReset;
 
         ImVec4 _windowColor;
         sf::Clock _deltaClock;
@@ -57,8 +58,11 @@ namespace reaction {
         void start() override;
 
         void reset() override;
-
+        void render();
+        void setup();
         void updateStatistics() override;
+
+        void updateColor();
 
     };
 

@@ -8,7 +8,7 @@
 
 namespace reaction {
 
-    Reaction::Reaction() : _isOpen{true} {
+    Reaction::Reaction() : _isOpen{true}, _isRed{true}, _wasReset{false} {
 
 
     }
@@ -37,8 +37,7 @@ namespace reaction {
         _windowColor = commons::Colors::kRED; // Change window color back to red
         _redDuration = static_cast<float>(std::rand() % 5000) / 1000.0f; // Random duration between 0 and 5 seconds
         _colorClock.restart();
-        _isRed = true;
-
+        _wasReset = true;
     }
 
     void Reaction::updateStatistics() {
@@ -46,24 +45,28 @@ namespace reaction {
     }
 
 
+    void Reaction::updateColor() {
+        if (_wasReset) {
+            _windowColor = commons::Colors::kRED;
+            _isRed = true;
+        }
+        if (_isRed && _colorClock.getElapsedTime().asSeconds() >= _redDuration) {
+            _windowColor = commons::Colors::kGREEN; // Change window color to green
+            _startPoint = std::chrono::high_resolution_clock::now();
+            _isRed = false;
+        }
+    }
+
     void Reaction::start() {
+        setup();
+        render();
 
 
         _isRunning = true;
-
-        _size = ImGui::GetIO().DisplaySize;
-        ImGui::SetNextWindowSize(_size);
-
-
-        ImGui::Begin("Reaction Game", nullptr);
+        updateColor();
 
 
 
-        _windowColor = sf::Color::Black;
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-
-        _isRed = false;
-        _redDuration = 0.0f;
 
         // Seed the random number generator
         std::srand(static_cast<unsigned int>(std::time(nullptr)));
@@ -75,7 +78,7 @@ namespace reaction {
         if (ImGui::IsWindowHovered()
             && ImGui::IsMouseClicked(ImGuiMouseButton_Left) && !_isRed) {
             _finishPoint = std::chrono::high_resolution_clock::now();
-            _windowColor = commons::Colors::kRED; // Change window color to blue
+            _isClicked = !_isClicked;
             std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(
                     _finishPoint - _startPoint).count() << " ms" << std::endl;
             std::cout << "Duration rating: " << getDurationRating(
@@ -84,14 +87,28 @@ namespace reaction {
         }
 
 
-        // Check if the red duration has passed
-        if (_isRed && _colorClock.getElapsedTime().asSeconds() >= _redDuration) {
-            _windowColor = commons::Colors::kGREEN; // Change window color to green
-            _startPoint = std::chrono::high_resolution_clock::now();
-            _isRed = false;
-        }
 
+
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
+
+
+        _size = ImGui::GetIO().DisplaySize;
+        ImGui::SetNextWindowSize(_size);
+        ImGui::Begin("Reaction Game", nullptr);
+
+
+
+
+        ImGui::PopStyleColor();
         ImGui::End();
+
+    }
+
+    void Reaction::render() {
+
+    }
+
+    void Reaction::setup() {
 
     }
 
