@@ -9,9 +9,6 @@
 namespace reaction {
     Reaction::Reaction() : _size{ImGui::GetIO().DisplaySize}, _isRunning{false} {
 
-
-    Reaction::Reaction() : _isOpen{true}, _isRed{true}, _wasReset{false} {
-
         _gameName = "Reaction";
         _gameDescription = "Reaction ist ein einfaches, aber spannendes Spiel, das deine Reflexe auf die Probe stellt.\n"
                            "Warte, bis der Bildschirm von Rot zu Grün wechselt, und klicke so schnell wie möglich die linke Maustaste, um deine Reaktionszeit in Millisekunden zu messen.";
@@ -24,28 +21,6 @@ namespace reaction {
 
     }
 
-    std::string Reaction::getDurationRating(int duration) {
-        if (duration < 260) {
-            return "Herausragend";
-        }
-        if (duration < 340) {
-            return "Super Schnell";
-        }
-        if (duration < 540) {
-            return "Guter Durchschnitt";
-        }
-        if (duration < 640) {
-            return "Ganz OK";
-        }
-        return "Langsam";
-
-    }
-
-    void Reaction::reset() {        //is (currently) activated by pressing the right mouse button!
-        //Also currently used to start the game itself once the game window is open
-        //Is called in Reaction::start() when the left mouse button is pressed
-
-    }
 
     void Reaction::start() {
         if (!_isOpen) reset();
