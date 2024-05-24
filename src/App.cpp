@@ -39,7 +39,7 @@ void App::start() {
 
     views::Dashboard dashboard;
     //Testcallback funktion, da atm keine Logik
-    Header header("Home", "Meine Stats", []() {
+    Header header("Home", "Zurück", []() {
         closeLastWindow();
         std::cout << "Stats button clicked!" << std::endl;
     });
