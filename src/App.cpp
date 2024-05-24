@@ -9,7 +9,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
-#include <InfoBox.h>
+
 
 const int App::kWINDOW_WIDTH{1920};
 const int App::kWINDOW_HEIGHT{1080};
@@ -71,7 +71,6 @@ void App::start() {
 
         /* Style Example */
         //ImGui::ShowDemoWindow();
-
 
         ImGui::SFML::Render(window);
         window.display();

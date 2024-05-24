@@ -4,7 +4,7 @@
 
 #ifndef ATHENA_OVERLAY_HPP
 #define ATHENA_OVERLAY_HPP
-#include "UiElement.hpp"
+
 namespace ui_elements {
 
     class Overlay {

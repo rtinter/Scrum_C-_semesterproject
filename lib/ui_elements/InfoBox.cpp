@@ -39,11 +39,11 @@ namespace ui_elements {
 
             ImGui::Text(_game_controls);
             //gets current window height and button height to place them at the bottom of our PopupWindow
-            float windowHeight = ImGui::GetWindowHeight();
-            float buttonHeight = ImGui::GetFrameHeight();
-            //creates a new Posy at the bottom of the the PopupWindow
-            float newPosY = windowHeight - buttonHeight - ImGui::GetStyle().ItemSpacing.y;
-            //sets a new Posy
+            const float windowHeight = ImGui::GetWindowHeight();
+            const float buttonHeight = ImGui::GetFrameHeight();
+            //creates a new Position at the bottom of the the PopupWindow
+            const float newPosY = windowHeight - buttonHeight - ImGui::GetStyle().ItemSpacing.y;
+            //sets a new Position
             ImGui::SetCursorPosY(newPosY);
             // changes the BackgroundColor to blue
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, sf::Color::Blue);

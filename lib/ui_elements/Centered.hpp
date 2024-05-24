@@ -6,7 +6,7 @@
 #define ATHENA_CENTERED_HPP
 
 #include <functional>
-#include "imgui.h"
+
 
 namespace ui_elements {
     /**
