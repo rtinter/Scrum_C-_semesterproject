@@ -6,6 +6,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
+#include <stack>
 
 #include "Reaction.hpp"
 
@@ -14,6 +15,15 @@ const int App::kWINDOW_HEIGHT{1080};
 const std::string App::kTITLE{"Human Benchmark"};
 const int App::kFRAME_RATE{60};
 bool App::_showGame{false};
+
+std::stack<std::function<void()>> openWindows;
+
+void closeLastWindow() {
+    if (!openWindows.empty()) {
+        openWindows.top()();
+        openWindows.pop();
+    }
+}
 
 void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::kWINDOW_WIDTH, kWINDOW_HEIGHT), App::kTITLE);
@@ -30,6 +40,7 @@ void App::start() {
     views::Dashboard dashboard;
     //Testcallback funktion, da atm keine Logik
     Header header("Home", "Meine Stats", []() {
+        closeLastWindow();
         std::cout << "Stats button clicked!" << std::endl;
     });
 
@@ -37,6 +48,7 @@ void App::start() {
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
                 _showGame = true;
+                openWindows.push([]() { _showGame = false; });
             }),
             ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
     };
@@ -51,7 +63,6 @@ void App::start() {
 
     sf::Clock deltaClock;
 
-
     reaction::Reaction reactionGame;
 
     while (window.isOpen()) {
@@ -61,10 +72,8 @@ void App::start() {
 
             if (event.type == sf::Event::Closed) {
                 window.close();
-
             }
         }
-
 
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
