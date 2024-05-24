@@ -32,9 +32,13 @@ namespace reaction {
         _isRed = true;
         _isRunning = true;
         _windowColor = commons::Colors::kRED;
-        // Seed the random number generator
-        std::srand(static_cast<unsigned int>(std::time(nullptr)));
-        _redDuration = static_cast<float>(std::rand() % 5000) / 1000.0f; // Random duration between 0 and 5 seconds
+
+        // Use <random> for better random number generation
+        std::random_device rd; // Seed the random number generator
+        std::mt19937 gen(rd()); // Mersenne Twister engine
+        std::uniform_int_distribution<> dis(0, 5000); // Uniform distribution between 0 and 5000 milliseconds
+
+        _redDuration = static_cast<float>(dis(gen)) / 1000.0f; // Random duration between 0 and 5 seconds
         _colorClock.restart();
         std::cout << "Start Game!" << std::endl;
     }
