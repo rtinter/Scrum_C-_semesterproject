@@ -6,6 +6,10 @@ namespace ui_elements {
      * implement the render method.
      ********************************************************/
     class UiElement {
+    public:
+        virtual ~UiElement() = default;
+
+    private:
         virtual void render() const = 0; // abstract
     };
 
