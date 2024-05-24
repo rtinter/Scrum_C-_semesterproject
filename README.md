@@ -36,3 +36,5 @@ Der Mehrwert unserer Anwendung besteht darin, das Konzept der Leistungsmessung s
 | Type | Style |
 | ---- | ----- |
 | |
+
+ # [Projektdokumentation im Wiki](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/home)
