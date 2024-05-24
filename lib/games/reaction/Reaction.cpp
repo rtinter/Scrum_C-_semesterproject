@@ -6,11 +6,9 @@
 #include "SFML/Graphics/Text.hpp"
 
 
-
-
 namespace reaction {
 
-    Reaction::Reaction(ImVec2 const &size) :  _size{size}, _isOpen{true} {
+    Reaction::Reaction(ImVec2 const &size) : _size{size}, _isOpen{true} {
 
 
     }
@@ -18,15 +16,18 @@ namespace reaction {
     std::string Reaction::getDurationRating(int duration) {
         if (duration < 260) {
             return "Herausragend";
-        } else if (duration < 340) {
-            return "Super Schnell";
-        } else if (duration < 540) {
-            return "Guter Durchschnitt";
-        } else if (duration < 640) {
-            return "Ganz OK";
-        } else {
-            return "Langsam";
         }
+        if (duration < 340) {
+            return "Super Schnell";
+        }
+        if (duration < 540) {
+            return "Guter Durchschnitt";
+        }
+        if (duration < 640) {
+            return "Ganz OK";
+        }
+        return "Langsam";
+
     }
 
     void Reaction::reset() {        //is (currently) activated by pressing the right mouse button!
@@ -44,7 +45,6 @@ namespace reaction {
     }
 
 
-
     void Reaction::start() {
         sf::RenderWindow window(sf::VideoMode(2 * 640, 1.5 * 480), "ImGui + SFML = <3");
         window.setFramerateLimit(60);
@@ -57,13 +57,11 @@ namespace reaction {
         ImGui::End();
 
 
-
         _windowColor = sf::Color::Black;
         // Display white text "Click to start" in the center of the window
         sf::Font font;
         font.loadFromFile("arial.ttf");
         sf::Text text("Click to start", font);
-
 
 
         _isRed = false;
@@ -86,8 +84,11 @@ namespace reaction {
                     if (event.mouseButton.button == sf::Mouse::Left && !_isRed) {
                         _finishPoint = std::chrono::high_resolution_clock::now();
                         _windowColor = sf::Color::Red; // Change window color to blue
-                        std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(_finishPoint - _startPoint).count() << " ms" << std::endl;
-                        std::cout << "Duration rating: " << getDurationRating(std::chrono::duration_cast<std::chrono::milliseconds>(_finishPoint - _startPoint).count() ) << std::endl;
+                        std::cout << "Time elapsed: " << std::chrono::duration_cast<std::chrono::milliseconds>(
+                                _finishPoint - _startPoint).count() << " ms" << std::endl;
+                        std::cout << "Duration rating: " << getDurationRating(
+                                std::chrono::duration_cast<std::chrono::milliseconds>(
+                                        _finishPoint - _startPoint).count()) << std::endl;
                     }
                 }
             }
@@ -98,7 +99,6 @@ namespace reaction {
                 _startPoint = std::chrono::high_resolution_clock::now();
                 _isRed = false;
             }
-
 
 
             ImGui::SFML::Update(window, _deltaClock.restart());

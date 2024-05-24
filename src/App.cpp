@@ -9,11 +9,9 @@
 #include "Colors.hpp"
 #include "ColorTheme.hpp"
 
-#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
-//include reaction game
 
 #include "Reaction.hpp"
 
