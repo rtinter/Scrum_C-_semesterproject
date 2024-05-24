@@ -2,6 +2,7 @@
 #include <imgui.h>
 #include "Window.hpp"
 #include "Fonts.hpp"
+#include <memory>
 
 namespace {
     
@@ -43,6 +44,7 @@ namespace views {
             addTileToCategory(category, tile);
         }
     }
+
 
     void Dashboard::render() {
         ui_elements::Window("Dashboard").render([this]() {

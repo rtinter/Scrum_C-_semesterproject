@@ -3,6 +3,7 @@
 #include "Window.hpp"
 #include "Fonts.hpp"
 
+
 Header::Header(std::string left, std::string right, std::function<void()> callback)
         : _leftText(std::move(left)), _rightButtonText(std::move(right)), _buttonClickCallback(std::move(callback)) {
     _centerText = "Athena";

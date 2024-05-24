@@ -15,6 +15,7 @@ namespace views {
 
     public:
         void addTilesToCategory(const std::string& category, const std::vector<ui_elements::Tile>& tiles);
+        views::Dashboard initDashboard();
         void render();
     };
 }
