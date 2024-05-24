@@ -44,9 +44,10 @@ void App::start() {
     // Füge Tiles zur Kategorie 2 hinzu
     // dashboard.addTileToCategory2(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
 
-
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
-        ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {}),
+        ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
+             // button action to run (render) the game
+        }),
         ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
     };
 
