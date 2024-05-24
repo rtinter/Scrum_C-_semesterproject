@@ -7,7 +7,9 @@
 
 
 namespace reaction {
-    Reaction::Reaction() : _size{ImGui::GetIO().DisplaySize}, _isOpen{false} {
+
+    Reaction::Reaction() : _size{}, _isOpen{false} {
+        _size = {ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 90};
 
         _gameName = "Reaction";
         _gameDescription = "Reaction ist ein einfaches, aber spannendes Spiel, das deine Reflexe auf die Probe stellt.\n"
@@ -47,6 +49,7 @@ namespace reaction {
         if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && _isRunning && _isRed) {
             turnGreen();
         }
+        ImGui::SetNextWindowPos(ImVec2(0, 90));
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ImGui::SetNextWindowSize(_size);
         ImGui::Begin("Reaction Game", nullptr);
@@ -60,7 +63,8 @@ namespace reaction {
             if (!_isRed) {
                 _isRunning = false;
                 _finishPoint = std::chrono::steady_clock::now();
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(_finishPoint - _startPoint).count();
+                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        _finishPoint - _startPoint).count();
                 std::cout << "Time elapsed: " << duration << " ms" << std::endl;
                 std::cout << "Duration rating: " << getDurationRating(duration) << std::endl;
             } else {
