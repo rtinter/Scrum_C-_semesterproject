@@ -1,7 +1,3 @@
-//
-// Created by zepi on 16.05.24.
-//
-
 #include "App.hpp"
 #include "imgui-SFML.h"
 #include "StyleManager.hpp"
@@ -23,7 +19,7 @@ const std::string App::_title{"Human Benchmark"};
 const int App::_frameRate{60};
 
 void App::start() {
-    sf::RenderWindow window(sf::VideoMode(1920, 1080), "Human Benchmark");
+    sf::RenderWindow window(sf::VideoMode(App::_windowWidth, _windowHeight), App::_title);
     window.setFramerateLimit(60);
 
     [[maybe_unused]] auto _ = ImGui::SFML::Init(window);
@@ -36,13 +32,6 @@ void App::start() {
     Header header("Home", "Meine Stats", []() {
         std::cout << "Stats button clicked!" << std::endl;
     });
-
-    // Füge Tiles zur Kategorie 1 hinzu
-    // dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
-    // dashboard.addTileToCategory1(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
-
-    // Füge Tiles zur Kategorie 2 hinzu
-    // dashboard.addTileToCategory2(ui_elements::Tile("Pictogram", "Spielname", "Beschreibung"));
 
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
         ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
