@@ -8,8 +8,18 @@
 
 namespace reaction {
 
+
     Reaction::Reaction() : _isOpen{true}, _isRed{true}, _wasReset{false} {
 
+        _gameName = "Reaction";
+        _gameDescription = "Reaction ist ein einfaches, aber spannendes Spiel, das deine Reflexe auf die Probe stellt.\n"
+                           "Warte, bis der Bildschirm von Rot zu Grün wechselt, und klicke so schnell wie möglich die linke Maustaste, um deine Reaktionszeit in Millisekunden zu messen.";
+        _gameRules = "Der Bildschirm zeigt zunächst eine rote Farbe.\n"
+                     "Nach einer zufälligen Zeitspanne von bis zu einer Minute wechselt der Bildschirm auf Grün.\n"
+                     "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
+                     "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
+                     "Versuche, deine beste Zeit zu schlagen!";
+        _gameControls = "Linke Maustaste: Klicken, sobald der Bildschirm Grün wird.";
 
     }
 

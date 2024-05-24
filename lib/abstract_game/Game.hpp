@@ -60,6 +60,11 @@ protected:
 	 */
 	void setStatistic(const std::string& name, const long& value);
 
+    std::string _gameName;
+    std::string _gameDescription;
+    std::string _gameRules;
+    std::string _gameControls;
+
 private:
 	/**
 	 * @brief Uploads the game results.
@@ -73,10 +78,6 @@ private:
 	std::string _gameID;
 	std::string _userID;
 	GameStats _gameStats;
-    std::string _gameName;
-    std::string _gameDescription;
-    std::string _gameRules;
-    std::string _gameControls;
 };
 
 #endif  // GAME_H
