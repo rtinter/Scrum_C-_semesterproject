@@ -9,6 +9,8 @@
 #include "../commons/ColorHelper.hpp"
 #include "../commons/Fonts.hpp"
 #include "../commons/StyleManager.hpp"
+#include "TextCentered.hpp"
+#include "Centered.hpp"
 namespace ui_elements {
     InfoBox::InfoBox(const char *game_name, const char *game_descr, const char *game_rules, const char *game_controls) {
         _name = game_name;
@@ -23,7 +25,7 @@ namespace ui_elements {
         ui_elements::Overlay("Infobox", boolean).render([this]() {
 
 
-            ImGui::Text(_name);
+            TextCentered(std::move(_name));
 
             ImGui::Text("\n");
             ImGui::Text(_game_descr);

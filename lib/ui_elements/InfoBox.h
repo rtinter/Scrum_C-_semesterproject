@@ -13,7 +13,7 @@ namespace ui_elements {
         const char *_game_descr;
         const char *_game_rules;
         const char *_game_controls;
-        InfoBox(const char *game_name, const char *game_desc, const char *game_rules, const char *game_controls);
+        InfoBox(const char *game_name, const char *game_descr, const char *game_rules, const char *game_controls);
     public:
         void render();
 

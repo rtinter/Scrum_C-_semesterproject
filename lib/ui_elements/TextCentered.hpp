@@ -27,6 +27,7 @@ namespace ui_elements {
         *       It sets the cursor position and renders the text using ImGui::Text().
         */
         explicit TextCentered(const char *content);
+
     };
 
 } // ui_elements
