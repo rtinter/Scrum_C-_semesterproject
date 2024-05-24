@@ -1,5 +1,6 @@
-#include "imgui.h"
+#pragma once
 
+#include "imgui.h"
 #include <string>
 #include <vector>
 
@@ -10,13 +11,11 @@ namespace ui_elements {
      * new ImGui windows. The default flags for this project are set automatically.
      **************************************************************************************/
     class Window {
-
     public:
-        explicit Window(const char *name, bool *p_open = nullptr,
+        explicit Window(std::string name, bool *p_open = nullptr,
                         ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar |
-                                                 ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBringToFrontOnFocus) : _name(name),
-                                                                                  _pOpen(p_open),
-                                                                                  _flags(flags) {}
+                                                 ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBringToFrontOnFocus);
+
         bool begin();
 
         static void end();
@@ -30,10 +29,9 @@ namespace ui_elements {
         }
 
     private:
-        const char *_name{};
-        bool *_pOpen;
+        std::string _name;
+        bool *_pOpen{nullptr};
         ImGuiWindowFlags _flags{};
-        bool _visible;
     };
 
 }
