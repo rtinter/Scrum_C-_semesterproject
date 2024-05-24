@@ -23,8 +23,7 @@ namespace commons {
         static ImVec4 const kINDIGO;
         static ImVec4 const kSEAFOAM;
     };
-
-
-} // commons
+}
+// commons
 
 #endif //ATHENA_COLORS_H
