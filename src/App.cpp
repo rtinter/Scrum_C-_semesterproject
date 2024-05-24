@@ -13,6 +13,7 @@ const int App::kWINDOW_WIDTH{1920};
 const int App::kWINDOW_HEIGHT{1080};
 const std::string App::kTITLE{"Human Benchmark"};
 const int App::kFRAME_RATE{60};
+bool App::_showGame{false};
 
 void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::kWINDOW_WIDTH, kWINDOW_HEIGHT), App::kTITLE);
@@ -34,14 +35,15 @@ void App::start() {
 
     // define each needed tile for the games
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
-        ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
-             // button action to run (render) the game
-        }),
-        ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
+            ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
+                _showGame = true;
+            }),
+            ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
     };
 
+
     const std::vector<ui_elements::Tile> kCategory2Tiles = {
-        ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
+            ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
     };
     //add tiles to the category
     dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
@@ -70,10 +72,12 @@ void App::start() {
         //render header and dashboard
         header.render();
         dashboard.render();
+        if (_showGame) {
+            reactionGame.start();
+        }
 
         /* Style Example */
         //ImGui::ShowDemoWindow();
-        reactionGame.start();
 
         ImGui::SFML::Render(window);
         window.display();
