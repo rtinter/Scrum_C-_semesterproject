@@ -32,7 +32,7 @@ namespace commons {
         // Background Colors
         style.Colors[ImGuiCol_WindowBg] = kBACKGROUND_COLOR;
         style.Colors[ImGuiCol_ChildBg] = Colors::kNONE;
-        style.Colors[ImGuiCol_PopupBg] = ColorHelper::adjustBrightness(kBACKGROUND_COLOR,
+        style.Colors[ImGuiCol_PopupBg] = ColorHelper::adjustBrightness(kINFO_COLOR,
                                                                        1.1f); // applies also to tooltips
         style.Colors[ImGuiCol_FrameBg] = ColorHelper::adjustBrightness(kBACKGROUND_COLOR, 0.8f);
         style.Colors[ImGuiCol_FrameBgHovered] = ColorHelper::adjustBrightness(kBACKGROUND_COLOR, 0.6f);

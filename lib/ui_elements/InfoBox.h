@@ -9,7 +9,7 @@
 namespace ui_elements {
     class InfoBox {
     public:
-        const char *_name;
+        const char *_game_name;
         const char *_game_descr;
         const char *_game_rules;
         const char *_game_controls;
