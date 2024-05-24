@@ -27,8 +27,11 @@
 
 namespace reaction {
     /******************************************************
-     * Reaction Test Game
+     *<b>Reaction Test Game</b><br>
      *
+     *Reaction ist ein einfaches, aber spannendes Spiel, das deine Reflexe auf die Probe stellt.<br>
+     * Warte, bis der Bildschirm von Rot zu Grün wechselt, und klicke so schnell wie möglich die linke Maustaste,
+     * um deine Reaktionszeit in Millisekunden zu messen.
      **************************************************+***/
 
     class Reaction : public Game{
