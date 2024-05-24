@@ -1,8 +1,9 @@
+#pragma once
+
 #include "UiElement.hpp"
 #include <string>
+#include <functional>
 #include <imgui.h>
-
-#pragma once
 
 namespace ui_elements {
     /**************************************************************
@@ -18,17 +19,16 @@ namespace ui_elements {
         std::string _gameName;
         std::string _description;
         std::string _buttonText;
+        std::function<void()> _onClick;
 
         void setButtonText();
 
     public:
-        // Konstruktor
-        Tile() = delete;
-        explicit Tile(std::string pic, std::string name, std::string desc);
+        // Constructors
+        Tile() = delete;  // Delete the default constructor
+        explicit Tile(std::string pic, std::string name, std::string desc, std::function<void()> onClick);
 
-        // Render-Methode
+        // Render method
         void render() const override;
     };
-
-
 }
