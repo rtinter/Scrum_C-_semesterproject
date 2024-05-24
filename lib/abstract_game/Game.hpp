@@ -73,6 +73,10 @@ private:
 	std::string _gameID;
 	std::string _userID;
 	GameStats _gameStats;
+    std::string _gameName;
+    std::string _gameDescription;
+    std::string _gameRules;
+    std::string _gameControls;
 };
 
 #endif  // GAME_H
