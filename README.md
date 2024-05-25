@@ -27,4 +27,6 @@ Aufgrund des **Wettbewerbscharakters** von Assessment-Centern sind die Nutzer:in
 
 Der **Mehrwert** unserer Anwendung besteht darin, das Konzept der Leistungsmessung spielerisch zu vermitteln, ähnlich wie es in Assessment-Centern praktiziert wird.
 
+# [Projektbeiträge: Eigener Beitrag](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/aem_projekt_beitraege/-/tree/main/Projektbeitrag?ref_type=heads)
+
 # [Projektdokumentation im Wiki](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/home)
