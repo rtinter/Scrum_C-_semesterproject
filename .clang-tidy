@@ -64,10 +64,6 @@
 #  -bugprone-unchecked-optional-access: too many false positives in tests.
 #     Despite what the documentation says, this warning appears after
 #     `ASSERT_TRUE(variable)` or `ASSERT_TRUE(variable.has_value())`.
-#
-#   TODO(#14162): Enable clang-tidy checks. We initially omitted these checks
-#   because they require large cleanup efforts or were blocking the clang-tidy
-#   X update.
 Checks: >
   -*,
   abseil-*,
@@ -84,8 +80,9 @@ Checks: >
   -misc-non-private-member-variables-in-classes,
   -misc-const-correctness,
   -misc-include-cleaner,
+  -modernize-pass-by-value,
   -modernize-return-braced-init-list,
-  -modernize-use-trailing-return-type,
+  -modernize-use-trailig-return-type,
   -modernize-concat-nested-namespaces,
   -modernize-use-nodiscard,
   -modernize-avoid-c-arrays,
@@ -124,15 +121,10 @@ CheckOptions:
   - { key: readability-identifier-naming.PrivateMemberPrefix,    value: _ }
   - { key: readability-identifier-naming.ProtectedMemberPrefix,  value: _ }
   - { key: readability-identifier-naming.EnumConstantCase,         value: UPPER_CASE }
-  - { key: readability-identifier-naming.EnumConstantPrefix,       value: }
   - { key: readability-identifier-naming.ConstexprVariableCase,    value: UPPER_CASE }
-  - { key: readability-identifier-naming.ConstexprVariablePrefix,  value: }
   - { key: readability-identifier-naming.GlobalConstantCase,       value: UPPER_CASE }
-  - { key: readability-identifier-naming.GlobalConstantPrefix,     value: }
   - { key: readability-identifier-naming.MemberConstantCase,       value: UPPER_CASE }
-  - { key: readability-identifier-naming.MemberConstantPrefix,     value: }
   - { key: readability-identifier-naming.StaticConstantCase,       value: UPPER_CASE }
-  - { key: readability-identifier-naming.StaticConstantPrefix,     value: }
   - { key: readability-implicit-bool-conversion.AllowIntegerConditions,  value: 1 }
   - { key: readability-implicit-bool-conversion.AllowPointerConditions,  value: 1 }
   - { key: readability-function-cognitive-complexity.IgnoreMacros,  value: 1 }

@@ -9,8 +9,9 @@
 namespace ui_elements {
 
     // Konstruktor
-    Tile::Tile(std::string pic, std::string name, std::string desc, std::function<void()> onClick)
-        : _pictogram(std::move(pic)), _gameName(std::move(name)), _description(std::move(desc)), _onClick(std::move(onClick)) {
+    Tile::Tile(std::string const &pic, std::string const &name, std::string const &desc,
+               std::function<void()> const &onClick)
+            : _pictogram(pic), _gameName(name), _description(desc), _onClick(onClick) {
         setButtonText();
     }
 
@@ -30,7 +31,7 @@ namespace ui_elements {
 
             ImGui::PushFont(commons::Fonts::_header2);
             if (ImGui::Button(_buttonText.c_str(), ImVec2(this->_width, this->_height))) {
-                 if (_onClick) {
+                if (_onClick) {
                     _onClick();
                 }
             }

@@ -1,18 +1,17 @@
 #include "Header.hpp"
-#include <utility>
 #include "Window.hpp"
 #include "Fonts.hpp"
 
 
-Header::Header(std::string left, std::string right, std::function<void()> callback)
-        : _leftText(std::move(left)), _rightButtonText(std::move(right)), _buttonClickCallback(std::move(callback)) {
+Header::Header(std::string const &left, std::string const &right, std::function<void()> const &callback)
+        : _leftText(left), _rightButtonText(right), _buttonClickCallback(callback) {
     _centerText = "Athena";
 }
 
 void Header::render() {
     ui_elements::Window("Header").render([this]() {
         ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-        ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, kHEADER_HEIGHT + kTOP_MARGIN),
+        ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, HEADER_HEIGHT + kTOP_MARGIN),
                              ImGuiCond_Always);
 
         // Vertikale Abstände
@@ -20,7 +19,7 @@ void Header::render() {
 
         // Linker Text
         ImGui::PushFont(commons::Fonts::_header3);
-        ImGui::SetCursorPosX(kSIDE_MARGIN);
+        ImGui::SetCursorPosX(SIDE_MARGIN);
         ImGui::Text("%s", _leftText.c_str());
 
         // Zentraler Text
@@ -28,7 +27,7 @@ void Header::render() {
         ImGui::Text("%s", _centerText.c_str());
 
         // Rechter Button mit Margin
-        ImGui::SameLine(ImGui::GetIO().DisplaySize.x - ImGui::CalcTextSize(_rightButtonText.c_str()).x - kSIDE_MARGIN);
+        ImGui::SameLine(ImGui::GetIO().DisplaySize.x - ImGui::CalcTextSize(_rightButtonText.c_str()).x - SIDE_MARGIN);
         if (ImGui::Button(_rightButtonText.c_str())) {
             if (_buttonClickCallback) {
                 _buttonClickCallback();
