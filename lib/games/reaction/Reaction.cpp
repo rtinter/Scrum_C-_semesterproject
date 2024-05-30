@@ -45,9 +45,15 @@ namespace reaction {
     }
 
     void Reaction::render(sf::RenderWindow &window) {
-        ImGui::Begin("Reaction Game");
-        ImGui::Text("Moin René");
+        window.clear();
+
+        ImGui::SFML::Update(window, sf::seconds(1.f / 60.f));
+        ImGui::Begin("Reaction Game", nullptr);
+        ImGui::BeginChild("Reaction game Content");
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
+        ImGui::EndChild();
         ImGui::End();
+        ImGui::SFML::Render(window);
         // if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && _isRunning && _isRed) {
         //     turnGreen();
         // }

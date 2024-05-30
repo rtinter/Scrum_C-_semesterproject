@@ -18,13 +18,14 @@ class DashboardScene : public Scene {
 template<typename T>
 class GameScene : public Scene {
     T *_game;
+    sf::RenderWindow &_window;
 public:
-    GameScene() {
+    GameScene(sf::RenderWindow &window) : _window{window}{
         _game = new T();
-        _game->start();
+        _game->start(_window);
     }
     void render(sf::RenderWindow &window) const override {
-        _game->render();
+        _game->render(window);
     }
     void update() const override { std::cout << "Game Update" << std::endl;}
 };

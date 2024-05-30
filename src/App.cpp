@@ -36,7 +36,7 @@ void App::start() {
         return;
     }
 
-    GameScene<reaction::Reaction> game;
+    GameScene<reaction::Reaction> game{window};
 
     commons::StyleManager::loadStyle();
     sf::Clock deltaClock;
@@ -51,14 +51,7 @@ void App::start() {
             }
         }
 
-        // update(deltaTime);
-        ImGui::SFML::Update(window, deltaClock.restart());
-        game.update();
-
-        window.clear();
-        window.clear();
         game.render(window);
-        ImGui::SFML::Render(window);
         window.display();
     }
 
