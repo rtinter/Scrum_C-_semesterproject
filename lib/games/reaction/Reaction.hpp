@@ -52,18 +52,11 @@ namespace reaction {
 
     public:
         explicit Reaction();
-
-        void start() override;
-
+        void start(sf::RenderWindow &window) override;
         void reset() override;
-
         void updateStatistics() override;
-
-        void render();
-
-
+        void render(sf::RenderWindow &window);
         void turnGreen();
-
     };
 
 } // reaction

@@ -1,6 +1,11 @@
 file(GLOB SOURCES *.cpp)
 
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES}
+        Scene.cpp
+        TestScene.cpp
+        TestScene.hpp
+        SceneType.cpp
+        SceneType.hpp)
 
 set(GAME_LIBS
         calc
