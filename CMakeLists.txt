@@ -35,7 +35,4 @@ add_subdirectory(src)
 
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_17)
 
-
-
-
 install(TARGETS ${CMAKE_PROJECT_NAME})

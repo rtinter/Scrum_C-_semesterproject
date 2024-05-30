@@ -2,22 +2,26 @@ file(GLOB SOURCES *.cpp)
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
 
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(CUSTOM_LIBS
+        abstract_game
+        commons
+        ui_elements
+        views
+)
+
 set(GAME_LIBS
         calc
         reaction
 )
 
-set(CUSTOM_LIBS
-        commons
-        ui_elements
-        abstract_game
-        views
-        ${GAME_LIBS}
-)
-
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
-        sfml-graphics ImGui-SFML::ImGui-SFML box2d
         ${CUSTOM_LIBS}
+        ${GAME_LIBS}
+        ImGui-SFML::ImGui-SFML
+        sfml-graphics
+        box2d
 )
 
 
