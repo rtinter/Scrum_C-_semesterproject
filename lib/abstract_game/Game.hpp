@@ -4,6 +4,7 @@
 #include "GameStats.hpp"
 #include <string>
 
+
 /**
  * @brief Abstract base class representing a generic game.
  *
@@ -39,6 +40,7 @@ public:
 	 */
 	virtual void reset() = 0;
 
+
 	/**
 	 * @brief Updates the game statistics.
 	 *
@@ -57,6 +59,11 @@ protected:
 	 * @param value The value of the statistic.
 	 */
 	void setStatistic(const std::string& name, const long& value);
+
+    std::string _gameName;
+    std::string _gameDescription;
+    std::string _gameRules;
+    std::string _gameControls;
 
 private:
 	/**
