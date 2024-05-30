@@ -20,6 +20,17 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         ${CUSTOM_LIBS}
 )
 
+# Collect all .ttf files
+file(GLOB TTF_FILES ${CMAKE_SOURCE_DIR}/lib/commons/ttfFiles/*.ttf)
+
+# Custom command to copy .ttf files to the output directory
+add_custom_command(
+        TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/Fonts
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/lib/commons/Fonts $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/Fonts
+        COMMENT "Copying .ttf files to output directory"
+)
+
 
 if (WIN32)
     add_custom_command(
