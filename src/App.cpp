@@ -90,6 +90,8 @@ void App::start() {
         /* Style Example */
         //ImGui::ShowDemoWindow();
 
+
+
         ImGui::SFML::Render(window);
         window.display();
     }

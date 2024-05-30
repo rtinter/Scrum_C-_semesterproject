@@ -67,6 +67,7 @@ namespace reaction {
                         _finishPoint - _startPoint).count();
                 std::cout << "Time elapsed: " << duration << " ms" << std::endl;
                 std::cout << "Duration rating: " << getDurationRating(duration) << std::endl;
+
             } else {
                 std::cout << "Zu früh geklickt!" << std::endl;
             }
@@ -99,8 +100,9 @@ namespace reaction {
 
     }
 
-    void Reaction::updateStatistics() {
 
+    void Reaction::updateStatistics() {
+        // add code here
     }
 
 
