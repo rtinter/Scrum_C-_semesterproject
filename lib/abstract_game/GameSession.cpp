@@ -1,7 +1,7 @@
 #include <sstream>
 #include "GameSession.hpp"
 
-GameSession::GameSession(int gameID, int userID) : gameID {gameID}, userID {userID}, gameSessionUID {calcGameSessionUID()}, startPoint {std::chrono::steady_clock::now()}, ended {false} { }
+GameSession::GameSession(int gameID, int userID) : _gameID {gameID}, _userID {userID}, _gameSessionUID {calcGameSessionUID()}, _startPoint {std::chrono::steady_clock::now()}, _ended {false} { }
 
 size_t GameSession::calcGameSessionUID() {
 
@@ -26,8 +26,19 @@ size_t GameSession::calcGameSessionUID() {
 }
 
 void GameSession::end() {
-    ended = true;
+    _ended = true;
 
     // save the current time as the end time of the game session
-    endPoint = std::chrono::steady_clock::now();
+    _endPoint = std::chrono::steady_clock::now();
+}
+
+unsigned long long GameSession::getDurationInSeconds() const {
+    if(!_ended) {
+        // game session is still running
+        return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _startPoint).count();
+    }
+    else{
+        // game session has ended
+        return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
+    }
 }

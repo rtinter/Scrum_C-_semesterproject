@@ -18,7 +18,7 @@ void Game::sendStatistics() {
     const auto& stats = _gameStats.getAllStatistics();
 
     for (const auto& pair : stats) {
-        std::cout << "Uploading: " << _gameSession.gameSessionUID << ", " << _gameSession.gameID << ", " << _gameSession.userID
+        std::cout << "Uploading: " << _gameSession.getGameSessionUID() << ", " << _gameSession.getGameID() << ", " << _gameSession.getUserID()
             << ", " << pair.first << ": " << pair.second << std::endl;
     }
 }
