@@ -4,6 +4,8 @@
 #include "GameStats.hpp"
 #include <string>
 
+#include <SFML/Graphics.hpp>
+
 
 /**
  * @brief Abstract base class representing a generic game.
@@ -23,7 +25,7 @@ public:
 	 *
 	 * Begins the game, transitioning it from a ready state to an active state.
 	 */
-	virtual void start() = 0;
+	virtual void start(sf::RenderWindow &window) = 0;
 
 	/**
 	 * @brief Stops the game.

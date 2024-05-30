@@ -20,14 +20,13 @@ namespace reaction {
                      "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
                      "Versuche, deine beste Zeit zu schlagen!";
         _gameControls = "Linke Maustaste: Klicken, sobald der Bildschirm Grün wird.";
-
     }
 
 
-    void Reaction::start() {
+    void Reaction::start(sf::RenderWindow &window) {
         if (!_isOpen) reset();
         _isOpen = true;
-        render();
+        render(window);
     }
 
     void Reaction::reset() {
@@ -45,35 +44,39 @@ namespace reaction {
         std::cout << "Start Game!" << std::endl;
     }
 
-    void Reaction::render() {
-        if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && _isRunning && _isRed) {
-            turnGreen();
-        }
-        ImGui::SetNextWindowPos(ImVec2(0, 90));
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-        ImGui::SetNextWindowSize(_size);
-        ImGui::Begin("Reaction Game", nullptr);
-
-        if (ImGui::IsWindowHovered()
-            && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
-            reset();
-        }
-
-        if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-            if (!_isRed) {
-                _isRunning = false;
-                _finishPoint = std::chrono::steady_clock::now();
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        _finishPoint - _startPoint).count();
-                std::cout << "Time elapsed: " << duration << " ms" << std::endl;
-                std::cout << "Duration rating: " << getDurationRating(duration) << std::endl;
-            } else {
-                std::cout << "Zu früh geklickt!" << std::endl;
-            }
-        }
-
-        ImGui::PopStyleColor();
+    void Reaction::render(sf::RenderWindow &window) {
+        ImGui::Begin("Reaction Game");
+        ImGui::Text("Moin René");
         ImGui::End();
+        // if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && _isRunning && _isRed) {
+        //     turnGreen();
+        // }
+
+        // ImGui::SetNextWindowPos(ImVec2(0, 90));
+        // ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
+        // ImGui::SetNextWindowSize(_size);
+        // ImGui::Begin("Reaction Game", nullptr);
+
+        // if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+        //     reset();
+        // }
+
+        // if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+        //     if (!_isRed) {
+        //         _isRunning = false;
+        //         _finishPoint = std::chrono::steady_clock::now();
+        //         auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+        //                 _finishPoint - _startPoint).count();
+        //         std::cout << "Time elapsed: " << duration << " ms" << std::endl;
+        //         std::cout << "Duration rating: " << getDurationRating(duration) << std::endl;
+        //     } else {
+        //         std::cout << "Zu früh geklickt!" << std::endl;
+        //     }
+        // }
+
+        // ImGui::PopStyleColor();
+        // ImGui::End();
+        //
     }
 
     void Reaction::turnGreen() {
