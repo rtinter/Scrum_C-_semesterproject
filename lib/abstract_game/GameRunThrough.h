@@ -7,6 +7,11 @@
 
 #include <string>
 
+/**
+ * Diese Klasse fasst die Daten zusammen, die während eines einzelnen Spieldurchlaufs entstehen.
+ * Dazu gehören die UID des Spieldurchlaufs, die UID der zugehörigen Spielsession, das in dem Spieldurchlauf erreichte
+ * Ergebnis sowie die Einheit in dem das Ergebnis ausgegeben wird.
+ */
 struct GameRunThrough {
 
     int gameRunThroughUid;
