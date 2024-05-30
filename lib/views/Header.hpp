@@ -26,4 +26,17 @@ public:
 
     // Render-Methode
     void render();
+
+    // Getter und Setter für den linken Text
+    const std::string& getLeftText() const;
+    void setLeftText(const std::string& leftText);
+
+    // Getter und Setter für den rechten Button-Text
+    const std::string& getRightButtonText() const;
+    void setRightButtonText(const std::string& rightButtonText);
+
+    // Getter und Setter für die Button-Klick-Callback-Funktion
+    const std::function<void()>& getButtonClickCallback() const;
+    void setButtonClickCallback(const std::function<void()>& callback);
+
 };

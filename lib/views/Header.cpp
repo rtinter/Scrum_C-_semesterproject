@@ -3,7 +3,6 @@
 #include "Window.hpp"
 #include "Fonts.hpp"
 
-
 Header::Header(std::string left, std::string right, std::function<void()> callback)
         : _leftText(std::move(left)), _rightButtonText(std::move(right)), _buttonClickCallback(std::move(callback)) {
     _centerText = "Athena";
@@ -12,8 +11,7 @@ Header::Header(std::string left, std::string right, std::function<void()> callba
 void Header::render() {
     ui_elements::Window("Header").render([this]() {
         ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
-        ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, kHEADER_HEIGHT + kTOP_MARGIN),
-                             ImGuiCond_Always);
+        ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, kHEADER_HEIGHT + kTOP_MARGIN), ImGuiCond_Always);
 
         // Vertikale Abstände
         ImGui::SetCursorPosY(kTOP_MARGIN);
@@ -36,4 +34,31 @@ void Header::render() {
         }
         ImGui::PopFont();
     });
+}
+
+// Getter und Setter für den linken Text
+const std::string& Header::getLeftText() const {
+    return _leftText;
+}
+
+void Header::setLeftText(const std::string& leftText) {
+    _leftText = leftText;
+}
+
+// Getter und Setter für den rechten Button-Text
+const std::string& Header::getRightButtonText() const {
+    return _rightButtonText;
+}
+
+void Header::setRightButtonText(const std::string& rightButtonText) {
+    _rightButtonText = rightButtonText;
+}
+
+// Getter und Setter für die Button-Klick-Callback-Funktion
+const std::function<void()>& Header::getButtonClickCallback() const {
+    return _buttonClickCallback;
+}
+
+void Header::setButtonClickCallback(const std::function<void()>& callback) {
+    _buttonClickCallback = callback;
 }
