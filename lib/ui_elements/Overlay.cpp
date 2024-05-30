@@ -1,7 +1,3 @@
-//
-// Created by zepi on 23.05.24.
-//
-
 #include "Overlay.hpp"
 #include <imgui.h>
 #include "../commons/Colors.hpp"
