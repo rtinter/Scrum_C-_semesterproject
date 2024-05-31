@@ -1,14 +1,7 @@
-#ifndef ATHENA_SCENE_HPP
-#define ATHENA_SCENE_HPP
-
-#include <memory>
-#include "imgui.h"
-#include "SFML/Graphics.hpp"
+#pragma once
 
 class Scene {
 public:
     virtual ~Scene() = default;
-    virtual void render() const = 0;
+    virtual void render() = 0;
 };
-
-#endif //ATHENA_SCENE_HPP
