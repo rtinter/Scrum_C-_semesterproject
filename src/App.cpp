@@ -22,7 +22,7 @@ void App::start() {
 
     commons::StyleManager::loadStyle();
 
-    // Register scenes
+    // Register _scenes
     SceneManager& sceneManager = SceneManager::getInstance();
     sceneManager.addScene("DashboardScene", std::make_unique<DashboardScene>());
     sceneManager.addScene("GameScene", std::make_unique<GameScene>());

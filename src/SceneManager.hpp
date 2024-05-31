@@ -5,10 +5,9 @@
 #include "Scene.hpp"
 
 class SceneManager {
-    std::map<std::string, std::unique_ptr<Scene>> scenes;
-    Scene* currentScene;
+    std::map<std::string, std::unique_ptr<Scene>> _scenes;
+    Scene* _currentScene {nullptr};
 
-    SceneManager() : currentScene(nullptr) {}
 
 public:
     static SceneManager& getInstance();
