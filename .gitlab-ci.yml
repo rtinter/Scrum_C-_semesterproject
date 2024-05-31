@@ -12,6 +12,62 @@ stages:
   - prepare
   - release
 
+
+# Windows Build Job
+build_windows:
+  stage: build
+  tags: [windows]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "dev" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"))
+  before_script:
+    - mkdir build
+  script:
+    - cd build
+    - cmake -G "MinGW Makefiles" ..
+    - mingw32-make
+  artifacts:
+    paths:
+      - build/
+
+# Windows Prepare Job
+prepare_windows:
+  stage: prepare
+  tags: [windows]
+  rules:
+    - if: $CI_COMMIT_TAG
+  before_script:
+    - mkdir build
+  script:
+    - cd build
+    - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+    - mingw32-make
+    - zip -r athena-release-$CI_COMMIT_TAG.zip .
+  artifacts:
+    paths:
+      - athena-release-$CI_COMMIT_TAG.zip
+
+
+# Windows Release Job
+release_windows:
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  stage: release
+  script:
+    - echo "release application..."
+    - echo "Application successfully released."
+  rules:
+    - if: $CI_COMMIT_TAG
+  needs:
+    - job: prepare_windows
+      artifacts: true
+  release:
+    name: 'Athena $CI_COMMIT_TAG'
+    description: '$CI_COMMIT_TAG_MESSAGE'
+    tag_name: '$CI_COMMIT_TAG'
+    assets:
+      links:
+        - name: 'athena-release-$CI_COMMIT_TAG'
+          url: '${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG.zip'
+
 build:
   stage: build
   image: gcc
@@ -20,7 +76,7 @@ build:
   # install the necessary build tools when needed
   
   rules:
-    - if: $CI_COMMIT_BRANCH == "dev" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ( $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" ))
+    - when: manual
   before_script:
     - apt update && apt -y install cmake
     - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
@@ -37,7 +93,7 @@ prepare:
   image: gcc
   stage: prepare
   rules:
-    - if: $CI_COMMIT_TAG
+    - when: manual
   before_script:
     - apt update && apt -y install cmake
     - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
@@ -62,7 +118,7 @@ release:
     - echo "release application..."
     - echo "Application successfully released."
   rules:
-    - if: $CI_COMMIT_TAG
+    - when: manual
   needs:
     - job: prepare
       artifacts: true
