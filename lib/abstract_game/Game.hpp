@@ -18,7 +18,12 @@ public:
 	Game() = default;
 	virtual ~Game() = default;
 
-	/**
+    virtual std::string getName() const = 0;
+
+    virtual void render() = 0; // Add this method
+
+
+    /**
 	 * @brief Starts the game.
 	 *
 	 * Begins the game, transitioning it from a ready state to an active state.

@@ -1,6 +1,6 @@
 file(GLOB SOURCES *.cpp)
 
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCES})
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} GameFactory.cpp)
 
 set(GAME_LIBS
         calc

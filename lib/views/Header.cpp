@@ -1,8 +1,7 @@
 #include "Header.hpp"
-#include <utility>
 #include "Window.hpp"
 #include "Fonts.hpp"
-
+#include <utility>
 
 Header::Header(std::string left, std::string right, std::function<void()> callback)
         : _leftText(std::move(left)), _rightButtonText(std::move(right)), _buttonClickCallback(std::move(callback)) {
@@ -15,19 +14,19 @@ void Header::render() {
         ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, kHEADER_HEIGHT + kTOP_MARGIN),
                              ImGuiCond_Always);
 
-        // Vertikale Abstände
+        // Vertical spacing
         ImGui::SetCursorPosY(kTOP_MARGIN);
 
-        // Linker Text
+        // Left text
         ImGui::PushFont(commons::Fonts::_header3);
         ImGui::SetCursorPosX(kSIDE_MARGIN);
         ImGui::Text("%s", _leftText.c_str());
 
-        // Zentraler Text
+        // Center text
         ImGui::SameLine(ImGui::GetIO().DisplaySize.x / 2 - ImGui::CalcTextSize(_centerText.c_str()).x / 2);
         ImGui::Text("%s", _centerText.c_str());
 
-        // Rechter Button mit Margin
+        // Right button with margin
         ImGui::SameLine(ImGui::GetIO().DisplaySize.x - ImGui::CalcTextSize(_rightButtonText.c_str()).x - kSIDE_MARGIN);
         if (ImGui::Button(_rightButtonText.c_str())) {
             if (_buttonClickCallback) {
@@ -36,4 +35,8 @@ void Header::render() {
         }
         ImGui::PopFont();
     });
+}
+
+void Header::setLeftText(const std::string& text) {
+    _leftText = text;
 }

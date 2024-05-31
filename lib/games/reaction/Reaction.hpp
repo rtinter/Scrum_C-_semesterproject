@@ -61,6 +61,7 @@ namespace reaction {
 
         void render();
 
+        std::string getName() const override; // Override the getName method
 
         void turnGreen();
 

@@ -103,6 +103,10 @@ namespace reaction {
 
     }
 
+    std::string Reaction::getName() const {
+        return _kNAME;
+    }
+
 
 } // reaction
 

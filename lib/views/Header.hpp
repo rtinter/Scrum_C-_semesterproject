@@ -21,9 +21,12 @@ class Header {
     static constexpr float kTOP_MARGIN = 10.0f;
 
 public:
-    // Konstruktor
+    // Constructor
     Header(std::string left, std::string right, std::function<void()> callback);
 
-    // Render-Methode
+    // Render method
     void render();
+
+    // Method to set the left text
+    void setLeftText(const std::string& text);
 };
