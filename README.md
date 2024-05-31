@@ -4,7 +4,7 @@
 
 <div align="center">
 
-# [Platzhalter Logo]
+[Platzhalter Logo]
 
 ### [Projektbeiträge: Eigener Beitrag](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/aem_projekt_beitraege/-/tree/main/Projektbeitrag?ref_type=heads) | [Projektdokumentation im Wiki](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/home)
 </div>
@@ -42,6 +42,7 @@ Gruppe: AEM-1
 
 - [Features](#features)
 - [Getting Started](#getting-started)
+  - [Projektstruktur](#projektstruktur)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Building the Project](#building-the-project)
@@ -60,6 +61,14 @@ Gruppe: AEM-1
 - Vorbereitung auf Assessment-Center für Polizei und Feuerwehr
 
 ## Getting Started
+
+### Projektstruktur
+
+Das Projekt ist in folgende Verzeichnisse unterteilt:
+- `lib`: Enthält die Bibliotheken, die für das Projekt benötigt werden.
+- `src`: Enthält den Quellcode des Projekts.
+  - `App`: Enthält die Implementierung der Anwendung.
+  - `main`: Ist der Einstiegspunkt des Projekts. Startet die App.
 
 ### Prerequisites
 
