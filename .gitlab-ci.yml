@@ -20,9 +20,6 @@ build_windows:
     - cd build
     - cmake -G "MinGW Makefiles" ..
     - mingw32-make
-  artifacts:
-    paths:
-      - build/
 
 # Windows Prepare Job
 prepare_windows:
@@ -36,7 +33,10 @@ prepare_windows:
     - cd build
     - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
     - mingw32-make
-    - zip -r athena-release-$CI_COMMIT_TAG-windows.zip .
+    - mkdir -p output
+    - cp *.exe output/
+    - cp *.dll output/
+    - zip -r athena-release-$CI_COMMIT_TAG-windows.zip output/
   artifacts:
     paths:
       - athena-release-$CI_COMMIT_TAG-windows.zip
