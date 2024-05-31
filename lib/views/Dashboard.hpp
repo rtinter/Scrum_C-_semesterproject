@@ -1,5 +1,4 @@
 #include "Tile.hpp"
-
 #include <vector>
 #include <map>
 
