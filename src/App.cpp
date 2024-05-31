@@ -60,22 +60,15 @@ void App::start() {
     std::vector<std::string> values1{"1.1.1111 11:11", "12", "41", "102mm"};
     std::vector<std::string> values3{"1.1.1111 11:11", "12", "21", "10mm"};
     std::vector<std::string> values4{"1.1.1111 11:11", "123", "31", "10mm"};
-    std::unordered_map<std::string, std::vector<std::string>> myMap;
-    std::unordered_map<std::string, std::vector<std::string>> myMap2;
-    myMap["001"] = values;
-    myMap["002"] = values2;
-    myMap["003"] = values1;
-    myMap["004"] = values3;
-    myMap["005"] = values3;
-    myMap["006"] = values4;
-    myMap["007"] = values4;
-    myMap["008"] = values4;
-    myMap["009"] = values4;
-    myMap2["000"] = values_10;
+    std::map<int, std::vector<std::string>> myMap;
+    std::map<int, std::vector<std::string>> myMap2;
+
+    myMap2[0] = values_10;
     for(int i =1; i<100;i++) {
         std::vector<std::string> values_11{"1.1.1111 11:1" + std::to_string(i), "12", std::to_string(i), std::to_string(i*i), "wir", "wir nach Donnerstag"};
-        myMap2[std::to_string(i)] = values_11;
+        myMap2[i] = values_11;
     }
+    myMap2[101] = {"1.1.1111 11:1" + std::to_string(101), "12"};
 
     ui_elements::StatisticsGameTable table(myMap2);
     //ui_elements::StatistikGameTabelle table("32.2.1202", "42", "viele");

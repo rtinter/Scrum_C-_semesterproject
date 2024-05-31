@@ -17,25 +17,30 @@
 #include <unordered_map>
 
 namespace ui_elements {
-    class StatisticsGameTable : public  UiElement {
-         std::unordered_map<std::string, //UUID
+    class StatisticsGameTable : public UiElement {
+        std::map<int, //ID
             std::vector<std::string> // whatever is to be included in the table
-            >_input;
+        > _input;
         std::string _datum;
         std::string _dauer;
         std::string _werte;
-
+        int _column_size;
 
     public:
+        explicit StatisticsGameTable(std::map<int, //ordered item number
+            std::vector<std::string> // whatever is to be included in the table, with the first row beeing the column
+                                    //name and the following filling in
+        > input);
 
-        explicit StatisticsGameTable (std::unordered_map<std::string, //UUID
-            std::vector<std::string> // whatever is to be included in the table
-            > input);
 
-        StatisticsGameTable (std::string datum, std::string dauer, std::string werte );
-        void render() const override;
-        void createTable() const;
 
+        void render() const override; //renders the table
+
+        void createTable() const; //creates the table
+
+        void createTableHead() const;//create the columns name, to be found as the first (0) value of the map
+
+        void createTableRows() const; //creates the Rows of the table
     };
 }
 #endif //STATISTIKGAMETABELLE_H
