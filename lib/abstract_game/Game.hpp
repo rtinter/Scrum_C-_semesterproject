@@ -79,10 +79,22 @@ private:
      */
     void sendSessionInfo();
 
+    /**
+     * @brief Saves result of the last RunThrough.
+     *
+     * This function creates another instance of GameRunThrough that saves the result
+     * of the last run of the game and adds it to the current Gamessession.
+     * @param resultUnit Unit in which the result is measured.
+     * @param result The result of the run.
+     */
+    void saveRunThroughResult(std::string const &resultUnit, long const &result);
+
 
     GameSession _gameSession;
 
 	GameStats _gameStats;
+
+    int _gameID;
 };
 
 #endif  // GAME_H

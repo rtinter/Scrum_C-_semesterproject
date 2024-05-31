@@ -1,7 +1,7 @@
 #include "Game.hpp"
 #include <iostream>
 
-Game::Game() : _gameSession {GameSession(1, 0)} { }
+Game::Game() : _gameSession {GameSession(1, 0)} { } //TODO make gameID and userID dynamic
 
 void Game::setStatistic(const std::string& name, const long& value) {
     _gameStats.setStatistic(name, value);
@@ -27,4 +27,8 @@ void Game::sendSessionInfo(){ // TODO: call this function when the user will be 
     _gameSession.end();
 
     // TODO: use the information of the game session and save it somewhere
+}
+
+void Game::saveRunThroughResult(std::string const &resultUnit, long const &result) {
+    _gameSession.addNewGameRunThrough(_gameSession.getGameSessionUID(), resultUnit, result);
 }
