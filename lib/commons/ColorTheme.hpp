@@ -12,15 +12,15 @@ namespace commons {
     class ColorTheme {
     public:
         ColorTheme() = delete; // static class
-        static ImVec4 const kPRIMARY_COLOR;
-        static ImVec4 const kSECONDARY_COLOR;
-        static ImVec4 const kBACKGROUND_COLOR;
-        static ImVec4 const kTEXT_COLOR;
-        static ImVec4 const kWARNING_COLOR;
-        static ImVec4 const kSUCCESS_COLOR;
-        static ImVec4 const kACCENT_COLOR;
-        static ImVec4 const kINFO_COLOR;
-        static ImVec4 const kERROR_COLOR;
+        static ImVec4 const PRIMARY_COLOR;
+        static ImVec4 const SECONDARY_COLOR;
+        static ImVec4 const BACKGROUND_COLOR;
+        static ImVec4 const TEXT_COLOR;
+        static ImVec4 const WARNING_COLOR;
+        static ImVec4 const SUCCESS_COLOR;
+        __attribute__((unused)) static ImVec4 const ACCENT_COLOR;
+        static ImVec4 const INFO_COLOR;
+        static ImVec4 const ERROR_COLOR;
 
         /*********************************************************
          * setup() assigns the chosen colors to ImGuiStyle,

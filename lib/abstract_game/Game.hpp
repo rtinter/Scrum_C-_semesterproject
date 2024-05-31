@@ -2,7 +2,10 @@
 #define GAME_H
 
 #include "GameStats.hpp"
+#include "GameSession.hpp"
 #include <string>
+#include <chrono>
+#include <memory>
 
 /**
  * @brief Abstract base class representing a generic game.
@@ -14,7 +17,7 @@
  */
 class Game {
 public:
-	Game() = default;
+	Game();
 	virtual ~Game() = default;
 
 	/**
@@ -28,7 +31,7 @@ public:
 	 * @brief Stops the game.
 	 *
 	 * Ends the game, transitioning it to a stopped state and uploads the game
-	 * statistics.
+	 * statistics. Stop calls the reset method.
 	 */
 	virtual void stop();
 
@@ -46,6 +49,7 @@ public:
 	 * the statistics, e.g., when a new level is reached or the game ends.
 	 */
 	virtual void updateStatistics() = 0;
+
 
 protected:
 	/**
@@ -67,9 +71,17 @@ private:
 	 */
 	void sendStatistics();
 
-	std::string _gameUUID;
-	std::string _gameID;
-	std::string _userID;
+    /**
+     * @brief Uploads the game session information.
+     *
+     * This function handles the logic for uploading the game session information
+     * when the game ends or exits.
+     */
+    void sendSessionInfo();
+
+
+    GameSession _gameSession;
+
 	GameStats _gameStats;
 };
 

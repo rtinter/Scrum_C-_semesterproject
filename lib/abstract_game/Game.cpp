@@ -1,6 +1,8 @@
 #include "Game.hpp"
 #include <iostream>
 
+Game::Game() : _gameSession {GameSession(1, 0)} { }
+
 void Game::setStatistic(const std::string& name, const long& value) {
     _gameStats.setStatistic(name, value);
 }
@@ -8,6 +10,7 @@ void Game::setStatistic(const std::string& name, const long& value) {
 void Game::stop() {
     updateStatistics();
     sendStatistics();
+    reset();
 }
 
 void Game::sendStatistics() {
@@ -15,7 +18,13 @@ void Game::sendStatistics() {
     const auto& stats = _gameStats.getAllStatistics();
 
     for (const auto& pair : stats) {
-        std::cout << "Uploading: " << _gameUUID << ", " << _gameID << ", " << _userID
+        std::cout << "Uploading: " << _gameSession.getGameSessionUID() << ", " << _gameSession.getGameID() << ", " << _gameSession.getUserID()
             << ", " << pair.first << ": " << pair.second << std::endl;
     }
+}
+
+void Game::sendSessionInfo(){ // TODO: call this function when the user will be returned to the main menu
+    _gameSession.end();
+
+    // TODO: use the information of the game session and save it somewhere
 }
