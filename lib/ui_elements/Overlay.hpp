@@ -4,6 +4,8 @@
 
 #ifndef ATHENA_OVERLAY_HPP
 #define ATHENA_OVERLAY_HPP
+#include <iostream>
+#include <chrono>
 
 namespace ui_elements {
 
@@ -28,6 +30,7 @@ namespace ui_elements {
 
         void begin();
         void end();
+
     };
 
 } // ui_elements

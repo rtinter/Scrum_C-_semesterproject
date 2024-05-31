@@ -4,6 +4,9 @@
 
 #include "Overlay.hpp"
 #include <imgui.h>
+#include <chrono>
+#include <ctime>
+
 #include "../commons/Colors.hpp"
 #include "../commons/ColorTheme.hpp"
 #include "../commons/ColorHelper.hpp"
@@ -16,6 +19,7 @@ namespace ui_elements {
 
     void Overlay::begin() {
         if (_showModal) {
+
 
             ImGui::SetNextWindowSize(ImVec2(1000, 600));
 
