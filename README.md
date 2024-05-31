@@ -17,7 +17,8 @@ Aufgrund des **Wettbewerbscharakters** von Assessment-Centern sind die Nutzer:in
 
 Der **Mehrwert** unserer Anwendung besteht darin, das Konzept der Leistungsmessung spielerisch zu vermitteln, ähnlich wie es in Assessment-Centern praktiziert wird.
 
-
+## Unser Team
+Gruppe: AEM-1
  
 | Rolle | Teilnehmer              | Matr.-Nr. |
 | ----- |-------------------------|-----------|
@@ -34,31 +35,43 @@ Der **Mehrwert** unserer Anwendung besteht darin, das Konzept der Leistungsmessu
 | DEV | Gerrit Koch             | 941213    |
 
 
-# [Projektbeiträge: Eigener Beitrag](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/aem_projekt_beitraege/-/tree/main/Projektbeitrag?ref_type=heads)
-
-# [Projektdokumentation im Wiki](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/home)
-
 ## Table of Contents
+
+- [Features](#features)
 - [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Installation](#installation)
-- [Building the Project](#building-the-project)
-- [Running Tests](#running-tests)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Building the Project](#building-the-project)
+
+## Features
+
+- Kognitive Leistungsmessung und -verbesserung durch Tests
+- Spiele in den Kategorien 
+  - Reaktionsschnelligkeit
+  - Erinnerungsvermögen
+  - Mustererkennung
+  - Resilienz
+  - Moral
+- Detaillierte Statistiken und Vergleiche
+- Wettbewerbscharakter
+- Vorbereitung auf Assessment-Center für Polizei und Feuerwehr
 
 ## Getting Started
 
 ### Prerequisites
 
-Zum Arbeiten mit dem Projekt ist es empfohlen die Entwicklungsumgebung [CLion](https://www.jetbrains.com/de-de/clion/) zu verwenden.
+Zum Arbeiten mit dem Projekt ist es empfohlen die Entwicklungsumgebung [CLion](https://www.jetbrains.com/de-de/clion/) zu verwenden. Die folgende Anleitung konzentriert sich auf die Verwendung von CLion.
 
-Alternativ kann auch [Visual Studio Code](https://code.visualstudio.com/) in Verbindung mit der [C/C++ Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) verwendet werden. Hiefür müssen noch [CMake](https://cmake.org/) und [MinGW](https://sourceforge.net/projects/mingw-w64/) installiert werden. Die folgende Anleitung konzentriert sich allerdings auf die Verwendung von CLion.
+Alternativ kann auch [Visual Studio Code](https://code.visualstudio.com/) in Verbindung mit der [C/C++ Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) verwendet werden. Hiefür müssen noch [CMake](https://cmake.org/) und [MinGW](https://sourceforge.net/projects/mingw-w64/) installiert werden.
 
 ### Installation
 
-1. In CLion kann das Projekt direkt über die Git-URL geklont werden. Dazu auf `File > New > Project from Version Control...` klicken und die URL `https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena.git` eingeben.
-2. Anschließend kann das Projekt mit `File > Open...` geöffnet werden.
+1. Sollte ein Projekt in CLion offen sein, dieses mit `File > Close Project` schließen.
+2. Über `Get from VCS` das Projekt von der Git-URL `https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena.git` klonen.
+3. Zustimmen, dass dem Projekt vertraut wird und anschließend sollte das Projekt in CLion geöffnet sein.
+4. Die erforderlichen Bibliotheken werden per CMake automatisch heruntergeladen und installiert.
 
 ### Building the Project
 
-### Running Tests
-
+1. In CLion auf das grüne Play-Symbol in der oberen rechten Ecke klicken.
+2. Das Projekt sollte nun gebaut und ausgeführt werden.
