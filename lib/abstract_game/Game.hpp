@@ -1,7 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "GameStats.hpp"
 #include "GameSession.hpp"
 #include <string>
 #include <chrono>
@@ -17,7 +16,6 @@
  */
 class Game {
 public:
-    //TODO old statistic functions and Gamestats class theoretically have no use anymore and could be removed
 	Game();
 	virtual ~Game() = default;
 
@@ -43,34 +41,10 @@ public:
 	 */
 	virtual void reset() = 0;
 
-	/**
-	 * @brief Updates the game statistics.
-	 *
-	 * This method must be implemented in derived classes and is called to update
-	 * the statistics, e.g., when a new level is reached or the game ends.
-	 */
-	/*virtual void updateStatistics() = 0;*/
-
 
 protected:
-	/**
-	 * @brief Updates a statistic value.
-	 *
-	 * Derived classes use this method to update the value of a statistic.
-	 *
-	 * @param name The name of the statistic.
-	 * @param value The value of the statistic.
-	 */
-	/*void setStatistic(const std::string& name, const long& value);*/
 
 private:
-	/**
-	 * @brief Uploads the game results.
-	 *
-	 * This function handles the logic for uploading the game results when the
-	 * game ends or exits.
-	 */
-	/*void sendStatistics();*/
 
     /**
      * @brief Uploads the game session information.
@@ -92,8 +66,6 @@ private:
 
 
     GameSession _gameSession;
-
-	// GameStats _gameStats;
 
     int _gameID;
 };
