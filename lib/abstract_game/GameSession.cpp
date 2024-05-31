@@ -42,3 +42,13 @@ unsigned long long GameSession::getDurationInSeconds() const {
         return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
     }
 }
+
+void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
+
+    increaseRunThroughCount();
+    _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
+}
+
+void GameSession::increaseRunThroughCount() {
+    _runThroughCount++;
+}
