@@ -33,8 +33,15 @@ public:
 	 */
 	void clearStatistics();
 
+
+    void readFromCsv(const std::string &filename); /// Read statistics from a CSV file.
+
+    void writeToCsv(const std::string &filename) const; /// Write statistics to a CSV file.
+
+
 private:
 	std::map<std::string, long> _statistics;  ///< Map for storing statistics.
+
 };
 
 #endif  // GAME_STATS_H
