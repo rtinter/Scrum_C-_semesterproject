@@ -1,9 +1,6 @@
 #include "App.hpp"
-#include "../lib/abstract_game/GameStats.hpp"
 #include "../lib/abstract_game/GameSession.hpp"
-
 #include <iostream>
-#include <ctime>
 #include <thread>
 
 int main() {

@@ -1,7 +1,6 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "GameStats.hpp"
 #include "GameSession.hpp"
 #include "CsvStorage.hpp"
 #include <string>
@@ -71,13 +70,6 @@ protected:
     std::string _gameControls;
 
 private:
-	/**
-	 * @brief Uploads the game results.
-	 *
-	 * This function handles the logic for uploading the game results when the
-	 * game ends or exits.
-	 */
-	void sendStatistics();
 
     /**
      * @brief Uploads the game session information.
@@ -90,7 +82,7 @@ private:
 
     GameSession _gameSession;
 
-	GameStats _gameStats;
+	//GameStats _gameStats;
 
 
 };
