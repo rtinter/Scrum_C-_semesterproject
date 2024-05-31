@@ -36,10 +36,11 @@ prepare_windows:
     - mkdir -p output
     - cp *.exe output/
     - cp *.dll output/
-    - zip -r athena-release-$CI_COMMIT_TAG-windows.zip output/
+    - cd output
+    - zip -r ../athena-release-$CI_COMMIT_TAG-win64.zip .
   artifacts:
     paths:
-      - athena-release-$CI_COMMIT_TAG-windows.zip
+      - athena-release-$CI_COMMIT_TAG-win64.zip
 
 # Windows Release Job
 release_windows:
@@ -56,14 +57,14 @@ release_windows:
   release:
     name: 'Athena $CI_COMMIT_TAG (Windows)'
     description: '$CI_COMMIT_TAG_MESSAGE'
-    tag_name: '$CI_COMMIT_TAG'
+    tag_name: '$CI_COMMIT_TAG'  # Ensure the tag is unique
     assets:
       links:
-        - name: 'athena-release-$CI_COMMIT_TAG-windows'
-          url: '${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-windows.zip'
+        - name: 'athena-release-$CI_COMMIT_TAG-win64'
+          url: '${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-win64.zip'
 
 # Linux Build Job
-build:
+build_linux:
   stage: build
   image: gcc
   rules:
@@ -81,7 +82,7 @@ build:
       - $CCACHE_DIR
 
 # Linux Prepare Job
-prepare:
+prepare_linux:
   image: gcc
   stage: prepare
   rules:
@@ -104,7 +105,7 @@ prepare:
       dotenv: build.env
 
 # Linux Release Job
-release:
+release_linux:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   stage: release
   script:
@@ -113,7 +114,7 @@ release:
   rules:
     - if: $CI_COMMIT_TAG
   needs:
-    - job: prepare
+    - job: prepare_linux
       artifacts: true
   release:
     name: 'Athena $CI_COMMIT_TAG (Linux)'
