@@ -30,5 +30,5 @@ void Game::sendSessionInfo(){ // TODO: call this function when the user will be 
 }
 
 void Game::saveRunThroughResult(std::string const &resultUnit, long const &result) {    //TODO call this function when the user has completed a run (e. g. when result overlay is shown)
-    _gameSession.addNewGameRunThrough(_gameSession.getGameSessionUID(), resultUnit, result);
+    _gameSession.addNewGameRunThrough(resultUnit, result);
 }

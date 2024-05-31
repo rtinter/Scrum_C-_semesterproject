@@ -69,7 +69,7 @@ public:
      * @param resultUnit the unit in which the result of the game is saved
      * @param result the result of the specific GameRunThrough
      */
-    void addNewGameRunThrough(size_t const &gameSessionUID, std::string const &resultUnit, long const &result);
+    void addNewGameRunThrough(std::string const &resultUnit, long const &result);
 
     int getGameID() const {
         return _gameID;
