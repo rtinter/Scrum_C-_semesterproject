@@ -16,13 +16,13 @@ class Header {
     std::string _rightButtonText;
     std::function<void()> _buttonClickCallback;
 
-    static constexpr float kHEADER_HEIGHT = 100.0f;
-    static constexpr float kSIDE_MARGIN = 30.0f;
-    static constexpr float kTOP_MARGIN = 10.0f;
+    static constexpr float HEADER_HEIGHT = 100.0f;
+    static constexpr float SIDE_MARGIN = 30.0f;
+    static constexpr float TOP_MARGIN = 10.0f;
 
 public:
     // Konstruktor
-    Header(std::string left, std::string right, std::function<void()> callback);
+    Header(std::string const &left, std::string const &right, std::function<void()> const &callback);
 
     // Render-Methode
     void render();

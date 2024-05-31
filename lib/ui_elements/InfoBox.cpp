@@ -1,6 +1,3 @@
-//
-// Created by zarathustra on 23.05.24.
-//
 #include <iostream>
 #include <Overlay.hpp>
 #include <imgui.h>
