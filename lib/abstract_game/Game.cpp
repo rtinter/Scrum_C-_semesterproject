@@ -1,21 +1,18 @@
 #include "Game.hpp"
 #include <iostream>
 
-void Game::setStatistic(const std::string& name, const long& value) {
-    _gameStats.setStatistic(name, value);
-}
+Game::Game() : _gameID{1}, _gameSession {GameSession(1, 0)} { } //TODO make gameID and userID dynamic
 
 void Game::stop() {
-    updateStatistics();
-    sendStatistics();
+    reset();
 }
 
-void Game::sendStatistics() {
-    // placeholder for actual data sending
-    const auto& stats = _gameStats.getAllStatistics();
+void Game::sendSessionInfo(){ // TODO: call this function when the user will be returned to the main menu
+    _gameSession.end();
 
-    for (const auto& pair : stats) {
-        std::cout << "Uploading: " << _gameUUID << ", " << _gameID << ", " << _userID
-            << ", " << pair.first << ": " << pair.second << std::endl;
-    }
+    // TODO: use the information of the game session and save it somewhere
+}
+
+void Game::saveRunThroughResult(std::string const &resultUnit, long const &result) {    //TODO call this function when the user has completed a run (e. g. when result overlay is shown)
+    _gameSession.addNewGameRunThrough(resultUnit, result);
 }

@@ -11,10 +11,10 @@ namespace commons {
         ImGuiIO &io{ImGui::GetIO()};
         io.Fonts->Clear();
         // current working directory is athena/cmake-build-debug/bin
-        _body = io.Fonts->AddFontFromFileTTF("../../lib/commons/ttfFiles/Roboto-Light.ttf", 25.0);
-        _header1 = io.Fonts->AddFontFromFileTTF("../../lib/commons/ttfFiles/Roboto-Bold.ttf", 80.0);
-        _header2 = io.Fonts->AddFontFromFileTTF("../../lib/commons/ttfFiles/Roboto-Medium.ttf", 40.0);
-        _header3 = io.Fonts->AddFontFromFileTTF("../../lib/commons/ttfFiles/Roboto-Medium.ttf", 30.0);
+        _body = io.Fonts->AddFontFromFileTTF("Fonts/Roboto-Light.ttf", 25.0);
+        _header1 = io.Fonts->AddFontFromFileTTF("Fonts/Roboto-Bold.ttf", 80.0);
+        _header2 = io.Fonts->AddFontFromFileTTF("Fonts/Roboto-Medium.ttf", 40.0);
+        _header3 = io.Fonts->AddFontFromFileTTF("Fonts/Roboto-Medium.ttf", 30.0);
         io.Fonts->Build();
         ImGui::SFML::UpdateFontTexture();
     }
