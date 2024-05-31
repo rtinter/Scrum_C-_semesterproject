@@ -34,7 +34,8 @@ prepare_windows:
     - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
     - mingw32-make
     - mkdir -p output
-    - echo "Current directory: $(pwd)"
+    - echo "Current directory:"
+    - pwd
     - echo "Listing files in build directory:"
     - ls -la
     - cp bin/*.exe output/
