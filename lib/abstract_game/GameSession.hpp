@@ -24,7 +24,7 @@ class GameSession {
     std::chrono::steady_clock::time_point _endPoint;
     bool _ended;
 
-    int _runThroughCount {1};
+    int _runThroughCount {0};
 
     /**
      * @brief Calculates the game session UID.
