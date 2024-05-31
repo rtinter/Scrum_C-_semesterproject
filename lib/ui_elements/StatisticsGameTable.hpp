@@ -19,12 +19,10 @@
 namespace ui_elements {
     class StatisticsGameTable : public UiElement {
         std::map<int, //ID
-            std::vector<std::string> // whatever is to be included in the table
+            std::vector<std::string> // whatever is to be included in the table, the first (key= 0) value are the column
+                                    //names
         > _input;
-        std::string _datum;
-        std::string _dauer;
-        std::string _werte;
-        int _column_size;
+        int _column_size; //how many columns are there
 
     public:
         explicit StatisticsGameTable(std::map<int, //ordered item number
@@ -36,7 +34,9 @@ namespace ui_elements {
 
         void render() const override; //renders the table
 
-        void createTable() const; //creates the table
+        void defaultTable() const; //if there is no input creates this table
+
+        void createTable() const; //creates the table according to the number of columns
 
         void createTableHead() const;//create the columns name, to be found as the first (0) value of the map
 
