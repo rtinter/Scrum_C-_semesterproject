@@ -32,7 +32,7 @@ namespace reaction {
     void Reaction::reset() {
         _isRed = true;
         _isRunning = true;
-        _windowColor = commons::Colors::kRED;
+        _windowColor = commons::Colors::RED;
 
         // Use <random> for better random number generation
         std::random_device rd; // Seed the random number generator
@@ -79,7 +79,7 @@ namespace reaction {
     }
 
     void Reaction::turnGreen() {
-        _windowColor = commons::Colors::kGREEN; // Change window color to green
+        _windowColor = commons::Colors::GREEN; // Change window color to green
         _isRed = false;
         _startPoint = std::chrono::steady_clock::now();
     }
