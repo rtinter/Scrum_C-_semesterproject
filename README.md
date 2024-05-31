@@ -85,5 +85,6 @@ Alternativ kann auch [Visual Studio Code](https://code.visualstudio.com/) in Ver
 
 ### Building the Project
 
-1. In CLion auf das grüne Play-Symbol in der oberen rechten Ecke klicken.
-2. Das Projekt sollte nun gebaut und ausgeführt werden.
+1. In CLion oben rechts die Konfiguration auf `Athena` setzen.
+2. Das grüne Play-Symbol in der IDE klicken.
+3. Das Projekt sollte nun gebaut und ausgeführt werden.
