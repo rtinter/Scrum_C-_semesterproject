@@ -1,5 +1,6 @@
 #include "Reaction.hpp"
 #include "SFML/Graphics/Text.hpp"
+#include "Window.hpp"
 
 
 namespace reaction {
@@ -47,11 +48,13 @@ namespace reaction {
         if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && _isRunning && _isRed) {
             turnGreen();
         }
-        ImGui::SetNextWindowPos(ImVec2(0, 90));
-        ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
+        // Create window:
+        // (current implementation of ui_elements::Window does not work here,
+        // maybe adjust when Scene is implemented?)
         ImGui::SetNextWindowSize(_size);
+        ImGui::SetWindowPos(ImVec2(0, 90));
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ImGui::Begin("Reaction Game", nullptr);
-
         if (ImGui::IsWindowHovered()
             && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
             reset();
