@@ -1,6 +1,5 @@
 #include "Reaction.hpp"
 #include "SFML/Graphics/Text.hpp"
-#include "Window.hpp"
 
 
 namespace reaction {
@@ -108,5 +107,3 @@ namespace reaction {
 
 
 } // reaction
-
-
