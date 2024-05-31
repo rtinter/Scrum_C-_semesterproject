@@ -43,7 +43,7 @@ unsigned long long GameSession::getDurationInSeconds() const {
     }
 }
 
-void GameSession::addNewGameRunThrough(int const &gameSessionUID, std::string const &resultUnit, long const &result) {
+void GameSession::addNewGameRunThrough(size_t const &gameSessionUID, std::string const &resultUnit, long const &result) {
 
     increaseRunThroughCount();
     _gameRunThroughs.emplace_back(gameSessionUID, _runThroughCount, resultUnit, result);

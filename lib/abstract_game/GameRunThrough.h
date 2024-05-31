@@ -15,11 +15,11 @@
 struct GameRunThrough {
 
     int gameRunThroughUID;
-    int gameSessionUID;
+    size_t gameSessionUID;
     long result;
     std::string resultUnit;
 
-    GameRunThrough(int const &gameSessionUID, int const &gameRunThroughUID, std::string const &resultUnit,
+    GameRunThrough(size_t const &gameSessionUID, int const &gameRunThroughUID, std::string const &resultUnit,
                    long const &result);
 
 };

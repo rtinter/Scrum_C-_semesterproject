@@ -25,7 +25,6 @@ class GameSession {
     bool _ended;
 
     int _runThroughCount {1};
-    std::vector<GameRunThrough> _gameRunThroughs;
 
     /**
      * @brief Calculates the game session UID.
@@ -36,7 +35,11 @@ class GameSession {
      */
     static size_t calcGameSessionUID();
 
+    void increaseRunThroughCount();
+
 public:
+
+    std::vector<GameRunThrough> _gameRunThroughs;
 
     GameSession(int gameID, int userID);
 
@@ -66,9 +69,7 @@ public:
      * @param resultUnit the unit in which the result of the game is saved
      * @param result the result of the specific GameRunThrough
      */
-    void addNewGameRunThrough(int const &gameSessionUID, std::string const &resultUnit, long const &result);
-
-    void increaseRunThroughCount();
+    void addNewGameRunThrough(size_t const &gameSessionUID, std::string const &resultUnit, long const &result);
 
     int getGameID() const {
         return _gameID;
