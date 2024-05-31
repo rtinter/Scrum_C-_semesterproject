@@ -4,6 +4,7 @@
 
 #include "imgui.h"
 #include "imgui-SFML.h"
+#include "Game.hpp"
 
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -13,11 +14,6 @@
 #include <ctime>   // For std::time
 #include <chrono>  // For std::chrono
 #include <iostream>
-#include "../../lib/abstract_game/Game.hpp"
-#include "../../lib/commons/Fonts.hpp"
-#include "../../lib/commons/Colors.hpp"
-#include "../../lib/commons/ColorTheme.hpp"
-#include "../../lib/commons/StyleManager.hpp"
 
 
 namespace reaction {
