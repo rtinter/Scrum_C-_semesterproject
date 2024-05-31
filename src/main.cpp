@@ -1,33 +1,33 @@
 #include "App.hpp"
 #include "../lib/abstract_game/GameStats.hpp"
+#include "../lib/abstract_game/GameSession.hpp"
+
 #include <iostream>
 #include <ctime>
+#include <thread>
 
 int main() {
-    /*GameStats stats;
+    GameSession session1(1, 1001);
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+    session1.end();
 
-    // Seed random number generator
-    std::srand(std::time(nullptr));
+    std::cout << "Session 1 ended" << std::endl;
+    std::cout << "Game ID: " << session1.getGameID() << std::endl;
+    std::cout << "User ID: " << session1.getUserID() << std::endl;
+    std::cout << "Game Session UID: " << session1.getGameSessionUID() << std::endl;
+    std::cout << "Duration: " << session1.getDurationInSeconds() << " seconds" << std::endl;
 
-    // Generate random example data
-    stats.setStatistic("Kills", std::rand() % 100);
-    stats.setStatistic("Deaths", std::rand() % 100);
-    stats.setStatistic("Assists", std::rand() % 100);
+    GameSession session2(2, 1002);
+    std::this_thread::sleep_for(std::chrono::seconds(3));
+    session2.end();
 
-    // Write statistics to a CSV file
-    stats.writeToCsv("game_stats.csv");
+    std::cout << "Session 2 ended" << std::endl;
+    std::cout << "Game ID: " << session2.getGameID() << std::endl;
+    std::cout << "User ID: " << session2.getUserID() << std::endl;
+    std::cout << "Game Session UID: " << session2.getGameSessionUID() << std::endl;
+    std::cout << "Duration: " << session2.getDurationInSeconds() << " seconds" << std::endl;
 
-    // Clear current statistics
-    stats.clearStatistics();
-
-    // Read statistics from the CSV file
-    stats.readFromCsv("game_stats.csv");
-
-    // Print statistics to verify
-    for (const auto& stat : stats.getAllStatistics()) {
-        std::cout << stat.first << ": " << stat.second << std::endl;
-    }*/
-
+    std::cout << "Check the game_session.csv file for the session data." << std::endl;
     App::start();
     return 0;
 }

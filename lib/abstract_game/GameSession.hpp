@@ -4,6 +4,7 @@
 #include <string>
 #include <chrono>
 #include <utility>
+#include "DataManager.hpp"
 
 /**
  * @brief Class for holding game session information.
@@ -21,6 +22,8 @@ class GameSession {
     std::chrono::steady_clock::time_point _startPoint;
     std::chrono::steady_clock::time_point _endPoint;
     bool _ended;
+    const std::string CSV_FILENAME = "game_session.csv";
+    std::unique_ptr<DataManager> _dataManager;
 
     /**
      * @brief Calculates the game session UID.
@@ -30,6 +33,7 @@ class GameSession {
      * @return The game session UID.
      */
     static size_t calcGameSessionUID();
+    void writeToDataManager() const;
 
 public:
 
@@ -52,24 +56,22 @@ public:
      */
     unsigned long long getDurationInSeconds() const;
 
-    int getGameID() const {
-        return _gameID;
-    }
-    int getUserID() const {
-        return _userID;
-    }
-    size_t getGameSessionUID() const {
-        return _gameSessionUID;
-    }
-    std::chrono::steady_clock::time_point getStartPoint() const {
-        return _startPoint;
-    }
-    std::chrono::steady_clock::time_point getEndPoint() const {
-        return _endPoint;
-    }
-    bool isEnded() const {
-        return _ended;
-    }
+    int getGameID() const;
+    int getUserID() const;
+    size_t getGameSessionUID() const;
+    std::chrono::steady_clock::time_point getStartPoint() const;
+    std::chrono::steady_clock::time_point getEndPoint() const;
+    bool isEnded() const;
+
+/**
+* @brief Writes the game session data to a CSV file.
+*
+* This method writes the game session data to a CSV file.
+*
+* @param filename The name of the CSV file.
+*/
+void writeToCsv(const std::string& filename) const;
 };
+
 
 #endif //ATHENA_GAMESESSION_HPP
