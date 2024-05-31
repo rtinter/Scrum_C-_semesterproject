@@ -52,25 +52,7 @@ void App::start() {
     dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
     sf::Clock deltaClock;
 
-    std::vector<std::string> values{"Datum", "Duration", "Session", "Geschwindigkeit"};
-    std::vector<std::string> values_10{"Datum", "Duration", "Session", "Geschwindigkeit", "Obrigkeit", "Untrigkeit"};
-    std::vector<std::string> values2{"1.1.1111 11:11", "12", "1", "10mm"};
-    std::vector<std::string> values_11{"1.1.1111 11:11", "12", "1", "10mm", "wir", "wir nach Donnerstag"};
-    std::vector<std::string> values1{"1.1.1111 11:11", "12", "41", "102mm"};
-    std::vector<std::string> values3{"1.1.1111 11:11", "12", "21", "10mm"};
-    std::vector<std::string> values4{"1.1.1111 11:11", "123", "31", "10mm"};
-    std::map<int, std::vector<std::string>> myMap;
-    std::map<int, std::vector<std::string>> myMap2;
 
-    myMap2[0] = values_10;
-    for(int i =1; i<100;i++) {
-        std::vector<std::string> values_11{"1.1.1111 11:1" + std::to_string(i), "12", std::to_string(i), std::to_string(i*i), "wir", "wir nach Donnerstag"};
-        myMap2[i] = values_11;
-    }
-    myMap2[101] = {"1.1.1111 11:1" + std::to_string(101), "12"};
-
-    ui_elements::StatisticsGameTable table(myMap2);
-    //ui_elements::StatistikGameTabelle table("32.2.1202", "42", "viele");
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -85,9 +67,9 @@ void App::start() {
         window.clear();
 
         //render header and dashboard
-        //header.render();
-        //dashboard.render();
-        table.render();
+        header.render();
+        dashboard.render();
+
 
         /* Style Example */
         //ImGui::ShowDemoWindow();

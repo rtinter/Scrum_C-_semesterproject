@@ -28,7 +28,7 @@ namespace ui_elements {
         return oss.str();
     }
 
-    void defaultTable() {
+    void StatisticsGameTable::defaultTable()  const {
         if (ImGui::BeginTable("Tabelle", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
             ImGui::PushFont(commons::Fonts::_header2);
             // Kopfzeile
@@ -54,7 +54,7 @@ namespace ui_elements {
         ImGui::TableHeadersRow();
         ImGui::PopFont();
         //TextColor
-        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::kDARK_GRAY);
+        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
     }
 
     void StatisticsGameTable::createTableRows() const {
@@ -68,13 +68,12 @@ namespace ui_elements {
             for (auto &entry: keyvaluepair.second) {
                 //Datum
                 ImGui::TableSetColumnIndex(i);
-                if (i<_column_size) {
+                //checks if vector has to few data sets
+                if (i < _column_size) {
                     ImGui::Text(entry.c_str());
-                }
-                else {
+                } else { //if so leaves the column empty
                     ImGui::Text("");
                 }
-
                 i++;
             }
             ImGui::PopFont();
@@ -82,7 +81,6 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::createTable() const {
-
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
             createTableHead();
@@ -96,12 +94,12 @@ namespace ui_elements {
     void StatisticsGameTable::render() const {
         ui_elements::Window("Dashboard").render([this]() {
             //backgroundColor
-            ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::kLIGHT_GRAY);
+            ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::LIGHT_GRAY);
             if (_input.empty()) {
                 //If there are no values we need a default map
                 defaultTable();
             } else {
-                createTable(); //
+                createTable();
             }
         });
     }
