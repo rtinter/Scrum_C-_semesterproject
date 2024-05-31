@@ -1,7 +1,5 @@
 #pragma once
-//
-// Created by zarathustra on 30.05.24.
-//
+
 #include "../commons/Fonts.hpp"
 #include "../commons/Colors.hpp"
 #include "Window.hpp"
@@ -10,9 +8,8 @@
 #include <unordered_map>
 
 namespace ui_elements {
-    StatisticsGameTable::StatisticsGameTable(std::map<int, //UUID
-        std::vector<std::string> > input) {
-        _input = input;
+    StatisticsGameTable::StatisticsGameTable(const std::map<int, //UUID
+            std::vector<std::string> > &input) : _input{input} {
         if (input.empty()) {
             _column_size = 0;
         } else {
@@ -28,7 +25,7 @@ namespace ui_elements {
         return oss.str();
     }
 
-    void StatisticsGameTable::defaultTable()  const {
+    void StatisticsGameTable::defaultTable() {
         if (ImGui::BeginTable("Tabelle", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
             ImGui::PushFont(commons::Fonts::_header2);
             // Kopfzeile
@@ -40,7 +37,6 @@ namespace ui_elements {
             ImGui::TableHeadersRow();
             ImGui::PopFont();
             ImGui::EndTable();
-            ImGui::PopStyleColor();
         }
     }
 
@@ -48,7 +44,7 @@ namespace ui_elements {
         ImGui::PushFont(commons::Fonts::_header2);
         // Kopfzeile
         ImGui::StyleColorsClassic();
-        for (auto &entry: _input.begin()->second) {
+        for (auto const &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
         }
         ImGui::TableHeadersRow();
@@ -58,19 +54,19 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::createTableRows() const {
-        for (auto &keyvaluepair: _input) {
+        for (auto const &keyvaluepair: _input) {
             if (_input.begin()->first == keyvaluepair.first) {
                 continue; //skips the Tablehead
             }
             ImGui::TableNextRow();
             ImGui::PushFont(commons::Fonts::_header3);
-            int i = 0;
-            for (auto &entry: keyvaluepair.second) {
+            int i{0};
+            for (auto const &entry: keyvaluepair.second) {
                 //Datum
                 ImGui::TableSetColumnIndex(i);
                 //checks if vector has to few data sets
                 if (i < _column_size) {
-                    ImGui::Text(entry.c_str());
+                    ImGui::Text("%s", entry.c_str());
                 } else { //if so leaves the column empty
                     ImGui::Text("");
                 }
@@ -84,7 +80,6 @@ namespace ui_elements {
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
             createTableHead();
-
             createTableRows();
             ImGui::PopStyleColor(2);
             ImGui::EndTable();
