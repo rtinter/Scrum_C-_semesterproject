@@ -1,14 +1,5 @@
-//
-// Created by zepi on 23.05.24.
-//
-
 #include "Overlay.hpp"
 #include <imgui.h>
-#include "../commons/Colors.hpp"
-#include "../commons/ColorTheme.hpp"
-#include "../commons/ColorHelper.hpp"
-#include "../commons/Fonts.hpp"
-#include "../commons/StyleManager.hpp"
 
 namespace ui_elements {
     Overlay::Overlay(const char *name, bool &showModal) : _name(name), _showModal(showModal) {

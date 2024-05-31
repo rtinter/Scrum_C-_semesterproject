@@ -1,7 +1,3 @@
-//
-// Created by zepi on 24.05.24.
-//
-
 #ifndef ATHENA_TEXTCENTERED_HPP
 #define ATHENA_TEXTCENTERED_HPP
 

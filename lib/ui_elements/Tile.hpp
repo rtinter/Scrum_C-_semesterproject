@@ -26,7 +26,9 @@ namespace ui_elements {
     public:
         // Constructors
         Tile() = delete;
-        explicit Tile(std::string pic, std::string name, std::string desc, std::function<void()> onClick);
+
+        explicit Tile(std::string const &pic, std::string const &name, std::string const &desc,
+                      std::function<void()> const &onClick);
 
         // Render method
         void render() const override;

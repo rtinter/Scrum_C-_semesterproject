@@ -1,5 +1,4 @@
-#ifndef ATHENA_UiElement_H
-#define ATHENA_UiElement_H
+#pragma once
 namespace ui_elements {
 
     /********************************************************
@@ -16,4 +15,3 @@ namespace ui_elements {
     };
 
 }
-#endif

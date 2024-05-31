@@ -12,16 +12,15 @@
 #include <SFML/Window/Event.hpp>
 
 
-const int App::kWINDOW_WIDTH{1920};
-const int App::kWINDOW_HEIGHT{1080};
-const std::string App::kTITLE{"Human Benchmark"};
-const int App::kFRAME_RATE{60};
+const int App::WINDOW_WIDTH{1920};
+const int App::WINDOW_HEIGHT{1080};
+const std::string App::TILE{"Human Benchmark"};
+const int App::FRAME_RATE{60};
 
 
 void App::start() {
-    sf::RenderWindow window(sf::VideoMode(App::kWINDOW_WIDTH, kWINDOW_HEIGHT), App::kTITLE);
-    window.setFramerateLimit(App::kFRAME_RATE);
-
+    sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
+    window.setFramerateLimit(App::FRAME_RATE);
 
     if (!ImGui::SFML::Init(window)) {
         // Initialisierung fehlgeschlagen
@@ -39,14 +38,14 @@ void App::start() {
 
     // define each needed tile for the games
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
-        ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
-             // button action to run (render) the game
-        }),
-        ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
+            ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
+                // button action to run (render) the game
+            }),
+            ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
     };
 
     const std::vector<ui_elements::Tile> kCategory2Tiles = {
-        ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
+            ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
     };
     //add tiles to the category
     dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
@@ -73,7 +72,7 @@ void App::start() {
     ui_elements::StatisticsGameTable table(myMap2);
     //ui_elements::StatistikGameTabelle table("32.2.1202", "42", "viele");
     while (window.isOpen()) {
-        sf::Event event;
+        sf::Event event{};
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
 
