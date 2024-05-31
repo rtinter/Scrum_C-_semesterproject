@@ -11,10 +11,10 @@
 #include "Reaction.hpp"
 
 
-const int App::kWINDOW_WIDTH{1920};
-const int App::kWINDOW_HEIGHT{1080};
-const std::string App::kTITLE{"Human Benchmark"};
-const int App::kFRAME_RATE{60};
+const int App::WINDOW_WIDTH{1920};
+const int App::WINDOW_HEIGHT{1080};
+const std::string App::TILE{"Human Benchmark"};
+const int App::FRAME_RATE{60};
 bool App::_showGame{false};
 
 std::stack<std::function<void()>> openWindows;
@@ -27,9 +27,8 @@ void closeLastWindow() {
 }
 
 void App::start() {
-    sf::RenderWindow window(sf::VideoMode(App::kWINDOW_WIDTH, kWINDOW_HEIGHT), App::kTITLE);
-    window.setFramerateLimit(App::kFRAME_RATE);
-
+    sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
+    window.setFramerateLimit(App::FRAME_RATE);
 
 
     if (!ImGui::SFML::Init(window)) {
@@ -68,7 +67,7 @@ void App::start() {
     reaction::Reaction reactionGame;
 
     while (window.isOpen()) {
-        sf::Event event;
+        sf::Event event{};
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
 

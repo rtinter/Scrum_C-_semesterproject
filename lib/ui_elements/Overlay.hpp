@@ -1,7 +1,3 @@
-//
-// Created by zepi on 23.05.24.
-//
-
 #ifndef ATHENA_OVERLAY_HPP
 #define ATHENA_OVERLAY_HPP
 #include <iostream>
@@ -29,6 +25,7 @@ namespace ui_elements {
         bool &_showModal;
 
         void begin();
+
         void end();
 
     };

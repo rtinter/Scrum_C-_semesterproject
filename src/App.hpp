@@ -5,10 +5,10 @@
 
 class App {
 
-    static const int kWINDOW_WIDTH;
-    static const int kWINDOW_HEIGHT;
-    static const std::string kTITLE;
-    static const int kFRAME_RATE;
+    static const int WINDOW_WIDTH;
+    static const int WINDOW_HEIGHT;
+    static const std::string TILE;
+    static const int FRAME_RATE;
     static bool _showGame;
 
 public:

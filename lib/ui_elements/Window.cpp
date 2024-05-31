@@ -5,8 +5,8 @@
 namespace ui_elements {
 
     // Constructor definition
-    Window::Window(std::string name, bool *p_open, ImGuiWindowFlags flags)
-        : _name(std::move(name)), _pOpen(p_open), _flags(flags) {}
+    Window::Window(std::string const &name, bool *p_open, ImGuiWindowFlags flags)
+            : _name(name), _pOpen(p_open), _flags(flags) {}
 
     bool Window::begin() {
         if (_name.empty()) {
