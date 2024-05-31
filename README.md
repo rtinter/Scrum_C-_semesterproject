@@ -3,6 +3,7 @@
 ## Athena
 
 <div align="center">
+
 # [Platzhalter Logo]
 
 ### [Projektbeiträge: Eigener Beitrag](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/aem_projekt_beitraege/-/tree/main/Projektbeitrag?ref_type=heads) | [Projektdokumentation im Wiki](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/home)
