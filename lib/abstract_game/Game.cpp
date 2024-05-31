@@ -3,17 +3,17 @@
 
 Game::Game() : _gameID{1}, _gameSession {GameSession(1, 0)} { } //TODO make gameID and userID dynamic
 
-void Game::setStatistic(const std::string& name, const long& value) {
+/*void Game::setStatistic(const std::string& name, const long& value) {
     _gameStats.setStatistic(name, value);
-}
+}*/
 
 void Game::stop() {
-    updateStatistics();
-    sendStatistics();
+    /*updateStatistics();
+    sendStatistics();*/
     reset();
 }
 
-void Game::sendStatistics() {
+/*void Game::sendStatistics() {
     // placeholder for actual data sending
     const auto& stats = _gameStats.getAllStatistics();
 
@@ -21,7 +21,7 @@ void Game::sendStatistics() {
         std::cout << "Uploading: " << _gameSession.getGameSessionUID() << ", " << _gameSession.getGameID() << ", " << _gameSession.getUserID()
             << ", " << pair.first << ": " << pair.second << std::endl;
     }
-}
+}*/
 
 void Game::sendSessionInfo(){ // TODO: call this function when the user will be returned to the main menu
     _gameSession.end();

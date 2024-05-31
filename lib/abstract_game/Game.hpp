@@ -17,6 +17,7 @@
  */
 class Game {
 public:
+    //TODO old statistic functions and Gamestats class theoretically have no use anymore and could be removed
 	Game();
 	virtual ~Game() = default;
 
@@ -48,7 +49,7 @@ public:
 	 * This method must be implemented in derived classes and is called to update
 	 * the statistics, e.g., when a new level is reached or the game ends.
 	 */
-	virtual void updateStatistics() = 0;
+	/*virtual void updateStatistics() = 0;*/
 
 
 protected:
@@ -60,7 +61,7 @@ protected:
 	 * @param name The name of the statistic.
 	 * @param value The value of the statistic.
 	 */
-	void setStatistic(const std::string& name, const long& value);
+	/*void setStatistic(const std::string& name, const long& value);*/
 
 private:
 	/**
@@ -69,7 +70,7 @@ private:
 	 * This function handles the logic for uploading the game results when the
 	 * game ends or exits.
 	 */
-	void sendStatistics();
+	/*void sendStatistics();*/
 
     /**
      * @brief Uploads the game session information.
@@ -92,7 +93,7 @@ private:
 
     GameSession _gameSession;
 
-	GameStats _gameStats;
+	// GameStats _gameStats;
 
     int _gameID;
 };
