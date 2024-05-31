@@ -1,21 +1,19 @@
-//
-// Created by zepi on 16.05.24.
-//
-
 #include "Reaction.hpp"
 #include "SFML/Graphics/Text.hpp"
 
 
 namespace reaction {
 
-    Reaction::Reaction() : _size{}, _isOpen{false} {
+    Reaction::Reaction() : _isOpen{false} {
         _size = {ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 90};
 
         _gameName = "Reaction";
-        _gameDescription = "Reaction ist ein einfaches, aber spannendes Spiel, das deine Reflexe auf die Probe stellt.\n"
-                           "Warte, bis der Bildschirm von Rot zu Grün wechselt, und klicke so schnell wie möglich die linke Maustaste, um deine Reaktionszeit in Millisekunden zu messen.";
+        _gameDescription = "Unser Reaktionszeit-Spiel bewertet die Fähigkeit, schnell und präzise auf visuelle Reize zu reagieren,\n"
+                           "was für Polizei- und Feuerwehrarbeit unerlässlich ist.\n"
+                           "In diesen Berufen ist es entscheidend, rasch auf sich ändernde Situationen zu reagieren, \n"
+                           "daher ist das Spiel ein zuverlässiger Indikator für die persönliche Eignung.\n";
         _gameRules = "Der Bildschirm zeigt zunächst eine rote Farbe.\n"
-                     "Nach einer zufälligen Zeitspanne von bis zu einer Minute wechselt der Bildschirm auf Grün.\n"
+                     "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
                      "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
                      "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
                      "Versuche, deine beste Zeit zu schlagen!";
