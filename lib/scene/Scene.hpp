@@ -8,8 +8,7 @@
 class Scene {
 public:
     virtual ~Scene() = default;
-    virtual void render(sf::RenderWindow &window) const = 0;
-    virtual void update() const = 0;
+    virtual void render() const = 0;
 };
 
 #endif //ATHENA_SCENE_HPP
