@@ -4,6 +4,8 @@
 #include <string>
 #include <chrono>
 #include <utility>
+#include <vector>
+#include "GameRunThrough.h"
 
 /**
  * @brief Class for holding game session information.
@@ -21,6 +23,9 @@ class GameSession {
     std::chrono::steady_clock::time_point _startPoint;
     std::chrono::steady_clock::time_point _endPoint;
     bool _ended;
+
+    int _runThroughCount {1};
+    std::vector<GameRunThrough> _gameRunThroughs;
 
     /**
      * @brief Calculates the game session UID.
@@ -51,6 +56,19 @@ public:
      * @return The duration of the game session in seconds.
      */
     unsigned long long getDurationInSeconds() const;
+
+    /**
+     * @brief Adds a new RunThrough of a game to the vector of Runthroughs of the current session.
+     *
+     * This method creates a new GameRunThrough that happened during the current Gamesession and adds it to the vector of Runthroughs.
+     *
+     * @param gameSessionUID the UID of the current gameSession (*this)
+     * @param resultUnit the unit in which the result of the game is saved
+     * @param result the result of the specific GameRunThrough
+     */
+    void addNewGameRunThrough(int const &gameSessionUID, std::string const &resultUnit, long const &result);
+
+    void increaseRunThroughCount();
 
     int getGameID() const {
         return _gameID;

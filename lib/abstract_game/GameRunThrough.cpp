@@ -4,9 +4,7 @@
 
 #include "GameRunThrough.h"
 
-GameRunThrough::GameRunThrough(const int &gameSessionUid, const std::string &resultUnit, const long &result)
-        : gameSessionUid{gameSessionUid}, resultUnit{resultUnit}, result{result} {
-
-    gameRunThroughUid = generateGameRunThroughUid();
+GameRunThrough::GameRunThrough(int const &gameSessionUID, int const &gameRunThroughUID, std::string const &resultUnit, long const &result)
+        : gameSessionUID{gameSessionUID}, gameRunThroughUID{gameRunThroughUID}, resultUnit{resultUnit}, result{result} {
 
 }

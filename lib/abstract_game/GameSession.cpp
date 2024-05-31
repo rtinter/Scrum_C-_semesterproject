@@ -42,3 +42,14 @@ unsigned long long GameSession::getDurationInSeconds() const {
         return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
     }
 }
+
+void GameSession::addNewGameRunThrough(int const &gameSessionUID, std::string const &resultUnit, long const &result) {
+
+    increaseRunThroughCount();
+    _gameRunThroughs.emplace_back(gameSessionUID, _runThroughCount, resultUnit, result);
+}
+
+void GameSession::increaseRunThroughCount() {
+    _runThroughCount++;
+    //TODO bool Wert zur Absicherung hinzufügen, damit Funktion weniger unnötig ist??
+}

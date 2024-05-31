@@ -8,20 +8,19 @@
 #include <string>
 
 /**
- * Diese Klasse fasst die Daten zusammen, die während eines einzelnen Spieldurchlaufs entstehen.
- * Dazu gehören die UID des Spieldurchlaufs, die UID der zugehörigen Spielsession, das in dem Spieldurchlauf erreichte
- * Ergebnis sowie die Einheit in dem das Ergebnis ausgegeben wird.
+ * @brief Struct for holding GameRunThrough information.
+ *
+ * This struct stores the information of a single runthrough of a game during a gamesession.
  */
 struct GameRunThrough {
 
-    int gameRunThroughUid;
-    int gameSessionUid;
+    int gameRunThroughUID;
+    int gameSessionUID;
     long result;
     std::string resultUnit;
 
-    GameRunThrough(int const &gameSessionUid, std::string const &resultUnit, long const &result);
-
-    int generateGameRunThroughUid();
+    GameRunThrough(int const &gameSessionUID, int const &gameRunThroughUID, std::string const &resultUnit,
+                   long const &result);
 
 };
 
