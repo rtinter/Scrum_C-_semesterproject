@@ -56,21 +56,15 @@ release:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   stage: release
   script:
-    - echo "release application..."
-    - echo "Application successfully released."
+    - echo "release application (Linux)..."
+    - ls -lh
+    - echo "Releasing Linux artifacts..."
+    - release-cli create --name "Athena $CI_COMMIT_TAG (Linux)" --description "$CI_COMMIT_TAG_MESSAGE" --tag-name "$CI_COMMIT_TAG-linux" --assets-link "{\"url\":\"${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-linux.zip\",\"name\":\"athena-release-$CI_COMMIT_TAG-linux\"}"
   rules:
     - if: $CI_COMMIT_TAG
   needs:
     - job: prepare
       artifacts: true
-  release:
-    name: 'Athena $CI_COMMIT_TAG (Linux)'
-    description: '$CI_COMMIT_TAG_MESSAGE'
-    tag_name: '$CI_COMMIT_TAG'
-    assets:
-      links:
-        - name: 'athena-release-$CI_COMMIT_TAG-linux'
-          url: '${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-linux.zip'
 
 # Windows Build Job
 build_windows:
@@ -118,18 +112,12 @@ release_windows:
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   stage: release
   script:
-    - echo "release application..."
-    - echo "Application successfully released."
+    - echo "release application (Windows)..."
+    - ls -lh
+    - echo "Releasing Windows artifacts..."
+    - release-cli create --name "Athena $CI_COMMIT_TAG (Windows)" --description "$CI_COMMIT_TAG_MESSAGE" --tag-name "$CI_COMMIT_TAG-win64" --assets-link "{\"url\":\"${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-win64.zip\",\"name\":\"athena-release-$CI_COMMIT_TAG-win64\"}"
   rules:
     - if: $CI_COMMIT_TAG
   needs:
     - job: prepare_windows
       artifacts: true
-  release:
-    name: 'Athena $CI_COMMIT_TAG (Windows)'
-    description: '$CI_COMMIT_TAG_MESSAGE'
-    tag_name: '$CI_COMMIT_TAG'
-    assets:
-      links:
-        - name: 'athena-release-$CI_COMMIT_TAG-win64'
-          url: '${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-win64.zip'
