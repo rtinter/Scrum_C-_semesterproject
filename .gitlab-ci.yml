@@ -41,6 +41,11 @@ prepare:
   script:
     - chmod +x ./build.sh
     - ./build.sh Release
+    - mkdir -p output
+    - cp -r bin/* output/
+    - cd output
+    - zip -r ../athena-release-$CI_COMMIT_TAG-linux.zip .
+    - cd ..
   cache:
     key: ccache-$CI_JOB_NAME
     paths:
