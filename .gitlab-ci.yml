@@ -108,10 +108,10 @@ prepare_windows:
     - cd output
     - zip -r ../athena-release-$CI_COMMIT_TAG-win64.zip .
     - cd ..
-    - mv athena-release-$CI_COMMIT_TAG-win64.zip .
+    - mv athena-release-$CI_COMMIT_TAG-win64.zip $CI_PROJECT_DIR/
   artifacts:
     paths:
-      - athena-release-$CI_COMMIT_TAG-win64.zip
+      - $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-win64.zip
 
 # Windows Release Job
 release_windows:
