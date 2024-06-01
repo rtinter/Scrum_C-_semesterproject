@@ -84,7 +84,7 @@ build_windows:
     - cmake -G "MinGW Makefiles" ..
     - mingw32-make
     - mkdir dist
-    - cp Athena.exe dist
+    - cp bin/Athena.exe dist
     - zip -r $NAME_ZIP dist
     - mv $NAME_ZIP ../.
   artifacts:
@@ -104,8 +104,8 @@ prepare_windows:
     - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
     - mingw32-make
     - mkdir -p output
-    - cp *.exe output/
-    - cp *.dll output/
+    - cp bin/*.exe output/
+    - cp bin/*.dll output/
     - cd output
     - zip -r ../athena-release-$CI_COMMIT_TAG-win64.zip .
   artifacts:
