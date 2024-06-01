@@ -47,7 +47,7 @@ prepare:
       - $CCACHE_DIR
   artifacts:
     paths:
-      - athena-release-$CI_COMMIT_TAG.zip
+      - athena-release-$CI_COMMIT_TAG-linux.zip
     reports:
       dotenv: build.env
 
@@ -64,13 +64,13 @@ release:
     - job: prepare
       artifacts: true
   release:
-    name: 'Athena $CI_COMMIT_TAG'
+    name: 'Athena $CI_COMMIT_TAG (Linux)'
     description: '$CI_COMMIT_TAG_MESSAGE'
     tag_name: '$CI_COMMIT_TAG'
     assets:
       links:
-        - name: 'athena-release-$CI_COMMIT_TAG'
-          url: '${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG.zip'
+        - name: 'athena-release-$CI_COMMIT_TAG-linux'
+          url: '${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-linux.zip'
 
 # Windows Build Job
 build_windows:
@@ -128,19 +128,8 @@ release_windows:
   release:
     name: 'Athena $CI_COMMIT_TAG (Windows)'
     description: '$CI_COMMIT_TAG_MESSAGE'
-    tag_name: '$CI_COMMIT_TAG-$(date +%s)'  # Ensure the tag is unique
+    tag_name: '$CI_COMMIT_TAG'
     assets:
       links:
         - name: 'athena-release-$CI_COMMIT_TAG-win64'
           url: '${CI_PROJECT_URL}/-/jobs/${CI_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG-win64.zip'
-
-# Windows Publish Job
-publish_windows:
-  stage: release
-  image: curlimages/curl:latest
-  script:
-    - "curl --header \"JOB-TOKEN: ${CI_JOB_TOKEN}\" --upload-file \"athena-release-$CI_COMMIT_TAG-win64.zip\" \"${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/win-x86_64/athena-release-$CI_COMMIT_TAG-win64.zip\""
-  rules:
-    - if: $CI_COMMIT_TAG
-  needs:
-    - job: release_windows
