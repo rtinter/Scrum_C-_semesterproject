@@ -18,6 +18,7 @@ const int App::kFRAME_RATE{60};
 bool App::_showGame{false};
 
 std::stack<std::function<void()>> openWindows;
+std::unique_ptr<GameSession> currentSession;
 
 void closeLastWindow() {
     if (!openWindows.empty()) {
@@ -43,6 +44,11 @@ void App::start() {
     views::Dashboard dashboard;
     //Testcallback funktion, da atm keine Logik
     Header header("Home", "Zurück", []() {
+        if (currentSession) {
+            currentSession->end();
+            currentSession.reset(); // Clear the session
+            std::cout << "Game session ended." << std::endl;
+        }
         closeLastWindow();
         std::cout << "Stats button clicked!" << std::endl;
     });
@@ -50,8 +56,10 @@ void App::start() {
     // define each needed tile for the games
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
+                currentSession = std::make_unique<GameSession>(1, 1001);
                 _showGame = true;
                 openWindows.push([]() { _showGame = false; });
+                std::cout << "Game session started." << std::endl;
             }),
             ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
     };

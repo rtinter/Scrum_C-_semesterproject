@@ -4,7 +4,7 @@
 #include <thread>
 
 int main() {
-    GameSession session1(1, 1001);
+/*    GameSession session1(1, 1001);
     std::this_thread::sleep_for(std::chrono::seconds(2));
     session1.end();
 
@@ -24,7 +24,7 @@ int main() {
     std::cout << "Game Session UID: " << session2.getGameSessionUID() << std::endl;
     std::cout << "Duration: " << session2.getDurationInSeconds() << " seconds" << std::endl;
 
-    std::cout << "Check the game_session.csv file for the session data." << std::endl;
+    std::cout << "Check the game_session.csv file for the session data." << std::endl;*/
     App::start();
     return 0;
 }
