@@ -1,4 +1,8 @@
 #include "App.hpp"
+
+#include <imgui-SFML.h>
+#include <iostream>
+
 #include "StyleManager.hpp"
 #include "Dashboard.hpp"
 #include "Header.hpp"
@@ -79,11 +83,9 @@ void App::start() {
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
 
-        //render header and dashboard
-        header.render();
         dashboard.render();
         if (_showGame) {
-            reactionGame.start();
+            reactionGame.render();
         }
 
         /* Style Example */

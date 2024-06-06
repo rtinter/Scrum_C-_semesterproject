@@ -3,17 +3,11 @@
 
 
 #include "imgui.h"
-#include "imgui-SFML.h"
 #include "Game.hpp"
 
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
 #include <random>
-#include <ctime>   // For std::time
 #include <chrono>  // For std::chrono
-#include <iostream>
 
 
 namespace reaction {
@@ -26,7 +20,6 @@ namespace reaction {
      **************************************************+***/
 
     class Reaction : public Game {
-
         std::string const _kNAME{"Reaction"};
         ImVec2 _size;
         bool _isOpen;
@@ -41,22 +34,16 @@ namespace reaction {
 
         static std::string getDurationRating(int duration);
 
+        void turnGreen();
     public:
         explicit Reaction();
 
-        void start() override;
-
-        void reset() override;
-
-        void updateStatistics() override;
-
         void render();
 
-
-        void turnGreen();
-
+        void start() override;
+        void reset() override;
+        void updateStatistics() override;
     };
-
 } // reaction
 
 #endif //ATHENA_REACTION_H
