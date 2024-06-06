@@ -4,7 +4,7 @@
 #include "Dashboard.hpp"
 
 class DashboardScene : public Scene {
-    Header header;
+    views::Header header;
     views::Dashboard dashboard;
 
 public:

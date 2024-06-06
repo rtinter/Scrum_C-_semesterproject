@@ -4,8 +4,8 @@
 #include "Reaction.hpp"
 
 class GameScene : public Scene {
-    Header header;
-    reaction::Reaction reactionGame;
+    views::Header header;
+    games::Reaction reactionGame;
 
 public:
     GameScene();

@@ -32,7 +32,7 @@ void App::start() {
 
     views::Dashboard dashboard;
     //Testcallback funktion, da atm keine Logik
-    Header header("Home", "Meine Stats", []() {
+    views::Header header("Home", "Meine Stats", []() {
         std::cout << "Stats button clicked!" << std::endl;
     });
 
