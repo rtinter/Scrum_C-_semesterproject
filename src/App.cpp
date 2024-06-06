@@ -5,6 +5,7 @@
 
 #include <iostream>
 #include <imgui-SFML.h>
+#include <StatisticsGameTable.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -20,7 +21,6 @@ const int App::FRAME_RATE{60};
 void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
     window.setFramerateLimit(App::FRAME_RATE);
-
 
     if (!ImGui::SFML::Init(window)) {
         // Initialisierung fehlgeschlagen
@@ -51,6 +51,8 @@ void App::start() {
     dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
     dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
     sf::Clock deltaClock;
+
+
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -67,6 +69,7 @@ void App::start() {
         //render header and dashboard
         header.render();
         dashboard.render();
+
 
         /* Style Example */
         //ImGui::ShowDemoWindow();
