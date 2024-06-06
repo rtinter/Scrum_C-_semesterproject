@@ -1,5 +1,6 @@
+#include <random>
+#include <iostream>
 #include "ColorMatch.hpp"
-#include "../../ui_elements/Window.hpp" // TODO
 #include "../../commons/Colors.hpp"
 
 void color_match::ColorMatch::render() {
@@ -13,14 +14,15 @@ void color_match::ColorMatch::render() {
 void color_match::ColorMatch::start() {
 
     ImGui::Begin("Color Match Game"); // TODO: use Window class
-    ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Always);
+    ImGui::SetWindowSize(ImVec2(400, 400), ImGuiCond_Always);
 
-    ImGui::Text("TEst");
-    ImGui::Text("TEst");
-    ImGui::Text("TEst");
-    ImGui::Text("TEst");
-    ImGui::Text("TEst");
-    ImGui::Text("TEst");
+    if (isTimeForNewColors) {
+        chooseColorsText();
+        chooseColorsImVec4();
+        isTimeForNewColors = false;
+    }
+    displayChosenColors();
+
 
     ImGui::End();
 
@@ -30,3 +32,32 @@ void color_match::ColorMatch::start() {
 void color_match::ColorMatch::reset() {
 
 }
+
+
+void color_match::ColorMatch::chooseColorsText() {
+    chosenColorsText.clear();
+    for (int i = 0; i < numberOfColorsToChoose; i++) {
+        std::cout << getRandomElement(_AVAILABLE_COLORS_TEXT);
+        chosenColorsText.emplace_back(getRandomElement(_AVAILABLE_COLORS_TEXT));
+    }
+
+}
+
+void color_match::ColorMatch::chooseColorsImVec4() {
+    chosenColorsImVec4.clear();
+    for (int i = 0; i < numberOfColorsToChoose; i++) {
+        chosenColorsImVec4.emplace_back(getRandomElement(_AVAILABLE_COLORS_IMVEC4));
+    }
+}
+
+
+void color_match::ColorMatch::displayChosenColors() {
+    for (int i = 0; chosenColorsText.size(); i++) {
+        ImGui::PushStyleColor(ImGuiCol_Text, chosenColorsImVec4[i]);
+        ImGui::Text(chosenColorsText.at(i));
+        ImGui::PopStyleColor();
+    }
+}
+
+
+
