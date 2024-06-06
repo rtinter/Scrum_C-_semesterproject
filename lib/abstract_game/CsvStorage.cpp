@@ -40,7 +40,6 @@ namespace abstract_game {
         std::string data {ss.str()};
         file << data;
         std::cout << data << std::endl;
-        std::cout << "hallo" << std::endl;
         file.close();
     }
 

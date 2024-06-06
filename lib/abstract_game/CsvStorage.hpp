@@ -11,7 +11,7 @@
 
 namespace abstract_game {
 
-    class CsvStorage {
+    class CsvStorage : public DataManager {
     public:
         void saveGameSession(size_t sessionUID, int userID, int gameID,
                              long long startTime, long long endTime,
