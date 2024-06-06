@@ -10,7 +10,7 @@
 #include <unordered_map>
 
 namespace ui_elements {
-    StatisticsGameTable::StatisticsGameTable(std::map<int, //Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
+    StatisticsGameTable::StatisticsGameTable( std::map<int, //Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
         std::vector<std::string> > input) {
         _input = input;
         if (input.empty()) {
@@ -28,7 +28,7 @@ namespace ui_elements {
         return oss.str();
     }
 
-    void StatisticsGameTable::defaultTable()  const {
+    void StatisticsGameTable::defaultTable() const {
         if (ImGui::BeginTable("Tabelle", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
             ImGui::PushFont(commons::Fonts::_header2);
             // Kopfzeile
