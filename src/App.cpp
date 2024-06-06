@@ -24,11 +24,8 @@ void App::start() {
 
     // Register _scenes
     SceneManager& sceneManager = SceneManager::getInstance();
-    sceneManager.addScene("DashboardScene", std::make_unique<DashboardScene>());
-    sceneManager.addScene("GameScene", std::make_unique<GameScene>());
 
-    // Start with the Dashboard scene
-    sceneManager.switchTo("DashboardScene");
+
 
     sf::Clock deltaClock;
 

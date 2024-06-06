@@ -1,11 +1,13 @@
 #include "GameScene.hpp"
 #include "SceneManager.hpp"
 
-GameScene::GameScene() : header("Game X", "Zurück", []() {
-    SceneManager::getInstance().switchTo("DashboardScene");
+template<typename T>
+GameScene<T>::GameScene() : header("Game X", "Zurück", [](){
+    SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
 }) {}
 
-void GameScene::render() {
+template<typename T>
+void GameScene<T>::render() {
     header.render();
-    reactionGame.start();
+    game->start();
 }

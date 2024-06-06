@@ -11,13 +11,19 @@ void SceneManager::addScene(const std::string& name, std::unique_ptr<Scene> scen
     _scenes[name] = std::move(scene);
 }
 
-// Switch to a different scene by name
+/*// Switch to a different scene by name
 void SceneManager::switchTo(const std::string& name) {
     auto it = _scenes.find(name);
     if (it != _scenes.end()) {
         _currentScene = it->second.get();
     }
 }
+ */
+
+void SceneManager::switchTo(std::unique_ptr<Scene> scene){
+    _currentScene = std::move(scene);
+};
+
 
 // Render the current scene
 void SceneManager::render() {

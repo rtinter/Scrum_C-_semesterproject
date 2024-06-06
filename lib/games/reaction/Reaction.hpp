@@ -59,7 +59,7 @@ namespace reaction {
 
         void updateStatistics() override;
 
-        void render();
+        void render() override;
 
         std::string getName() const override; // Override the getName method
 

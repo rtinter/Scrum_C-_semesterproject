@@ -2,12 +2,12 @@
 #include "SceneManager.hpp"
 
 DashboardScene::DashboardScene() : header("Home", "Zurück", []() {
-    SceneManager::getInstance().switchTo("DashboardScene");
+    SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
 }) {
     // Define tiles for the dashboard
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
-                SceneManager::getInstance().switchTo("GameScene");
+                SceneManager::getInstance().switchTo(std::make_unique<GameScene<reaction::Reaction>>());
             }),
             ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
     };
