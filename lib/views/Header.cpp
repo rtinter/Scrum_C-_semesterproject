@@ -34,5 +34,8 @@ void Header::render() {
             }
         }
         ImGui::PopFont();
+
+        ImGui::SetNextWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - (HEADER_HEIGHT + TOP_MARGIN)));
+        ImGui::SetNextWindowPos(ImVec2(0, HEADER_HEIGHT + TOP_MARGIN));
     });
 }

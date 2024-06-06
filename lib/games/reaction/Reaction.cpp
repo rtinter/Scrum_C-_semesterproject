@@ -1,11 +1,8 @@
 #include "Reaction.hpp"
 
+#include <Colors.hpp>
 #include <iostream>
-#include <Overlay.hpp>
 #include <Window.hpp>
-
-#include "SFML/Graphics/Text.hpp"
-#include "Colors.hpp"
 
 
 namespace reaction {
@@ -32,7 +29,6 @@ namespace reaction {
         if (showGame) {
             start();
         }
-
     }
 
     void Reaction::start() {
@@ -40,30 +36,30 @@ namespace reaction {
             turnGreen();
         }
 
-        ImGui::SetNextWindowSize(_size);
-        ImGui::SetWindowPos(ImVec2(0, 90));
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-        ImGui::Begin("Reaction Game", nullptr);
-        if (ImGui::IsWindowHovered()
-            && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
-            reset();
-        }
 
-        if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-            if (!_isRed) {
-                _isRunning = false;
-                _finishPoint = std::chrono::steady_clock::now();
-                auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                    _finishPoint - _startPoint).count();
-                std::cout << "Time elapsed: " << duration << " ms" << std::endl;
-                std::cout << "Duration rating: " << getDurationRating(duration) << std::endl;
-            } else {
-                std::cout << "Zu früh geklickt!" << std::endl;
+        ui_elements::Window("Reaction Game").render([this]() {
+            ImGui::Spacing();
+            if (ImGui::IsWindowHovered()
+                && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
+                reset();
             }
-        }
+
+            if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+                if (!_isRed) {
+                    _isRunning = false;
+                    _finishPoint = std::chrono::steady_clock::now();
+                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
+                        _finishPoint - _startPoint).count();
+                    std::cout << "Time elapsed: " << duration << " ms" << std::endl;
+                    std::cout << "Duration rating: " << getDurationRating(duration) << std::endl;
+                } else {
+                    std::cout << "Zu früh geklickt!" << std::endl;
+                }
+            }
+        });
 
         ImGui::PopStyleColor();
-        ImGui::End();
     }
 
     void Reaction::reset() {
@@ -74,9 +70,9 @@ namespace reaction {
         // Use <random> for better random number generation
         std::random_device rd; // Seed the random number generator
         std::mt19937 gen(rd()); // Mersenne Twister engine
-        std::uniform_int_distribution<> dis(0, 5000); // Uniform distribution between 0 and 5000 milliseconds
+        std::uniform_int_distribution<> dis(2000, 10000);
 
-        _redDuration = static_cast<float>(dis(gen)) / 1000.0f; // Random duration between 0 and 5 seconds
+        _redDuration = static_cast<float>(dis(gen)) / 1000.0f;
         _colorClock.restart();
         std::cout << "Start Game!" << std::endl;
     }

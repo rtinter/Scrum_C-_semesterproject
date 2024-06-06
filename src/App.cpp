@@ -51,7 +51,7 @@ void App::start() {
     });
 
     // define each needed tile for the games
-    const std::vector<ui_elements::Tile> kCategory1Tiles = {
+    const std::vector kCategory1Tiles = {
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
                 _showGame = true;
                 openWindows.push([]() { _showGame = false; });
@@ -60,7 +60,7 @@ void App::start() {
     };
 
 
-    const std::vector<ui_elements::Tile> kCategory2Tiles = {
+    const std::vector kCategory2Tiles = {
             ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
     };
     //add tiles to the category
@@ -71,6 +71,9 @@ void App::start() {
     reaction::Reaction reactionGame;
 
     while (window.isOpen()) {
+        ImGui::SFML::Update(window, deltaClock.restart());
+        window.clear();
+
         sf::Event event{};
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
@@ -80,18 +83,13 @@ void App::start() {
             }
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
-        window.clear();
 
-        dashboard.render();
+        header.render();
         if (_showGame) {
             reactionGame.render();
+        } else {
+            dashboard.render();
         }
-
-        /* Style Example */
-        //ImGui::ShowDemoWindow();
-
-
 
         ImGui::SFML::Render(window);
         window.display();
