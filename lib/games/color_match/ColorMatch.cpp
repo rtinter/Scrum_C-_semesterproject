@@ -40,7 +40,6 @@ void color_match::ColorMatch::chooseColorsText() {
         std::cout << getRandomElement(_AVAILABLE_COLORS_TEXT);
         chosenColorsText.emplace_back(getRandomElement(_AVAILABLE_COLORS_TEXT));
     }
-
 }
 
 void color_match::ColorMatch::chooseColorsImVec4() {
@@ -52,7 +51,7 @@ void color_match::ColorMatch::chooseColorsImVec4() {
 
 
 void color_match::ColorMatch::displayChosenColors() {
-    for (int i = 0; chosenColorsText.size(); i++) {
+    for (int i = 0; i < chosenColorsText.size(); i++) {
         ImGui::PushStyleColor(ImGuiCol_Text, chosenColorsImVec4[i]);
         ImGui::Text(chosenColorsText.at(i));
         ImGui::PopStyleColor();

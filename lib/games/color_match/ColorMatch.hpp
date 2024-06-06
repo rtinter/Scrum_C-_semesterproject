@@ -3,7 +3,6 @@
 
 #include <string>
 #include <random>
-#include <jmorecfg.h>
 #include <iostream>
 #include "Game.hpp"
 #include "Colors.hpp"
@@ -11,7 +10,7 @@
 namespace color_match {
     class ColorMatch : public Game {
         std::string const _NAME{"Reaction"};
-        boolean isTimeForNewColors = true;
+        bool isTimeForNewColors = true;
         int numberOfColorsToChoose = 3;
 
         std::vector<const char *> const _AVAILABLE_COLORS_TEXT = {"rot", "blau", "gelb", "lila", "grün"};
