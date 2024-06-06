@@ -14,6 +14,7 @@ set(CUSTOM_LIBS
 set(GAME_LIBS
         calc
         reaction
+        color_match
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
@@ -27,7 +28,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
 if (WIN32)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static-libgcc -static-libstdc++ -static")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
-endif()
+endif ()
 
 # Collect all .ttf files
 file(GLOB TTF_FILES ${CMAKE_SOURCE_DIR}/lib/commons/ttfFiles/*.ttf)

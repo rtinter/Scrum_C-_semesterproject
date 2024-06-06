@@ -2,6 +2,7 @@
 #include "StyleManager.hpp"
 #include "Dashboard.hpp"
 #include "Header.hpp"
+#include "../lib/games/color_match/ColorMatch.hpp"
 
 #include <iostream>
 #include <imgui-SFML.h>
@@ -35,6 +36,7 @@ void App::start() {
     Header header("Home", "Meine Stats", []() {
         std::cout << "Stats button clicked!" << std::endl;
     });
+    color_match::ColorMatch colorMatch;
 
     // define each needed tile for the games
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
@@ -54,6 +56,9 @@ void App::start() {
 
 
     while (window.isOpen()) {
+        ImGui::SFML::Update(window, deltaClock.restart());
+        window.clear();
+
         sf::Event event{};
         while (window.pollEvent(event)) {
             ImGui::SFML::ProcessEvent(window, event);
@@ -63,12 +68,12 @@ void App::start() {
             }
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
-        window.clear();
+
 
         //render header and dashboard
         header.render();
         dashboard.render();
+        colorMatch.render();
 
 
         /* Style Example */
