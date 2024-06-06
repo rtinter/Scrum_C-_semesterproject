@@ -8,7 +8,7 @@ namespace commons {
     ImVec4 const ColorTheme::TEXT_COLOR = Colors::DARK_GRAY;
     ImVec4 const ColorTheme::WARNING_COLOR = Colors::ORANGE;
     ImVec4 const ColorTheme::ACCENT_COLOR = Colors::INDIGO;
-    ImVec4 const ColorTheme::INFO_COLOR = Colors::kBLUE;
+    ImVec4 const ColorTheme::INFO_COLOR = Colors::BLUE;
     ImVec4 const ColorTheme::SUCCESS_COLOR = Colors::GREEN;
     ImVec4 const ColorTheme::ERROR_COLOR = Colors::RED;
 
