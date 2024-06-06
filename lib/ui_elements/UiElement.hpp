@@ -9,8 +9,6 @@ namespace ui_elements {
     class UiElement {
     public:
         virtual ~UiElement() = default;
-
-    private:
         virtual void render() const = 0; // abstract
     };
 

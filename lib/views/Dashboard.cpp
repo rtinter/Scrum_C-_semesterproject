@@ -1,7 +1,9 @@
 #include "Dashboard.hpp"
-#include <imgui.h>
-#include "Window.hpp"
 #include "Fonts.hpp"
+#include "Window.hpp"
+#include <imgui.h>
+#include <iostream>
+
 
 namespace {
 
@@ -18,7 +20,8 @@ namespace {
         ImGui::Spacing();
 
         int count = 0;
-        for (const auto &tile: tiles) {
+        for (const ui_elements::Tile &tile: tiles) {
+            std::cout << typeid(tile).name() << std::endl;
             if (count > 0 && count % 2 == 0) {
                 ImGui::NewLine();
             }

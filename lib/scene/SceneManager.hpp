@@ -6,14 +6,15 @@
 
 class SceneManager {
     std::map<std::string, std::unique_ptr<Scene>> scenes;
-    Scene* currentScene;
+    std::unique_ptr<Scene> currentScene;
 
     SceneManager() : currentScene(nullptr) {}
 
 public:
     static SceneManager& getInstance();
 
-    void addScene(const std::string& name, std::unique_ptr<Scene> scene);
-    void switchTo(const std::string& name);
+    // void addScene(std::unique_ptr<Scene> scene);
+    void switchTo(std::unique_ptr<Scene> scene);
+    void addDefaultScenes();
     void render();
 };

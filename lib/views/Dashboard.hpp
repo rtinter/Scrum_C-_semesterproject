@@ -9,14 +9,10 @@ namespace views {
      * user can start games by clicking on them.
      **************************************************************/
     class Dashboard {
-
         std::map<std::string, std::vector<ui_elements::Tile>> _categoryTiles;
-
         void addTileToCategory(const std::string &category, const ui_elements::Tile &tile);
-
     public:
         void addTilesToCategory(const std::string &category, const std::vector<ui_elements::Tile> &tiles);
-
         void render();
     };
 }

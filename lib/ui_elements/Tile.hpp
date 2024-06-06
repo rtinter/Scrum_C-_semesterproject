@@ -12,15 +12,18 @@ namespace ui_elements {
      * and a short description. By clicking on the tile, the game
      * can be started.
      **************************************************************/
-    class Tile : public UiElement {
+    class Tile : UiElement {
+    private:
         float _height{300};
         float _width{400};
+
+    private:
         std::string _pictogram;
         std::string _gameName;
         std::string _description;
         std::string _buttonText;
+    private:
         std::function<void()> _onClick;
-
         void setButtonText();
 
     public:

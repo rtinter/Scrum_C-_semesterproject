@@ -1,7 +1,9 @@
 #include "App.hpp"
 #include "StyleManager.hpp"
-#include "Dashboard.hpp"
 #include "Header.hpp"
+#include "SceneManager.hpp"
+#include "DashboardScene.hpp"
+#include "GameScene.hpp"
 
 #include <iostream>
 #include <imgui-SFML.h>
@@ -21,6 +23,8 @@ void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
     window.setFramerateLimit(App::FRAME_RATE);
 
+    SceneManager& sceneManager {SceneManager::getInstance()};
+    sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {
         // Initialisierung fehlgeschlagen
@@ -35,21 +39,6 @@ void App::start() {
     views::Header header("Home", "Meine Stats", []() {
         std::cout << "Stats button clicked!" << std::endl;
     });
-
-    // define each needed tile for the games
-    const std::vector<ui_elements::Tile> kCategory1Tiles = {
-            ui_elements::Tile("Pictogram1", "Spielname1", "Beschreibung1", []() {
-                // button action to run (render) the game
-            }),
-            ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
-    };
-
-    const std::vector<ui_elements::Tile> kCategory2Tiles = {
-            ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
-    };
-    //add tiles to the category
-    dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
-    dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
     sf::Clock deltaClock;
     while (window.isOpen()) {
         sf::Event event{};
@@ -63,10 +52,11 @@ void App::start() {
 
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
+        sceneManager.render();
 
         //render header and dashboard
-        header.render();
-        dashboard.render();
+         // header.render();
+        // dashboard.render();
 
         /* Style Example */
         //ImGui::ShowDemoWindow();
