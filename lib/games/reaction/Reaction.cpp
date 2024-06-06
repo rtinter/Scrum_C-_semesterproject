@@ -2,13 +2,13 @@
 
 #include <Colors.hpp>
 #include <iostream>
+#include <Overlay.hpp>
+#include <TextCentered.hpp>
 #include <Window.hpp>
 
 
 namespace reaction {
-    Reaction::Reaction() : _isOpen{false} {
-        _size = {ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 90};
-
+    Reaction::Reaction() {
         _gameName = "Reaction";
         _gameDescription =
                 "Unser Reaktionszeit-Spiel bewertet die Fähigkeit, schnell und präzise auf visuelle Reize zu reagieren,\n"
@@ -24,31 +24,34 @@ namespace reaction {
     }
 
     void Reaction::render() {
-        bool showGame{true};
+        ui_elements::Overlay("Infobox", _showOverlay).render([this]() {
+            ui_elements::TextCentered("Infobox");
+            if (ImGui::Button("Start Game")) {
+                start();
+                _showOverlay = false;
+                ImGui::CloseCurrentPopup();
+            }
+        });
 
-        if (showGame) {
-            start();
+        if (_isGameRunning) {
+            renderGame();
         }
     }
 
-    void Reaction::start() {
-        if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && _isRunning && _isRed) {
-            turnGreen();
-        }
-
+    void Reaction::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-
         ui_elements::Window("Reaction Game").render([this]() {
-            ImGui::Spacing();
-            if (ImGui::IsWindowHovered()
-                && ImGui::IsMouseClicked(ImGuiMouseButton_Right)) {
-                reset();
+
+            if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && !isGreen()) {
+                _windowColor = commons::Colors::GREEN;
+                _startPoint = std::chrono::steady_clock::now();
             }
 
             if (ImGui::IsWindowHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-                if (!_isRed) {
-                    _isRunning = false;
+                if (isGreen()) {
+                    _isGameRunning = false;
                     _finishPoint = std::chrono::steady_clock::now();
+
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                         _finishPoint - _startPoint).count();
                     std::cout << "Time elapsed: " << duration << " ms" << std::endl;
@@ -58,14 +61,28 @@ namespace reaction {
                 }
             }
         });
-
         ImGui::PopStyleColor();
     }
 
-    void Reaction::reset() {
-        _isRed = true;
-        _isRunning = true;
+    void Reaction::start() {
+        std::random_device rd; // Seed the random number generator
+        std::mt19937 gen(rd()); // Mersenne Twister engine
+        std::uniform_int_distribution<> dis(2000, 5000);
+
+        _isGameRunning = true;
+
+        _redDuration = static_cast<float>(dis(gen)) / 1000.0f;
         _windowColor = commons::Colors::RED;
+        _colorClock.restart();
+    }
+
+    void Reaction::stop() {
+        _isGameRunning = false;
+    }
+
+    void Reaction::reset() {
+        _windowColor = commons::Colors::RED;
+        _isGameRunning = false;
 
         // Use <random> for better random number generation
         std::random_device rd; // Seed the random number generator
@@ -74,13 +91,6 @@ namespace reaction {
 
         _redDuration = static_cast<float>(dis(gen)) / 1000.0f;
         _colorClock.restart();
-        std::cout << "Start Game!" << std::endl;
-    }
-
-    void Reaction::turnGreen() {
-        _windowColor = commons::Colors::GREEN; // Change window color to green
-        _isRed = false;
-        _startPoint = std::chrono::steady_clock::now();
     }
 
     std::string Reaction::getDurationRating(int duration) {
@@ -102,5 +112,10 @@ namespace reaction {
 
     void Reaction::updateStatistics() {
         // add code here
+    }
+
+    bool Reaction::isGreen() const {
+        return _windowColor.x == commons::Colors::GREEN.x && _windowColor.y == commons::Colors::GREEN.y
+               && _windowColor.z == commons::Colors::GREEN.z && _windowColor.w == commons::Colors::GREEN.w;
     }
 } // reaction

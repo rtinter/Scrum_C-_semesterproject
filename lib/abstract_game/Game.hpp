@@ -20,6 +20,7 @@ public:
 	Game();
 	virtual ~Game() = default;
 
+	virtual void renderGame() = 0;
 	/**
 	 * @brief Starts the game.
 	 *

@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include <iostream>
 
 Game::Game() : _gameID{1}, _gameSession {GameSession(1, 0)} { } //TODO make gameID and userID dynamic
 

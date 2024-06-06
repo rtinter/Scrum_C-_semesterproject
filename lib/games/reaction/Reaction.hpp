@@ -1,13 +1,13 @@
-#ifndef ATHENA_REACTION_H
-#define ATHENA_REACTION_H
-
+#pragma once
 
 #include "imgui.h"
 #include "Game.hpp"
-
 #include <SFML/System/Clock.hpp>
 #include <random>
-#include <chrono>  // For std::chrono
+#include <chrono>
+#include <Colors.hpp>
+
+#include "../../scene/Scene.hpp"
 
 
 namespace reaction {
@@ -19,31 +19,33 @@ namespace reaction {
      * um deine Reaktionszeit in Millisekunden zu messen.
      **************************************************+***/
 
-    class Reaction : public Game {
-        std::string const _kNAME{"Reaction"};
-        ImVec2 _size;
-        bool _isOpen;
+    class Reaction : public Game, public Scene {
+        bool _showOverlay{true};
+        bool _isGameRunning{false};
 
-        ImVec4 _windowColor;
-        sf::Clock _deltaClock;
+        ImVec4 _windowColor{commons::Colors::RED};
+        float _redDuration{0};
 
-        sf::Clock _colorClock; // Clock to track the duration of the color change
-        bool _isRed, _isRunning;
-        float _redDuration;
+        sf::Clock _colorClock;
         std::chrono::steady_clock::time_point _startPoint, _finishPoint;
 
         static std::string getDurationRating(int duration);
 
-        void turnGreen();
+        bool isGreen() const;
+
     public:
         explicit Reaction();
 
-        void render();
+        void render() override;
+
+        void renderGame() override;
 
         void start() override;
+
+        void stop() override;
+
         void reset() override;
+
         void updateStatistics() override;
     };
 } // reaction
-
-#endif //ATHENA_REACTION_H

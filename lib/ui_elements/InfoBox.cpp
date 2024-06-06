@@ -2,11 +2,7 @@
 #include <Overlay.hpp>
 #include <imgui.h>
 #include "InfoBox.h"
-#include "../commons/Colors.hpp"
-#include "../commons/ColorTheme.hpp"
-#include "../commons/ColorHelper.hpp"
 #include "../commons/Fonts.hpp"
-#include "../commons/StyleManager.hpp"
 #include "TextCentered.hpp"
 #include "Centered.hpp"
 
