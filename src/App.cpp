@@ -7,6 +7,10 @@
 #include "Dashboard.hpp"
 #include "Header.hpp"
 
+#include <iostream>
+#include <imgui-SFML.h>
+#include <StatisticsGameTable.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
 #include <SFML/Window/Event.hpp>
@@ -33,7 +37,6 @@ void closeLastWindow() {
 void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
     window.setFramerateLimit(App::FRAME_RATE);
-
 
     if (!ImGui::SFML::Init(window)) {
         // Initialisierung fehlgeschlagen
@@ -67,6 +70,8 @@ void App::start() {
     dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
     dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
     sf::Clock deltaClock;
+
+
 
     reaction::Reaction reactionGame;
 
