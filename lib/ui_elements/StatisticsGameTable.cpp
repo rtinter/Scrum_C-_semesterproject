@@ -40,7 +40,6 @@ namespace ui_elements {
             ImGui::TableHeadersRow();
             ImGui::PopFont();
             ImGui::EndTable();
-            ImGui::PopStyleColor();
         }
     }
 
