@@ -1,37 +1,26 @@
-# use the official gcc image, based on debian
-# can use versions as well, like gcc:5.2
-# see https://hub.docker.com/_/gcc/
-
 variables:
-  CCACHE_BASEDIR: $CI_PROJECT_DIR
-  CCACHE_DIR: $CI_PROJECT_DIR/ccache
-  CCACHE_COMPILERCHECK: content
+  NAME_ZIP: dist.zip
+  PACKAGE_REGISTRY_URL: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic
+  NUM_CORES: 8
 
 stages:
   - build
   - prepare
+  - publish
   - release
 
+# Linux Build Job
 build:
   stage: build
   image: gcc
-    # This Job runs in merge requests and also when pushed to main
-  # instead of calling g++ directly you can also use some build toolkit like make
-  # install the necessary build tools when needed
-  
   rules:
-    - if: $CI_COMMIT_BRANCH == "dev" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ( $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main" ))
+    - if: $CI_COMMIT_BRANCH == "dev" || ($CI_PIPELINE_SOURCE == 'merge_request_event' && ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "dev" || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "main"))
   before_script:
     - apt update && apt -y install cmake
-    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
-    - ccache --zero-stats  
+    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev clang-tidy zip
   script:
     - chmod +x ./build.sh
     - ./build.sh Build-Only
-  cache:
-    - key: ccache-$CI_JOB_NAME
-      paths:
-        - $CCACHE_DIR
 
 prepare:
   image: gcc
@@ -40,42 +29,76 @@ prepare:
     - if: $CI_COMMIT_TAG
   before_script:
     - apt update && apt -y install cmake
-    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev ccache clang-tidy zip
-    - ccache --zero-stats  
+    - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev clang-tidy zip
   script:
     - chmod +x ./build.sh
     - ./build.sh Release
-  cache:
-    - key: ccache-$CI_JOB_NAME
-      paths:
-        - $CCACHE_DIR
   artifacts:
     paths:
-      - athena-release-$CI_COMMIT_TAG.zip
-    reports:
-      dotenv: build.env 
+      - athena-release-$CI_COMMIT_TAG-linux.zip
 
-release:
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  stage: release
+# Windows Build Job
+build_windows:
+  stage: build
+  tags: [windows]
+  rules:
+    - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
-    - echo "release application..."
-    - echo "Application successfully released."
+    - mkdir build
+    - cd build
+    - cmake -G "MinGW Makefiles" ..
+    - mingw32-make --jobs=$NUM_CORES
+
+# Windows Prepare Job
+prepare_windows:
+  stage: prepare
+  tags: [windows]
   rules:
     - if: $CI_COMMIT_TAG
-  needs:
-    - job: prepare
-      artifacts: true
+  script:
+    - mkdir build
+    - cd build
+    - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+    - mingw32-make --jobs=$NUM_CORES
+    - cd bin
+    - zip -r ../../athena-release-$CI_COMMIT_TAG-win64.zip ./*
+    - mv ../../athena-release-$CI_COMMIT_TAG-win64.zip $CI_PROJECT_DIR/
+  artifacts:
+    paths:
+      - $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-win64.zip
+
+publish_job:
+  stage: publish
+  image: curlimages/curl:latest
+  script:
+    - |
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "$CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-win64.zip" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/win-x86_64/athena-release-$CI_COMMIT_TAG-win64.zip"
+      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "$CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-linux.zip" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/linux-x86_64/athena-release-$CI_COMMIT_TAG-linux.zip"
+  rules:
+    - if: '$CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^v[0-9]\.[0-9]\.[0-9](-rc.+)?/'
+      when: always
+      needs: [prepare, prepare_windows]
+
+release_job:
+  stage: release # alternative "release"
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  script:
+    - echo "starting release"
   release:
-    name: 'Athena $CI_COMMIT_TAG'
-    description: '$CI_COMMIT_TAG_MESSAGE'
-    # tag_name is a memandatory field and can not be an empty string
-    tag_name: '$CI_COMMIT_TAG'
+    tag_name: $CI_COMMIT_TAG
+    name: 'Release $CI_COMMIT_TAG'
+    description: 'Release created using the release-cli.'
     assets:
       links:
-        - name: 'athena-release-$CI_COMMIT_TAG'
-          # Use variables to build a URL to access the artifacts
-          # ${CI_PROJECT_URL} is the repository URL
-          # ${BUILD_JOB_ID} is from the previous job,
-          # the build stage, that contains the artifact
-          url: '${CI_PROJECT_URL}/-/jobs/${BUILD_JOB_ID}/artifacts/file/athena-release-$CI_COMMIT_TAG.zip'
+        - name: deploy-win-${CI_COMMIT_TAG}
+          url: ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/win-x86_64/athena-release-${CI_COMMIT_TAG}-win64.zip
+          link_type: package
+        - name: deploy-linux-${CI_COMMIT_TAG}
+          url: ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/linux-x86_64/athena-release-${CI_COMMIT_TAG}-linux.zip
+          link_type: package
+  rules:
+    - if: '$CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^v[0-9]\.[0-9]\.[0-9](-rc.+)?/'
+      when: always
+  needs:
+    - job: publish_job
+
