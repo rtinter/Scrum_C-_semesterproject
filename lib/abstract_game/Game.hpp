@@ -54,11 +54,10 @@ public:
 
 
 protected:
-
-    std::string _gameName;
-    std::string _gameDescription;
-    std::string _gameRules;
-    std::string _gameControls;
+	const char *_gameName;
+	const char *_gameDescription;
+	const char *_gameRules;
+	const char *_gameControls;
 
 private:
 

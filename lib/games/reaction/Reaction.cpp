@@ -1,8 +1,8 @@
 #include "Reaction.hpp"
 
 #include <Colors.hpp>
+#include <InfoBox.hpp>
 #include <iostream>
-#include <Overlay.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
 
@@ -24,15 +24,18 @@ namespace reaction {
     }
 
     void Reaction::render() {
-        ui_elements::Overlay("Infobox", _showOverlay).render([this]() {
-            ui_elements::TextCentered("Infobox");
-            if (ImGui::Button("Start Game")) {
-                start();
-                _showOverlay = false;
-                ImGui::CloseCurrentPopup();
-            }
-        });
+        // ui_elements::Overlay("Infobox", _showOverlay).render([this]() {
+        //     ui_elements::TextCentered("Infobox");
+        //     if (ImGui::Button("Start Game")) {
+        //         start();
+        //         _showOverlay = false;
+        //         ImGui::CloseCurrentPopup();
+        //     }
+        // });
 
+        ui_elements::InfoBox(_showOverlay, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+            start();
+        }).render();
         if (_isGameRunning) {
             renderGame();
         }
@@ -41,7 +44,6 @@ namespace reaction {
     void Reaction::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Reaction Game").render([this]() {
-
             if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && !isGreen()) {
                 _windowColor = commons::Colors::GREEN;
                 _startPoint = std::chrono::steady_clock::now();
