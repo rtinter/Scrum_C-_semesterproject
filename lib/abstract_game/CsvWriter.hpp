@@ -25,46 +25,46 @@ namespace abstract_game {
         void close();
 
     private:
-        std::ofstream file;
-        std::string filename;
+        std::ofstream _file;
+        std::string _filename;
     };
 
     template<typename T>
-    CsvWriter<T>::CsvWriter(const std::string &filename) : filename(filename) {
-        file.open(filename, std::ios::app);
-        if (!file.is_open()) {
+    CsvWriter<T>::CsvWriter(const std::string &filename) : _filename(filename) {
+        _file.open(filename, std::ios::app);
+        if (!_file.is_open()) {
             throw std::runtime_error("Failed to open file: " + filename);
         }
     }
 
     template<typename T>
     void CsvWriter<T>::writeHeader(const std::vector<std::string> &header) {
-        if (file.tellp() == 0) {
+        if (_file.tellp() == 0) {
             for (size_t i = 0; i < header.size(); ++i) {
-                file << header[i];
+                _file << header[i];
                 if (i != header.size() - 1) {
-                    file << ",";
+                    _file << ",";
                 }
             }
-            file << "\n";
+            _file << "\n";
         }
     }
 
     template<typename T>
     void CsvWriter<T>::writeRow(const std::vector<T> &row) {
         for (size_t i = 0; i < row.size(); ++i) {
-            file << row[i];
+            _file << row[i];
             if (i != row.size() - 1) {
-                file << ",";
+                _file << ",";
             }
         }
-        file << "\n";
+        _file << "\n";
     }
 
     template<typename T>
     void CsvWriter<T>::close() {
-        if (file.is_open()) {
-            file.close();
+        if (_file.is_open()) {
+            _file.close();
         }
     }
 }
