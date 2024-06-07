@@ -16,32 +16,35 @@
  */
 class Game {
 public:
-	Game();
-	virtual ~Game() = default;
+    Game();
 
-	/**
-	 * @brief Starts the game.
-	 *
-	 * Begins the game, transitioning it from a ready state to an active state.
-	 */
-	virtual void start() = 0;
+    virtual ~Game() = default;
 
-	/**
-	 * @brief Stops the game.
-	 *
-	 * Ends the game, transitioning it to a stopped state and uploads the game
-	 * statistics. Stop calls the reset method.
-	 */
-	virtual void stop();
+    /**
+     * @brief Starts the game.
+     *
+     * Begins the game, transitioning it from a ready state to an active state.
+     */
+    virtual void start() = 0;
 
-	/**
-	 * @brief Resets the game.
-	 *
-	 * Resets the game state, preparing it for a new session.
-	 */
-	virtual void reset() = 0;
+    /**
+     * @brief Stops the game.
+     *
+     * Ends the game, transitioning it to a stopped state and uploads the game
+     * statistics. Stop calls the reset method.
+     */
+    virtual void stop();
+
+    /**
+     * @brief Resets the game.
+     *
+     * Resets the game state, preparing it for a new session.
+     */
+    virtual void reset() = 0;
 
     virtual std::string getName() const = 0;
+
+    bool _showInfobox{true};
 
 
 protected:

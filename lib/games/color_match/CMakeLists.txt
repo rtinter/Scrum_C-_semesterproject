@@ -19,6 +19,7 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC
         ${CUSTOM_LIBS}
         abstract_game
         commons
+        ui_elements
         ImGui-SFML::ImGui-SFML
         sfml-graphics
         box2d

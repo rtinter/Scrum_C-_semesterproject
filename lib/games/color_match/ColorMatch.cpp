@@ -7,10 +7,9 @@
 #include "../../ui_elements/InfoBox.h"
 
 void games::ColorMatch::render() {
-    ui_elements::InfoBox(_showInfobox, _NAME, _gameDescription, _gameRules, _gameControls, [this] {
-        start();
-    }).render();
-
+    //ui_elements::InfoBox(_showInfobox, _NAME, _gameDescription, _gameRules, _gameControls, [this] {
+    start();
+    //}).render();
 }
 
 void games::ColorMatch::start() {
@@ -40,7 +39,7 @@ void games::ColorMatch::pickRandomColorsImVec4() {
     }
 }
 
-void games::ColorMatch::displayRandomColors() {
+void games::ColorMatch::displayRandomColors() { // TODO center texts
     for (int i{0}; i < randomColorsText.size(); i++) {
         ImGui::PushFont(indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
         ImGui::PushStyleColor(ImGuiCol_Text, randomColorsImVec4.at(i));
