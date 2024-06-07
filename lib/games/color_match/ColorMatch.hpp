@@ -29,7 +29,7 @@ namespace color_match {
         T getRandomElement(const std::vector<T> &v) {
             std::random_device rd;      // Zufallszahlengenerator initialisieren
             std::mt19937 gen(rd());     // Mersenne Twister mit rd seeden
-            std::uniform_int_distribution<> dis(0, _AVAILABLE_COLORS_TEXT.size()); // Gleichverteilung
+            std::uniform_int_distribution<> dis(0, _AVAILABLE_COLORS_TEXT.size() - 1); // Gleichverteilung
             return v[dis(gen)];         // Zugriff auf zufälliges Element
         }
 
