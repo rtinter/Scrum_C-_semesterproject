@@ -4,6 +4,7 @@
 
 #include "Scene.hpp"
 #include "Header.hpp"
+#include "Results.h"
 #include <string>
 
 namespace scene {
@@ -11,6 +12,7 @@ namespace scene {
     class ResultsScene : public Scene {
 
         views::Header _header;
+        views::Results _results;
 
 
     public:

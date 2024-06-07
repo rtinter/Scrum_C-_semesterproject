@@ -3,9 +3,12 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 
+#include "ResultsScene.h"
+
 scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
     //Add the linking to statistic site here
     // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
+    SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
 }) {
     // Define tiles for the _dashboard
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
