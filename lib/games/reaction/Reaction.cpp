@@ -10,10 +10,11 @@
 #include <SceneManager.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
+#include "GameSessionManager.hpp"
 
 
 namespace reaction {
-    Reaction::Reaction() {
+    Reaction::Reaction() : abstract_game::Game(abstract_game::GameID::REACTION) {
         _gameName = "Reaction";
         _gameDescription =
                 "Unser Reaktionszeit-Spiel bewertet die Fähigkeit, schnell und präzise auf visuelle Reize zu reagieren,\n"
@@ -31,7 +32,7 @@ namespace reaction {
     void Reaction::render() {
         ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
-        }).render();
+        }, this).render();
 
         ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
             ImGui::PushFont(commons::Fonts::_header2);
@@ -45,6 +46,7 @@ namespace reaction {
                 }
 
                 if (ImGui::Button("Zurück zur Startseite")) {
+                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
                     scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
                 }
             });

@@ -6,6 +6,7 @@
 #include <memory>
 #include "Reaction.hpp"
 #include "optional"
+#include "GameSessionManager.hpp"
 
 namespace scene {
     template<typename T>
@@ -25,6 +26,7 @@ namespace scene {
     GameScene<T>::GameScene() : _game{std::make_unique<T>()} {
         // Header initialisieren, nachdem _game initialisiert wurde
         _header.emplace(_game->getName(), "Zurück", []() {
+            abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
             SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
         });
     }

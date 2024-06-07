@@ -6,6 +6,7 @@
 #include "TextCentered.hpp"
 #include "Centered.hpp"
 
+
 namespace ui_elements {
     InfoBox::InfoBox(
         bool &showOverlay,
@@ -13,13 +14,15 @@ namespace ui_elements {
         const char *gameDescription,
         const char *gameRules,
         const char *gameControls,
-        const std::function<void()> &startCallback
+        const std::function<void()> &startCallback,
+        abstract_game::Game* game
     ) : _showOverlay(showOverlay),
         _gameName(gameName),
         _gameDescription(gameDescription),
         _gameRules(gameRules),
         _gameControls(gameControls),
-        _startCallback(startCallback) {
+        _startCallback(startCallback),
+        _game(game){
     }
 
     void InfoBox::render() {
@@ -43,6 +46,7 @@ namespace ui_elements {
             Centered([this]() {
                 if (ImGui::Button("Spiel starten!")) {
                     if (_startCallback) {
+                        abstract_game::GameSessionManager::getInstance().startSession(_game->getGameID());
                         _startCallback();
                     }
                     _showOverlay = false;
