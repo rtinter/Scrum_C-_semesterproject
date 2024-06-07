@@ -21,7 +21,7 @@ void App::start() {
     window.setFramerateLimit(App::FRAME_RATE);
 
     //init singleton and start Dashboard
-    scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
+    scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {
@@ -46,8 +46,6 @@ void App::start() {
             }
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
-        window.clear();
         sceneManager.render();
 
         ImGui::SFML::Render(window);

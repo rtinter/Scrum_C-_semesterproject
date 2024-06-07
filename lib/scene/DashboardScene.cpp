@@ -2,6 +2,7 @@
 #include "SceneManager.hpp"
 #include "GameScene.hpp"
 #include "Reaction.hpp"
+#include "ColorMatch.hpp"
 
 scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
     //Add the linking to statistic site here
@@ -12,7 +13,8 @@ scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", [](
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
                 SceneManager::getInstance().switchTo(std::make_unique<GameScene<games::Reaction>>());
             }),
-            ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {
+            ui_elements::Tile("Pictogram2", "Farb-Wort-Spiel", "Beschreibung2", []() {
+                SceneManager::getInstance().switchTo(std::make_unique<GameScene<games::ColorMatch>>());
             }),
     };
 

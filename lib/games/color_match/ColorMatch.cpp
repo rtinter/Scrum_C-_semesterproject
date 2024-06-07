@@ -5,11 +5,11 @@
 #include "../../commons/ColorHelper.hpp"
 #include "../../commons/Fonts.hpp"
 
-void color_match::ColorMatch::render() {
+void games::ColorMatch::render() {
     start();
 }
 
-void color_match::ColorMatch::start() {
+void games::ColorMatch::start() {
     ImGui::Begin("Color Match Game"); // TODO: use Window class
     ImGui::SetWindowSize(ImVec2(400, 400), ImGuiCond_Always);
     if (isTimeForNewRandomColors) {
@@ -22,32 +22,33 @@ void color_match::ColorMatch::start() {
     ImGui::End();
 }
 
-void color_match::ColorMatch::pickRandomColorsText() {
+void games::ColorMatch::pickRandomColorsText() {
     randomColorsText.clear();
     for (int i{0}; i < numberOfRandomColors; i++) {
         randomColorsText.emplace_back(getRandomElement(_AVAILABLE_COLORS_TEXT));
     }
 }
 
-void color_match::ColorMatch::pickRandomColorsImVec4() {
+void games::ColorMatch::pickRandomColorsImVec4() {
     randomColorsImVec4.clear();
     for (int i{0}; i < numberOfRandomColors; i++) {
         randomColorsImVec4.emplace_back(getRandomElement(_AVAILABLE_COLORS_IMVEC4));
     }
 }
 
-void color_match::ColorMatch::displayRandomColors() {
-    ImGui::PushFont(commons::Fonts::_header3);
+void games::ColorMatch::displayRandomColors() {
     for (int i{0}; i < randomColorsText.size(); i++) {
+        ImGui::PushFont(indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
         ImGui::PushStyleColor(ImGuiCol_Text, randomColorsImVec4.at(i));
         ImGui::Text("%s", randomColorsText.at(i).c_str());
         ImGui::SameLine();
         ImGui::PopStyleColor();
+        ImGui::PopFont();
     }
-    ImGui::PopFont();
+
 }
 
-void color_match::ColorMatch::displayColorButtons() {
+void games::ColorMatch::displayColorButtons() {
     ImGui::NewLine();
     for (int i{0}; i < _AVAILABLE_COLORS_TEXT.size(); i++) {
         if (indexOfCurrentColor >= numberOfRandomColors) {
@@ -59,7 +60,10 @@ void color_match::ColorMatch::displayColorButtons() {
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, _AVAILABLE_COLORS_IMVEC4.at(i)); // Hover state
         ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                               isCurrentColor ? commons::ColorTheme::SUCCESS_COLOR : commons::ColorTheme::ERROR_COLOR);
-        if (ImGui::Button(_AVAILABLE_COLORS_TEXT.at(i).c_str())) {
+
+        std::string buttonID = "##" + _AVAILABLE_COLORS_TEXT.at(i);
+        if (ImGui::Button(buttonID.c_str(), ImVec2(70, 30))) {
+
             if (isCurrentColor) {
                 indexOfCurrentColor++;
                 numberOfCorrectClicksInTotal++;
@@ -73,11 +77,15 @@ void color_match::ColorMatch::displayColorButtons() {
     }
 }
 
-void color_match::ColorMatch::reset() {
+void games::ColorMatch::reset() {
     isTimeForNewRandomColors = true;
     indexOfCurrentColor = 0;
     numberOfCorrectClicksInTotal = 0;
     numberOfCorrectClicksSinceLastError = 0;
+}
+
+std::string games::ColorMatch::getName() const {
+    return _NAME;
 }
 
 
