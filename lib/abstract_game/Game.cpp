@@ -6,7 +6,6 @@ namespace abstract_game {
     Game::Game() : _gameID{1}, _gameSession{GameSession(1, 0)} {} //TODO make gameID and userID dynamic
 
     void Game::stop() {
-        updateStatistics();
         reset();
     }
 

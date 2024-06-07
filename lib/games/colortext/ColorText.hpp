@@ -3,7 +3,7 @@
 #include "Game.hpp"
 
 namespace games {
-    class ColorText : Game {
+    class ColorText : abstract_game::Game {
         std::string _name { "Farbe und Text" };
     public:
         using Game::Game;

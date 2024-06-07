@@ -51,7 +51,7 @@ public:
          * This method must be implemented in derived classes and is called to update
          * the statistics, e.g., when a new level is reached or the game ends.
          */
-        virtual void updateStatistics() = 0;
+        //virtual void updateStatistics() = 0;
 
 
 protected:

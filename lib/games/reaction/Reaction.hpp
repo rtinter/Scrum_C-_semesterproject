@@ -4,7 +4,7 @@
 
 namespace games {
 
-    class Reaction : Game {
+    class Reaction : abstract_game::Game {
         //init to test function without the game implementation
         std::string _name {"Reaction"};
     public:
