@@ -1,5 +1,3 @@
-#ifndef ATHENA_STYLEMANAGER_HPP
-#define ATHENA_STYLEMANAGER_HPP
 
 #include <map>
 #include "imgui.h"
@@ -20,4 +18,3 @@ namespace commons {
 
 } // commons
 
-#endif //ATHENA_STYLEMANAGER_HPP

@@ -1,6 +1,7 @@
 #include "SceneManager.hpp"
 #include "DashboardScene.hpp"
 
+
 // Get the singleton instance of the SceneManager
 SceneManager& SceneManager::getInstance() {
     static SceneManager instance;
@@ -8,16 +9,16 @@ SceneManager& SceneManager::getInstance() {
 }
 
 void SceneManager::switchTo(std::unique_ptr<Scene> scene) {
-    if(currentScene)
-        currentScene.release();
+    if(_currentScene)
+        _currentScene.release();
 
-    currentScene = std::move(scene);
+    _currentScene = std::move(scene);
 }
 
 // Render the current scene
 void SceneManager::render() {
-    if (currentScene) {
-        currentScene->render();
+    if (_currentScene) {
+        _currentScene->render();
     }
 }
 
@@ -25,3 +26,4 @@ void SceneManager::render() {
 void SceneManager::addDefaultScenes() {
     switchTo(std::make_unique<DashboardScene>());
 }
+

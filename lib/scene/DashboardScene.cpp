@@ -1,12 +1,12 @@
 #include "DashboardScene.hpp"
-#include "GameScene.hpp"
 #include "SceneManager.hpp"
+#include "GameScene.hpp"
 #include "Reaction.hpp"
 
-DashboardScene::DashboardScene() : header("Home", "Zurück", []() {
+DashboardScene::DashboardScene() : _header("Home", "Zurück", []() {
     SceneManager::getInstance().switchTo(std::make_unique<GameScene<games::Reaction>>());
 }) {
-    // Define tiles for the dashboard
+    // Define tiles for the _dashboard
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
                 SceneManager::getInstance().switchTo(std::make_unique<GameScene<games::Reaction>>());
@@ -18,15 +18,16 @@ DashboardScene::DashboardScene() : header("Home", "Zurück", []() {
             ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
     };
 
-    dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
-    dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
+    _dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
+    _dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
 }
 
 void DashboardScene::render() {
-    header.render();
-    dashboard.render();
+    _header.render();
+    _dashboard.render();
 }
 
 std::string DashboardScene::getName() const {
     return "DashboardScene";
 }
+

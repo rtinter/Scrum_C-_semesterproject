@@ -5,16 +5,15 @@
 #include "Scene.hpp"
 
 class SceneManager {
-    std::map<std::string, std::unique_ptr<Scene>> scenes;
-    std::unique_ptr<Scene> currentScene;
+    std::map<std::string, std::unique_ptr<Scene>> _scenes;
+    std::unique_ptr<Scene> _currentScene;
 
-    SceneManager() : currentScene(nullptr) {}
+    SceneManager() : _currentScene(nullptr) {}
 
 public:
     static SceneManager& getInstance();
-
-    // void addScene(std::unique_ptr<Scene> scene);
     void switchTo(std::unique_ptr<Scene> scene);
     void addDefaultScenes();
     void render();
 };
+

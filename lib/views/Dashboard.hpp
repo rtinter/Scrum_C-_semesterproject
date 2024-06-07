@@ -5,7 +5,7 @@
 namespace views {
 
     /**************************************************************
-     * The dashboard holds a vector of categories with which the
+     * The _dashboard holds a vector of categories with which the
      * user can start games by clicking on them.
      **************************************************************/
     class Dashboard {
