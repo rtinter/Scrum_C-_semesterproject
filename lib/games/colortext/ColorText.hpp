@@ -1,18 +1,16 @@
 #pragma once
+
 #include "Game.hpp"
-#include "string"
 
 namespace games {
-
-    class Reaction : Game {
-        //init to test function without the game implementation
-        std::string _name {"Reaction"};
+    class ColorText : Game {
+        std::string _name { "Farbe und Text" };
     public:
         using Game::Game;
-        void start() override;
         void reset() override;
+        void start() override;
         void stop() override;
+
         std::string getName() const override;
     };
-
-} // reaction
+}

@@ -1,4 +1,4 @@
-set(LIBRARY_NAME reaction)
+set(LIBRARY_NAME colortext)
 
 file(GLOB SOURCES *.cpp)
 
@@ -12,7 +12,7 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
-    abstract_game
+        abstract_game
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC

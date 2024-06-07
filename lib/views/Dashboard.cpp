@@ -18,7 +18,7 @@ namespace {
         ImGui::Spacing();
 
         int count = 0;
-        for (auto &tile : tiles) {
+        for (ui_elements::Tile &tile: tiles) {
             if (count > 0 && count % 2 == 0) {
                 ImGui::NewLine();
             }
