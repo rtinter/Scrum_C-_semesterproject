@@ -1,7 +1,4 @@
-#pragma once
-//
-// Created by zarathustra on 30.05.24.
-//
+
 #include "../commons/Fonts.hpp"
 #include "../commons/Colors.hpp"
 #include "Window.hpp"

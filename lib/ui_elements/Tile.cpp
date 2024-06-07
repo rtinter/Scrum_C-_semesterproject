@@ -3,7 +3,6 @@
 #include "Window.hpp"
 #include <sstream>
 
-#pragma once
 
 namespace ui_elements {
 

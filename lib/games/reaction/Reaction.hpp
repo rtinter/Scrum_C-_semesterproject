@@ -1,12 +1,14 @@
-#ifndef ATHENA_REACTION_H
-#define ATHENA_REACTION_H
+#pragma once
+#include "Game.hpp"
 
-namespace reaction {
+namespace games {
 
-    class Reaction {
-
+    class Reaction : Game {
+    public:
+        using Game::Game;
+        void start() override;
+        void reset() override;
+        void stop() override;
     };
 
 } // reaction
-
-#endif //ATHENA_REACTION_H
