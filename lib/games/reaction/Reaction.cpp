@@ -73,7 +73,7 @@ namespace reaction {
 
                     _showEndbox = true;
 
-                    // TODO: muss in einem späteren ticket richtig gemacht werden
+                    // TODO von Noah in #114: muss in einem späteren ticket richtig gemacht werden
                     // _endboxTitle = ("Time elapsed: " + std::to_string(duration) + " ms").c_str();
                     // _endboxText = ("Duration rating: " + getDurationRating(duration)).c_str();
                     _endboxTitle = "Spielende";

@@ -12,24 +12,12 @@
 #include "SFML/Window/Event.hpp"
 
 
-namespace scene {
-    class SceneManager;
-}
 
 const int App::WINDOW_WIDTH{1920};
 const int App::WINDOW_HEIGHT{1080};
 const std::string App::TILE{"Human Benchmark"};
 const int App::FRAME_RATE{60};
-bool App::_showGame{false};
 
-std::stack<std::function<void()>> openWindows;
-
-void closeLastWindow() {
-    if (!openWindows.empty()) {
-        openWindows.top()();
-        openWindows.pop();
-    }
-}
 
 void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
