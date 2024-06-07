@@ -10,15 +10,17 @@
 namespace color_match {
     class ColorMatch : public Game {
         std::string const _NAME{"Reaction"};
-        bool isTimeForNewColors = true;
-        int numberOfColorsToChoose = 3;
+        bool isTimeForNewRandomColors = true;
+        int numberOfRandomColors = 3;
+        int indexOfCurrentColor;
 
-        std::vector<const char *> const _AVAILABLE_COLORS_TEXT = {"rot", "blau", "gelb", "lila", "grün"};
+        std::vector<std::string> const _AVAILABLE_COLORS_TEXT = {"rot", "blau", "gelb", "lila", "grün"};
         std::vector<ImVec4> const _AVAILABLE_COLORS_IMVEC4 = {commons::Colors::RED, commons::Colors::BLUE,
                                                               commons::Colors::YELLOW, commons::Colors::PURPLE,
                                                               commons::Colors::GREEN};
-        std::vector<const char *> chosenColorsText;
-        std::vector<ImVec4> chosenColorsImVec4;
+        std::vector<std::string> randomColorsText;
+        std::vector<ImVec4> randomColorsImVec4;
+        std::array<std::string, 3> clickedColors;
 
         void start() override;
 
@@ -33,11 +35,11 @@ namespace color_match {
             return v[dis(gen)];         // Zugriff auf zufälliges Element
         }
 
-        void displayChosenColors();
+        void displayRandomColors();
 
-        void chooseColorsText();
+        void pickRandomColorsText();
 
-        void chooseColorsImVec4();
+        void pickRandomColorsImVec4();
 
     public:
         void render();
