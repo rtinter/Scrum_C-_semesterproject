@@ -21,7 +21,6 @@ namespace {
 
         int count = 0;
         for (const ui_elements::Tile &tile: tiles) {
-            std::cout << typeid(tile).name() << std::endl;
             if (count > 0 && count % 2 == 0) {
                 ImGui::NewLine();
             }

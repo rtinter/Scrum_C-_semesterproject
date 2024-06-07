@@ -1,7 +1,5 @@
-#ifndef ATHENA_REACTION_H
-#define ATHENA_REACTION_H
-
-#include "../../abstract_game/Game.hpp"
+#pragma once
+#include "Game.hpp"
 
 namespace games {
 
@@ -14,5 +12,3 @@ namespace games {
     };
 
 } // reaction
-
-#endif //ATHENA_REACTION_H

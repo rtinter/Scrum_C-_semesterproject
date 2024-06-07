@@ -3,15 +3,17 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 
-DashboardScene::DashboardScene() : _header("Home", "Zurück", []() {
-    SceneManager::getInstance().switchTo(std::make_unique<GameScene<games::Reaction>>());
+DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
+    //Add the linking to statistic site here
+    // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
 }) {
     // Define tiles for the _dashboard
     const std::vector<ui_elements::Tile> kCategory1Tiles = {
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
                 SceneManager::getInstance().switchTo(std::make_unique<GameScene<games::Reaction>>());
             }),
-            ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {}),
+            ui_elements::Tile("Pictogram2", "Spielname2", "Beschreibung2", []() {
+            }),
     };
 
     const std::vector<ui_elements::Tile> kCategory2Tiles = {

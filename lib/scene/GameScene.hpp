@@ -19,7 +19,7 @@ public:
 // Implementation of the GameScene template methods
 template<typename T>
 GameScene<T>::GameScene()
-        : _header("Game Title", "Back", []() {
+        : _header("Placeholder", "Zurück", []() {
     SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
 }), _game{std::make_unique<T>()} {
 }

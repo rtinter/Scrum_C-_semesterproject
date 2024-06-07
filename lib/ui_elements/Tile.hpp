@@ -16,13 +16,11 @@ namespace ui_elements {
     private:
         float _height{300};
         float _width{400};
-
-    private:
         std::string _pictogram;
         std::string _gameName;
         std::string _description;
         std::string _buttonText;
-    private:
+
         std::function<void()> _onClick;
         void setButtonText();
 
