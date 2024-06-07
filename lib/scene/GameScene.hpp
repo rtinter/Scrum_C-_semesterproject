@@ -6,13 +6,6 @@
 #include <memory>
 #include "Reaction.hpp"
 
-// Forward declarations
-class SceneManager;
-
-namespace games {
-    class Reaction;
-}
-
 template<typename T>
 class GameScene : public Scene {
     views::Header _header;
@@ -24,7 +17,6 @@ public:
 };
 
 // Implementation of the GameScene template methods
-
 template<typename T>
 GameScene<T>::GameScene()
         : _header("Game Title", "Back", []() {

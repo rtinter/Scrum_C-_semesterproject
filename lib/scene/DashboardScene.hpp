@@ -5,6 +5,7 @@
 #include "Dashboard.hpp"
 #include <string>
 
+
 class DashboardScene : public Scene {
     views::Header _header;
     views::Dashboard _dashboard;
