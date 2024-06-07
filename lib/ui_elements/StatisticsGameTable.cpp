@@ -46,7 +46,6 @@ namespace ui_elements {
 
         ImGui::PushFont(commons::Fonts::_header2);
         // Kopfzeile
-        //ImGui::StyleColorsClassic();
         for (auto &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
         }
