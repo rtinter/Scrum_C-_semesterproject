@@ -10,23 +10,6 @@
 
 namespace games {
     class ColorMatch : public Game {
-        std::string const _NAME{"Farb-Wort-Spiel"};
-
-        std::string _gameDescription{
-                "Unser Spiel 'Farb Wort Test' zielt darauf ab, die kognitive Flexibilität zu testen,\n"
-                "eine Schlüsselkompetenz für Polizei- und Feuerwehranwärter. Dabei werden Farben als Wörter angezeigt,\n"
-                "wobei die Schriftfarbe von der Bedeutung des Wortes abweicht. Der User muss schnell erkennen,\n"
-                "wenn das Wort und die Schriftfarbe übereinstimmen, und daraufhin klicken.\n"
-                "Durch die fortlaufende Anzeige von richtigen und falschen Antworten sowie\n"
-                "eine Streak-Anzeige wird die kognitive Leistung des Users bewertet.\n"
-                "Die schnelle Anpassung an unerwartete Situationen und die Fähigkeit,\n"
-                "zwischen verschiedenen Reizen zu unterscheiden, sind wesentliche Fähigkeiten\n"
-                "für den Einsatz von Polizei- und Feuerwehrkräften."};
-        std::string _gameRules{"Auf dem Bildschirm werden zuerst Wörter in unterschiedlicher Farbe angezeigt.\n"
-                               "Diese sind in Reihenfolge anhand des Wortes nicht der Farbe zuzuordnen.\n"
-                               "Anschließend gibt es eine ähnliche Aufgabe nur muss man nun die Farbe des Wortes den Wörter unterhalb zuordnen\n"
-        };
-        std::string _gameControls{"Linke Maustaste: Klicken der richtigen Antworten in der richting Reihenfolge"};
         bool isTimeForNewRandomColors{true};
         int numberOfRandomColors{3};
         int indexOfCurrentColor;
@@ -57,14 +40,17 @@ namespace games {
         void pickRandomColorsImVec4();
 
     public:
+        ColorMatch();
+
+        void render() override;
+
+        void renderGame() override;
+
         void start() override;
 
         void reset() override;
 
-        // void updateStatistics() override;
-        std::string getName() const override;
-
-        void render();
+        void updateStatistics() override;
 
         void displayColorButtons();
     };

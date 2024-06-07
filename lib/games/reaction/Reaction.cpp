@@ -21,10 +21,10 @@ namespace reaction {
                 "In diesen Berufen ist es entscheidend, rasch auf sich ändernde Situationen zu reagieren, \n"
                 "daher ist das Spiel ein zuverlässiger Indikator für die persönliche Eignung.\n";
         _gameRules = "Der Bildschirm zeigt zunächst eine rote Farbe.\n"
-                "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
-                "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
-                "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
-                "Versuche, deine beste Zeit zu schlagen!";
+                     "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
+                     "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
+                     "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
+                     "Versuche, deine beste Zeit zu schlagen!";
         _gameControls = "Linke Maustaste: Klicken, sobald der Bildschirm Grün wird.";
     }
 
@@ -69,7 +69,7 @@ namespace reaction {
                     _finishPoint = std::chrono::steady_clock::now();
 
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        _finishPoint - _startPoint).count();
+                            _finishPoint - _startPoint).count();
 
                     _showEndbox = true;
 
@@ -142,9 +142,5 @@ namespace reaction {
     bool Reaction::isGreen() const {
         return _windowColor.x == commons::Colors::GREEN.x && _windowColor.y == commons::Colors::GREEN.y
                && _windowColor.z == commons::Colors::GREEN.z && _windowColor.w == commons::Colors::GREEN.w;
-    }
-
-    std::string Reaction::getName() const {
-        return _gameName;
     }
 } // reaction

@@ -32,6 +32,7 @@ namespace reaction {
         void render() override;
 
         void renderGame() override;
+
         void start() override;
 
 
@@ -40,7 +41,5 @@ namespace reaction {
         void reset() override;
 
         void updateStatistics() override;
-
-        std::string getName() const override;
     };
 } // reaction

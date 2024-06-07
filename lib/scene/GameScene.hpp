@@ -1,11 +1,6 @@
 #pragma once
 
-#include "Header.hpp"
-#include "Scene.hpp"
-#include <string>
-#include <memory>
 #include "Reaction.hpp"
-#include "optional"
 #include "ColorMatch.hpp"
 
 namespace scene {
@@ -44,7 +39,7 @@ namespace scene {
 
 // Explicit instantiation of GameScene for games::Reaction
     template
-    class GameScene<games::Reaction>;
+    class GameScene<reaction::Reaction>;
 
     template
     class GameScene<games::ColorMatch>;
