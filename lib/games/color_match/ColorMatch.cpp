@@ -6,7 +6,12 @@
 #include "../../commons/Fonts.hpp"
 
 void color_match::ColorMatch::render() {
-    start();
+
+
+    ui_elements::InfoBox(_showInfobox, _NAME, _gameDescription, _gameRules, _gameControls, [this] {
+        start();
+    }).render();
+
 }
 
 void color_match::ColorMatch::start() {

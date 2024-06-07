@@ -9,6 +9,17 @@
 
 namespace color_match {
     class ColorMatch : public Game {
+        std::string _gameDescription {
+                "Unser Reaktionszeit-Spiel bewertet die Fähigkeit, schnell und präzise auf visuelle Reize zu reagieren,\n"
+                "was für Polizei- und Feuerwehrarbeit unerlässlich ist.\n"
+                "In diesen Berufen ist es entscheidend, rasch auf sich ändernde Situationen zu reagieren, \n"
+                "daher ist das Spiel ein zuverlässiger Indikator für die persönliche Eignung.\n"};
+        std::string _gameRules {"Der Bildschirm zeigt zunächst eine rote Farbe.\n"
+                "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
+                "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
+                "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
+                "Versuche, deine beste Zeit zu schlagen!"};
+        std::string _gameControls { "Linke Maustaste: Klicken, sobald der Bildschirm Grün wird."};
         std::string const _NAME{"Reaction"};
         bool isTimeForNewRandomColors = true;
         int numberOfRandomColors = 3;
