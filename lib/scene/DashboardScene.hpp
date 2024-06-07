@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Scene.hpp"
-#include "Header.hpp"
-#include "Dashboard.hpp"
-#include <string>
+#include <Dashboard.hpp>
+#include <Header.hpp>
+#include <Scene.hpp>
+
 
 namespace scene {
     class DashboardScene : public Scene {

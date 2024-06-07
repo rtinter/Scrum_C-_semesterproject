@@ -1,13 +1,16 @@
-#include "App.hpp"
-#include "StyleManager.hpp"
-#include "SceneManager.hpp"
-#include "../lib/games/color_match/ColorMatch.hpp"
+#pragma once
 
+#include "App.hpp"
+
+#include <functional>
 #include <imgui-SFML.h>
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
+#include <SceneManager.hpp>
+#include <stack>
+#include <StyleManager.hpp>
+
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Window/Event.hpp"
+
 
 
 const int App::WINDOW_WIDTH{1920};
@@ -21,7 +24,7 @@ void App::start() {
     window.setFramerateLimit(App::FRAME_RATE);
 
     //init singleton and start Dashboard
-    scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
+    scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {
