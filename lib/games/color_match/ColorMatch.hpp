@@ -43,6 +43,7 @@ namespace color_match {
         void render();
 
 
+        void displayColorButtons();
     };
 
     void createText();
