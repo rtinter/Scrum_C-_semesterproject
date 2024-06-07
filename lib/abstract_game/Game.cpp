@@ -19,3 +19,4 @@ void Game::sendSessionInfo(){
 void Game::saveRunThroughResult(std::string const &resultUnit, long const &result) {
     _gameSession.addNewGameRunThrough(resultUnit, result);
 }
+
