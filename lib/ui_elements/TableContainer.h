@@ -17,9 +17,10 @@ private:
     float _height {600};
     float _width {700};
     std::string _gameName;
+    StatisticsGameTable _statisticsGameTable;
 
 public:
-    explicit TableContainer(std::string const &gameName);
+    explicit TableContainer(std::string const &gameName, StatisticsGameTable const &statisticsGameTable);
 
     void render() const override;
 

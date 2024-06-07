@@ -7,9 +7,10 @@ namespace scene {
         //linking to Home/Dashboard site has to be added here
         //SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
     }){
-
-        _results.addGameTableContainer(ui_elements::TableContainer("hallo"));
-        _results.addGameTableContainer(ui_elements::TableContainer("hallo1"));
+        std::map<int, std::vector<std::string>> map;
+        ui_elements::StatisticsGameTable coolTable{map};
+        _results.addGameTableContainer(ui_elements::TableContainer("hallo", coolTable));
+        //_results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
 
     }
 
