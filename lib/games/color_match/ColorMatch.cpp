@@ -4,9 +4,13 @@
 #include "../../commons/ColorTheme.hpp"
 #include "../../commons/ColorHelper.hpp"
 #include "../../commons/Fonts.hpp"
+#include "../../ui_elements/InfoBox.h"
 
 void games::ColorMatch::render() {
-    start();
+    ui_elements::InfoBox(_showInfobox, _NAME, _gameDescription, _gameRules, _gameControls, [this] {
+        start();
+    }).render();
+
 }
 
 void games::ColorMatch::start() {
