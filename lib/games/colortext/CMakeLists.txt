@@ -1,10 +1,8 @@
-set(LIBRARY_NAME calc)
+set(LIBRARY_NAME colortext)
 
 file(GLOB SOURCES *.cpp)
 
-add_library(${LIBRARY_NAME} ${SOURCES}
-        ../colortext/ColorText.cpp
-        ../colortext/ColorText.hpp)
+add_library(${LIBRARY_NAME} ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
