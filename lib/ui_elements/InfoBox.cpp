@@ -8,12 +8,12 @@
 
 namespace ui_elements {
     InfoBox::InfoBox(
-        bool &showOverlay,
-        const char *gameName,
-        const char *gameDescription,
-        const char *gameRules,
-        const char *gameControls,
-        const std::function<void()> &startCallback
+            bool &showOverlay,
+            const char *gameName,
+            const char *gameDescription,
+            const char *gameRules,
+            const char *gameControls,
+            const std::function<void()> &startCallback
     ) : _showOverlay(showOverlay),
         _gameName(gameName),
         _gameDescription(gameDescription),

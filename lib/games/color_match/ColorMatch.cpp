@@ -63,8 +63,10 @@ namespace games {
                 pickRandomColorsImVec4();
                 isTimeForNewRandomColors = false;
             }
-            displayRandomColors();
-            displayColorButtons();
+            ui_elements::Centered([this] {
+                displayRandomColors();
+                displayColorButtons();
+            });
         });
     }
 
@@ -96,7 +98,7 @@ namespace games {
         }
     }
 
-    void ColorMatch::displayRandomColors() { // TODO center texts
+    void ColorMatch::displayRandomColors() {
         for (int i{0}; i < randomColorsText.size(); i++) {
             ImGui::PushFont(indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
             ImGui::PushStyleColor(ImGuiCol_Text, randomColorsImVec4.at(i));
@@ -105,7 +107,6 @@ namespace games {
             ImGui::PopStyleColor();
             ImGui::PopFont();
         }
-
     }
 
     void ColorMatch::displayColorButtons() {
