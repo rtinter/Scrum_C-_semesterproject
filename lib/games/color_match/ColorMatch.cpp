@@ -7,6 +7,12 @@
 #include "../../ui_elements/InfoBox.h"
 
 void games::ColorMatch::render() {
+    // if (!timer.isRunning() && !timer.isExpired()) {
+    //     timer.start();
+    // }
+    // if (timer.isExpiredNow()) {
+    //     std::cout << numberOfCorrectClicksInTotal;
+    // }
     //ui_elements::InfoBox(_showInfobox, _NAME, _gameDescription, _gameRules, _gameControls, [this] {
     start();
     //}).render();
@@ -15,6 +21,7 @@ void games::ColorMatch::render() {
 void games::ColorMatch::start() {
     ImGui::Begin("Color Match Game"); // TODO: use Window class
     ImGui::SetWindowSize(ImVec2(400, 400), ImGuiCond_Always);
+    //timer.render();
     if (isTimeForNewRandomColors) {
         pickRandomColorsText();
         pickRandomColorsImVec4();

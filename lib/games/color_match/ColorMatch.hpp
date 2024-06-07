@@ -6,12 +6,13 @@
 #include <iostream>
 #include "Game.hpp"
 #include "Colors.hpp"
+#include "Timer.hpp"
 
 namespace games {
     class ColorMatch : public Game {
         std::string const _NAME{"Farb-Wort-Spiel"};
 
-        std::string _gameDescription {
+        std::string _gameDescription{
                 "Unser Spiel 'Farb Wort Test' zielt darauf ab, die kognitive Flexibilität zu testen,\n"
                 "eine Schlüsselkompetenz für Polizei- und Feuerwehranwärter. Dabei werden Farben als Wörter angezeigt,\n"
                 "wobei die Schriftfarbe von der Bedeutung des Wortes abweicht. Der User muss schnell erkennen,\n"
@@ -21,16 +22,17 @@ namespace games {
                 "Die schnelle Anpassung an unerwartete Situationen und die Fähigkeit,\n"
                 "zwischen verschiedenen Reizen zu unterscheiden, sind wesentliche Fähigkeiten\n"
                 "für den Einsatz von Polizei- und Feuerwehrkräften."};
-        std::string _gameRules {"Auf dem Bildschirm werden zuerst Wörter in unterschiedlicher Farbe angezeigt.\n"
-                "Diese sind in Reihenfolge anhand des Wortes nicht der Farbe zuzuordnen.\n"
-                "Anschließend gibt es eine ähnliche Aufgabe nur muss man nun die Farbe des Wortes den Wörter unterhalb zuordnen\n"
-                };
-        std::string _gameControls { "Linke Maustaste: Klicken der richtigen Antworten in der richting Reihenfolge"};
-        bool isTimeForNewRandomColors = true;
-        int numberOfRandomColors = 3;
+        std::string _gameRules{"Auf dem Bildschirm werden zuerst Wörter in unterschiedlicher Farbe angezeigt.\n"
+                               "Diese sind in Reihenfolge anhand des Wortes nicht der Farbe zuzuordnen.\n"
+                               "Anschließend gibt es eine ähnliche Aufgabe nur muss man nun die Farbe des Wortes den Wörter unterhalb zuordnen\n"
+        };
+        std::string _gameControls{"Linke Maustaste: Klicken der richtigen Antworten in der richting Reihenfolge"};
+        bool isTimeForNewRandomColors{true};
+        int numberOfRandomColors{3};
         int indexOfCurrentColor;
-        int numberOfCorrectClicksInTotal = 0;
-        int numberOfCorrectClicksSinceLastError = 0;
+        int numberOfCorrectClicksInTotal{0};
+        int numberOfCorrectClicksSinceLastError{0};
+        //ui_elements::Timer timer{"Color Match Game", 60};
 
         std::vector<std::string> const _AVAILABLE_COLORS_TEXT{"rot", "blau", "gelb", "lila", "grün"};
         std::vector<ImVec4> const _AVAILABLE_COLORS_IMVEC4{commons::Colors::RED, commons::Colors::BLUE,
