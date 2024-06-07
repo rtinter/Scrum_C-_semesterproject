@@ -15,6 +15,10 @@ set(CUSTOM_LIBS
         commons
         ui_elements
         abstract_game
+        views
+        calc
+        reaction
+        colortext
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
