@@ -82,10 +82,12 @@ namespace reaction {
                     std::stringstream durationStream;
                     durationStream << duration;
 
-                    _endBoxTitleString = "Vergangene Zeit: " + durationStream.str() + "ms";
+                    _endBoxTitleString =
+                        "Vergangene Zeit: " + durationStream.str() + "ms";
                     _endboxTitle = _endBoxTitleString.c_str();
 
-                    _endBoxTextString = "Bewertung: " + getDurationRating(duration);
+                    _endBoxTextString =
+                        "Bewertung: " + getDurationRating(duration);
                     _endboxText = _endBoxTextString.c_str();
                 } else {
                     _isGameRunning = false;
