@@ -3,7 +3,7 @@
 
 namespace abstract_game {
 
-    Game::Game() : _gameID{1}, _gameSession{GameSession(1, 0)} {} //TODO make gameID and userID dynamic
+    Game::Game(GameID gameID) : _gameID{gameID}, _gameSession{static_cast<int>(gameID),1} {}
 
     void Game::stop() {
         reset();
@@ -18,6 +18,10 @@ namespace abstract_game {
     void Game::saveRunThroughResult(std::string const &resultUnit,
                                     long const &result) {    //TODO call this function when the user has completed a run (e. g. when result overlay is shown)
         _gameSession.addNewGameRunThrough(resultUnit, result);
+    }
+
+    GameID Game::getGameID() const {
+        return _gameID;
     }
 
 }

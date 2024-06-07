@@ -1,0 +1,17 @@
+//
+// Created by Admin on 07.06.2024.
+//
+
+#ifndef GAMEIDS_HPP
+#define GAMEIDS_HPP
+
+namespace abstract_game {
+    enum class GameID {
+        REACTION = 1001,
+        // ZweitesSpiel = 2,
+        // DrittesSpiel = 3,
+    };
+} // namespace abstract_game
+
+#endif // GAMEIDS_HPP
+

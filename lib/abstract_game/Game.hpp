@@ -3,6 +3,7 @@
 
 #include "GameSession.hpp"
 #include "CsvStorage.hpp"
+#include "GameIDs.hpp"
 #include <string>
 #include <chrono>
 #include <memory>
@@ -18,7 +19,7 @@ namespace abstract_game {
  */
 class Game {
 public:
-	Game();
+	explicit Game(GameID gameID);
 	virtual ~Game() = default;
 
 	/**
@@ -69,6 +70,8 @@ public:
 	 */
 	virtual void updateStatistics() = 0;
 
+    GameID getGameID() const;
+
 
 protected:
 	const char *_gameName;
@@ -82,6 +85,8 @@ protected:
 	bool _showInfobox{true};
 	bool _showEndbox{false};
 	bool _isGameRunning{false};
+
+    GameID _gameID;
 
 private:
 
@@ -105,7 +110,7 @@ private:
 
     GameSession _gameSession;
 
-    int _gameID;
+
 };
 
 } // abstract_game
