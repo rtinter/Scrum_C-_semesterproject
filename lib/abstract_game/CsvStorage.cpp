@@ -26,7 +26,7 @@ namespace abstract_game {
         infile.close();
 
         if (isEmpty) {
-            file << "GameID,UserID,GameSessionUID,StartTime,EndTime,DurationInSeconds,Ended\n";
+            file << "GameSessionUID,UserID,GameID,StartTime,EndTime,DurationInSeconds,Ended\n";
         }
         // Write session data
         std::stringstream ss;
