@@ -72,8 +72,12 @@ namespace reaction {
                         _finishPoint - _startPoint).count();
 
                     _showEndbox = true;
-                    _endboxTitle = ("Time elapsed: " + std::to_string(duration) + " ms").c_str();
-                    _endboxText = ("Duration rating: " + getDurationRating(duration)).c_str();
+
+                    // TODO: muss in einem späteren ticket richtig gemacht werden
+                    // _endboxTitle = ("Time elapsed: " + std::to_string(duration) + " ms").c_str();
+                    // _endboxText = ("Duration rating: " + getDurationRating(duration)).c_str();
+                    _endboxTitle = "Spielende";
+                    _endboxText = "Gut gemacht";
                 } else {
                     _isGameRunning = false;
                     _showEndbox = true;
@@ -138,5 +142,9 @@ namespace reaction {
     bool Reaction::isGreen() const {
         return _windowColor.x == commons::Colors::GREEN.x && _windowColor.y == commons::Colors::GREEN.y
                && _windowColor.z == commons::Colors::GREEN.z && _windowColor.w == commons::Colors::GREEN.w;
+    }
+
+    std::string Reaction::getName() const {
+        return _gameName;
     }
 } // reaction
