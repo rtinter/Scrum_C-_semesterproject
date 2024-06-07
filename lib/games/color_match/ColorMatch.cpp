@@ -57,7 +57,15 @@ namespace games {
 
     void ColorMatch::renderGame() {
         ui_elements::Window("Color Match Game").render([this] {
-            //timer.render();
+            timer.render();
+
+            if (timer.isExpiredNow()) {
+                _isGameRunning = false;
+                _showEndbox = true;
+                _endboxTitle = "Zeit abgelaufen!";
+                _endboxText = ("Richtige: " + std::to_string(numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
+                               std::to_string(numberOfCorrectClicksSinceLastError)).c_str();
+            }
             if (isTimeForNewRandomColors) {
                 pickRandomColorsText();
                 pickRandomColorsImVec4();
@@ -73,6 +81,7 @@ namespace games {
     void ColorMatch::start() {
         _isGameRunning = true;
         _showEndbox = false;
+        timer.start();
     }
 
     void ColorMatch::reset() {
@@ -132,6 +141,7 @@ namespace games {
                     numberOfCorrectClicksSinceLastError++;
                 } else {
                     numberOfCorrectClicksSinceLastError--;
+                    //timer.reduceTime(5);
                 };
             }
             ImGui::PopStyleColor(3);
