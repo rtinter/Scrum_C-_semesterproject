@@ -31,6 +31,6 @@ namespace ui_elements {
                       std::function<void()> const &onClick);
 
         // Render method
-        void render() const override;
+        void render() override;
     };
 }

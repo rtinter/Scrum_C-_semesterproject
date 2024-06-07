@@ -11,7 +11,7 @@ namespace ui_elements {
         virtual ~UiElement() = default;
 
     private:
-        virtual void render() const = 0; // abstract
+        virtual void render() = 0; // abstract
     };
 
 }

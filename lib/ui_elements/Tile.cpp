@@ -22,7 +22,7 @@ namespace ui_elements {
     }
 
     // Render-Methode
-    void Tile::render() const {
+    void Tile::render() {
         ui_elements::Window("Dashboard").render([this]() {
             ImGui::SetWindowPos(ImVec2(0, 50), ImGuiCond_Always);
             ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50),
