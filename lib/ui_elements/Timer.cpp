@@ -15,11 +15,12 @@ namespace ui_elements {
     }
 
     // private methods
-    void Timer::setBlinking(int times){
-        std::cout << "Blinking " << times << " times!" << std::endl;
+    void Timer::setHighlighted(int seconds){
+        _highlightUntil = std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
+        _highlighted = true;
     }
 
-    int Timer::getDifferenceInSeconds() const {
+    int Timer::getSecondsLeft() const {
 
         // return value if timer is not running (static value)
         if(!isRunning()){
@@ -40,8 +41,8 @@ namespace ui_elements {
     }
 
     int Timer::getSeconds() const {
-        if(getDifferenceInSeconds() > 0){
-            return getDifferenceInSeconds() % 60;
+        if(getSecondsLeft() > 0){
+            return getSecondsLeft() % 60;
         }
         else {
             return 0;
@@ -49,8 +50,8 @@ namespace ui_elements {
     }
 
     int Timer::getMinutes() const {
-        if(getDifferenceInSeconds() > 0){ // Division durch 0 verhindern
-            return getDifferenceInSeconds() / 60;
+        if(getSecondsLeft() > 0){ // Division durch 0 verhindern
+            return getSecondsLeft() / 60;
         }
         else {
             return 0;
@@ -71,8 +72,12 @@ namespace ui_elements {
         }
 
         // check if timer is expired
-        if(getDifferenceInSeconds() <= 0 && isRunning()){
+        if(getSecondsLeft() <= 0 && isRunning()){
             expire();
+        }
+
+        if(isHighlighted() && std::chrono::steady_clock::now() > _highlightUntil){
+            _highlighted = false;
         }
     }
 
@@ -81,7 +86,12 @@ namespace ui_elements {
 
         ui_elements::Window(_windowName).render([this]() {
 
-            ImGui::PushFont(commons::Fonts::_header2);
+            if(isHighlighted()){
+                ImGui::PushFont(commons::Fonts::_header1);
+            }
+            else {
+                ImGui::PushFont(commons::Fonts::_header2);
+            }
 
             // Create the string for the timer
             std::stringstream ss;
@@ -128,6 +138,10 @@ namespace ui_elements {
         return _expiredNow;
     }
 
+    bool Timer::isHighlighted() const {
+        return _highlighted;
+    }
+
     void Timer::start() {
 
         // ignore if timer is already running
@@ -153,12 +167,12 @@ namespace ui_elements {
 
     void Timer::reduceTime(int seconds){
 
-        if(getDifferenceInSeconds() <= seconds){
+        if(getSecondsLeft() <= seconds){
             expire();
         }
         else{
             _currentTimerTimeInSeconds -= seconds;
-            setBlinking(3);
+            setHighlighted(1);
         }
     }
 

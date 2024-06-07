@@ -23,10 +23,12 @@ namespace ui_elements {
 
         std::chrono::steady_clock::time_point _startPoint;
 
-        // Methods
-        void setBlinking(int times);
+        bool _highlighted {false};
+        std::chrono::steady_clock::time_point _highlightUntil;
 
-        int getDifferenceInSeconds() const;
+        // Methods
+        void setHighlighted(int seconds);
+
         int getSeconds() const;
         int getMinutes() const;
 
@@ -42,9 +44,11 @@ namespace ui_elements {
         void render() override;
 
         // Methods
+        int getSecondsLeft() const;
         bool isRunning() const;
         bool isExpired() const;
         bool isExpiredNow() const;
+        bool isHighlighted() const;
         void start();
         void reset();
         void reduceTime(int seconds);
