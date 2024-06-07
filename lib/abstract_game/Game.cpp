@@ -1,5 +1,4 @@
 #include "Game.hpp"
-#include <iostream>
 
 //TODO make gameID and userID dynamic
 Game::Game() : _gameID{1}, _gameSession {GameSession(1, 0)} { }
@@ -19,4 +18,3 @@ void Game::sendSessionInfo(){
 void Game::saveRunThroughResult(std::string const &resultUnit, long const &result) {
     _gameSession.addNewGameRunThrough(resultUnit, result);
 }
-
