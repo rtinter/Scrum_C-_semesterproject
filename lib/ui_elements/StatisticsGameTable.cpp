@@ -51,6 +51,7 @@ namespace ui_elements {
         ImGui::PopFont();
         //TextColor
         ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
+        ImGui::PopStyleColor();
     }
 
     void StatisticsGameTable::createTableRows() const {
@@ -82,7 +83,6 @@ namespace ui_elements {
             createTableHead();
 
             createTableRows();
-            ImGui::PopStyleColor(2);
             ImGui::EndTable();
         }
     }
@@ -97,6 +97,7 @@ namespace ui_elements {
             } else {
                 createTable();
             }
+            ImGui::PopStyleColor();
         });
     }
 }
