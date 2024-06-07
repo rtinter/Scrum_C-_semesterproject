@@ -1,6 +1,5 @@
 
 #include "ResultsScene.h"
-#include "StatisticsGameTable.hpp"
 
 namespace scene {
 
@@ -8,11 +7,10 @@ namespace scene {
         //linking to Home/Dashboard site has to be added here
         //SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
     }){
-
-        std::map<int, std::vector<std::string>> coolMap;
-        ui_elements::StatisticsGameTable coolTable{coolMap};
-        _results.addGameTableContainer(ui_elements::TableContainer("hall0", coolTable));
-        _results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
+        std::map<int, std::vector<std::string>> map;
+        ui_elements::StatisticsGameTable coolTable{map};
+        _results.addGameTableContainer(ui_elements::TableContainer("hallo", coolTable));
+        //_results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
 
     }
 
