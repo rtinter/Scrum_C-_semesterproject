@@ -88,3 +88,18 @@ Alternativ kann auch [Visual Studio Code](https://code.visualstudio.com/) in Ver
 1. In CLion oben rechts die Konfiguration auf `Athena` setzen.
 2. Das grüne Play-Symbol in der IDE klicken.
 3. Das Projekt sollte nun gebaut und ausgeführt werden.
+
+### Terminal Installation
+
+IDE unabhängige Installation für: Windows, Linux, Mac
+
+Vorausgesetzte Programme: 
+Cmake, Git, C++ Compiler (MingW, Visual Studio Compiler, G++)
+
+```bash
+git clone git@gitlab.iue.fh-kiel.de:aem/aem-2024/aem-team-1/human-benchmark/athena.git
+cd athena
+mkdir build && cd build
+cmake ..
+cmake --build .
+```
