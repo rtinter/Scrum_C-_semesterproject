@@ -78,6 +78,8 @@ namespace reaction {
 
                     _showEndbox = true;
 
+                    std::cout << duration << std::endl;
+
                     // convert long long duration to string
                     std::stringstream durationStream;
                     durationStream << duration;
