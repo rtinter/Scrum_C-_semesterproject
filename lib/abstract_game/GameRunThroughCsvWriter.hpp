@@ -30,7 +30,7 @@ namespace abstract_game {
     };
 
     template<typename T>
-    GameRunThroughCsvWriter<T>::GameRunThroughCsvWriter(const std::string &filename) : filename(filename) {
+    GameRunThroughCsvWriter<T>::GameRunThroughCsvWriter(const std::string &filename) : _filename(filename) {
         _file.open(filename, std::ios::app);
         if (!_file.is_open()) {
             throw std::runtime_error("Failed to open file: " + filename);
