@@ -9,11 +9,13 @@ set(CUSTOM_LIBS
         commons
         ui_elements
         views
+        scene
 )
 
 set(GAME_LIBS
         calc
         reaction
+        colortext
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
