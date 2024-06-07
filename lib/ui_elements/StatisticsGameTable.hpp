@@ -9,6 +9,7 @@
 #include <UiElement.hpp>
 #include <utility>
 #include <unordered_map>
+#include "sstream"
 
 namespace ui_elements {
     class StatisticsGameTable : public UiElement {

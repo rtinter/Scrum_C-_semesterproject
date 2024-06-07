@@ -9,6 +9,7 @@ set(CUSTOM_LIBS
         commons
         ui_elements
         views
+        scene
 )
 
 set(GAME_LIBS
