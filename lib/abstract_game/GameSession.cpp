@@ -59,7 +59,7 @@ namespace abstract_game {
     }
 
     void GameSession::writeRunThroughsToCsv(const std::string &filename) const {
-        CsvWriter<std::string> writer(filename);
+        GameRunThroughCsvWriter<std::string> writer(filename);
         writer.writeHeader({"GameRunThroughUID", "GameSessionUID", "Result", "ResultUnit"});
         for (const auto &runThrough: _gameRunThroughs) {
             writer.writeRow({std::to_string(runThrough.gameRunThroughUID),

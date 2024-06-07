@@ -5,8 +5,8 @@
 #include <chrono>
 #include <utility>
 #include <vector>
-#include "GameRunThrough.h"
-#include "CsvWriter.hpp"
+#include "GameRunThrough.hpp"
+#include "GameRunThroughCsvWriter.hpp"
 
 namespace abstract_game {
 

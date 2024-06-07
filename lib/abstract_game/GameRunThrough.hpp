@@ -2,8 +2,8 @@
 // Created by karlinaj on 30.05.2024.
 //
 
-#ifndef ATHENA_GAMERUNTHROUGH_H
-#define ATHENA_GAMERUNTHROUGH_H
+#ifndef ATHENA_GAMERUNTHROUGH_HPP
+#define ATHENA_GAMERUNTHROUGH_HPP
 
 #include <string>
 
@@ -25,4 +25,4 @@ struct GameRunThrough {
 };
 
 
-#endif //ATHENA_GAMERUNTHROUGH_H
+#endif //ATHENA_GAMERUNTHROUGH_HPP

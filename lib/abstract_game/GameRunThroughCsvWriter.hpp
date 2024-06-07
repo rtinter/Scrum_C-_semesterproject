@@ -2,8 +2,8 @@
 // Created by Admin on 07.06.2024.
 //
 
-#ifndef CSVWRITER_HPP
-#define CSVWRITER_HPP
+#ifndef GameRunThroughCsvWriter_HPP
+#define GameRunThroughCsvWriter_HPP
 
 #include <fstream>
 #include <vector>
@@ -14,9 +14,9 @@
 namespace abstract_game {
 
     template<typename T>
-    class CsvWriter {
+    class GameRunThroughCsvWriter {
     public:
-        CsvWriter(const std::string &filename);
+        GameRunThroughCsvWriter(const std::string &filename);
 
         void writeHeader(const std::vector<std::string> &header);
 
@@ -30,7 +30,7 @@ namespace abstract_game {
     };
 
     template<typename T>
-    CsvWriter<T>::CsvWriter(const std::string &filename) : filename(filename) {
+    GameRunThroughCsvWriter<T>::GameRunThroughCsvWriter(const std::string &filename) : filename(filename) {
         file.open(filename, std::ios::app);
         if (!file.is_open()) {
             throw std::runtime_error("Failed to open file: " + filename);
@@ -38,7 +38,7 @@ namespace abstract_game {
     }
 
     template<typename T>
-    void CsvWriter<T>::writeHeader(const std::vector<std::string> &header) {
+    void GameRunThroughCsvWriter<T>::writeHeader(const std::vector<std::string> &header) {
         if (file.tellp() == 0) {
             for (size_t i = 0; i < header.size(); ++i) {
                 file << header[i];
@@ -51,7 +51,7 @@ namespace abstract_game {
     }
 
     template<typename T>
-    void CsvWriter<T>::writeRow(const std::vector<T> &row) {
+    void GameRunThroughCsvWriter<T>::writeRow(const std::vector<T> &row) {
         for (size_t i = 0; i < row.size(); ++i) {
             file << row[i];
             if (i != row.size() - 1) {
@@ -62,11 +62,11 @@ namespace abstract_game {
     }
 
     template<typename T>
-    void CsvWriter<T>::close() {
+    void GameRunThroughCsvWriter<T>::close() {
         if (file.is_open()) {
             file.close();
         }
     }
 }
 
-#endif // CSVWRITER_HPP
+#endif // GameRunThroughCsvWriter_HPP
