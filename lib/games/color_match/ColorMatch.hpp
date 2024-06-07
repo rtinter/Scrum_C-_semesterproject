@@ -13,6 +13,8 @@ namespace color_match {
         bool isTimeForNewRandomColors = true;
         int numberOfRandomColors = 3;
         int indexOfCurrentColor;
+        int numberOfCorrectClicksInTotal = 0;
+        int numberOfCorrectClicksSinceLastError = 0;
 
         std::vector<std::string> const _AVAILABLE_COLORS_TEXT = {"rot", "blau", "gelb", "lila", "grün"};
         std::vector<ImVec4> const _AVAILABLE_COLORS_IMVEC4 = {commons::Colors::RED, commons::Colors::BLUE,
