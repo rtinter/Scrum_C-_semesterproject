@@ -3,6 +3,7 @@
 #include "SceneManager.hpp"
 
 #include <imgui-SFML.h>
+#include <StatisticsGameTable.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -32,6 +33,8 @@ void App::start() {
     commons::StyleManager::loadStyle();
     sf::Clock deltaClock;
 
+
+
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
@@ -45,7 +48,6 @@ void App::start() {
         ImGui::SFML::Update(window, deltaClock.restart());
         window.clear();
         sceneManager.render();
-
         ImGui::SFML::Render(window);
         window.display();
     }
