@@ -31,6 +31,7 @@ void App::start() {
     //load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();
     sf::Clock deltaClock;
+
     while (window.isOpen()) {
         sf::Event event{};
         while (window.pollEvent(event)) {
