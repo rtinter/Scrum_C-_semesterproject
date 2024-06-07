@@ -56,8 +56,8 @@ namespace reaction {
         }
     }
 
-    std::string Reaction::_endBoxTitleString {"Vergangene Zeit: "};
-    std::string Reaction::_endBoxTextString {"Bewertung: "};
+    std::string Reaction::_endBoxTitleString {};
+    std::string Reaction::_endBoxTextString {};
 
 
     void Reaction::renderGame() {
@@ -78,16 +78,14 @@ namespace reaction {
 
                     _showEndbox = true;
 
-                    std::cout << duration << std::endl;
-
                     // convert long long duration to string
                     std::stringstream durationStream;
                     durationStream << duration;
 
-                    _endBoxTitleString += durationStream.str() + "ms";
+                    _endBoxTitleString = "Vergangene Zeit: " + durationStream.str() + "ms";
                     _endboxTitle = _endBoxTitleString.c_str();
 
-                    _endBoxTextString += getDurationRating(duration);
+                    _endBoxTextString = "Bewertung: " + getDurationRating(duration);
                     _endboxText = _endBoxTextString.c_str();
                 } else {
                     _isGameRunning = false;
