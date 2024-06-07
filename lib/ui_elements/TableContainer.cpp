@@ -8,7 +8,7 @@
 
 namespace ui_elements {
 
-    TableContainer::TableContainer(std::string const &gameName) : _gameName(gameName) {
+    TableContainer::TableContainer(std::string const &gameName, StatisticsGameTable const &statisticsGameTable) : _gameName{gameName}, _statisticsGameTable{statisticsGameTable}{
 
     }
 
@@ -22,6 +22,7 @@ namespace ui_elements {
             ImGui::PushFont(commons::Fonts::_header2);
             ImGui::Text(_gameName.c_str());
             ImGui::PopFont();
+            _statisticsGameTable.render();
         });
     }
 } // ui_elements
