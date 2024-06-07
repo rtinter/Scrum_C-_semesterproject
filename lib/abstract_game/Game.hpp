@@ -3,8 +3,8 @@
 
 #include "GameSession.hpp"
 #include <string>
-#include <chrono>
 #include <memory>
+
 
 /**
  * @brief Abstract base class representing a generic game.
@@ -18,6 +18,21 @@ class Game {
 public:
 	Game();
 	virtual ~Game() = default;
+
+	/**
+	 * @brief Renders the game.
+	 *
+	 * This method is called by the SceneManager to render the game.
+	 */
+	virtual void render() =	0;
+
+
+	/**
+	 * @brief Renders the game.
+	 *
+	 * This method is called the in the game to actually render the game.
+	 */
+	virtual void renderGame() = 0;
 
 	/**
 	 * @brief Starts the game.
@@ -44,7 +59,27 @@ public:
     virtual std::string getName() const = 0;
 
 
+	/**
+	 * @brief Updates the game statistics.
+	 *
+	 * This method must be implemented in derived classes and is called to update
+	 * the statistics, e.g., when a new level is reached or the game ends.
+	 */
+	virtual void updateStatistics() = 0;
+
+
 protected:
+	const char *_gameName;
+	const char *_gameDescription;
+	const char *_gameRules;
+	const char *_gameControls;
+
+	const char *_endboxTitle {"Game Over"};
+	const char *_endboxText {"Game Over"};
+
+	bool _showInfobox{true};
+	bool _showEndbox{false};
+	bool _isGameRunning{false};
 
 private:
 

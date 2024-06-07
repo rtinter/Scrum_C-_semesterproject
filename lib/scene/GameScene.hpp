@@ -31,8 +31,9 @@ namespace scene {
 
     template<typename T>
     void GameScene<T>::render() {
-        _game->start();
+        // Header muss vor dem Game rendern, da es die Größe für das Game setzt
         _header->render();
+        _game->render();
     }
 
     template<typename T>
@@ -42,6 +43,5 @@ namespace scene {
 
 // Explicit instantiation of GameScene for games::Reaction
     template
-    class GameScene<games::Reaction>;
+    class GameScene<reaction::Reaction>;
 }
-

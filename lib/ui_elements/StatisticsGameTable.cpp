@@ -17,6 +17,8 @@ namespace ui_elements {
         }
     }
 
+
+
     std::string timePointToString(const std::chrono::system_clock::time_point &tp) {
         std::time_t t = std::chrono::system_clock::to_time_t(tp);
         std::tm tm = *std::localtime(&t);
@@ -41,17 +43,15 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::createTableHead() const {
+
         ImGui::PushFont(commons::Fonts::_header2);
         // Kopfzeile
-        ImGui::StyleColorsClassic();
         for (auto &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
         }
         ImGui::TableHeadersRow();
         ImGui::PopFont();
-        //TextColor
-        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
-        ImGui::PopStyleColor();
+
     }
 
     void StatisticsGameTable::createTableRows() const {
@@ -80,9 +80,13 @@ namespace ui_elements {
     void StatisticsGameTable::createTable() const {
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
+            ImGui::StyleColorsClassic();
             createTableHead();
 
+            //TextColor
+            ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
             createTableRows();
+            ImGui::PopStyleColor();
             ImGui::EndTable();
         }
     }
