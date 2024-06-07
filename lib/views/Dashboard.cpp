@@ -7,7 +7,7 @@
 
 namespace {
 
-    void renderCategory(const std::string &categoryName, const std::vector<ui_elements::Tile> &tiles) {
+    void renderCategory(const std::string &categoryName, std::vector<ui_elements::Tile> &tiles) {
         ImGui::Spacing();
         ImGui::Spacing();
         ImGui::Spacing();
@@ -20,7 +20,7 @@ namespace {
         ImGui::Spacing();
 
         int count = 0;
-        for (const ui_elements::Tile &tile: tiles) {
+        for (auto &tile : tiles) {
             if (count > 0 && count % 2 == 0) {
                 ImGui::NewLine();
             }
@@ -36,13 +36,13 @@ namespace {
 
 namespace views {
 
-    void Dashboard::addTileToCategory(const std::string &category, const ui_elements::Tile &tile) {
+    void Dashboard::addTileToCategory(const std::string &category, ui_elements::Tile &tile) {
         _categoryTiles[category].emplace_back(tile);
     }
 
     //add tiles to category
-    void Dashboard::addTilesToCategory(const std::string &category, const std::vector<ui_elements::Tile> &tiles) {
-        for (const auto &tile: tiles) {
+    void Dashboard::addTilesToCategory(const std::string &category, std::vector<ui_elements::Tile> &tiles) {
+        for (auto &tile: tiles) {
             addTileToCategory(category, tile);
         }
     }
@@ -50,7 +50,7 @@ namespace views {
 
     void Dashboard::render() {
         ui_elements::Window("Dashboard").render([this]() {
-            for (const auto &category: _categoryTiles) {
+            for (auto &category: _categoryTiles) {
                 renderCategory(category.first, category.second);
             }
         });
