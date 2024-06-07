@@ -20,7 +20,21 @@ public:
 	Game();
 	virtual ~Game() = default;
 
+	/**
+	 * @brief Renders the game.
+	 *
+	 * This method is called by the SceneManager to render the game.
+	 */
+	virtual void render() =	0;
+
+
+	/**
+	 * @brief Renders the game.
+	 *
+	 * This method is called the in the game to actually render the game.
+	 */
 	virtual void renderGame() = 0;
+
 	/**
 	 * @brief Starts the game.
 	 *

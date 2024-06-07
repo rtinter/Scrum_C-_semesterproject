@@ -36,7 +36,7 @@ namespace reaction {
     public:
         explicit Reaction();
 
-        void render();
+        void render() override;
 
         void renderGame() override;
 
