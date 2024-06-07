@@ -6,7 +6,7 @@ function build() {
     rm -rf build
     mkdir -p build
     cd build || exit 1
-    cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
     clang-tidy ../src/*.cpp
     cmake --build . --config Release -j $(nproc)
 }
@@ -18,21 +18,21 @@ function release() {
     mkdir -p build
     cd build || exit 1
 
-    cmake .. -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+    cmake ..
     cmake --build . --config Release -j $(nproc)
 
     ls -lah
     ls -lah ./bin/
 
-    zip -j -r $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG.zip $CI_PROJECT_DIR/build/bin/Athena
+    zip -j -r $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-linux.zip bin/*
 
-    echo "BUILD_JOB_ID="$CI_JOB_ID >> $CI_PROJECT_DIR/build.env
+    echo "BUILD_JOB_ID=$CI_JOB_ID" >> $CI_PROJECT_DIR/build.env
 }
 
-if [ $1 == "Release" ]; then
+if [ "$1" == "Release" ]; then
     release
 fi
 
-if [ $1 == "Build-Only" ]; then
+if [ "$1" == "Build-Only" ]; then
     build
 fi

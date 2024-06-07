@@ -3,12 +3,12 @@
 #include "Fonts.hpp"
 
 
-Header::Header(std::string const &left, std::string const &right, std::function<void()> const &callback)
+views::Header::Header(std::string const &left, std::string const &right, std::function<void()> const &callback)
         : _leftText(left), _rightButtonText(right), _buttonClickCallback(callback) {
     _centerText = "Athena";
 }
 
-void Header::render() {
+void views::Header::render() {
     ui_elements::Window("Header").render([this]() {
         ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
         ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, HEADER_HEIGHT + TOP_MARGIN),

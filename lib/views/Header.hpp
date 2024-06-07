@@ -10,20 +10,22 @@
  * on the right there is a button to access the statistics.
  * The text on the left shows where you are currently located (Home, Game X, ...)
  ***********************************************************************************/
-class Header {
-    std::string _leftText;
-    std::string _centerText;
-    std::string _rightButtonText;
-    std::function<void()> _buttonClickCallback;
+namespace views {
+    class Header {
+        std::string _leftText;
+        std::string _centerText;
+        std::string _rightButtonText;
+        std::function<void()> _buttonClickCallback;
 
-    static constexpr float HEADER_HEIGHT = 50.0f;
-    static constexpr float SIDE_MARGIN = 30.0f;
-    static constexpr float TOP_MARGIN = 10.0f;
+        static constexpr float HEADER_HEIGHT = 50.0f;
+        static constexpr float SIDE_MARGIN = 30.0f;
+        static constexpr float TOP_MARGIN = 10.0f;
 
-public:
-    // Konstruktor
-    Header(std::string const &left, std::string const &right, std::function<void()> const &callback);
+    public:
+        // Konstruktor
+        Header(std::string const &left, std::string const &right, std::function<void()> const &callback);
 
     // Render-Methode
     void render();
 };
+}
