@@ -4,7 +4,10 @@
 #include "Scene.hpp"
 #include <string>
 #include <memory>
-#include "Reaction.hpp"
+
+namespace reaction {
+    class Reaction;
+}
 
 namespace scene {
     template<typename T>
@@ -29,7 +32,7 @@ namespace scene {
 
     template<typename T>
     void GameScene<T>::render() {
-        _game->start();
+        _game->render();
         _header.render();
     }
 
@@ -40,5 +43,5 @@ namespace scene {
 
 // Explicit instantiation of GameScene for games::Reaction
     template
-    class GameScene<games::Reaction>;
+    class GameScene<reaction::Reaction>;
 }

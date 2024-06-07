@@ -19,7 +19,7 @@ namespace reaction {
      * um deine Reaktionszeit in Millisekunden zu messen.
      **************************************************+***/
 
-    class Reaction : public Game, public Scene {
+    class Reaction : public Game {
         bool _showOverlay{true};
         bool _isGameRunning{false};
 
@@ -36,7 +36,7 @@ namespace reaction {
     public:
         explicit Reaction();
 
-        void render() override;
+        void render();
 
         void renderGame() override;
 

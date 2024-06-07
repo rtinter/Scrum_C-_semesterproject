@@ -1,4 +1,6 @@
+#pragma once
 #include "SceneManager.hpp"
+
 #include "DashboardScene.hpp"
 
 
@@ -26,4 +28,3 @@ void scene::SceneManager::render() {
 void scene::SceneManager::addDefaultScenes() {
     switchTo(std::make_unique<DashboardScene>());
 }
-

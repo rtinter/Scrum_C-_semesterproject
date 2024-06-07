@@ -1,20 +1,20 @@
+#pragma once
+
 #include "App.hpp"
 
+#include <functional>
 #include <imgui-SFML.h>
-#include <iostream>
-
-#include "StyleManager.hpp"
-#include "SceneManager.hpp"
-
-#include <imgui-SFML.h>
-#include <SFML/Graphics/CircleShape.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
+#include <SceneManager.hpp>
 #include <stack>
+#include <StyleManager.hpp>
 
-#include "Reaction.hpp"
+#include "SFML/Graphics/RenderWindow.hpp"
+#include "SFML/Window/Event.hpp"
 
+
+namespace scene {
+    class SceneManager;
+}
 
 const int App::WINDOW_WIDTH{1920};
 const int App::WINDOW_HEIGHT{1080};
@@ -61,8 +61,6 @@ void App::start() {
             }
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
-        window.clear();
         sceneManager.render();
 
         ImGui::SFML::Render(window);
