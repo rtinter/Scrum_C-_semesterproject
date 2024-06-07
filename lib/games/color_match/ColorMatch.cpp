@@ -63,8 +63,10 @@ namespace games {
                 _isGameRunning = false;
                 _showEndbox = true;
                 _endboxTitle = "Zeit abgelaufen!";
-                _endboxText = ("Richtige: " + std::to_string(numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
-                               std::to_string(numberOfCorrectClicksSinceLastError)).c_str();
+                static std::string endboxString{
+                        "Richtige: " + std::to_string(numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
+                        std::to_string(numberOfCorrectClicksSinceLastError)};
+                _endboxText = (endboxString).c_str();
             }
             if (isTimeForNewRandomColors) {
                 pickRandomColorsText();
@@ -140,8 +142,8 @@ namespace games {
                     numberOfCorrectClicksInTotal++;
                     numberOfCorrectClicksSinceLastError++;
                 } else {
-                    numberOfCorrectClicksSinceLastError--;
-                    //timer.reduceTime(5);
+                    numberOfCorrectClicksSinceLastError = 0;
+                    timer.reduceTime(5);
                 };
             }
             ImGui::PopStyleColor(3);
