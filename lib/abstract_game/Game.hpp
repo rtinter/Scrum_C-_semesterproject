@@ -56,6 +56,8 @@ public:
 	 */
 	virtual void reset() = 0;
 
+    virtual std::string getName() const = 0;
+
 
 	/**
 	 * @brief Updates the game statistics.
@@ -98,7 +100,6 @@ private:
      * @param result The result of the run.
      */
     void saveRunThroughResult(std::string const &resultUnit, long const &result);
-
 
     GameSession _gameSession;
 

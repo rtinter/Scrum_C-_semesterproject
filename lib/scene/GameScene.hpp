@@ -1,13 +1,16 @@
 #pragma once
 
-namespace reaction {
-    class Reaction;
-}
+#include "Header.hpp"
+#include "Scene.hpp"
+#include <string>
+#include <memory>
+#include "Reaction.hpp"
+#include "optional"
 
 namespace scene {
     template<typename T>
     class GameScene : public Scene {
-        views::Header _header;
+        std::optional<views::Header> _header;
         std::unique_ptr<T> _game;
     public:
         GameScene();
@@ -17,24 +20,25 @@ namespace scene {
         std::string getName() const override;
     };
 
-// Implementation of the GameScene template methods
+    // Implementation of the GameScene template methods
     template<typename T>
-    GameScene<T>::GameScene()
-            : _header("Placeholder", "Zurück", []() {
-        SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
-    }), _game{std::make_unique<T>()} {
+    GameScene<T>::GameScene() : _game{std::make_unique<T>()} {
+        // Header initialisieren, nachdem _game initialisiert wurde
+        _header.emplace(_game->getName(), "Zurück", []() {
+            SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
+        });
     }
 
     template<typename T>
     void GameScene<T>::render() {
         // Header muss vor dem Game rendern, da es die Größe für das Game setzt
-        _header.render();
+        _header->render();
         _game->render();
     }
 
     template<typename T>
     std::string GameScene<T>::getName() const {
-        return "GameScene"; // Can be made more dynamic based on T
+        return _game->getName();
     }
 
 // Explicit instantiation of GameScene for games::Reaction

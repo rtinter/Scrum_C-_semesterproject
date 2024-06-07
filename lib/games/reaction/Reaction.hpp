@@ -5,7 +5,6 @@
 
 #include "SFML/System/Clock.hpp"
 
-
 namespace reaction {
     /******************************************************
      *<b>Reaction Test Game</b><br>
@@ -40,5 +39,7 @@ namespace reaction {
         void reset() override;
 
         void updateStatistics() override;
+
+        std::string getName() const override;
     };
 } // reaction
