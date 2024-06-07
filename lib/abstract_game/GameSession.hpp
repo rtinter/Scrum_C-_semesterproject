@@ -91,14 +91,6 @@ namespace abstract_game {
 
         bool isEnded() const;
 
-        /**
-         * @brief Writes the game session data to a CSV file.
-         *
-         * This method writes the game session data to a CSV file.
-         *
-         * @param filename The name of the CSV file.
-         */
-        void writeToCsv(const std::string &filename) const;
 
     };
 

@@ -7,8 +7,7 @@
 
 namespace abstract_game {
 
-    GameSession::GameSession(int gameID, int userID) : _gameID{gameID}, _userID{userID},
-                                                       _gameSessionUID{calcGameSessionUID()},
+    GameSession::GameSession(int gameID, int userID) : _gameSessionUID{calcGameSessionUID()}, _userID{userID}, _gameID{gameID},
                                                        _startPoint{std::chrono::steady_clock::now()}, _ended{false}, _dataManager {DataManagerFactory::Create("CsvManager")} {}
 
     size_t GameSession::calcGameSessionUID() {
@@ -83,29 +82,6 @@ namespace abstract_game {
         _dataManager->saveGameSession(_gameSessionUID, _userID, _gameID, startTime, endTime, duration, _ended);
     }
 
-    void GameSession::writeToCsv(const std::string& filename) const {
-        std::ofstream file(CSV_FILENAME, std::ios::app); // Open file in append mode
-        if (!file.is_open()) {
-            std::cerr << "Failed to open file: " << CSV_FILENAME << std::endl;
-            return;
-        }
-
-        // Write header if the file is empty
-        if (file.tellp() == 0) {
-            file << "GameSessionUID,UserID,GameID,StartPoint,EndPoint,DurationInSeconds,Ended\n";
-        }
-
-        // Write session data
-        file << _gameSessionUID << ","
-             << _userID << ","
-             << _gameID << ","
-             << std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count() << ","
-             << (_ended ? std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count() : 0) << ","
-             << getDurationInSeconds() << ","
-             << _ended << "\n";
-
-        file.close();
-    }
 
 
     void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
