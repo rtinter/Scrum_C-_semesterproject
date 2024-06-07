@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include "Reaction.hpp"
+#include "optional"
 
 namespace scene {
     template<typename T>
