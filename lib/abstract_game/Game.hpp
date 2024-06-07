@@ -3,7 +3,6 @@
 
 #include "GameSession.hpp"
 #include <string>
-#include <chrono>
 #include <memory>
 
 
@@ -72,6 +71,13 @@ protected:
 	const char *_gameDescription;
 	const char *_gameRules;
 	const char *_gameControls;
+
+	const char *_endboxTitle {"Game Over"};
+	const char *_endboxText {"Game Over"};
+
+	bool _showInfobox{true};
+	bool _showEndbox{false};
+	bool _isGameRunning{false};
 
 private:
 

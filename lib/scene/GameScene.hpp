@@ -1,10 +1,5 @@
 #pragma once
 
-#include "Header.hpp"
-#include "Scene.hpp"
-#include <string>
-#include <memory>
-
 namespace reaction {
     class Reaction;
 }
@@ -32,8 +27,9 @@ namespace scene {
 
     template<typename T>
     void GameScene<T>::render() {
-        _game->render();
+        // Header muss vor dem Game rendern, da es die Größe für das Game setzt
         _header.render();
+        _game->render();
     }
 
     template<typename T>

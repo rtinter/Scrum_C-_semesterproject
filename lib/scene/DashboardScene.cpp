@@ -25,6 +25,7 @@ scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", [](
 }
 
 void scene::DashboardScene::render() {
+    // Header muss vor dem Dashboard rendern, da es die Größe für das Dashboard setzt
     _header.render();
     _dashboard.render();
 }

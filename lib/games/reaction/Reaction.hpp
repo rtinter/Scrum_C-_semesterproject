@@ -1,13 +1,9 @@
 #pragma once
-
-#include "imgui.h"
-#include "Game.hpp"
-#include <SFML/System/Clock.hpp>
-#include <random>
-#include <chrono>
 #include <Colors.hpp>
+#include <Game.hpp>
+#include <imgui.h>
 
-#include "../../scene/Scene.hpp"
+#include "SFML/System/Clock.hpp"
 
 
 namespace reaction {
@@ -17,12 +13,9 @@ namespace reaction {
      *Reaction ist ein einfaches, aber spannendes Spiel, das deine Reflexe auf die Probe stellt.<br>
      * Warte, bis der Bildschirm von Rot zu Grün wechselt, und klicke so schnell wie möglich die linke Maustaste,
      * um deine Reaktionszeit in Millisekunden zu messen.
-     **************************************************+***/
+    **************************************************+***/
 
     class Reaction : public Game {
-        bool _showOverlay{true};
-        bool _isGameRunning{false};
-
         ImVec4 _windowColor{commons::Colors::RED};
         float _redDuration{0};
 
