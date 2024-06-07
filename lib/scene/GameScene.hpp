@@ -5,6 +5,7 @@
 #include <string>
 #include <memory>
 #include "Reaction.hpp"
+#include "ColorText.hpp"
 #include "optional"
 
 namespace scene {
@@ -43,5 +44,6 @@ namespace scene {
 // Explicit instantiation of GameScene for games::Reaction
     template
     class GameScene<games::Reaction>;
+    template
+    class GameScene<games::ColorText>;
 }
-

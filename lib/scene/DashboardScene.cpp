@@ -2,7 +2,6 @@
 #include "SceneManager.hpp"
 #include "GameScene.hpp"
 #include "Reaction.hpp"
-#include "ColorMatch.hpp"
 
 scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
     //Add the linking to statistic site here
