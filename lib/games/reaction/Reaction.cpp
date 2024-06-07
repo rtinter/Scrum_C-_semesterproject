@@ -10,7 +10,8 @@
 #include <SceneManager.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
-
+#include <iostream>
+#include <sstream>
 
 namespace reaction {
     Reaction::Reaction() {
@@ -55,6 +56,10 @@ namespace reaction {
         }
     }
 
+    std::string Reaction::_endBoxTitleString {"Vergangene Zeit: "};
+    std::string Reaction::_endBoxTextString {"Bewertung: "};
+
+
     void Reaction::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Reaction Game").render([this]() {
@@ -73,11 +78,15 @@ namespace reaction {
 
                     _showEndbox = true;
 
-                    // TODO von Noah in #114: muss in einem späteren ticket richtig gemacht werden
-                    // _endboxTitle = ("Time elapsed: " + std::to_string(duration) + " ms").c_str();
-                    // _endboxText = ("Duration rating: " + getDurationRating(duration)).c_str();
-                    _endboxTitle = "Spielende";
-                    _endboxText = "Gut gemacht";
+                    // convert long long duration to string
+                    std::stringstream durationStream;
+                    durationStream << duration;
+
+                    _endBoxTitleString += durationStream.str() + "ms";
+                    _endboxTitle = _endBoxTitleString.c_str();
+
+                    _endBoxTextString += getDurationRating(duration);
+                    _endboxText = _endBoxTextString.c_str();
                 } else {
                     _isGameRunning = false;
                     _showEndbox = true;
