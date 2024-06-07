@@ -1,54 +1,73 @@
 #include <sstream>
 #include "GameSession.hpp"
 
-GameSession::GameSession(int gameID, int userID) : _gameID {gameID}, _userID {userID}, _gameSessionUID {calcGameSessionUID()}, _startPoint {std::chrono::steady_clock::now()}, _ended {false} { }
+namespace abstract_game {
 
-size_t GameSession::calcGameSessionUID() {
 
-    // get current timeString as string
-    std::string timeString = std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+    GameSession::GameSession(int gameID, int userID) : _gameID{gameID}, _userID{userID},
+                                                       _gameSessionUID{calcGameSessionUID()},
+                                                       _startPoint{std::chrono::steady_clock::now()}, _ended{false} {}
 
-    // get random value as string
-    auto duration = std::chrono::system_clock::now().time_since_epoch();
-    auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
-    std::srand(nanos);
-    std::string randomString = std::to_string(std::rand() % 1000 + 1);
+    size_t GameSession::calcGameSessionUID() {
 
-    // concatenate timeString and random value for hash input
-    std::stringstream ss;
-    ss << timeString << randomString;
-    std::string hashInput {ss.str()};
+        // get current timeString as string
+        std::string timeString = std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
 
-    // create hash from input
-    size_t hash {std::hash<std::string>{}(hashInput)};
+        // get random value as string
+        auto duration = std::chrono::system_clock::now().time_since_epoch();
+        auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+        std::srand(nanos);
+        std::string randomString = std::to_string(std::rand() % 1000 + 1);
 
-    return hash;
-}
+        // concatenate timeString and random value for hash input
+        std::stringstream ss;
+        ss << timeString << randomString;
+        std::string hashInput{ss.str()};
 
-void GameSession::end() {
-    _ended = true;
+        // create hash from input
+        size_t hash{std::hash<std::string>{}(hashInput)};
 
-    // save the current time as the end time of the game session
-    _endPoint = std::chrono::steady_clock::now();
-}
-
-unsigned long long GameSession::getDurationInSeconds() const {
-    if(!_ended) {
-        // game session is still running
-        return std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - _startPoint).count();
+        return hash;
     }
-    else{
-        // game session has ended
-        return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
+
+    void GameSession::end() {
+        _ended = true;
+
+        // save the current time as the end time of the game session
+        _endPoint = std::chrono::steady_clock::now();
     }
-}
 
-void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
+    unsigned long long GameSession::getDurationInSeconds() const {
+        if (!_ended) {
+            // game session is still running
+            return std::chrono::duration_cast<std::chrono::seconds>(
+                    std::chrono::steady_clock::now() - _startPoint).count();
+        } else {
+            // game session has ended
+            return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
+        }
+    }
 
-    increaseRunThroughCount();
-    _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
-}
+    void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
 
-void GameSession::increaseRunThroughCount() {
-    _runThroughCount++;
+        increaseRunThroughCount();
+        _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
+    }
+
+    void GameSession::increaseRunThroughCount() {
+        _runThroughCount++;
+    }
+
+    void GameSession::writeRunThroughsToCsv(const std::string &filename) const {
+        CsvWriter<std::string> writer(filename);
+        writer.writeHeader({"GameRunThroughUID", "GameSessionUID", "Result", "ResultUnit"});
+        for (const auto &runThrough: _gameRunThroughs) {
+            writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
+                             std::to_string(runThrough.gameSessionUID),
+                             std::to_string(runThrough.result),
+                             runThrough.resultUnit});
+        }
+        writer.close();
+    }
+
 }
