@@ -43,3 +43,4 @@ namespace scene {
     template
     class GameScene<games::Reaction>;
 }
+
