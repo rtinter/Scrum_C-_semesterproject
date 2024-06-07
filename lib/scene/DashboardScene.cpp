@@ -9,7 +9,7 @@ scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", [](
     // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
 }) {
     // Define tiles for the _dashboard
-    const std::vector<ui_elements::Tile> kCategory1Tiles = {
+    std::vector<ui_elements::Tile> kCategory1Tiles = {
             ui_elements::Tile("Pictogram1", "Reaktionsspiel", "Beschreibung1", []() {
                 SceneManager::getInstance().switchTo(std::make_unique<GameScene<games::Reaction>>());
             }),
@@ -20,7 +20,7 @@ scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", [](
             ui_elements::Tile("Pictogram3", "Spielname2", "Beschreibung2", []() {}),
     };
 
-    const std::vector<ui_elements::Tile> kCategory2Tiles = {
+    std::vector<ui_elements::Tile> kCategory2Tiles = {
             ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
     };
 

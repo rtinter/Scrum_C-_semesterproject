@@ -87,7 +87,7 @@ namespace ui_elements {
         }
     }
 
-    void StatisticsGameTable::render() const {
+    void StatisticsGameTable::render() {
         ui_elements::Window("Dashboard").render([this]() {
             //backgroundColor
             ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::LIGHT_GRAY);
