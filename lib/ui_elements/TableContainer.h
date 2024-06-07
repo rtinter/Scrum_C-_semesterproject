@@ -14,8 +14,8 @@ namespace ui_elements {
 class TableContainer : public ui_elements::UiElement {
 
 private:
-    float _height {600};
-    float _width {700};
+    float _height {600.0f};
+    float _width {700.0f};
     std::string _gameName;
     StatisticsGameTable _statisticsGameTable;
 
