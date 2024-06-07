@@ -22,7 +22,7 @@ namespace scene {
 // Implementation of the GameScene template methods
     template<typename T>
     GameScene<T>::GameScene()
-            : _header("Placeholder", "Zurück", []() {
+            : _header(getName(), "Zurück", []() {
         SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
     }), _game{std::make_unique<T>()} {
     }
@@ -35,7 +35,7 @@ namespace scene {
 
     template<typename T>
     std::string GameScene<T>::getName() const {
-        return "GameScene"; // Can be made more dynamic based on T
+        return _game->getName();
     }
 
 // Explicit instantiation of GameScene for games::Reaction

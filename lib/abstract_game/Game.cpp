@@ -20,3 +20,4 @@ void Game::saveRunThroughResult(
                           // a run (e. g. when result overlay is shown)
   _gameSession.addNewGameRunThrough(resultUnit, result);
 }
+
