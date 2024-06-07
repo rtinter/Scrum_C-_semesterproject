@@ -3,7 +3,7 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 
-DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
+scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
     //Add the linking to statistic site here
     // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
 }) {
@@ -24,12 +24,12 @@ DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
     _dashboard.addTilesToCategory("Kategorie 2", kCategory2Tiles);
 }
 
-void DashboardScene::render() {
+void scene::DashboardScene::render() {
     _header.render();
     _dashboard.render();
 }
 
-std::string DashboardScene::getName() const {
+std::string scene::DashboardScene::getName() const {
     return "DashboardScene";
 }
 

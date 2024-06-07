@@ -1,13 +1,8 @@
 #include "App.hpp"
 #include "StyleManager.hpp"
-#include "Header.hpp"
 #include "SceneManager.hpp"
-#include "DashboardScene.hpp"
-#include "GameScene.hpp"
 
-#include <iostream>
 #include <imgui-SFML.h>
-#include <StatisticsGameTable.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/System/Clock.hpp>
@@ -24,7 +19,8 @@ void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
     window.setFramerateLimit(App::FRAME_RATE);
 
-    SceneManager& sceneManager {SceneManager::getInstance()};
+    //init singleton and start Dashboard
+    scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {

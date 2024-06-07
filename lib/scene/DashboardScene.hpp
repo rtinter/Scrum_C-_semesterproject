@@ -5,13 +5,16 @@
 #include "Dashboard.hpp"
 #include <string>
 
+namespace scene {
+    class DashboardScene : public Scene {
+        views::Header _header;
+        views::Dashboard _dashboard;
 
-class DashboardScene : public Scene {
-    views::Header _header;
-    views::Dashboard _dashboard;
+    public:
+        DashboardScene();
 
-public:
-    DashboardScene();
-    void render() override;
-    std::string getName() const override;
-};
+        void render() override;
+
+        std::string getName() const override;
+    };
+}
