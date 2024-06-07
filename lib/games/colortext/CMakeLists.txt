@@ -1,4 +1,4 @@
-set(LIBRARY_NAME calc)
+set(LIBRARY_NAME colortext)
 
 file(GLOB SOURCES *.cpp)
 

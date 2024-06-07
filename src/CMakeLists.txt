@@ -15,6 +15,7 @@ set(CUSTOM_LIBS
 set(GAME_LIBS
         calc
         reaction
+        colortext
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
