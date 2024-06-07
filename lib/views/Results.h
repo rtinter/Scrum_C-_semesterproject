@@ -5,6 +5,11 @@ namespace views {
 
     class Results {
 
+
+
+    public:
+        void render();
+
     };
 
 } // views
