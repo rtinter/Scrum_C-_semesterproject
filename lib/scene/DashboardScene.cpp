@@ -2,6 +2,7 @@
 #include "SceneManager.hpp"
 #include "GameScene.hpp"
 #include "Reaction.hpp"
+#include "LetterSalad.hpp"
 
 scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", []() {
     //Add the linking to statistic site here
@@ -19,7 +20,11 @@ scene::DashboardScene::DashboardScene() : _header("Home", "Meine Statistik", [](
     };
 
     const std::vector<ui_elements::Tile> kCategory2Tiles = {
-            ui_elements::Tile("Pictogram3", "Spielname3", "Beschreibung3", []() {}),
+        ui_elements::Tile("Pictogram3", "Buchstaben Salat","Finde die Wörter in dem Salat", []() {
+                SceneManager::getInstance().switchTo(
+                std::make_unique<GameScene<game::LetterSalad>>()
+                );
+        }),
     };
 
     _dashboard.addTilesToCategory("Kategorie 1", kCategory1Tiles);
