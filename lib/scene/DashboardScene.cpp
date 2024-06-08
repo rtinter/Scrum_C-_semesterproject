@@ -44,6 +44,16 @@ scene::DashboardScene::DashboardScene() {
         )
     );
 
+    // CREATE Dummy in Category 2
+    kCategory2Tiles.push_back(
+        std::make_unique<Tile>(
+            "Pictogram3",
+            "Dummy",
+            "Dummy Beschreibung",
+            []() {}
+        )
+    );
+
     _dashboard->addTilesToCategory("Kategorie 1", kCategory1Tiles);
     _dashboard->addTilesToCategory("Kategorie 2", kCategory2Tiles);
 }
