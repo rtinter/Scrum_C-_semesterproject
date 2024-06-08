@@ -1,19 +1,31 @@
 //
-// Created by benni on 08.06.2024.
+// Created by Benjamin Puhani on 08.06.2024.
 //
 
 #ifndef ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 #define ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 
 #include "Game.hpp"
+#include "Coordinates.hpp"
+
+using Box = std::pair<std::string, bool>;
+
 namespace game {
 
-using CharVector2D = std::vector<std::vector<std::pair<std::string, bool>>>;
+using CharVector2D = std::vector<std::vector<Box>>;
 
 class LetterSalad : Game {
   // initialize game field with 20x20 "x"
   CharVector2D _gameField{20, {20, {"X", false}}};
+  // save clicked cells
+  Coordinates _firstSelectedCell{-1, -1};
+  Coordinates _secondSelectedCell{-1, -1};
+  bool _isFirstCellSelected{false};
+  bool _isSecondCellSelected{false};
   void update();
+  void clickCell(Coordinates);
+  void pairSelected();
+  void resetSelectedPair();
  public:
   void stop() override;
   std::string getName() const override;
