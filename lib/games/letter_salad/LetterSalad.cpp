@@ -2,6 +2,7 @@
 // Created by Benjamin Puhani on 08.06.2024.
 //
 
+#include <iostream>
 #include "LetterSalad.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
@@ -50,11 +51,16 @@ void LetterSalad::clickCell(Coordinates coords) {
     if (!_isFirstCellSelected) {
         // then this is the first cell selected
         _isFirstCellSelected = true;
+        _firstSelectedCell = coords;
     } else if (!_isSecondCellSelected) {
         // if the first cell has been selected
         // then this is the second cell selected
         _isSecondCellSelected = true;
+        _secondSelectedCell = coords;
         pairSelected();
+        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
+            selectBox(lineE);
+        }
         resetSelectedPair();
     }
 
@@ -70,9 +76,56 @@ void LetterSalad::resetSelectedPair() {
 /**
  * Get the coordinates of the cells between the start and end cell.
  * Diagonally, horizontally or vertically.
+ * Basing on the Bresenham's line algorithm.
  */
-std::vector<Coordinates> getLine(Coordinates start, Coordinates end) {
+std::vector<Coordinates> LetterSalad::getLine(Coordinates &start,
+                                              Coordinates &end) {
+    std::vector<Coordinates> linePoints;
+    int x1{start.x};
+    int y1{start.y};
+    int x2{end.x};
+    int y2{end.y};
 
+    int dx{std::abs(x2-x1)};
+    int sx{x1 < x2 ? 1 : -1};
+    int dy{-std::abs(y2-y1)};
+    int sy{y1 < y2 ? 1 : -1};
+    int err{dx+dy};
+    int e2; // Fehlerwert e_xy
+
+    while (true) {
+        // Fügt den aktuellen Punkt zur Liste hinzu
+        linePoints.emplace_back(y1, x1);
+        if (x1 == x2 && y1 == y2) break;
+        e2 = 2 * err;
+        if (e2 >= dy) { // Fehler akkumulierte sich in horizontaler Richtung
+            err += dy;
+            x1 += sx;
+        }
+        if (e2 <= dx) { // Fehler akkumulierte sich in vertikaler Richtung
+            err += dx;
+            y1 += sy;
+        }
+    }
+    return linePoints;
+}
+
+void LetterSalad::selectBox(Coordinates &coords) {
+    if (coords.x < 0 || coords.y < 0 || coords.x >= 20 || coords.y >= 20) {
+        std::cerr << "Invalid coordinates" << std::endl;
+        std::cerr << coords.y << " " << coords.x << std::endl;
+        return;
+    }
+    _gameField[coords.y][coords.x].second = true;
+}
+
+void LetterSalad::deSelectBox(Coordinates &coords) {
+    if (coords.x < 0 || coords.y < 0 || coords.x >= 20 || coords.y >= 20) {
+        std::cerr << "Invalid coordinates" << std::endl;
+        std::cerr << coords.y << " " << coords.x << std::endl;
+        return;
+    }
+    _gameField[coords.y][coords.x].second = false;
 }
 
 void LetterSalad::pairSelected() {

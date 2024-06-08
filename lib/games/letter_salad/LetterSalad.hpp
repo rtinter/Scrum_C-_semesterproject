@@ -23,9 +23,12 @@ class LetterSalad : Game {
   bool _isFirstCellSelected{false};
   bool _isSecondCellSelected{false};
   void update();
-  void clickCell(Coordinates);
+  void clickCell(Coordinates coords);
   void pairSelected();
   void resetSelectedPair();
+  static std::vector<Coordinates> getLine(Coordinates &start, Coordinates &end);
+  void selectBox(Coordinates &coords);
+  void deSelectBox(Coordinates &coords);
  public:
   void stop() override;
   std::string getName() const override;
