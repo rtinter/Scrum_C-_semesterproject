@@ -8,17 +8,14 @@
 namespace game {
 
 class LetterSalad : Game {
-
-  void stop() override;
-
  public:
+  void stop() override;
   std::string getName() const override;
   void render() override;
   void renderGame() override;
   void start() override;
   void reset() override;
   void updateStatistics() override;
-  ~LetterSalad() override = default;
 
 };
 
