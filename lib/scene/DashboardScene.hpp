@@ -3,12 +3,12 @@
 #include <Dashboard.hpp>
 #include <Header.hpp>
 #include <Scene.hpp>
-
+#include <memory>
 
 namespace scene {
     class DashboardScene : public Scene {
-        views::Header _header;
-        views::Dashboard _dashboard;
+        std::unique_ptr<views::Header> _header;
+        std::unique_ptr<views::Dashboard> _dashboard;
 
     public:
         DashboardScene();
