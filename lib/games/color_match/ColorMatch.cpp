@@ -75,6 +75,8 @@ namespace games {
                 _isTimeForNewRandomColors = false;
             }
             ui_elements::Centered([this] {
+                ImGui::Text("Finde die Übereinstimmung mit dem Farbwort:");
+                ImGui::NewLine();
                 displayRandomColors();
                 displayColorButtons();
             });
@@ -155,8 +157,8 @@ namespace games {
     void ColorMatch::updateStatistics() {
         // add code here
     }
-
 }
+
 
 
 
