@@ -20,13 +20,13 @@ namespace ui_elements {
         int _column_size; //how many columns are there
 
     public:
-        explicit StatisticsGameTable( std::map<int, //ordered item number
+        explicit StatisticsGameTable(std::map<int, //ordered item number
                 std::vector<std::string> // whatever is to be included in the table, with the first row beeing the column
                 //name and the following filling in
         > input);
 
 
-        void render() const override; //renders the table
+        void render() override; //renders the table
 
         void defaultTable() const; //if there is no input creates this table
 

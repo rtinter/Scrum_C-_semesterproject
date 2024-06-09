@@ -1,10 +1,7 @@
 #pragma once
 
-#include "Header.hpp"
-#include "Scene.hpp"
-#include <string>
-#include <memory>
 #include "Reaction.hpp"
+#include "ColorMatch.hpp"
 
 namespace scene {
 template<typename T>
@@ -47,4 +44,7 @@ std::string GameScene<T>::getName() const {
 // Explicit instantiation of GameScene for games::Reaction
 template
 class GameScene<reaction::Reaction>;
+
+    template
+    class GameScene<games::ColorMatch>;
 }

@@ -5,8 +5,7 @@
 
 namespace {
 
-void renderCategory(const String &categoryName,
-                    std::vector<UniqueTile> &tiles) {
+void renderCategory(const String &categoryName, std::vector<UniqueTile> &tiles) {
     ImGui::Spacing();
     ImGui::Spacing();
     ImGui::Spacing();
@@ -41,13 +40,12 @@ void Dashboard::addTileToCategory(const std::string &category,
     _categoryTiles[category].push_back(std::move(tile));
 }
 
-//add tiles to category
-void Dashboard::addTilesToCategory(const std::string &category,
-                                   std::vector<UniqueTile> &tiles) {
-    for (auto &tile : tiles) {
-        addTileToCategory(category, tile);
+    //add tiles to category
+    void Dashboard::addTilesToCategory(const std::string &category, std::vector<UniqueTile> &tiles) {
+    for (auto &tile: tiles) {
+            addTileToCategory(category, tile);
+        }
     }
-}
 
 void Dashboard::render() {
     ui_elements::Window("Dashboard").render([this]() {
