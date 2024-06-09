@@ -16,19 +16,23 @@ using CharVector2D = std::vector<std::vector<Box>>;
 
 class LetterSalad : Game {
   // initialize game field with 20x20 "x"
-  CharVector2D _gameField{20, {20, {"X", false}}};
+  static CharVector2D _gameField;
   // save clicked cells
   Coordinates _firstSelectedCell{-1, -1};
   Coordinates _secondSelectedCell{-1, -1};
   bool _isFirstCellSelected{false};
   bool _isSecondCellSelected{false};
+  std::string _selectedWord;
   void update();
-  void clickCell(Coordinates coords);
+  void clickCell(Coordinates const &coords);
   void pairSelected();
   void resetSelectedPair();
-  static std::vector<Coordinates> getLine(Coordinates &start, Coordinates &end);
-  void selectBox(Coordinates &coords);
-  void deSelectBox(Coordinates &coords);
+  static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates
+  const &end);
+  void onHover(const Coordinates &coords);
+  static void selectBox(Coordinates const &coords);
+  static void deSelectBox(Coordinates const &coords);
+  static void randomizeGameField();
  public:
   void stop() override;
   std::string getName() const override;

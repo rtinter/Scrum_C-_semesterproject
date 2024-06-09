@@ -13,3 +13,9 @@ bool Coordinates::operator==(Coordinates const &rhs) const {
 bool Coordinates::operator!=(Coordinates const &rhs) const {
     return y != rhs.y || x != rhs.x;
 }
+
+bool Coordinates::operator<(const Coordinates &rhs) const {
+    if (y < rhs.y) return true;
+    if (rhs.y < y) return false;
+    return x < rhs.x;
+}
