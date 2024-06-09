@@ -18,6 +18,7 @@ std::string LetterSalad::getName() const {
 }
 
 CharVector2D LetterSalad::_gameField = {20, {20, {EMPTY_CELL, false}}};
+std::vector<Coordinates> LetterSalad::_currentLine = {};
 
 void LetterSalad::render() {
 
@@ -71,7 +72,6 @@ void LetterSalad::render() {
 
 void LetterSalad::onHover(Coordinates const &coords) {
 
-    static std::vector<Coordinates> lines;
     static Coordinates lastHoveredCell{-1, -1};
 
     auto newlines{getLine(_firstSelectedCell, coords)};
@@ -81,22 +81,21 @@ void LetterSalad::onHover(Coordinates const &coords) {
     }
 
     // check if the hovered cell is not the last hovered cell
-    if (lastHoveredCell != coords) {
+    if (lastHoveredCell.x != -1 && lastHoveredCell != coords) {
         std::vector<Coordinates> difference;
         // remove all elements that are now not hovered anymore
-        std::set_difference(lines.begin(), lines.end(),
+        std::set_difference(_currentLine.begin(), _currentLine.end(),
                             newlines.begin(), newlines.end(),
                             std::back_inserter(difference));
-
         for (auto &lineE : difference) {
             deSelectBox(lineE);
         }
 
     } else {
         _selectedWord = "";
-        lines = getLine(_firstSelectedCell, coords);
+        _currentLine = getLine(_firstSelectedCell, coords);
 
-        for (auto &lineE : lines) {
+        for (auto &lineE : _currentLine) {
             selectBox(lineE);
             _selectedWord += _gameField[lineE.y][lineE.x].first;
         }
@@ -133,14 +132,12 @@ void LetterSalad::resetSelectedPair() {
     _selectedWord = "";
     _isFirstCellSelected = false;
     _isSecondCellSelected = false;
-    _firstSelectedCell = {-1, -1};
-    _secondSelectedCell = {-1, -1};
     for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
         deSelectBox(lineE);
     }
-
-//    deSelectBox(_firstSelectedCell);
-//    deSelectBox(_secondSelectedCell);
+    _firstSelectedCell = {-1, -1};
+    _secondSelectedCell = {-1, -1};
+    _currentLine.clear();
 }
 
 /**
@@ -198,7 +195,6 @@ void LetterSalad::selectBox(Coordinates const &coords) {
         return;
     }
     _gameField[coords.y][coords.x].second = true;
-    std::cout << "Selected: " << coords.y << " " << coords.x << std::endl;
 }
 
 void LetterSalad::deSelectBox(Coordinates const &coords) {
@@ -208,7 +204,6 @@ void LetterSalad::deSelectBox(Coordinates const &coords) {
         return;
     }
     _gameField[coords.y][coords.x].second = false;
-    std::cout << "DeSelected: " << coords.y << " " << coords.x << std::endl;
 }
 
 void LetterSalad::pairSelected() {

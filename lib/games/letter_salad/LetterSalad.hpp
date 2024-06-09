@@ -17,6 +17,7 @@ using CharVector2D = std::vector<std::vector<Box>>;
 class LetterSalad : Game {
   // initialize game field with 20x20 "x"
   static CharVector2D _gameField;
+  static std::vector<Coordinates> _currentLine;
   // save clicked cells
   Coordinates _firstSelectedCell{-1, -1};
   Coordinates _secondSelectedCell{-1, -1};
