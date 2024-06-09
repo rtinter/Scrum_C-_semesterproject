@@ -16,11 +16,12 @@ namespace ui_elements {
     }
 
     // private methods
-    void Timer::setBlinking(int times) {
-        std::cout << "Blinking " << times << " times!" << std::endl;
+    void Timer::setHighlighted(int seconds){
+        _highlightUntil = std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
+        _highlighted = true;
     }
 
-    int Timer::getDifferenceInSeconds() const {
+    int Timer::getSecondsLeft() const {
 
         // return value if timer is not running (static value)
         if (!isRunning()) {
@@ -28,7 +29,6 @@ namespace ui_elements {
                 return 0;
             }
             return _initTimerTimeInSeconds;
-
         }
 
         // return value if timer is running (dynamic value)
@@ -36,20 +36,18 @@ namespace ui_elements {
         auto duration = std::chrono::duration_cast<std::chrono::seconds>
                 (now - _startPoint).count();
         return _currentTimerTimeInSeconds - duration;
-
     }
 
     int Timer::getSeconds() const {
-        if (getDifferenceInSeconds() > 0) {
-            return getDifferenceInSeconds() % 60;
+        if (getSecondsLeft() > 0) {
+            return getSecondsLeft() % 60;
         }
         return 0;
-
     }
 
     int Timer::getMinutes() const {
-        if (getDifferenceInSeconds() > 0) { // Division durch 0 verhindern
-            return getDifferenceInSeconds() / 60;
+        if (getSecondsLeft() > 0) { // Division durch 0 verhindern
+            return getSecondsLeft() / 60;
         }
         return 0;
     }
@@ -62,23 +60,30 @@ namespace ui_elements {
 
     void Timer::checkExpired() {
 
-        // let expiredNow only be true once
-        if (isExpired() && isExpiredNow()) {
-            _expiredNow = false;
+        // check if timer is expired
+        if (getSecondsLeft() <= 0 && isRunning()) {
+            expire();
         }
 
-        // check if timer is expired
-        if (getDifferenceInSeconds() <= 0 && isRunning()) {
-            expire();
+        if(isHighlighted() && std::chrono::steady_clock::now() > _highlightUntil){
+            _highlighted = false;
         }
     }
 
     // public methods
     void Timer::render() {
 
+        // check if timer is expired
+        checkExpired();
+
         ui_elements::Window(_windowName).render([this]() {
 
-            ImGui::PushFont(commons::Fonts::_header2);
+            if(isHighlighted()){
+                ImGui::PushFont(commons::Fonts::_header1);
+            }
+            else {
+                ImGui::PushFont(commons::Fonts::_header2);
+            }
 
             // Create the string for the timer
             std::stringstream ss;
@@ -107,9 +112,6 @@ namespace ui_elements {
             drawList->AddText(textPos, textColor, text.c_str());
 
             ImGui::PopFont();
-
-            // check if timer is expired
-            checkExpired();
         });
     }
 
@@ -121,8 +123,16 @@ namespace ui_elements {
         return _expired;
     }
 
-    bool Timer::isExpiredNow() const {
-        return _expiredNow;
+    bool Timer::isExpiredNow() {
+        if(_expiredNow){
+            _expiredNow = false;
+            return true;
+        }
+        return false;
+    }
+
+    bool Timer::isHighlighted() const {
+        return _highlighted;
     }
 
     void Timer::start() {
@@ -150,11 +160,11 @@ namespace ui_elements {
 
     void Timer::reduceTime(int seconds) {
 
-        if (getDifferenceInSeconds() <= seconds) {
+        if (getSecondsLeft() <= seconds) {
             expire();
         } else {
             _currentTimerTimeInSeconds -= seconds;
-            setBlinking(3);
+            setHighlighted(1);
         }
     }
 
