@@ -25,7 +25,8 @@ namespace ui_elements {
                 //name and the following filling in
         > input);
 
-        void render() override; //renders the table
+
+        void render() const override; //renders the table
 
         void defaultTable() const; //if there is no input creates this table
 
