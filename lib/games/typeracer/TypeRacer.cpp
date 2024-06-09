@@ -8,7 +8,6 @@
 #include <SceneManager.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
-#include <iostream>
 
 namespace typeracer {
     TypeRacer::TypeRacer() {
@@ -116,7 +115,6 @@ namespace typeracer {
 
     void TypeRacer::start() {
         _isGameRunning = true;
-        std::cout << _isGameRunning << std::endl;
         _showEndbox = false;
 
         _windowColor = commons::Colors::LIGHT_GRAY;
