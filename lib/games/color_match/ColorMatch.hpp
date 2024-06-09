@@ -10,11 +10,13 @@
 
 namespace games {
     class ColorMatch : public Game {
-        bool _isTimeForNewRandomColors{true};
         int _numberOfRandomColors{3};
+        bool _isTimeForNewRandomColors;
         int _indexOfCurrentColor;
-        int _numberOfCorrectClicksInTotal{0};
-        int _numberOfCorrectClicksSinceLastError{0};
+        int _numberOfCorrectClicksInTotal;
+        int _numberOfCorrectClicksSinceLastError;
+        int _longestStreak;
+        std::string _endboxString;
         ui_elements::Timer _timer{"Color Match Game", 60};
 
         std::vector<std::string> const _AVAILABLE_COLORS_TEXT{"rot", "blau", "gelb", "lila", "grün"};
@@ -45,6 +47,10 @@ namespace games {
         void updateStatistics() override;
 
         void displayColorButtons();
+
+        void stop();
+
+        void onClick(bool isCurrentColor);
     };
 
     void createText();

@@ -1,4 +1,6 @@
 #include "ColorMatch.hpp"
+
+#include <algorithm>
 #include "Fonts.hpp"
 #include "ColorTheme.hpp"
 #include "InfoBox.hpp"
@@ -61,13 +63,7 @@ namespace games {
             _timer.render();
 
             if (_timer.isExpiredNow()) {
-                _isGameRunning = false;
-                _showEndbox = true;
-                _endboxTitle = "Zeit abgelaufen!";
-                static std::string endboxString{
-                        "Richtige: " + std::to_string(_numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
-                        std::to_string(_numberOfCorrectClicksSinceLastError)};
-                _endboxText = (endboxString).c_str();
+                stop();
             }
             if (_isTimeForNewRandomColors) {
                 pickRandomColorsText();
@@ -84,18 +80,18 @@ namespace games {
     }
 
     void ColorMatch::start() {
+        reset();
         _isGameRunning = true;
         _showEndbox = false;
         _timer.start();
     }
 
     void ColorMatch::reset() {
-        _isGameRunning = false;
-
         _isTimeForNewRandomColors = true;
         _indexOfCurrentColor = 0;
         _numberOfCorrectClicksInTotal = 0;
         _numberOfCorrectClicksSinceLastError = 0;
+        _longestStreak = 0;
     }
 
     void ColorMatch::pickRandomColorsText() {
@@ -139,19 +135,34 @@ namespace games {
 
             std::string buttonID = "##" + _AVAILABLE_COLORS_TEXT.at(i);
             if (ImGui::Button(buttonID.c_str(), ImVec2(70, 30))) {
-
-                if (isCurrentColor) {
-                    _indexOfCurrentColor++;
-                    _numberOfCorrectClicksInTotal++;
-                    _numberOfCorrectClicksSinceLastError++;
-                } else {
-                    _numberOfCorrectClicksSinceLastError = 0;
-                    _timer.reduceTime(5);
-                };
+                onClick(isCurrentColor);
             }
             ImGui::PopStyleColor(3);
             ImGui::SameLine();
         }
+    }
+
+    void ColorMatch::onClick(bool isCurrentColor) {
+        if (isCurrentColor) {
+            _indexOfCurrentColor++;
+            _numberOfCorrectClicksInTotal++;
+            _numberOfCorrectClicksSinceLastError++;
+            _longestStreak = std::max(_numberOfCorrectClicksSinceLastError, _longestStreak);
+        } else {
+            _numberOfCorrectClicksSinceLastError = 0;
+            _timer.reduceTime(5);
+            if (_timer.isExpiredNow()) { stop(); }
+        }
+    }
+
+    void ColorMatch::stop() {
+        _endboxString =
+                "Richtige: " + std::to_string(_numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
+                std::to_string(_longestStreak);
+        _endboxText = _endboxString.c_str();
+        _isGameRunning = false;
+        _showEndbox = true;
+        _endboxTitle = "Zeit abgelaufen!";
     }
 
     void ColorMatch::updateStatistics() {
