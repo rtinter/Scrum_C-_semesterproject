@@ -8,6 +8,8 @@
 #include "Centered.hpp"
 #include <algorithm>
 #include "Fonts.hpp"
+#include "TextCentered.hpp"
+#include "imgui_internal.h"
 
 #define EMPTY_CELL "_"
 
@@ -19,6 +21,10 @@ std::string LetterSalad::getName() const {
 
 CharVector2D LetterSalad::_gameField = {20, {20, {EMPTY_CELL, false}}};
 std::vector<Coordinates> LetterSalad::_currentLine = {};
+std::vector<std::pair<std::string, bool>> LetterSalad::_wordList = {
+    {"Hallo", true},
+    {"Welt", false}
+};
 
 void LetterSalad::render() {
 
@@ -27,46 +33,64 @@ void LetterSalad::render() {
     }
 
     ui_elements::Window("LetterSalad Game").render([this]() {
-      ui_elements::Centered([this]() {
-        ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
-                            ImVec2(0.5f, 0.5f));
 
-        for (int y = 0; y < _gameField.size(); y++) {
-            auto &row = _gameField[y];
+      ImGui::BeginListBox("##textList",
+                          ImVec2(300, ImGui::GetWindowHeight()-100));
 
-            for (int x = 0; x < row.size(); x++) {
-                // Always print on the same line but the first cell
-                if (x > 0) ImGui::SameLine();
+      for (auto &wordPair : _wordList) {
+          ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+          ImGui::Checkbox(wordPair.first.c_str(),
+                          &wordPair.second);
+          ImGui::PopItemFlag();
+      }
 
-                // PushID is used to ensure that each cell has a unique ID
-                ImGui::PushID(y * 20+x);
-                if (ImGui::Selectable(_gameField[y][x].first.c_str(),
-                                      _gameField[y][x].second,
-                                      0,
-                                      ImVec2(20, 20))) {
-                    // Toggle clicked cell if clicked
-                    clickCell({y, x});
-                }
+      ImGui::EndListBox(); // ##textList
+      ImGui::SameLine();
+      ImGui::Spacing();
+      ImGui::SameLine();
+      ImGui::BeginChild("##gameField",
+                        ImVec2(900, 900));
+      ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
+                          ImVec2(0.5f, 0.5f));
 
-                // run if the first cell has been selected
-                // and another cell is hovered
-                if (_isFirstCellSelected && ImGui::IsItemHovered()) {
-                    onHover({y, x});
-                }
+      for (int y = 0; y < _gameField.size(); y++) {
+          auto &row = _gameField[y];
 
-                ImGui::BeginDisabled(true);
-                ImGui::EndDisabled();
+          for (int x = 0; x < row.size(); x++) {
+              // Always print on the same line but the first cell
+              if (x > 0) ImGui::SameLine();
 
-                ImGui::PopID();
-            }
-        }
-        ImGui::PopStyleVar();
-        ImGui::GetFontSize();
-        ImGui::PushFont(commons::Fonts::_header1);
-        ImGui::PushItemWidth(ImGui::GetFontSize() * 10);
-        ImGui::TextDisabled(_selectedWord.c_str());
-        ImGui::PopFont();
-      });
+              // PushID is used to ensure that each cell has a unique ID
+              ImGui::PushID(y * 20+x);
+              if (ImGui::Selectable(_gameField[y][x].first.c_str(),
+                                    _gameField[y][x].second,
+                                    ImGuiSelectableFlags_AllowOverlap,
+                                    ImVec2(20, 20))) {
+                  // Toggle clicked cell if clicked
+                  clickCell({y, x});
+              }
+
+              // run if the first cell has been selected
+              // and another cell is hovered
+              if (_isFirstCellSelected && ImGui::IsItemHovered()) {
+                  onHover({y, x});
+              }
+
+              ImGui::BeginDisabled(true);
+              ImGui::EndDisabled();
+
+              ImGui::PopID();
+          }
+      }
+      ImGui::PopStyleVar();
+      ImGui::BeginChild("##selectedWord",
+                        ImVec2(500, 40));
+      ImGui::PushFont(commons::Fonts::_header2);
+      ImGui::TextDisabled(_selectedWord.c_str());
+      ImGui::PopFont();
+      ImGui::EndChild(); // ##selectedWord
+
+      ImGui::EndChild(); // ##gameField
     });
 }
 
@@ -133,7 +157,7 @@ void LetterSalad::resetSelectedPair() {
     _isFirstCellSelected = false;
     _isSecondCellSelected = false;
     for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
-        deSelectBox(lineE);
+//        deSelectBox(lineE);
     }
     _firstSelectedCell = {-1, -1};
     _secondSelectedCell = {-1, -1};
