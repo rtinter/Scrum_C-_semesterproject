@@ -1,18 +1,24 @@
 #include "Tile.hpp"
 #include <vector>
 #include <map>
+#include <memory>
+
+using String = std::string;
+using UniqueTile = std::unique_ptr<ui_elements::Tile>;
 
 namespace views {
 
-    /**************************************************************
-     * The _dashboard holds a vector of categories with which the
-     * user can start games by clicking on them.
-     **************************************************************/
-    class Dashboard {
-        std::map<std::string, std::vector<ui_elements::Tile>> _categoryTiles;
-        void addTileToCategory(const std::string &category, const ui_elements::Tile &tile);
-    public:
-        void addTilesToCategory(const std::string &category, const std::vector<ui_elements::Tile> &tiles);
-        void render();
-    };
+/**************************************************************
+ * The _dashboard holds a vector of categories with which the
+ * user can start games by clicking on them.
+ **************************************************************/
+class Dashboard {
+  std::map<String, std::vector<UniqueTile>> _categoryTiles;
+  void addTileToCategory(String const &category, UniqueTile &tile);
+ public:
+  void addTilesToCategory(String const &category,
+                          std::vector<UniqueTile> &tiles
+  );
+  void render();
+};
 }

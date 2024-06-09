@@ -83,6 +83,12 @@ Alternativ kann auch [Visual Studio Code](https://code.visualstudio.com/) in Ver
 3. Zustimmen, dass dem Projekt vertraut wird und anschließend sollte das Projekt in CLion geöffnet sein.
 4. Die erforderlichen Bibliotheken werden per CMake automatisch heruntergeladen und installiert.
 
+### Dependencies für Linux
+Folgende dependencies müssen installiert werden, wenn auf Linux entwickelt werden will.
+```bash
+sudo apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev clang-tidy zip
+```
+
 ### Building the Project
 
 1. In CLion oben rechts die Konfiguration auf `Athena` setzen.
