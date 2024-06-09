@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Colors.hpp>
 #include <Game.hpp>
 #include <imgui.h>
@@ -37,12 +38,11 @@ namespace reaction {
 
         void start() override;
 
+
         void stop() override;
 
         void reset() override;
 
         void updateStatistics() override;
-
-        std::string getName() const override;
     };
 } // reaction

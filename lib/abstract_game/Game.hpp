@@ -16,70 +16,71 @@
  */
 class Game {
 public:
-	Game();
-	virtual ~Game() = default;
+    Game();
 
-	/**
+    virtual ~Game() = default;
+
+    /**
 	 * @brief Renders the game.
 	 *
 	 * This method is called by the SceneManager to render the game.
 	 */
-	virtual void render() =	0;
+    virtual void render() = 0;
 
 
-	/**
-	 * @brief Renders the game.
-	 *
-	 * This method is called the in the game to actually render the game.
-	 */
-	virtual void renderGame() = 0;
+    /**
+     * @brief Renders the game.
+     *
+     * This method is called the in the game to actually render the game.
+     */
+    virtual void renderGame() = 0;
 
-	/**
-	 * @brief Starts the game.
-	 *
-	 * Begins the game, transitioning it from a ready state to an active state.
-	 */
-	virtual void start() = 0;
+    /**
+     * @brief Starts the game.
+     *
+     * Begins the game, transitioning it from a ready state to an active state.
+     */
+    virtual void start() = 0;
 
-	/**
-	 * @brief Stops the game.
-	 *
-	 * Ends the game, transitioning it to a stopped state and uploads the game
-	 * statistics. Stop calls the reset method.
-	 */
-	virtual void stop();
+    /**
+     * @brief Stops the game.
+     *
+     * Ends the game, transitioning it to a stopped state and uploads the game
+     * statistics. Stop calls the reset method.
+     */
+    virtual void stop();
 
-	/**
-	 * @brief Resets the game.
-	 *
-	 * Resets the game state, preparing it for a new session.
-	 */
-	virtual void reset() = 0;
+    /**
+     * @brief Resets the game.
+     *
+     * Resets the game state, preparing it for a new session.
+     */
+    virtual void reset() = 0;
 
-    virtual std::string getName() const = 0;
+    virtual std::string getName() const;
 
 
-	/**
-	 * @brief Updates the game statistics.
-	 *
-	 * This method must be implemented in derived classes and is called to update
-	 * the statistics, e.g., when a new level is reached or the game ends.
-	 */
-	virtual void updateStatistics() = 0;
+    /**
+     * @brief Updates the game statistics.
+     *
+     * This method must be implemented in derived classes and is called to update
+     * the statistics, e.g., when a new level is reached or the game ends.
+     */
+    virtual void updateStatistics() = 0;
 
 
 protected:
-	const char *_gameName;
-	const char *_gameDescription;
-	const char *_gameRules;
-	const char *_gameControls;
+    const char *_gameName;
+    const char *_gameDescription;
+    const char *_gameRules;
+    const char *_gameControls;
 
-	const char *_endboxTitle {"Game Over"};
-	const char *_endboxText {"Game Over"};
+    const char *_endboxTitle{"Game Over"};
+    const char *_endboxText{"Game Over"};
 
-	bool _showInfobox{true};
-	bool _showEndbox{false};
-	bool _isGameRunning{false};
+    bool _showInfobox{true};
+    bool _showEndbox{false};
+    bool _isGameRunning{false};
 
 private:
 

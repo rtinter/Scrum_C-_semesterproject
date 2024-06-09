@@ -7,8 +7,9 @@
 #include <unordered_map>
 
 namespace ui_elements {
-    StatisticsGameTable::StatisticsGameTable( std::map<int, //Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
-        std::vector<std::string> > input) {
+    StatisticsGameTable::StatisticsGameTable(
+            std::map<int, //Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
+                    std::vector<std::string> > input) {
         _input = input;
         if (input.empty()) {
             _column_size = 0;
@@ -91,7 +92,7 @@ namespace ui_elements {
         }
     }
 
-    void StatisticsGameTable::render() const {
+    void StatisticsGameTable::render() {
         ui_elements::Window("Dashboard").render([this]() {
             //backgroundColor
             ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::LIGHT_GRAY);
