@@ -18,8 +18,9 @@ namespace typeracer {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
         int _mistakes {0};
         std::chrono::steady_clock::time_point _startPoint;
-        bool _run_timer {false};
+        bool _runTimer {false};
         float _wpm {0.0f};
+        char _input[256];
         static std::string _endBoxTitleString;
         static std::string _endBoxTextString;
 
@@ -39,6 +40,8 @@ namespace typeracer {
         void updateStatistics() override;
 
         std::string getName() const override;
+
+        ~TypeRacer() override;
     };
 
 } // typeracer

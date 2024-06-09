@@ -3,7 +3,8 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 #include "ColorMatch.hpp"
-#include "../games/typeracer/TypeRacer.h"
+#include "../games/typeracer/TypeRacer.hpp"
+
 
 using Tile = ui_elements::Tile;
 

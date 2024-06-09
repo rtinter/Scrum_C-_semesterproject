@@ -1,4 +1,4 @@
-#include "TypeRacer.h"
+#include "TypeRacer.hpp"
 
 #include <Centered.hpp>
 #include <DashboardScene.hpp>
@@ -19,8 +19,13 @@ namespace typeracer {
     }
 
     void TypeRacer::render() {
-        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
-            start();
+        ui_elements::InfoBox(_showInfobox,
+        _gameName,
+        _gameDescription,
+        _gameRules,
+        _gameControls,
+        [this] (){
+            reset();
         }).render();
 
         ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
@@ -31,7 +36,8 @@ namespace typeracer {
 
             ui_elements::Centered([this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
-                    start();
+                    // Abspeichern von stuff
+                    reset();
                 }
 
                 if (ImGui::Button("Zurück zur Startseite")) {
@@ -49,21 +55,20 @@ namespace typeracer {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Type Racer").render([this]() {
             std::string sentence = "Das ist ein Test Satz";
-            static char input[256] {""};
 
             // Start time when typing begins
-            if (!_run_timer && strlen(input) > 0) {
+            if (!_runTimer && strlen(_input) > 0) {
                 _startPoint = std::chrono::steady_clock::now();
-                _run_timer = true;
+                _runTimer = true;
             }
             // Render the sentence with character matching
             for (int i {0}; i < sentence.size(); ++i) {
-                if (i < strlen(input) && input[i] == sentence[i]) {
+                if (i < strlen(_input) && _input[i] == sentence[i]) {
                     ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::GREEN); // Green
                     if(this->_mistakes > 0) {
                         this->_mistakes--;
                     }
-                } else if (i < strlen(input)) {
+                } else if (i < strlen(_input)) {
                     ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::RED); // Red
                     this->_mistakes++;
                 } else {
@@ -77,21 +82,21 @@ namespace typeracer {
 
             }
 
-            // Render the input field beneath the sentence
+            // Render the _input field beneath the sentence
             ImGui::NewLine();
-            ImGui::InputText("##hidden_label", input, IM_ARRAYSIZE(input));
+            ImGui::InputText("##hidden_label", _input, IM_ARRAYSIZE(_input));
 
             // Calculate WPM in real-time
-            if (_run_timer && strlen(input) > 0) {
+            if (_runTimer && strlen(_input) > 0) {
                 auto currentTime = std::chrono::steady_clock::now();
                 std::chrono::duration<float> elapsedSeconds = currentTime - _startPoint;
                 float minutes = elapsedSeconds.count() / 60.0f;
-                int numChars = strlen(input);
+                int numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 
                 // Stop and save the WPM when the sentence is completed
-                if (this->_mistakes == 0 && strlen(input) >= sentence.size()) {
-                    _run_timer = false;
+                if (strlen(_input) >= sentence.size() && _mistakes == 0) {
+                    _runTimer = false;
                     _isGameRunning = false;
                     _showEndbox = true;
                 }
@@ -116,10 +121,12 @@ namespace typeracer {
     }
 
     void TypeRacer::reset() {
-        _isGameRunning = false;
-        _showEndbox = false;
         _mistakes = 0;
         _wpm = 0.0f;
+        for (char & i : _input) {
+            i = '\0';
+        }
+        start();
     }
 
     void TypeRacer::updateStatistics() {
@@ -128,5 +135,14 @@ namespace typeracer {
 
     std::string TypeRacer::getName() const {
         return _gameName;
+    }
+
+    TypeRacer::~TypeRacer() {
+        _mistakes = 0;
+        _wpm = 0.0f;
+        _runTimer = false;
+        for (char & i : _input) {
+            i = '\0';
+        }
     }
 } // typeracer
