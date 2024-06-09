@@ -1,6 +1,4 @@
 #include "ColorMatch.hpp"
-
-#include <algorithm>
 #include "Fonts.hpp"
 #include "ColorTheme.hpp"
 #include "InfoBox.hpp"

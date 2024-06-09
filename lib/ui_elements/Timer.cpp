@@ -11,50 +11,47 @@ namespace ui_elements {
 
     // Konstruktor
     Timer::Timer(std::string const &windowName, int const &timeInSeconds)
-            : _windowName(windowName), _initTimerTimeInSeconds(timeInSeconds), _currentTimerTimeInSeconds(timeInSeconds) {
+            : _windowName(windowName), _initTimerTimeInSeconds(timeInSeconds),
+              _currentTimerTimeInSeconds(timeInSeconds) {
     }
 
     // private methods
-    void Timer::setBlinking(int times){
+    void Timer::setBlinking(int times) {
         std::cout << "Blinking " << times << " times!" << std::endl;
     }
 
     int Timer::getDifferenceInSeconds() const {
 
         // return value if timer is not running (static value)
-        if(!isRunning()){
-            if(isExpired()){
+        if (!isRunning()) {
+            if (isExpired()) {
                 return 0;
-            } else {
-                return _initTimerTimeInSeconds;
             }
+            return _initTimerTimeInSeconds;
+
         }
 
         // return value if timer is running (dynamic value)
-        else {
-            auto now = std::chrono::steady_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::seconds>
-                    (now - _startPoint).count();
-            return _currentTimerTimeInSeconds - duration;
-        }
+        auto now = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>
+                (now - _startPoint).count();
+        return _currentTimerTimeInSeconds - duration;
+
     }
 
     int Timer::getSeconds() const {
-        if(getDifferenceInSeconds() > 0){
+        if (getDifferenceInSeconds() > 0) {
             return getDifferenceInSeconds() % 60;
         }
-        else {
-            return 0;
-        }
+        return 0;
+
     }
 
     int Timer::getMinutes() const {
-        if(getDifferenceInSeconds() > 0){ // Division durch 0 verhindern
+        if (getDifferenceInSeconds() > 0) { // Division durch 0 verhindern
             return getDifferenceInSeconds() / 60;
         }
-        else {
-            return 0;
-        }
+        return 0;
     }
 
     void Timer::expire() {
@@ -63,15 +60,15 @@ namespace ui_elements {
         _expiredNow = true;
     }
 
-    void Timer::checkExpired(){
+    void Timer::checkExpired() {
 
         // let expiredNow only be true once
-        if(isExpired() && isExpiredNow()){
+        if (isExpired() && isExpiredNow()) {
             _expiredNow = false;
         }
 
         // check if timer is expired
-        if(getDifferenceInSeconds() <= 0 && isRunning()){
+        if (getDifferenceInSeconds() <= 0 && isRunning()) {
             expire();
         }
     }
@@ -98,7 +95,7 @@ namespace ui_elements {
                     pos.y + (this->_height - textSize.y) * 0.5f
             );
 
-            ImDrawList* drawList = ImGui::GetWindowDrawList();
+            ImDrawList *drawList = ImGui::GetWindowDrawList();
 
             ImU32 rectangle = IM_COL32(255, 0, 0, 255);
             ImU32 textColor = IM_COL32(255, 255, 255, 255);
@@ -131,12 +128,12 @@ namespace ui_elements {
     void Timer::start() {
 
         // ignore if timer is already running
-        if(isRunning()){
+        if (isRunning()) {
             return;
         }
 
         // reset timer if expired before start again
-        if(isExpired()){
+        if (isExpired()) {
             reset();
         }
 
@@ -151,12 +148,11 @@ namespace ui_elements {
         _expiredNow = false; // if the timer got expired right now
     }
 
-    void Timer::reduceTime(int seconds){
+    void Timer::reduceTime(int seconds) {
 
-        if(getDifferenceInSeconds() <= seconds){
+        if (getDifferenceInSeconds() <= seconds) {
             expire();
-        }
-        else{
+        } else {
             _currentTimerTimeInSeconds -= seconds;
             setBlinking(3);
         }
