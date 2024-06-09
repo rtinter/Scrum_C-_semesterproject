@@ -1,5 +1,4 @@
 #include "TypeRacer.h"
-#include "TextCenteredVertically.h"
 
 #include <Centered.hpp>
 #include <DashboardScene.hpp>
