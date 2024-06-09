@@ -26,36 +26,29 @@ namespace ui_elements {
         if(!isRunning()){
             if(isExpired()){
                 return 0;
-            } else {
-                return _initTimerTimeInSeconds;
             }
+            return _initTimerTimeInSeconds;
         }
 
         // return value if timer is running (dynamic value)
-        else {
-            auto now = std::chrono::steady_clock::now();
-            auto duration = std::chrono::duration_cast<std::chrono::seconds>
+        auto now = std::chrono::steady_clock::now();
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>
                     (now - _startPoint).count();
-            return _currentTimerTimeInSeconds - duration;
-        }
+        return _currentTimerTimeInSeconds - duration;
     }
 
     int Timer::getSeconds() const {
         if(getSecondsLeft() > 0){
             return getSecondsLeft() % 60;
         }
-        else {
-            return 0;
-        }
+        return 0;
     }
 
     int Timer::getMinutes() const {
         if(getSecondsLeft() > 0){ // Division durch 0 verhindern
             return getSecondsLeft() / 60;
         }
-        else {
-            return 0;
-        }
+        return 0;
     }
 
     void Timer::expire() {
@@ -65,11 +58,6 @@ namespace ui_elements {
     }
 
     void Timer::checkExpired(){
-
-        // let expiredNow only be true once
-        if(isExpired() && isExpiredNow()){
-            _expiredNow = false;
-        }
 
         // check if timer is expired
         if(getSecondsLeft() <= 0 && isRunning()){
@@ -83,6 +71,9 @@ namespace ui_elements {
 
     // public methods
     void Timer::render() {
+
+        // check if timer is expired
+        checkExpired();
 
         ui_elements::Window(_windowName).render([this]() {
 
@@ -120,9 +111,6 @@ namespace ui_elements {
             drawList->AddText(textPos, textColor, text.c_str());
 
             ImGui::PopFont();
-
-            // check if timer is expired
-            checkExpired();
         });
     }
 
@@ -134,8 +122,12 @@ namespace ui_elements {
         return _expired;
     }
 
-    bool Timer::isExpiredNow() const {
-        return _expiredNow;
+    bool Timer::isExpiredNow() {
+        if(_expiredNow){
+            _expiredNow = false;
+            return true;
+        }
+        return false;
     }
 
     bool Timer::isHighlighted() const {
