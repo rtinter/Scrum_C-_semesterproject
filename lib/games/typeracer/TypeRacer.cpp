@@ -18,6 +18,8 @@ namespace typeracer {
         _gameControls = "";
     }
 
+    std::string TypeRacer::_endBoxTextString {};
+
     void TypeRacer::render() {
         ui_elements::InfoBox(_showInfobox,
         _gameName,
@@ -65,12 +67,12 @@ namespace typeracer {
             for (int i {0}; i < sentence.size(); ++i) {
                 if (i < strlen(_input) && _input[i] == sentence[i]) {
                     ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::GREEN); // Green
-                    if(this->_mistakes > 0) {
-                        this->_mistakes--;
+                    if(_mistakes > 0) {
+                        _mistakes--;
                     }
                 } else if (i < strlen(_input)) {
                     ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::RED); // Red
-                    this->_mistakes++;
+                    _mistakes++;
                 } else {
                     ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_Text)); // Default
                 }
@@ -94,8 +96,12 @@ namespace typeracer {
                 int numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 
+                std::string wpmString = std::to_string(_wpm);
                 // Stop and save the WPM when the sentence is completed
                 if (strlen(_input) >= sentence.size() && _mistakes == 0) {
+                    _endBoxTextString =
+                            "Wörter pro Minute: " + wpmString + " WPM";
+                    _endboxText = _endBoxTextString.c_str();
                     _runTimer = false;
                     _isGameRunning = false;
                     _showEndbox = true;
@@ -103,7 +109,7 @@ namespace typeracer {
             }
 
             // Display WPM
-            ImGui::Text("Words per minute (WPM): %.2f", _wpm);
+            ImGui::Text("Wörter pro Minute (WPM): %.2f", _wpm);
         });
         ImGui::PopStyleColor();
     }
@@ -123,6 +129,7 @@ namespace typeracer {
     void TypeRacer::reset() {
         _mistakes = 0;
         _wpm = 0.0f;
+        _endBoxTextString = "";
         for (char & i : _input) {
             i = '\0';
         }
