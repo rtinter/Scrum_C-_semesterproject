@@ -18,7 +18,7 @@ namespace ui_elements {
 
 
 
-    void TableContainer::render() const {
+    void TableContainer::render() {
         ImGui::BeginChild(_gameName.c_str(), ImVec2(_width, _height),
                                 true);
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, sf::Color::Blue);

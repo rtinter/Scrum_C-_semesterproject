@@ -22,7 +22,7 @@ private:
 public:
     explicit TableContainer(std::string const &gameName, StatisticsGameTable const &statisticsGameTable);
 
-    void render() const override;
+    void render() override;
 
 
     };

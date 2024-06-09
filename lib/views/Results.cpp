@@ -11,7 +11,7 @@ namespace views {
             ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y-50));
 
             int count = 0;
-            for (const ui_elements::TableContainer &tableContainer : _gameTableContainers)
+            for (ui_elements::TableContainer &tableContainer : _gameTableContainers)
             {
                 ImGui::NewLine();
                 if (count > 0 && count % 2 == 0) {
