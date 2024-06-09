@@ -9,8 +9,8 @@ namespace commons {
     ImVec4 const ColorTheme::WARNING_COLOR = Colors::ORANGE;
     ImVec4 const ColorTheme::ACCENT_COLOR = Colors::INDIGO;
     ImVec4 const ColorTheme::INFO_COLOR = Colors::BLUE;
-    ImVec4 const ColorTheme::SUCCESS_COLOR = Colors::GREEN;
-    ImVec4 const ColorTheme::ERROR_COLOR = Colors::RED;
+    ImVec4 const ColorTheme::SUCCESS_COLOR = Colors::BRIGHT_GREEN;
+    ImVec4 const ColorTheme::ERROR_COLOR = Colors::BRIGHT_RED;
 
     void ColorTheme::setup() {
         ImGuiStyle &style{ImGui::GetStyle()};

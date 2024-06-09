@@ -3,6 +3,7 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 #include "LetterSalad.hpp"
+#include "ColorMatch.hpp"
 
 using Tile = ui_elements::Tile;
 
@@ -40,8 +41,10 @@ scene::DashboardScene::DashboardScene() {
         std::make_unique<Tile>(
             "Pictogram2",
             "Farbe & Text",
-            "Hier Beschreibung von dem Farbe & Text Spiel",
+            "Beschreibung2",
             []() {
+              SceneManager::getInstance().switchTo(
+                  std::make_unique<GameScene<games::ColorMatch>>());
             }
         )
     );

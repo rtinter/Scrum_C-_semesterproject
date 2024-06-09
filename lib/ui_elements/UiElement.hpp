@@ -9,7 +9,9 @@ namespace ui_elements {
     class UiElement {
     public:
         virtual ~UiElement() = default;
-        virtual void render() const = 0; // abstract
+
+    private:
+        virtual void render() = 0; // abstract
     };
 
 }
