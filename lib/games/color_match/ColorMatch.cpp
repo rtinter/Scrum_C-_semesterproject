@@ -25,7 +25,7 @@ namespace games {
                 "für den Einsatz von Polizei- und Feuerwehrkräften.";
         _gameRules = "Auf dem Bildschirm werden zuerst Wörter in unterschiedlicher Farbe angezeigt.\n"
                      "Diese sind in Reihenfolge anhand des Wortes nicht der Farbe zuzuordnen.\n"
-                     "Anschließend gibt es eine ähnliche Aufgabe nur muss man nun die Farbe des Wortes den Wörter unterhalb zuordnen\n";
+                     "Anschließend gibt es eine ähnliche Aufgabe, \n nur muss man nun die Farbe des Wortes den Wörter unterhalb zuordnen\n";
         _gameControls = "Linke Maustaste: Klicken der richtigen Antworten in der richting Reihenfolge";
     }
 
