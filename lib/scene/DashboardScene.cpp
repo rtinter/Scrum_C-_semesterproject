@@ -9,8 +9,8 @@ using Tile = ui_elements::Tile;
 scene::DashboardScene::DashboardScene() {
 
     _header = std::make_unique<views::Header>("Home", "Meine Statistik", []() {
-      // Add the linking to statistic site here
-      // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
+        // Add the linking to statistic site here
+        // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
     });
 
     _dashboard = std::make_unique<views::Dashboard>();
@@ -22,37 +22,39 @@ scene::DashboardScene::DashboardScene() {
 
     // CREATE Reaktionsspiel in Category 1
     kCategory1Tiles.push_back(
-        std::make_unique<Tile>(
-            "Pictogram1",
-            "Reaktionsspiel",
-            "Beschreibung1",
-            []() {
-              SceneManager::getInstance().switchTo(
-                  std::make_unique<GameScene<reaction::Reaction>>()
-              );
-            }
-        )
+            std::make_unique<Tile>(
+                    "Pictogram1",
+                    "Reaktionsspiel",
+                    "Beschreibung1",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<reaction::Reaction>>()
+                        );
+                    }
+            )
     );
 
     // CREATE Color Match in Category 1
     kCategory1Tiles.push_back(
-        std::make_unique<Tile>(
-            "Pictogram2",
-            "Farbe & Text",
-            "Hier Beschreibung von dem Farbe & Text Spiel",
-            []() {
-            }
-        )
+            std::make_unique<Tile>(
+                    "Pictogram2",
+                    "Farbe & Text",
+                    "Beschreibung2",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::ColorMatch>>());
+                    }
+            )
     );
 
     // CREATE Dummy in Category 2
     kCategory2Tiles.push_back(
-        std::make_unique<Tile>(
-            "Pictogram3",
-            "Dummy",
-            "Dummy Beschreibung",
-            []() {}
-        )
+            std::make_unique<Tile>(
+                    "Pictogram3",
+                    "Dummy",
+                    "Dummy Beschreibung",
+                    []() {}
+            )
     );
 
     _dashboard->addTilesToCategory("Kategorie 1", kCategory1Tiles);

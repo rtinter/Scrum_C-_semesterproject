@@ -8,6 +8,7 @@
 #include "SceneManager.hpp"
 #include "DashboardScene.hpp"
 #include "Window.hpp"
+#include "RandomPicker.hpp"
 
 namespace games {
     ColorMatch::ColorMatch() {
@@ -57,21 +58,21 @@ namespace games {
 
     void ColorMatch::renderGame() {
         ui_elements::Window("Color Match Game").render([this] {
-            timer.render();
+            _timer.render();
 
-            if (timer.isExpiredNow()) {
+            if (_timer.isExpiredNow()) {
                 _isGameRunning = false;
                 _showEndbox = true;
                 _endboxTitle = "Zeit abgelaufen!";
                 static std::string endboxString{
-                        "Richtige: " + std::to_string(numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
-                        std::to_string(numberOfCorrectClicksSinceLastError)};
+                        "Richtige: " + std::to_string(_numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
+                        std::to_string(_numberOfCorrectClicksSinceLastError)};
                 _endboxText = (endboxString).c_str();
             }
-            if (isTimeForNewRandomColors) {
+            if (_isTimeForNewRandomColors) {
                 pickRandomColorsText();
                 pickRandomColorsImVec4();
-                isTimeForNewRandomColors = false;
+                _isTimeForNewRandomColors = false;
             }
             ui_elements::Centered([this] {
                 displayRandomColors();
@@ -83,37 +84,37 @@ namespace games {
     void ColorMatch::start() {
         _isGameRunning = true;
         _showEndbox = false;
-        timer.start();
+        _timer.start();
     }
 
     void ColorMatch::reset() {
         _isGameRunning = false;
 
-        isTimeForNewRandomColors = true;
-        indexOfCurrentColor = 0;
-        numberOfCorrectClicksInTotal = 0;
-        numberOfCorrectClicksSinceLastError = 0;
+        _isTimeForNewRandomColors = true;
+        _indexOfCurrentColor = 0;
+        _numberOfCorrectClicksInTotal = 0;
+        _numberOfCorrectClicksSinceLastError = 0;
     }
 
     void ColorMatch::pickRandomColorsText() {
-        randomColorsText.clear();
-        for (int i{0}; i < numberOfRandomColors; i++) {
-            randomColorsText.emplace_back(getRandomElement(_AVAILABLE_COLORS_TEXT));
+        _randomColorsText.clear();
+        for (int i{0}; i < _numberOfRandomColors; i++) {
+            _randomColorsText.emplace_back(commons::RandomPicker::pickRandomElement(_AVAILABLE_COLORS_TEXT));
         }
     }
 
     void ColorMatch::pickRandomColorsImVec4() {
-        randomColorsImVec4.clear();
-        for (int i{0}; i < numberOfRandomColors; i++) {
-            randomColorsImVec4.emplace_back(getRandomElement(_AVAILABLE_COLORS_IMVEC4));
+        _randomColorsImVec4.clear();
+        for (int i{0}; i < _numberOfRandomColors; i++) {
+            _randomColorsImVec4.emplace_back(commons::RandomPicker::pickRandomElement(_AVAILABLE_COLORS_IMVEC4));
         }
     }
 
     void ColorMatch::displayRandomColors() {
-        for (int i{0}; i < randomColorsText.size(); i++) {
-            ImGui::PushFont(indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
-            ImGui::PushStyleColor(ImGuiCol_Text, randomColorsImVec4.at(i));
-            ImGui::Text("%s", randomColorsText.at(i).c_str());
+        for (int i{0}; i < _randomColorsText.size(); i++) {
+            ImGui::PushFont(_indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
+            ImGui::PushStyleColor(ImGuiCol_Text, _randomColorsImVec4.at(i));
+            ImGui::Text("%s", _randomColorsText.at(i).c_str());
             ImGui::SameLine();
             ImGui::PopStyleColor();
             ImGui::PopFont();
@@ -123,11 +124,11 @@ namespace games {
     void ColorMatch::displayColorButtons() {
         ImGui::NewLine();
         for (int i{0}; i < _AVAILABLE_COLORS_TEXT.size(); i++) {
-            if (indexOfCurrentColor >= numberOfRandomColors) {
-                isTimeForNewRandomColors = true;
-                indexOfCurrentColor = 0;
+            if (_indexOfCurrentColor >= _numberOfRandomColors) {
+                _isTimeForNewRandomColors = true;
+                _indexOfCurrentColor = 0;
             }
-            bool isCurrentColor = _AVAILABLE_COLORS_TEXT.at(i) == randomColorsText.at(indexOfCurrentColor);
+            bool isCurrentColor = _AVAILABLE_COLORS_TEXT.at(i) == _randomColorsText.at(_indexOfCurrentColor);
             ImGui::PushStyleColor(ImGuiCol_Button, _AVAILABLE_COLORS_IMVEC4.at(i)); // Normal state
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, _AVAILABLE_COLORS_IMVEC4.at(i)); // Hover state
             ImGui::PushStyleColor(ImGuiCol_ButtonActive,
@@ -138,12 +139,12 @@ namespace games {
             if (ImGui::Button(buttonID.c_str(), ImVec2(70, 30))) {
 
                 if (isCurrentColor) {
-                    indexOfCurrentColor++;
-                    numberOfCorrectClicksInTotal++;
-                    numberOfCorrectClicksSinceLastError++;
+                    _indexOfCurrentColor++;
+                    _numberOfCorrectClicksInTotal++;
+                    _numberOfCorrectClicksSinceLastError++;
                 } else {
-                    numberOfCorrectClicksSinceLastError = 0;
-                    timer.reduceTime(5);
+                    _numberOfCorrectClicksSinceLastError = 0;
+                    _timer.reduceTime(5);
                 };
             }
             ImGui::PopStyleColor(3);
@@ -154,7 +155,6 @@ namespace games {
     void ColorMatch::updateStatistics() {
         // add code here
     }
-
 
 }
 
