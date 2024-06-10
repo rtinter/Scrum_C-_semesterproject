@@ -24,13 +24,16 @@ namespace ui_elements {
 
         ImGui::BeginChild(_gameName.c_str(), ImVec2(childWidth, childHeight), true, ImGuiWindowFlags_AlwaysAutoResize);
        //ImGui::PushStyleColor(ImGuiCol_ButtonHovered, sf::Color::Black);
-        ImGui::PushStyleColor(ImGuiCol_Text, sf::Color::Black);
+       ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
+
+        ImGui::PushFont(commons::Fonts::_header3);
+        ImGui::Text("Spiel %s", _gameName.c_str());
 
         _statisticsGameTable.render();
 
-        const char *name = ImGui::GetCurrentWindow()->Name;
-        ImGui::Text("Current Window name: %s", name);
+
         ImGui::PopStyleColor();
+        ImGui::PopFont();
         ImGui::EndChild();
 
 
