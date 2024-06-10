@@ -10,7 +10,8 @@ namespace scene {
         std::map<int, std::vector<std::string>> map;
         ui_elements::StatisticsGameTable coolTable{map};
         _results.addGameTableContainer(ui_elements::TableContainer("hallo", coolTable));
-        //_results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
+        _results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
+        _results.addGameTableContainer(ui_elements::TableContainer("hallo3", coolTable));
 
     }
 
