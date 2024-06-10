@@ -10,12 +10,13 @@
 #include <string>
 
 namespace ui_elements {
-
+/**
+ * On the results page you got a table for each game, that holds the user data.
+ * This class creates a container to hold the table + additional info and the required styling of one such container.
+ */
 class TableContainer : public ui_elements::UiElement {
 
 private:
-    float _height {600.0f};
-    float _width {700.0f};
     std::string _gameName;
     StatisticsGameTable _statisticsGameTable;
 

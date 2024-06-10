@@ -23,6 +23,7 @@ namespace ui_elements {
         ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::SEAFOAM);
         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::Colors::INDIGO);
         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::Colors::INDIGO);
+        //TODO rendering of tables seems to overwrite StyleManager settings
 
         ImGui::PushFont(commons::Fonts::_header3);
         ImGui::Text("Spiel %s", _gameName.c_str());
