@@ -29,7 +29,7 @@ std::vector<std::pair<std::string, bool>> LetterSalad::_wordList = {
 void LetterSalad::render() {
 
     if (_gameField[0][0].first == EMPTY_CELL) {
-        randomizeGameField();
+        LetterSalad::randomizeGameField();
     }
 
     ui_elements::Window("LetterSalad Game").render([this]() {
@@ -48,49 +48,7 @@ void LetterSalad::render() {
       ImGui::SameLine();
       ImGui::Spacing();
       ImGui::SameLine();
-      ImGui::BeginChild("##gameField",
-                        ImVec2(900, 900));
-      ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
-                          ImVec2(0.5f, 0.5f));
-
-      for (int y = 0; y < _gameField.size(); y++) {
-          auto &row = _gameField[y];
-
-          for (int x = 0; x < row.size(); x++) {
-              // Always print on the same line but the first cell
-              if (x > 0) ImGui::SameLine();
-
-              // PushID is used to ensure that each cell has a unique ID
-              ImGui::PushID(y * 20+x);
-              if (ImGui::Selectable(_gameField[y][x].first.c_str(),
-                                    _gameField[y][x].second,
-                                    ImGuiSelectableFlags_AllowOverlap,
-                                    ImVec2(20, 20))) {
-                  // Toggle clicked cell if clicked
-                  clickCell({y, x});
-              }
-
-              // run if the first cell has been selected
-              // and another cell is hovered
-              if (_isFirstCellSelected && ImGui::IsItemHovered()) {
-                  onHover({y, x});
-              }
-
-              ImGui::BeginDisabled(true);
-              ImGui::EndDisabled();
-
-              ImGui::PopID();
-          }
-      }
-      ImGui::PopStyleVar();
-      ImGui::BeginChild("##selectedWord",
-                        ImVec2(500, 40));
-      ImGui::PushFont(commons::Fonts::_header2);
-      ImGui::TextDisabled(_selectedWord.c_str());
-      ImGui::PopFont();
-      ImGui::EndChild(); // ##selectedWord
-
-      ImGui::EndChild(); // ##gameField
+      this->renderGameField();
     });
 }
 
@@ -150,6 +108,52 @@ void LetterSalad::clickCell(Coordinates const &coords) {
         resetSelectedPair();
     }
 
+}
+
+void LetterSalad::renderGameField() {
+    ImGui::BeginChild("##gameField",
+                      ImVec2(900, 900));
+    ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
+                        ImVec2(0.5f, 0.5f));
+
+    for (int y = 0; y < _gameField.size(); y++) {
+        auto &row = _gameField[y];
+
+        for (int x = 0; x < row.size(); x++) {
+            // Always print on the same line but the first cell
+            if (x > 0) ImGui::SameLine();
+
+            // PushID is used to ensure that each cell has a unique ID
+            ImGui::PushID(y * 20+x);
+            if (ImGui::Selectable(_gameField[y][x].first.c_str(),
+                                  _gameField[y][x].second,
+                                  ImGuiSelectableFlags_AllowOverlap,
+                                  ImVec2(20, 20))) {
+                // Toggle clicked cell if clicked
+                clickCell({y, x});
+            }
+
+            // run if the first cell has been selected
+            // and another cell is hovered
+            if (_isFirstCellSelected && ImGui::IsItemHovered()) {
+                onHover({y, x});
+            }
+
+            ImGui::BeginDisabled(true);
+            ImGui::EndDisabled();
+
+            ImGui::PopID();
+        }
+    }
+    ImGui::PopStyleVar();
+    ImGui::BeginChild("##selectedWord",
+                      ImVec2(500, 40));
+    ImGui::PushFont(commons::Fonts::_header2);
+    ImGui::TextDisabled(_selectedWord.c_str());
+    ImGui::PopFont();
+    ImGui::EndChild(); // ##selectedWord
+
+    ImGui::EndChild(); // ##gameField
 }
 
 void LetterSalad::resetSelectedPair() {
@@ -257,7 +261,7 @@ void LetterSalad::randomizeGameField() {
     for (auto &row : _gameField) {
         for (auto &x : row) {
             // TODO @bpuhani check if an field already has a letter
-            x.first = static_cast<char>(rand() % 26+65);
+            x.first = static_cast<char>(rand() % 23+65);
         }
     }
 }

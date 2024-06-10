@@ -34,6 +34,7 @@ class LetterSalad : Game {
   static void selectBox(Coordinates const &coords);
   static void deSelectBox(Coordinates const &coords);
   static void randomizeGameField();
+  void renderGameField();
  public:
   void stop() override;
   std::string getName() const override;
