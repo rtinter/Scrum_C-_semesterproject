@@ -93,7 +93,6 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::render() {
-        ui_elements::Window("Dashboard").render([this]() {
             //backgroundColor
             ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::LIGHT_GRAY);
             if (_input.empty()) {
@@ -103,6 +102,5 @@ namespace ui_elements {
                 createTable();
             }
             ImGui::PopStyleColor();
-        });
     }
 }
