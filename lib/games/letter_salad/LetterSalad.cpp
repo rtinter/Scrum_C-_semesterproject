@@ -5,59 +5,80 @@
 #include <iostream>
 #include "LetterSalad.hpp"
 #include "Window.hpp"
-#include "Centered.hpp"
 #include <algorithm>
+#include <random>
 #include "Fonts.hpp"
 #include "TextCentered.hpp"
 #include "imgui_internal.h"
-
-#define EMPTY_CELL "_"
+#include "Orientation.hpp"
+#include "InfoBox.hpp"
 
 namespace game {
 
+std::random_device rd;
+std::mt19937 gen(rd());
+
 std::string LetterSalad::getName() const {
-    return "Letter Salad";
+    return _gameName;
 }
 
-CharVector2D LetterSalad::_gameField = {20, {20, Box{EMPTY_CELL}}};
-std::vector<Coordinates> LetterSalad::_currentLine = {};
-std::vector<WordTarget> LetterSalad::_wordList = {
-    {"Kreativitaet", false},
+std::set<WordTarget> LetterSalad::_wordList = {
+    {"Kreativ", false},
     {"Geschwindigkeit", false},
     {"Universum", false},
-    {"Glueckseligkeit", false},
-    {"Wasserfall", false},
+    {"Glueck", false},
+    {"Wasser", false},
     {"Bibliothek", false},
-    {"Schmetterling", false},
     {"Konversation", false},
-    {"Landschaft", false},
-    {"Sonnenuntergang", false},
-    {"Hoffnungsschimmer", false},
-    {"Sternschnuppe", false},
+    {"Land", false},
+    {"Sonne", false},
+    {"Hoffnung", false},
     {"Gluehbirne", false},
     {"Flugzeug", false},
     {"Wissenschaft", false},
     {"Diskothek", false},
-    {"Traumfaenger", false},
-    {"Zirkuszelt", false},
+    {"Traum", false},
+    {"Zirkus", false},
     {"Schokolade", false},
-    {"Gemeinschaft", false}
+    {"Gemeinschaft", false},
+    {"Kunst", false},
+    {"Kultur", false},
+    {"Frieden", false},
+    {"Freiheit", false},
+    {"Gesundheit", false},
+    {"Geld", false},
+    {"Gesellschaft", false},
+    {"Geschichte", false},
+    {"Glaube", false},
+    {"Grenze", false},
+    {"Grenzuebergang", false},
+    {"Grenzueberschreitung", false},
 };
+
+std::string LetterSalad::_gameName = "LetterSalad";
+std::string LetterSalad::_gameDescription = "";
+std::string LetterSalad::_gameRules = "";
+std::string LetterSalad::_gameControls = "";
 
 void LetterSalad::render() {
 
-    if (_gameField[0][0].getLetter() == EMPTY_CELL) {
-        LetterSalad::randomizeGameField();
+    if (!_isGameInitialized) {
+        init();
+        return;
     }
 
-    ui_elements::Window("LetterSalad Game").render([this]() {
+    ui_elements::InfoBox(_showInfobox,
+                         _gameName.c_str(),
+                         _gameDescription.c_str(),
+                         _gameRules.c_str(),
+                         _gameControls.c_str(),
+                         [this] {
+                           start();
+                         }).render();
 
-      LetterSalad::renderTextList();
-      ImGui::SameLine();
-      this->renderGameField();
-      this->renderSelectedWord();
-
-    });
+    if (_isGameRunning) {
+        renderGame();
+    }
 }
 
 void LetterSalad::onHover(Coordinates const &coords) {
@@ -87,7 +108,7 @@ void LetterSalad::onHover(Coordinates const &coords) {
 
         for (auto &lineE : _currentLine) {
             selectBox(lineE);
-            _selectedWord += _gameField[lineE.y][lineE.x].getChar();
+            _selectedWord += _gameField[lineE.y][lineE.x]->getChar();
         }
     }
 
@@ -108,7 +129,7 @@ void LetterSalad::clickCell(Coordinates const &coords) {
         // then this is the second cell selected
         _isSecondCellSelected = true;
         _secondSelectedCell = coords;
-        pairSelected();
+
         for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
             selectBox(lineE);
         }
@@ -122,10 +143,10 @@ void LetterSalad::renderTextList() {
     ImGui::BeginListBox("##textList",
                         ImVec2(300, ImGui::GetWindowHeight()-100));
 
-    for (auto &wordPair : _wordList) {
+    for (const auto &wordPair : _activeWordList) {
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
         ImGui::Checkbox(wordPair.first.c_str(),
-                        &wordPair.second);
+                        const_cast<bool *>(&wordPair.second));
         ImGui::PopItemFlag();
     }
 
@@ -148,8 +169,9 @@ void LetterSalad::renderGameField() {
 
             // PushID is used to ensure that each cell has a unique ID
             ImGui::PushID(y * 20+x);
-            if (ImGui::Selectable(_gameField[y][x].getChar(),
-                                  _gameField[y][x].isSelected,
+            if (ImGui::Selectable(_gameField[y][x]->getChar(),
+                                  _gameField[y][x]->isSelected ||
+                                      _gameField[y][x]->isSolved,
                                   ImGuiSelectableFlags_AllowOverlap,
                                   ImVec2(20, 20))) {
                 // Toggle clicked cell if clicked
@@ -204,36 +226,31 @@ void LetterSalad::renderSelectedWord() const {
 }
 
 void LetterSalad::resetSelectedPair() {
-    _selectedWord = "";
     _isFirstCellSelected = false;
     _isSecondCellSelected = false;
-
-    if (!LetterSalad::isWordInList(_selectedWord)) {
+    if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
         for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
             LetterSalad::deSelectBox(lineE);
         }
     } else {
         for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
             LetterSalad::finalize(lineE);
+            _activeWordList.erase({_selectedWord, false});
+            _activeWordList.insert({_selectedWord, true});
         }
 
     }
 
     _firstSelectedCell = {-1, -1};
     _secondSelectedCell = {-1, -1};
+    _selectedWord = "";
     _currentLine.clear();
 }
 
-bool LetterSalad::isWordInList(std::string const &word) {
-    return std::any_of(_wordList.begin(), _wordList.end(),
-                       [&word](WordTarget &wordTarget) {
-                         if (wordTarget.first == word) {
-                             wordTarget.second = true;
-                             return true;
-                         }
-                         return false;
-                       }
-    );
+bool LetterSalad::isWordInList(
+    std::set<WordTarget> &wordlist,
+    std::string const &word) {
+    return wordlist.find({word, false}) != _activeWordList.end();
 }
 
 /**
@@ -290,7 +307,7 @@ void LetterSalad::selectBox(Coordinates const &coords) {
         std::cerr << coords.y << " " << coords.x << std::endl;
         return;
     }
-    _gameField[coords.y][coords.x].isSelected = true;
+    _gameField[coords.y][coords.x]->isSelected = true;
 }
 
 void LetterSalad::deSelectBox(Coordinates const &coords) {
@@ -299,7 +316,7 @@ void LetterSalad::deSelectBox(Coordinates const &coords) {
         std::cerr << coords.y << " " << coords.x << std::endl;
         return;
     }
-    _gameField[coords.y][coords.x].isSelected = false;
+    _gameField[coords.y][coords.x]->isSelected = false;
 }
 
 void LetterSalad::finalize(Coordinates const &coords) {
@@ -308,14 +325,18 @@ void LetterSalad::finalize(Coordinates const &coords) {
         std::cerr << coords.y << " " << coords.x << std::endl;
         return;
     }
-    _gameField[coords.y][coords.x].isSolved = true;
-}
-
-void LetterSalad::pairSelected() {
+    _gameField[coords.y][coords.x]->isSolved = true;
 }
 
 void LetterSalad::renderGame() {
+    ui_elements::Window("LetterSalad Game").render([this]() {
 
+      LetterSalad::renderTextList();
+      ImGui::SameLine();
+      this->renderGameField();
+      this->renderSelectedWord();
+
+    });
 }
 
 void LetterSalad::update() {
@@ -326,7 +347,11 @@ void LetterSalad::stop() {
     Game::stop();
 }
 void LetterSalad::start() {
-
+    getRandomWords();
+    fillGameFieldWithWordlist();
+    randomizeGameField();
+    _isGameRunning = true;
+    _showInfobox = false;
 }
 void LetterSalad::reset() {
 
@@ -338,10 +363,165 @@ void LetterSalad::randomizeGameField() {
     for (auto &row : _gameField) {
         for (auto &box : row) {
             // TODO @bpuhani check if an field already has a letter
-            std::string letter{std::string(1, 'A'+rand() % 26)};
-            box.setLetter(letter);
+            if (box->getLetter() == EMPTY_CELL) {
+//                std::string letter{std::string(1, 'A'+rand() % 26)};
+//                box->setLetter(letter);
+            }
         }
     }
+}
+
+void LetterSalad::getRandomWords() {
+    // get random words from another source of words.
+    std::vector<WordTarget> randomWords;
+    _activeWordList.clear();
+
+    while (_activeWordList.size() < NR_OF_WORDS) {
+        int randomIndex{randomInt(0, _wordList.size()-1)};
+        auto wordPair{*std::next(_wordList.begin(), randomIndex)};
+        std::transform(wordPair.first.begin(), wordPair.first.end(),
+                       wordPair.first.begin(), ::toupper);
+        _activeWordList.insert(wordPair);
+    }
+}
+
+void LetterSalad::fillGameFieldWithWordlist() {
+
+    for (const auto &wordPair : _activeWordList) {
+        placeWord(wordPair.first);
+    }
+}
+
+int LetterSalad::randomInt(int min, int max) {
+    std::uniform_int_distribution<> dis(min, max);
+    return dis(gen);
+}
+
+bool LetterSalad::placeWord(std::string word) {
+    // get random orientation // 1 = horizontal, 2 = vertical, 3 = diagonal
+    Orientation orientation{randomInt(1, 3)};
+
+    int height{static_cast<int>(_gameField.size())};
+    int width{static_cast<int>(_gameField[0].size())};
+
+    bool placed{false};
+    int tries{0};
+
+    while (!placed && tries < 1000) {
+        tries++;
+        int row;
+        int col;
+        bool reverse{(rand() % 2) != 0};
+
+        switch (orientation) {
+            case Orientation::HORIZONTAL: {
+                row = randomInt(0, height-word.length());
+                col = randomInt(0, width-1);
+                if (reverse) std::reverse(word.begin(), word.end());
+                break;
+            }
+            case Orientation::VERTICAL: {
+                // place word vertically
+                row = randomInt(0, height-1);
+                col = randomInt(0, width-word.length());
+                break;
+            }
+            case Orientation::DIAGONAL_DOWN: {
+                // place word diagonally top left to bottom right
+                row = randomInt(0, height-word.length());
+                col = randomInt(0, width-word.length());
+                break;
+            }
+            case Orientation::DIAGONAL_UP: {
+                // place word diagonally bottom left to top right
+                row = randomInt(word.length()-1, height-1);
+                col = randomInt(0, width-word.length());
+            }
+        }
+
+        bool fits{true};
+
+        for (size_t i{0}; i < word.length(); ++i) {
+            int currentRow{row};
+            int currentCol{col};
+            switch (orientation) {
+                case Orientation::HORIZONTAL: {
+                    currentCol += i;
+                }
+                case Orientation::VERTICAL: {
+                    currentRow += i;
+                }
+                case Orientation::DIAGONAL_DOWN: {
+                    currentRow += i;
+                    currentCol += i;
+                }
+                case Orientation::DIAGONAL_UP: {
+                    currentRow -= i;
+                    currentCol += i;
+                }
+            }
+
+            if (currentRow < 0 || currentRow >= height || currentCol < 0
+                || currentCol >= width) {
+                fits = false;
+                break;
+            }
+
+            std::string letter{_gameField[currentRow][currentCol]->getLetter()};
+
+            if (letter != EMPTY_CELL && letter != std::string(1, word[i])) {
+                fits = false;
+                break;
+            }
+        }
+        if (fits) {
+            for (size_t i{0}; i < word.length(); ++i) {
+                int currentRow{row};
+                int currentCol{col};
+                switch (orientation) {
+                    case Orientation::HORIZONTAL: {
+                        currentCol += i;
+                        break;
+                    }
+                    case Orientation::VERTICAL: {
+                        currentRow += i;
+                        break;
+                    }
+                    case Orientation::DIAGONAL_DOWN: {
+                        currentRow += i;
+                        currentCol += i;
+                        break;
+                    }
+                    case Orientation::DIAGONAL_UP: {
+                        currentRow -= i;
+                        currentCol += i;
+                        break;
+                    }
+                }
+                _gameField[currentRow][currentCol]
+                    ->setLetter(std::string(1, word[i]));
+            }
+            placed = true;
+        } else {
+            // try
+            if (orientation != Orientation::DIAGONAL_UP && tries % 7 == 0) {
+                orientation =
+                    Orientation{(rand() % 4)-1};
+            }
+        }
+    }
+    return placed;
+}
+
+void LetterSalad::init() {
+    for (int y{0}; y < 20; y++) {
+        std::vector<std::unique_ptr<Box>> row;
+        for (int x{0}; x < 20; x++) {
+            row.emplace_back(std::make_unique<Box>(EMPTY_CELL));
+        }
+        _gameField.emplace_back(std::move(row));
+    }
+    _isGameInitialized = true;
 }
 
 } // namespace game

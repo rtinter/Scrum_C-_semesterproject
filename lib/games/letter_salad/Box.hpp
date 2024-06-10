@@ -1,5 +1,5 @@
 //
-// Created by benni on 10.06.2024.
+// Created by Benjamin Puhani on 10.06.2024.
 //
 
 #ifndef ATHENA_LIB_GAMES_LETTER_SALAD_BOX_HPP_
@@ -7,6 +7,7 @@
 
 #include <string>
 #include <utility>
+#include <iostream>
 class Box {
   std::string _letter;
  public:

@@ -5,19 +5,30 @@
 #ifndef ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 #define ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 
+#define EMPTY_CELL "_" // empty cell
+#define NR_OF_WORDS 10 // number of words to be searched
+
 #include "Game.hpp"
 #include "Coordinates.hpp"
 #include "Box.hpp"
+#include <set>
 
 namespace game {
 
 using WordTarget = std::pair<std::string, bool>;
-using CharVector2D = std::vector<std::vector<Box>>;
+using CharVector2D = std::vector<std::vector<std::unique_ptr<Box>>>;
 
 class LetterSalad : Game {
-  static CharVector2D _gameField;
-  static std::vector<Coordinates> _currentLine;
-  static std::vector<WordTarget> _wordList;
+  bool _isGameInitialized;
+  static std::string _gameName;
+  static std::string _gameDescription;
+  static std::string _gameRules;
+  static std::string _gameControls;
+
+  CharVector2D _gameField;
+  std::vector<Coordinates> _currentLine;
+  static std::set<WordTarget> _wordList;
+  std::set<WordTarget> _activeWordList;
   // save clicked cells
   Coordinates _firstSelectedCell{-1, -1};
   Coordinates _secondSelectedCell{-1, -1};
@@ -26,18 +37,22 @@ class LetterSalad : Game {
   std::string _selectedWord;
   void update();
   void clickCell(Coordinates const &coords);
-  void pairSelected();
   void resetSelectedPair();
   static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates
   const &end);
   void onHover(const Coordinates &coords);
-  static void selectBox(Coordinates const &coords);
-  static void deSelectBox(Coordinates const &coords);
-  static void finalize(Coordinates const &coords);
-  static void randomizeGameField();
-  static void renderTextList();
+  void selectBox(Coordinates const &coords);
+  void deSelectBox(Coordinates const &coords);
+  void finalize(Coordinates const &coords);
+  void randomizeGameField();
+  void renderTextList();
+  bool isWordInList(std::set<WordTarget> &wordlist, const std::string &word);
+  void getRandomWords();
+  static int randomInt(int min, int max);
   void renderGameField();
   void renderSelectedWord() const;
+  void fillGameFieldWithWordlist();
+  bool placeWord(std::string word);
  public:
   void stop() override;
   std::string getName() const override;
@@ -46,7 +61,7 @@ class LetterSalad : Game {
   void start() override;
   void reset() override;
   void updateStatistics() override;
-  static bool isWordInList(const std::string &word);
+  void init();
 };
 
 }
