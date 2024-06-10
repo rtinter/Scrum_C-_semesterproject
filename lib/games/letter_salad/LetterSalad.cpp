@@ -19,16 +19,16 @@ std::string LetterSalad::getName() const {
     return "Letter Salad";
 }
 
-CharVector2D LetterSalad::_gameField = {20, {20, {EMPTY_CELL, false}}};
+CharVector2D LetterSalad::_gameField = {20, {20, Box{EMPTY_CELL}}};
 std::vector<Coordinates> LetterSalad::_currentLine = {};
-std::vector<std::pair<std::string, bool>> LetterSalad::_wordList = {
+std::vector<WordTarget> LetterSalad::_wordList = {
     {"Hallo", true},
     {"Welt", false}
 };
 
 void LetterSalad::render() {
 
-    if (_gameField[0][0].first == EMPTY_CELL) {
+    if (_gameField[0][0].getLetter() == EMPTY_CELL) {
         LetterSalad::randomizeGameField();
     }
 
@@ -48,7 +48,10 @@ void LetterSalad::render() {
       ImGui::SameLine();
       ImGui::Spacing();
       ImGui::SameLine();
+
       this->renderGameField();
+      this->renderSelectedWord();
+
     });
 }
 
@@ -79,7 +82,7 @@ void LetterSalad::onHover(Coordinates const &coords) {
 
         for (auto &lineE : _currentLine) {
             selectBox(lineE);
-            _selectedWord += _gameField[lineE.y][lineE.x].first;
+            _selectedWord += _gameField[lineE.y][lineE.x].getChar();
         }
     }
 
@@ -93,7 +96,7 @@ void LetterSalad::clickCell(Coordinates const &coords) {
         // then this is the first cell selected
         _isFirstCellSelected = true;
         _firstSelectedCell = coords;
-        _selectedWord = _gameField[coords.y][coords.x].first;
+//        _selectedWord = _gameField[coords.y][coords.x].getChar();
         selectBox(coords);
     } else if (!_isSecondCellSelected) {
         // if the first cell has been selected
@@ -111,8 +114,9 @@ void LetterSalad::clickCell(Coordinates const &coords) {
 }
 
 void LetterSalad::renderGameField() {
+    ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2-360, 50));
     ImGui::BeginChild("##gameField",
-                      ImVec2(900, 900));
+                      ImVec2(720, 760));
     ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
                         ImVec2(0.5f, 0.5f));
 
@@ -125,8 +129,8 @@ void LetterSalad::renderGameField() {
 
             // PushID is used to ensure that each cell has a unique ID
             ImGui::PushID(y * 20+x);
-            if (ImGui::Selectable(_gameField[y][x].first.c_str(),
-                                  _gameField[y][x].second,
+            if (ImGui::Selectable(_gameField[y][x].getChar(),
+                                  _gameField[y][x].isSelected,
                                   ImGuiSelectableFlags_AllowOverlap,
                                   ImVec2(20, 20))) {
                 // Toggle clicked cell if clicked
@@ -146,14 +150,38 @@ void LetterSalad::renderGameField() {
         }
     }
     ImGui::PopStyleVar();
-    ImGui::BeginChild("##selectedWord",
-                      ImVec2(500, 40));
+    ImGui::EndChild(); // ##gameField
+}
+
+void LetterSalad::renderSelectedWord() const {
+    static int const WIDTH = 650;
+    static int const HEIGHT = 40;
+
+    ImVec2 startPos{
+        ImVec2(ImGui::GetWindowWidth() / 2-static_cast<int>(WIDTH / 2), 810)
+    };
+
     ImGui::PushFont(commons::Fonts::_header2);
-    ImGui::TextDisabled(_selectedWord.c_str());
+
+    ImGui::SetCursorPos(startPos);
+    ImGui::BeginChild("##selectedWord",
+                      ImVec2(WIDTH, HEIGHT));
+
+    // Get the position and size of the dummy
+    ImVec2 pos = ImGui::GetItemRectMin();
+    ImDrawList *drawList = ImGui::GetWindowDrawList();
+    ImU32 rectangle = IM_COL32(3, 161, 252, 255);
+    float rounding = 25.f;
+
+    drawList->AddRectFilled(pos,
+                            ImVec2(pos.x+WIDTH, pos.y+HEIGHT),
+                            rectangle,
+                            rounding
+    );
+
+    ui_elements::TextCentered(_selectedWord.c_str());
     ImGui::PopFont();
     ImGui::EndChild(); // ##selectedWord
-
-    ImGui::EndChild(); // ##gameField
 }
 
 void LetterSalad::resetSelectedPair() {
@@ -222,7 +250,7 @@ void LetterSalad::selectBox(Coordinates const &coords) {
         std::cerr << coords.y << " " << coords.x << std::endl;
         return;
     }
-    _gameField[coords.y][coords.x].second = true;
+    _gameField[coords.y][coords.x].isSelected = true;
 }
 
 void LetterSalad::deSelectBox(Coordinates const &coords) {
@@ -231,7 +259,7 @@ void LetterSalad::deSelectBox(Coordinates const &coords) {
         std::cerr << coords.y << " " << coords.x << std::endl;
         return;
     }
-    _gameField[coords.y][coords.x].second = false;
+    _gameField[coords.y][coords.x].isSelected = false;
 }
 
 void LetterSalad::pairSelected() {
@@ -259,7 +287,7 @@ void LetterSalad::updateStatistics() {
 }
 void LetterSalad::randomizeGameField() {
     for (auto &row : _gameField) {
-        for (auto &x : row) {
+        for (auto &box : row) {
             // TODO @bpuhani check if an field already has a letter
             x.first = static_cast<char>(rand() % 23+65);
         }

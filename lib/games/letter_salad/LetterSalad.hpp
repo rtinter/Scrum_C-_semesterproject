@@ -7,17 +7,17 @@
 
 #include "Game.hpp"
 #include "Coordinates.hpp"
-
-using Box = std::pair<std::string, bool>;
+#include "Box.hpp"
 
 namespace game {
 
+using WordTarget = std::pair<std::string, bool>;
 using CharVector2D = std::vector<std::vector<Box>>;
 
 class LetterSalad : Game {
   static CharVector2D _gameField;
   static std::vector<Coordinates> _currentLine;
-  static std::vector<std::pair<std::string, bool>> _wordList;
+  static std::vector<WordTarget> _wordList;
   // save clicked cells
   Coordinates _firstSelectedCell{-1, -1};
   Coordinates _secondSelectedCell{-1, -1};
@@ -35,6 +35,7 @@ class LetterSalad : Game {
   static void deSelectBox(Coordinates const &coords);
   static void randomizeGameField();
   void renderGameField();
+  void renderSelectedWord() const;
  public:
   void stop() override;
   std::string getName() const override;
