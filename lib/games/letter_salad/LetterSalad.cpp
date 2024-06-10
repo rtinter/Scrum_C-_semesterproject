@@ -289,7 +289,7 @@ void LetterSalad::randomizeGameField() {
     for (auto &row : _gameField) {
         for (auto &box : row) {
             // TODO @bpuhani check if an field already has a letter
-            std::string letter = std::string(1, 'A'+rand() % 26);
+            std::string letter{std::string(1, 'A'+rand() % 26)};
             box.setLetter(letter);
         }
     }
