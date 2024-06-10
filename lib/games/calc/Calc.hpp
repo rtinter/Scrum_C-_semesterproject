@@ -2,38 +2,33 @@
 #define ATHENA_CALC_H
 
 #include <string>
+#include <vector>
 #include "Game.hpp"
-#include "MathTask.hpp"
-#include "MathTaskFactory.hpp"
-#include <memory>
-#include <chrono>
+#include "Timer.hpp"
 
 namespace games {
-    class Calc : public abstract_game::Game {
+    class Calc : public Game {
+    private:
+        int _currentLevel{1};
+        int _currentScore{0};
+        int _numberOfCorrectAnswers{0};
+        int _numberOfTasks{5};
+        std::vector<std::string> _currentTasks;
+        bool _isGameRunning{false};
+        ui_elements::Timer _taskTimer{"Task Timer", 30};
+        std::chrono::seconds _displayDuration{2};
+
+        void generateTasks();
+        void displayTasks();
+        int calculateResult(const std::string &task);
+
     public:
         Calc();
-        void start() override;
         void render() override;
-        std::string getName() const override;
+        void renderGame() override;
+        void start() override;
         void reset() override;
         void stop() override;
-
-    private:
-        int _completedLevels{0};
-        bool _elapsedTimeSet{false};
-        bool _showEndbox{false};
-        std::string _endScreenTitle;
-        std::string _endScreenStatisticText;
-        std::chrono::steady_clock::time_point _startTime;
-        std::chrono::steady_clock::time_point _endTime;
-        double _elapsedTimeCalculated{0.0};
-        std::unique_ptr<MathTask> _currentLevel;
-
-        void nextLevel();
-        void renderGame() override;
-        void showEndScreen();
-        void calculateEndScreenText();
-        double getElapsedTimeInMinutes() const;
         void updateStatistics() override;
     };
 }
