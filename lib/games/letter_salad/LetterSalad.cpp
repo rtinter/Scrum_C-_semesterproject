@@ -22,8 +22,26 @@ std::string LetterSalad::getName() const {
 CharVector2D LetterSalad::_gameField = {20, {20, Box{EMPTY_CELL}}};
 std::vector<Coordinates> LetterSalad::_currentLine = {};
 std::vector<WordTarget> LetterSalad::_wordList = {
-    {"Hallo", true},
-    {"Welt", false}
+    {"Kreativitaet", false},
+    {"Geschwindigkeit", false},
+    {"Universum", false},
+    {"Glueckseligkeit", false},
+    {"Wasserfall", false},
+    {"Bibliothek", false},
+    {"Schmetterling", false},
+    {"Konversation", false},
+    {"Landschaft", false},
+    {"Sonnenuntergang", false},
+    {"Hoffnungsschimmer", false},
+    {"Sternschnuppe", false},
+    {"Gluehbirne", false},
+    {"Flugzeug", false},
+    {"Wissenschaft", false},
+    {"Diskothek", false},
+    {"Traumfaenger", false},
+    {"Zirkuszelt", false},
+    {"Schokolade", false},
+    {"Gemeinschaft", false}
 };
 
 void LetterSalad::render() {
@@ -34,21 +52,8 @@ void LetterSalad::render() {
 
     ui_elements::Window("LetterSalad Game").render([this]() {
 
-      ImGui::BeginListBox("##textList",
-                          ImVec2(300, ImGui::GetWindowHeight()-100));
-
-      for (auto &wordPair : _wordList) {
-          ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-          ImGui::Checkbox(wordPair.first.c_str(),
-                          &wordPair.second);
-          ImGui::PopItemFlag();
-      }
-
-      ImGui::EndListBox(); // ##textList
+      LetterSalad::renderTextList();
       ImGui::SameLine();
-      ImGui::Spacing();
-      ImGui::SameLine();
-
       this->renderGameField();
       this->renderSelectedWord();
 
@@ -111,6 +116,20 @@ void LetterSalad::clickCell(Coordinates const &coords) {
         resetSelectedPair();
     }
 
+}
+
+void LetterSalad::renderTextList() {
+    ImGui::BeginListBox("##textList",
+                        ImVec2(300, ImGui::GetWindowHeight()-100));
+
+    for (auto &wordPair : _wordList) {
+        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+        ImGui::Checkbox(wordPair.first.c_str(),
+                        &wordPair.second);
+        ImGui::PopItemFlag();
+    }
+
+    ImGui::EndListBox(); // ##textList
 }
 
 void LetterSalad::renderGameField() {
@@ -188,12 +207,33 @@ void LetterSalad::resetSelectedPair() {
     _selectedWord = "";
     _isFirstCellSelected = false;
     _isSecondCellSelected = false;
-    for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
-//        deSelectBox(lineE);
+
+    if (!LetterSalad::isWordInList(_selectedWord)) {
+        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
+            LetterSalad::deSelectBox(lineE);
+        }
+    } else {
+        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
+            LetterSalad::finalize(lineE);
+        }
+
     }
+
     _firstSelectedCell = {-1, -1};
     _secondSelectedCell = {-1, -1};
     _currentLine.clear();
+}
+
+bool LetterSalad::isWordInList(std::string const &word) {
+    return std::any_of(_wordList.begin(), _wordList.end(),
+                       [&word](WordTarget &wordTarget) {
+                         if (wordTarget.first == word) {
+                             wordTarget.second = true;
+                             return true;
+                         }
+                         return false;
+                       }
+    );
 }
 
 /**
@@ -260,6 +300,15 @@ void LetterSalad::deSelectBox(Coordinates const &coords) {
         return;
     }
     _gameField[coords.y][coords.x].isSelected = false;
+}
+
+void LetterSalad::finalize(Coordinates const &coords) {
+    if (coords.x < 0 || coords.y < 0 || coords.x >= 20 || coords.y >= 20) {
+        std::cerr << "Invalid coordinates" << std::endl;
+        std::cerr << coords.y << " " << coords.x << std::endl;
+        return;
+    }
+    _gameField[coords.y][coords.x].isSolved = true;
 }
 
 void LetterSalad::pairSelected() {

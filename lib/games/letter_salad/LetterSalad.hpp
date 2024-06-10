@@ -33,7 +33,9 @@ class LetterSalad : Game {
   void onHover(const Coordinates &coords);
   static void selectBox(Coordinates const &coords);
   static void deSelectBox(Coordinates const &coords);
+  static void finalize(Coordinates const &coords);
   static void randomizeGameField();
+  static void renderTextList();
   void renderGameField();
   void renderSelectedWord() const;
  public:
@@ -44,7 +46,7 @@ class LetterSalad : Game {
   void start() override;
   void reset() override;
   void updateStatistics() override;
-
+  static bool isWordInList(const std::string &word);
 };
 
 }
