@@ -53,7 +53,7 @@ int TaskGenerator::adjustValueForCurrentResult(char op, int value, int currentRe
     if (op == '*' || op == '/') {
         // Vermeide große Multiplikationen und Divisionen, wenn das aktuelle Ergebnis bereits groß ist
         if (currentResult > 20) {
-            return std::min(value, 5); // Begrenze die Zahl auf maximal 10
+            return std::min(value, 5); // Begrenze die Zahl auf maximal 5
         }
     }
     return value;
@@ -72,8 +72,14 @@ Task TaskGenerator::generateTask(int levelIndex, int currentResult) {
 
         num = adjustValueForCurrentResult(op, num, currentResult);
 
+        // Vermeide Division durch Null
+        if ((op == '/' || op == '%') && num == 0) {
+            num = 1; // Setze den Wert auf 1, um Division durch Null zu vermeiden
+        }
+
+        // Sicherstellen, dass wir keine Dezimalzahlen erhalten
         if (op == '/' && num != 0 && i > 0 && currentResult % num != 0) {
-            num = 1; // Sicherstellen, dass wir keine Dezimalzahlen erhalten
+            num = 1;
         }
 
         operations.emplace_back(num, op);

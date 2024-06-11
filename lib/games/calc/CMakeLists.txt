@@ -3,13 +3,10 @@ set(LIBRARY_NAME calc)
 file(GLOB SOURCES *.cpp)
 
 add_library(${LIBRARY_NAME} ${SOURCES}
-        MathTask.hpp
-        MathTaskFactory.cpp
-        MathTaskFactory.hpp
-        MathTaskType.hpp
-        SimpleMultiplicationTable.cpp
-        SimpleMultiplicationTable.hpp
-)
+        Task.cpp
+        Task.hpp
+        TaskGenerator.cpp
+        TaskGenerator.hpp)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}

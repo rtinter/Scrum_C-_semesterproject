@@ -2,9 +2,10 @@
 #define ATHENA_CALC_H
 
 #include <string>
-#include <vector>
 #include "Game.hpp"
 #include "Timer.hpp"
+#include "Task.hpp"
+#include "TaskGenerator.hpp"
 
 namespace games {
     class Calc : public Game {
@@ -12,15 +13,16 @@ namespace games {
         int _currentLevel{1};
         int _currentScore{0};
         int _numberOfCorrectAnswers{0};
-        int _numberOfTasks{5};
-        std::vector<std::string> _currentTasks;
-        bool _isGameRunning{false};
+        int _numberOfTasks{5}; // Anzahl der Aufgaben pro Level
+        int _currentResult{0};
+        Task _currentTask;
+        TaskGenerator _taskGenerator;
         ui_elements::Timer _taskTimer{"Task Timer", 30};
         std::chrono::seconds _displayDuration{2};
 
-        void generateTasks();
-        void displayTasks();
-        int calculateResult(const std::string &task);
+        void generateTask();
+        void displayTask();
+        void checkAnswer(int playerAnswer);
 
     public:
         Calc();
