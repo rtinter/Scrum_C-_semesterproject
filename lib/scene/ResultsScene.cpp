@@ -1,13 +1,18 @@
 
 #include "ResultsScene.h"
+#include "DashboardScene.hpp"
+#include "SceneManager.hpp"
 
 namespace scene {
 
     ResultsScene::ResultsScene() : _header("Meine Werte", "Home", [](){
-        //linking to Home/Dashboard site has to be added here
-        //SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
+        SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
     }){
         std::map<int, std::vector<std::string>> map;
+        std::vector<std::string> stringvector {"Test", "Daten", "Für", "Tabelle"};
+        std::vector<std::string> stringvectordata {"Heute", "Tom", "300 pkt", "win"};
+        map[1] = stringvector;
+        map[2] = stringvectordata;
         ui_elements::StatisticsGameTable coolTable{map};
         _results.addGameTableContainer(ui_elements::TableContainer("hallo", coolTable));
         _results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
