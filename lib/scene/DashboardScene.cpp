@@ -64,7 +64,7 @@ scene::DashboardScene::DashboardScene() {
         std::make_unique<Tile>(
             "Pictogram",
             "Buchstabensalat",
-            "Buchstabensalat Beschreibung",
+            "Buchstabensalat\nBeschreibung",
             []() {
               SceneManager::getInstance().switchTo(
                   std::make_unique<GameScene<game::LetterSalad>>()
