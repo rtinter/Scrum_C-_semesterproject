@@ -85,62 +85,14 @@ void LetterSalad::render() {
     }
 }
 
-void LetterSalad::onHover(Coordinates const &coords) {
+void LetterSalad::renderGame() {
+    ui_elements::Window("###letterSalad").render([this]() {
 
-    static Coordinates lastHoveredCell{-1, -1};
-
-    auto newlines{getLine(_firstSelectedCell, coords)};
-
-    if (newlines.empty()) {
-        return;
-    }
-
-    // check if the hovered cell is not the last hovered cell
-    if (lastHoveredCell.x != -1 && lastHoveredCell != coords) {
-        std::vector<Coordinates> difference;
-        // remove all elements that are now not hovered anymore
-        std::set_difference(_currentLine.begin(), _currentLine.end(),
-                            newlines.begin(), newlines.end(),
-                            std::back_inserter(difference));
-        for (auto &lineE : difference) {
-            deSelectBox(lineE);
-        }
-
-    } else {
-        _selectedWord = "";
-        _currentLine = getLine(_firstSelectedCell, coords);
-
-        for (auto &lineE : _currentLine) {
-            selectBox(lineE);
-            _selectedWord += _gameField[lineE.y][lineE.x]->getChar();
-        }
-    }
-
-    lastHoveredCell = coords;
-}
-
-void LetterSalad::clickCell(Coordinates const &coords) {
-
-    // if the first has not been selected yet
-    if (!_isFirstCellSelected) {
-        // then this is the first cell selected
-        _isFirstCellSelected = true;
-        _firstSelectedCell = coords;
-//        _selectedWord = _gameField[coords.y][coords.x].getChar();
-        selectBox(coords);
-    } else if (!_isSecondCellSelected) {
-        // if the first cell has been selected
-        // then this is the second cell selected
-        _isSecondCellSelected = true;
-        _secondSelectedCell = coords;
-
-        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
-            selectBox(lineE);
-        }
-        // check if the selected elements are correct, if not reset
-        resetSelectedPair();
-    }
-
+      LetterSalad::renderTextList();
+      ImGui::SameLine();
+      this->renderGameField();
+      this->renderSelectedWord();
+    });
 }
 
 void LetterSalad::renderTextList() {
@@ -158,10 +110,10 @@ void LetterSalad::renderTextList() {
 
 void LetterSalad::renderGameField() {
     ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2-360, 50));
-    ImGui::BeginChild("##gameField",
-                      ImVec2(720, 760));
+    ImGui::BeginChild("##gameField", ImVec2(720, 760));
     ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
-                        ImVec2(0.5f, 0.5f));
+                        ImVec2(0.5f, 0.5f)
+    );
 
     for (int y = 0; y < _gameField.size(); y++) {
         auto &row = _gameField[y];
@@ -228,6 +180,63 @@ void LetterSalad::renderSelectedWord() const {
     ImGui::EndChild(); // ##selectedWord
 }
 
+void LetterSalad::onHover(Coordinates const &coords) {
+
+    static Coordinates lastHoveredCell{-1, -1};
+
+    auto newlines{getLine(_firstSelectedCell, coords)};
+
+    if (newlines.empty()) {
+        return;
+    }
+
+    // check if the hovered cell is not the last hovered cell
+    if (lastHoveredCell.x != -1 && lastHoveredCell != coords) {
+        std::vector<Coordinates> difference;
+        // remove all elements that are now not hovered anymore
+        std::set_difference(_currentLine.begin(), _currentLine.end(),
+                            newlines.begin(), newlines.end(),
+                            std::back_inserter(difference));
+        for (auto &lineE : difference) {
+            deSelectBox(lineE);
+        }
+
+    } else {
+        _selectedWord = "";
+        _currentLine = getLine(_firstSelectedCell, coords);
+
+        for (auto &lineE : _currentLine) {
+            selectBox(lineE);
+            _selectedWord += _gameField[lineE.y][lineE.x]->getChar();
+        }
+    }
+
+    lastHoveredCell = coords;
+}
+
+void LetterSalad::clickCell(Coordinates const &coords) {
+
+    // if the first has not been selected yet
+    if (!_isFirstCellSelected) {
+        // then this is the first cell selected
+        _isFirstCellSelected = true;
+        _firstSelectedCell = coords;
+        selectBox(coords);
+    } else if (!_isSecondCellSelected) {
+        // if the first cell has been selected
+        // then this is the second cell selected
+        _isSecondCellSelected = true;
+        _secondSelectedCell = coords;
+
+        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
+            selectBox(lineE);
+        }
+        // check if the selected elements are correct, if not reset
+        resetSelectedPair();
+    }
+
+}
+
 void LetterSalad::resetSelectedPair() {
     _isFirstCellSelected = false;
     _isSecondCellSelected = false;
@@ -252,7 +261,6 @@ void LetterSalad::resetSelectedPair() {
 bool LetterSalad::isWordInList(
     std::set<WordTarget> &wordlist,
     std::string const &word) {
-    std::cout << "Checking word: " << word << std::endl;
     return wordlist.find(WordTarget{word}) != _activeWordList.end();
 }
 
@@ -331,16 +339,6 @@ void LetterSalad::finalize(Coordinates const &coords) {
     _gameField[coords.y][coords.x]->isSolved = true;
 }
 
-void LetterSalad::renderGame() {
-    ui_elements::Window("###letterSalad").render([this]() {
-
-      LetterSalad::renderTextList();
-      ImGui::SameLine();
-      this->renderGameField();
-      this->renderSelectedWord();
-    });
-}
-
 void LetterSalad::update() {
 
 }
@@ -351,7 +349,7 @@ void LetterSalad::stop() {
 void LetterSalad::start() {
     getRandomWords();
     fillGameFieldWithWordlist();
-//    randomizeGameField();
+    randomizeGameField();
     _isGameRunning = true;
     _showInfobox = false;
 }
@@ -482,9 +480,6 @@ bool LetterSalad::placeWord(std::string word) {
         }
         // if the word fits, place it
         if (fits) {
-            std::cout << "Placing word: " << word << std::endl;
-            std::cout << "Orientation: " << static_cast<int>(orientation)
-                      << std::endl;
             for (size_t i{0}; i < word.length(); ++i) {
                 int currentRow{row};
                 int currentCol{col};
@@ -510,8 +505,6 @@ bool LetterSalad::placeWord(std::string word) {
                         break;
                     }
                 }
-                std::cout << "(" << currentRow << ", " << currentCol << ") : "
-                          << word[i] << std::endl;
                 _gameField[currentRow][currentCol]
                     ->setLetter(std::string(1, word[i]));
             }
