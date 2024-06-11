@@ -19,20 +19,16 @@ namespace ui_elements {
         float childHeight{400.f};
 
         ImGui::BeginChild(_gameName.c_str(), ImVec2(childWidth, childHeight), true, ImGuiWindowFlags_AlwaysAutoResize);
-        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
-        ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::SEAFOAM);
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::Colors::INDIGO);
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::Colors::INDIGO);
-        //TODO rendering of tables seems to overwrite StyleManager settings
 
-        ImGui::PushFont(commons::Fonts::_header3);
+
+        /*ImGui::PushFont(commons::Fonts::_header3);*/
         ImGui::Text("Spiel %s", _gameName.c_str());
 
         _statisticsGameTable.render();
 
 
-        ImGui::PopStyleColor(4);
-        ImGui::PopFont();
+        /*ImGui::PopStyleColor(4);
+        ImGui::PopFont();*/
         ImGui::EndChild();
     }
 } // ui_elements

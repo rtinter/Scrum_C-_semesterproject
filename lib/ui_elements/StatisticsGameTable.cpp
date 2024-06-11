@@ -74,20 +74,21 @@ namespace ui_elements {
                 }
                 i++;
             }
-            ImGui::PopFont();
+           ImGui::PopFont();
         }
     }
 
     void StatisticsGameTable::createTable() const {
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
-            ImGui::StyleColorsClassic();
+
+            ImGui::PushStyleColor(ImGuiCol_TableHeaderBg, commons::Colors::SEAFOAM);
             createTableHead();
 
             //TextColor
             ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
             createTableRows();
-            ImGui::PopStyleColor();
+            ImGui::PopStyleColor(2);
             ImGui::EndTable();
         }
     }
