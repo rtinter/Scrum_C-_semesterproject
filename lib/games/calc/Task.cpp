@@ -25,7 +25,7 @@ void Task::advance() {
             case '+': _currentResult += number; break;
             case '-': _currentResult -= number; break;
             case '*': _currentResult *= number; break;
-            case '/': _currentResult /= number; break;
+            case '/': _currentResult /= number; break; // TODO Caspar division bei 0 nicht gut
             case '%': _currentResult %= number; break;
             default: break; // Füge eine Default-Anweisung hinzu
         }
