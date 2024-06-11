@@ -301,7 +301,6 @@ void LetterSalad::resetSelectedPair() {
             LetterSalad::finalize(lineE);
             _activeWordList.find(WordTarget{_selectedWord})->setFound();
         }
-
     }
 
     _firstSelectedCell = {-1, -1};
@@ -389,10 +388,6 @@ void LetterSalad::finalize(Coordinates const &coords) {
         return;
     }
     _gameField[coords.y][coords.x]->isSolved = true;
-}
-
-void LetterSalad::update() {
-
 }
 
 void LetterSalad::updateStatistics() {
