@@ -7,11 +7,13 @@
 
 #define EMPTY_CELL "_" // empty cell
 #define NR_OF_WORDS 15 // number of words to be searched
+#define TIME_LIMIT (15 * 60) // time limit for the game
 
 #include "Game.hpp"
 #include "Coordinates.hpp"
 #include "Box.hpp"
 #include "WordTarget.hpp"
+#include "Timer.hpp"
 #include <set>
 
 namespace game {
@@ -28,6 +30,7 @@ class LetterSalad : Game {
   CharVector2D _gameField;
   std::vector<Coordinates> _currentLine;
   static std::vector<WordTarget> _wordList;
+  ui_elements::Timer _timer{"####letterSalad", TIME_LIMIT};
   std::set<WordTarget> _activeWordList;
   // save clicked cells
   Coordinates _firstSelectedCell{-1, -1};

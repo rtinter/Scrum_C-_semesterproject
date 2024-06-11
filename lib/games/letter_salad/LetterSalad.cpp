@@ -12,6 +12,10 @@
 #include "imgui_internal.h"
 #include "Orientation.hpp"
 #include "InfoBox.hpp"
+#include "Overlay.hpp"
+#include "Centered.hpp"
+#include "SceneManager.hpp"
+#include "DashboardScene.hpp"
 
 namespace game {
 
@@ -29,6 +33,28 @@ std::string LetterSalad::_gameControls = "Klicke auf den ersten und letzten "
 
 std::string LetterSalad::getName() const {
     return _gameName;
+}
+
+void LetterSalad::stop() {
+    _showEndbox = true;
+    _isGameRunning = false;
+}
+
+void LetterSalad::start() {
+    getRandomWords();
+    fillGameFieldWithWordlist();
+    randomizeGameField();
+    _isGameRunning = true;
+    _showInfobox = false;
+    _showEndbox = false;
+    _timer.start();
+}
+
+void LetterSalad::reset() {
+    _activeWordList.clear();
+    _gameField.clear();
+    init();
+    start();
 }
 
 std::vector<WordTarget> LetterSalad::_wordList = {
@@ -83,21 +109,47 @@ void LetterSalad::render() {
     if (_isGameRunning) {
         renderGame();
     }
+
+    if (_showEndbox) {
+        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
+          ImGui::PushFont(commons::Fonts::_header2);
+          ui_elements::TextCentered(std::move(_endboxTitle));
+          ImGui::PopFont();
+          ui_elements::TextCentered(std::move(_endboxText));
+
+          ui_elements::Centered([this]() {
+            if (ImGui::Button("Versuch es nochmal")) {
+                reset();
+            }
+
+            if (ImGui::Button("Zurück zur Startseite")) {
+                scene::SceneManager::getInstance().switchTo(std::make_unique<
+                    scene::DashboardScene>());
+            }
+          });
+        });
+    }
 }
 
 void LetterSalad::renderGame() {
     ui_elements::Window("###letterSalad").render([this]() {
 
+      _timer.render();
       LetterSalad::renderTextList();
       ImGui::SameLine();
       this->renderGameField();
       this->renderSelectedWord();
     });
+
+    if (_timer.isExpiredNow()) {
+        stop();
+    }
+
 }
 
 void LetterSalad::renderTextList() {
     ImGui::BeginListBox("##textList",
-                        ImVec2(350, ImGui::GetWindowHeight()-100));
+                        ImVec2(350, 900));
 
     for (auto const &wordPair : _activeWordList) {
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
@@ -343,19 +395,6 @@ void LetterSalad::update() {
 
 }
 
-void LetterSalad::stop() {
-    Game::stop();
-}
-void LetterSalad::start() {
-    getRandomWords();
-    fillGameFieldWithWordlist();
-    randomizeGameField();
-    _isGameRunning = true;
-    _showInfobox = false;
-}
-void LetterSalad::reset() {
-
-}
 void LetterSalad::updateStatistics() {
 
 }
