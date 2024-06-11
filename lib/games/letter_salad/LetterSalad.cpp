@@ -308,10 +308,6 @@ void LetterSalad::clickCell(Coordinates const &coords) {
         // then this is the second cell selected
         _isSecondCellSelected = true;
         _secondSelectedCell = coords;
-
-        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
-            selectBox(lineE);
-        }
         // check if the selected elements are correct, if not reset
         resetSelectedPair();
     }
@@ -322,11 +318,11 @@ void LetterSalad::resetSelectedPair() {
     _isFirstCellSelected = false;
     _isSecondCellSelected = false;
     if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
-        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
+        for (auto &lineE : _currentLine) {
             LetterSalad::deSelectBox(lineE);
         }
     } else {
-        for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
+        for (auto &lineE : _currentLine) {
             LetterSalad::finalize(lineE);
             _activeWordList.find(WordTarget{_selectedWord})->setFound();
         }
