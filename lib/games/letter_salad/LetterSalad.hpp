@@ -6,16 +6,16 @@
 #define ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 
 #define EMPTY_CELL "_" // empty cell
-#define NR_OF_WORDS 10 // number of words to be searched
+#define NR_OF_WORDS 15 // number of words to be searched
 
 #include "Game.hpp"
 #include "Coordinates.hpp"
 #include "Box.hpp"
+#include "WordTarget.hpp"
 #include <set>
 
 namespace game {
 
-using WordTarget = std::pair<std::string, bool>;
 using CharVector2D = std::vector<std::vector<std::unique_ptr<Box>>>;
 
 class LetterSalad : Game {
@@ -27,7 +27,7 @@ class LetterSalad : Game {
 
   CharVector2D _gameField;
   std::vector<Coordinates> _currentLine;
-  static std::set<WordTarget> _wordList;
+  static std::vector<WordTarget> _wordList;
   std::set<WordTarget> _activeWordList;
   // save clicked cells
   Coordinates _firstSelectedCell{-1, -1};

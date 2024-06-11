@@ -18,47 +18,51 @@ namespace game {
 std::random_device rd;
 std::mt19937 gen(rd());
 
+std::string LetterSalad::_gameName = "Buchstaben Salat";
+std::string LetterSalad::_gameDescription = "Finde die versteckten Wörter im "
+                                            "Buchstaben Salat.";
+std::string LetterSalad::_gameRules = "Es wird die Zeit gemessen wie lange du "
+                                      "brauchst um alle Wörter zu finden.";
+std::string LetterSalad::_gameControls = "Klicke auf den ersten und letzten "
+                                         "Buchstaben eines Wortes um es zu "
+                                         "markieren.";
+
 std::string LetterSalad::getName() const {
     return _gameName;
 }
 
-std::set<WordTarget> LetterSalad::_wordList = {
-    {"Kreativ", false},
-    {"Geschwindigkeit", false},
-    {"Universum", false},
-    {"Glueck", false},
-    {"Wasser", false},
-    {"Bibliothek", false},
-    {"Konversation", false},
-    {"Land", false},
-    {"Sonne", false},
-    {"Hoffnung", false},
-    {"Gluehbirne", false},
-    {"Flugzeug", false},
-    {"Wissenschaft", false},
-    {"Diskothek", false},
-    {"Traum", false},
-    {"Zirkus", false},
-    {"Schokolade", false},
-    {"Gemeinschaft", false},
-    {"Kunst", false},
-    {"Kultur", false},
-    {"Frieden", false},
-    {"Freiheit", false},
-    {"Gesundheit", false},
-    {"Geld", false},
-    {"Gesellschaft", false},
-    {"Geschichte", false},
-    {"Glaube", false},
-    {"Grenze", false},
-    {"Grenzuebergang", false},
-    {"Grenzueberschreitung", false},
+std::vector<WordTarget> LetterSalad::_wordList = {
+    WordTarget{"KREATIV"},
+    WordTarget{"GESCHWINDIGKEIT"},
+    WordTarget{"UNIVERSUM"},
+    WordTarget{"GLUECK"},
+    WordTarget{"WASSER"},
+    WordTarget{"BIBLIOTHEK"},
+    WordTarget{"KONVERSATION"},
+    WordTarget{"LAND"},
+    WordTarget{"SONNE"},
+    WordTarget{"HOFFNUNG"},
+    WordTarget{"GLUEHBIRNE"},
+    WordTarget{"FLUGZEUG"},
+    WordTarget{"WISSENSCHAFT"},
+    WordTarget{"DISKOTHEK"},
+    WordTarget{"ZIRKUS"},
+    WordTarget{"TRAUM"},
+    WordTarget{"SCHOKOLADE"},
+    WordTarget{"GEMEINSCHAFT"},
+    WordTarget{"KUNST"},
+    WordTarget{"KULTUR"},
+    WordTarget{"FRIEDEN"},
+    WordTarget{"FREIHEIT"},
+    WordTarget{"GESUNDHEIT"},
+    WordTarget{"GELD"},
+    WordTarget{"GESELLSCHAFT"},
+    WordTarget{"GESCHICHTE"},
+    WordTarget{"GLAUBE"},
+    WordTarget{"GRENZE"},
+    WordTarget{"GRENZUEBERGANG"},
+    WordTarget{"GRENZUEBERSCHREITUNG"},
 };
-
-std::string LetterSalad::_gameName = "LetterSalad";
-std::string LetterSalad::_gameDescription = "";
-std::string LetterSalad::_gameRules = "";
-std::string LetterSalad::_gameControls = "";
 
 void LetterSalad::render() {
 
@@ -141,12 +145,11 @@ void LetterSalad::clickCell(Coordinates const &coords) {
 
 void LetterSalad::renderTextList() {
     ImGui::BeginListBox("##textList",
-                        ImVec2(300, ImGui::GetWindowHeight()-100));
+                        ImVec2(350, ImGui::GetWindowHeight()-100));
 
-    for (const auto &wordPair : _activeWordList) {
+    for (auto const &wordPair : _activeWordList) {
         ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-        ImGui::Checkbox(wordPair.first.c_str(),
-                        const_cast<bool *>(&wordPair.second));
+        ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
         ImGui::PopItemFlag();
     }
 
@@ -235,8 +238,7 @@ void LetterSalad::resetSelectedPair() {
     } else {
         for (auto &lineE : getLine(_firstSelectedCell, _secondSelectedCell)) {
             LetterSalad::finalize(lineE);
-            _activeWordList.erase({_selectedWord, false});
-            _activeWordList.insert({_selectedWord, true});
+            _activeWordList.find(WordTarget{_selectedWord})->setFound();
         }
 
     }
@@ -250,7 +252,8 @@ void LetterSalad::resetSelectedPair() {
 bool LetterSalad::isWordInList(
     std::set<WordTarget> &wordlist,
     std::string const &word) {
-    return wordlist.find({word, false}) != _activeWordList.end();
+    std::cout << "Checking word: " << word << std::endl;
+    return wordlist.find(WordTarget{word}) != _activeWordList.end();
 }
 
 /**
@@ -329,13 +332,12 @@ void LetterSalad::finalize(Coordinates const &coords) {
 }
 
 void LetterSalad::renderGame() {
-    ui_elements::Window("LetterSalad Game").render([this]() {
+    ui_elements::Window("###letterSalad").render([this]() {
 
       LetterSalad::renderTextList();
       ImGui::SameLine();
       this->renderGameField();
       this->renderSelectedWord();
-
     });
 }
 
@@ -349,7 +351,7 @@ void LetterSalad::stop() {
 void LetterSalad::start() {
     getRandomWords();
     fillGameFieldWithWordlist();
-    randomizeGameField();
+//    randomizeGameField();
     _isGameRunning = true;
     _showInfobox = false;
 }
@@ -362,10 +364,9 @@ void LetterSalad::updateStatistics() {
 void LetterSalad::randomizeGameField() {
     for (auto &row : _gameField) {
         for (auto &box : row) {
-            // TODO @bpuhani check if an field already has a letter
             if (box->getLetter() == EMPTY_CELL) {
-//                std::string letter{std::string(1, 'A'+rand() % 26)};
-//                box->setLetter(letter);
+                std::string letter{std::string(1, 'A'+rand() % 26)};
+                box->setLetter(letter);
             }
         }
     }
@@ -379,8 +380,6 @@ void LetterSalad::getRandomWords() {
     while (_activeWordList.size() < NR_OF_WORDS) {
         int randomIndex{randomInt(0, _wordList.size()-1)};
         auto wordPair{*std::next(_wordList.begin(), randomIndex)};
-        std::transform(wordPair.first.begin(), wordPair.first.end(),
-                       wordPair.first.begin(), ::toupper);
         _activeWordList.insert(wordPair);
     }
 }
@@ -388,7 +387,10 @@ void LetterSalad::getRandomWords() {
 void LetterSalad::fillGameFieldWithWordlist() {
 
     for (const auto &wordPair : _activeWordList) {
-        placeWord(wordPair.first);
+        if (!placeWord(wordPair.getWord())) {
+            std::cerr << "Could not place word: " << wordPair.getWord()
+                      << std::endl;
+        }
     }
 }
 
@@ -447,17 +449,21 @@ bool LetterSalad::placeWord(std::string word) {
             switch (orientation) {
                 case Orientation::HORIZONTAL: {
                     currentCol += i;
+                    break;
                 }
                 case Orientation::VERTICAL: {
                     currentRow += i;
+                    break;
                 }
                 case Orientation::DIAGONAL_DOWN: {
                     currentRow += i;
                     currentCol += i;
+                    break;
                 }
                 case Orientation::DIAGONAL_UP: {
                     currentRow -= i;
                     currentCol += i;
+                    break;
                 }
             }
 
@@ -474,7 +480,11 @@ bool LetterSalad::placeWord(std::string word) {
                 break;
             }
         }
+        // if the word fits, place it
         if (fits) {
+            std::cout << "Placing word: " << word << std::endl;
+            std::cout << "Orientation: " << static_cast<int>(orientation)
+                      << std::endl;
             for (size_t i{0}; i < word.length(); ++i) {
                 int currentRow{row};
                 int currentCol{col};
@@ -495,9 +505,13 @@ bool LetterSalad::placeWord(std::string word) {
                     case Orientation::DIAGONAL_UP: {
                         currentRow -= i;
                         currentCol += i;
+                    }
+                    default: {
                         break;
                     }
                 }
+                std::cout << "(" << currentRow << ", " << currentCol << ") : "
+                          << word[i] << std::endl;
                 _gameField[currentRow][currentCol]
                     ->setLetter(std::string(1, word[i]));
             }
@@ -506,7 +520,7 @@ bool LetterSalad::placeWord(std::string word) {
             // try
             if (orientation != Orientation::DIAGONAL_UP && tries % 7 == 0) {
                 orientation =
-                    Orientation{(rand() % 4)-1};
+                    Orientation{(rand() % 4)};
             }
         }
     }
