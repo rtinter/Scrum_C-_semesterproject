@@ -31,8 +31,6 @@ std::string LetterSalad::_gameControls = "Klicke auf den ersten und letzten "
                                          "Buchstaben eines Wortes um es zu "
                                          "markieren.";
 
-int LetterSalad::_remainingTimeAtEnd = 0;
-
 std::string LetterSalad::getName() const {
     return _gameName;
 }
@@ -45,7 +43,7 @@ void LetterSalad::stop() {
 void LetterSalad::start() {
     getRandomWords();
     fillGameFieldWithWordlist();
-//    randomizeGameField();
+    randomizeGameField();
     _isGameRunning = true;
     _showInfobox = false;
     _showEndbox = false;
