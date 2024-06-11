@@ -7,7 +7,7 @@
 
 #define EMPTY_CELL "_" // empty cell
 #define NR_OF_WORDS 15 // number of words to be searched
-#define TIME_LIMIT (15 * 60) // time limit for the game
+#define TIME_LIMIT (10) // time limit for the game
 
 #include "Game.hpp"
 #include "Coordinates.hpp"
@@ -26,6 +26,7 @@ class LetterSalad : Game {
   static std::string _gameDescription;
   static std::string _gameRules;
   static std::string _gameControls;
+  static int _remainingTimeAtEnd;
 
   CharVector2D _gameField;
   std::vector<Coordinates> _currentLine;

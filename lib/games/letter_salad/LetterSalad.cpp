@@ -31,6 +31,8 @@ std::string LetterSalad::_gameControls = "Klicke auf den ersten und letzten "
                                          "Buchstaben eines Wortes um es zu "
                                          "markieren.";
 
+int LetterSalad::_remainingTimeAtEnd = 0;
+
 std::string LetterSalad::getName() const {
     return _gameName;
 }
@@ -43,7 +45,7 @@ void LetterSalad::stop() {
 void LetterSalad::start() {
     getRandomWords();
     fillGameFieldWithWordlist();
-    randomizeGameField();
+//    randomizeGameField();
     _isGameRunning = true;
     _showInfobox = false;
     _showEndbox = false;
@@ -53,8 +55,23 @@ void LetterSalad::start() {
 void LetterSalad::reset() {
     _activeWordList.clear();
     _gameField.clear();
+    _timer.reset();
     init();
     start();
+}
+
+void LetterSalad::init() {
+    for (int y{0}; y < 20; y++) {
+        std::vector<std::unique_ptr<Box>> row;
+        for (int x{0}; x < 20; x++) {
+            row.emplace_back(std::make_unique<Box>(EMPTY_CELL));
+        }
+        _gameField.emplace_back(std::move(row));
+    }
+    _isGameInitialized = true;
+}
+void LetterSalad::updateStatistics() {
+
 }
 
 std::vector<WordTarget> LetterSalad::_wordList = {
@@ -142,9 +159,23 @@ void LetterSalad::renderGame() {
     });
 
     if (_timer.isExpiredNow()) {
+        _endboxTitle = "Die Zeit ist abgelaufen!";
+
+        int missingWords{0};
+        int missingLetters{0};
+        // get the number of words that are still missing
+        for (auto const &wordTarget : _activeWordList) {
+            if (!(*(wordTarget.isFound()))) {
+                missingWords++;
+                missingLetters += wordTarget.getWord().size();
+            }
+        }
+        static std::string missingWordsText = "Dir fehlen noch\n"+
+            std::to_string(missingWords)+" Wörter\nBzw. "+
+            std::to_string(missingLetters)+" Buchstaben.";
+        _endboxText = missingWordsText.c_str();
         stop();
     }
-
 }
 
 void LetterSalad::renderTextList() {
@@ -301,6 +332,30 @@ void LetterSalad::resetSelectedPair() {
             LetterSalad::finalize(lineE);
             _activeWordList.find(WordTarget{_selectedWord})->setFound();
         }
+        bool allWordsFound{true};
+
+        // and check, if the game has ended
+        for (auto const &word : _activeWordList) {
+            if (!(*word.isFound())) {
+                allWordsFound = false;
+                break;
+            }
+        }
+
+        if (allWordsFound) {
+            _endboxTitle = "Herzlichen Glückwunsch!";
+
+            int secondsLeft{_timer.getSecondsLeft()};
+            std::string minutes{std::to_string(secondsLeft / 60)};
+            std::string seconds{std::to_string(secondsLeft % 60)};
+
+            static std::string endboxString =
+                "Du hast alle Wörter gefunden!\n"
+                "Und sogar noch Zeit übrig gehabt!\n"
+                    +minutes+" Minuten und "+seconds+" Sekunden\n";
+            _endboxText = endboxString.c_str();
+            stop();
+        }
     }
 
     _firstSelectedCell = {-1, -1};
@@ -363,36 +418,29 @@ std::vector<Coordinates> LetterSalad::getLine(Coordinates const &start,
     return linePoints;
 }
 
+bool checkIfCoordsAreInRange(Coordinates const &c, int const &min, int const
+&max) {
+    return c.x >= min && c.y >= min && c.x < max && c.y < max;
+}
+
 void LetterSalad::selectBox(Coordinates const &coords) {
-    if (coords.x < 0 || coords.y < 0 || coords.x >= 20 || coords.y >= 20) {
-        std::cerr << "Invalid coordinates" << std::endl;
-        std::cerr << coords.y << " " << coords.x << std::endl;
-        return;
+    if (checkIfCoordsAreInRange(coords, 0, 20)) {
+        _gameField[coords.y][coords.x]->isSelected = true;
     }
-    _gameField[coords.y][coords.x]->isSelected = true;
 }
 
 void LetterSalad::deSelectBox(Coordinates const &coords) {
-    if (coords.x < 0 || coords.y < 0 || coords.x >= 20 || coords.y >= 20) {
-        std::cerr << "Invalid coordinates" << std::endl;
-        std::cerr << coords.y << " " << coords.x << std::endl;
-        return;
+    if (checkIfCoordsAreInRange(coords, 0, 20)) {
+        _gameField[coords.y][coords.x]->isSelected = false;
     }
-    _gameField[coords.y][coords.x]->isSelected = false;
 }
 
 void LetterSalad::finalize(Coordinates const &coords) {
-    if (coords.x < 0 || coords.y < 0 || coords.x >= 20 || coords.y >= 20) {
-        std::cerr << "Invalid coordinates" << std::endl;
-        std::cerr << coords.y << " " << coords.x << std::endl;
-        return;
+    if (checkIfCoordsAreInRange(coords, 0, 20)) {
+        _gameField[coords.y][coords.x]->isSolved = true;
     }
-    _gameField[coords.y][coords.x]->isSolved = true;
 }
 
-void LetterSalad::updateStatistics() {
-
-}
 void LetterSalad::randomizeGameField() {
     for (auto &row : _gameField) {
         for (auto &box : row) {
@@ -505,7 +553,8 @@ bool LetterSalad::placeWord(std::string word) {
                 break;
             }
 
-            std::string letter{_gameField[currentRow][currentCol]->getLetter()};
+            std::string
+                letter{_gameField[currentRow][currentCol]->getLetter()};
 
             if (letter != EMPTY_CELL && letter != std::string(1, word[i])) {
                 fits = false;
@@ -552,17 +601,6 @@ bool LetterSalad::placeWord(std::string word) {
         }
     }
     return placed;
-}
-
-void LetterSalad::init() {
-    for (int y{0}; y < 20; y++) {
-        std::vector<std::unique_ptr<Box>> row;
-        for (int x{0}; x < 20; x++) {
-            row.emplace_back(std::make_unique<Box>(EMPTY_CELL));
-        }
-        _gameField.emplace_back(std::move(row));
-    }
-    _isGameInitialized = true;
 }
 
 } // namespace game
