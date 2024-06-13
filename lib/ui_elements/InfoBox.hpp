@@ -1,9 +1,12 @@
 #pragma once
 #include <functional>
+#include <Game.hpp>
+#include "GameSessionManager.hpp"
 
 
 namespace ui_elements {
     class InfoBox {
+        abstract_game::GameID &_gameID;
         bool &_showOverlay;
         const char *_gameName;
         const char *_gameDescription;
@@ -13,6 +16,7 @@ namespace ui_elements {
 
     public:
         InfoBox(
+            abstract_game::GameID &gameID,
             bool &showOverlay,
             const char *gameName,
             const char *gameDescription,
