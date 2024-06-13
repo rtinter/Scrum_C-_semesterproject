@@ -166,8 +166,8 @@ void games::AimTrainer::start() {
             x = 240;
         if(x > windowWidth)
             x = windowWidth - 240;
-        int y { randomPos(windowHeight) };
 
+        int y { randomPos(windowHeight) };
         if(y < 240)
             y = 240;
         if(y > windowHeight)
