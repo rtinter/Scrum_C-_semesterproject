@@ -66,12 +66,12 @@ namespace typeracer {
         }).render();
 
         ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
-            ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
-
             ui_elements::Centered([this]() {
+                ImGui::PushFont(commons::Fonts::_header2);
+                ui_elements::TextCentered(std::move(_endboxTitle));
+                ImGui::PopFont();
+                ui_elements::TextCentered(std::move(_endboxText));
+
                 if (ImGui::Button("Versuch es nochmal")) {
                     // Abspeichern von stuff
                     reset();
@@ -93,7 +93,8 @@ namespace typeracer {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Type Racer").render([this]() {
             std::set<int> mistypedIndices;
-            std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            //std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            std::string sentence = "Dies ist ein Test.";
 
             // Start time when typing begins
             if (!_runTimer && strlen(_input) > 0) {
@@ -122,6 +123,7 @@ namespace typeracer {
             // Render the _input field beneath the sentence
             ImGui::NewLine();
             ImGui::InputText("##hidden_label", _input, IM_ARRAYSIZE(_input));
+            ImGui::SetKeyboardFocusHere(-1);
 
             // Calculate WPM in real-time
             if (_runTimer && strlen(_input) > 0) {
