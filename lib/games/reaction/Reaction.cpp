@@ -11,7 +11,8 @@
 #include <TextCentered.hpp>
 #include <Window.hpp>
 #include "GameSessionManager.hpp"
-
+#include <iostream>
+#include <sstream>
 
 namespace reaction {
     Reaction::Reaction() : abstract_game::Game(abstract_game::GameID::REACTION) {
@@ -57,6 +58,10 @@ namespace reaction {
         }
     }
 
+    std::string Reaction::_endBoxTitleString {};
+    std::string Reaction::_endBoxTextString {};
+
+
     void Reaction::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Reaction Game").render([this]() {
@@ -71,15 +76,21 @@ namespace reaction {
                     _finishPoint = std::chrono::steady_clock::now();
 
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        _finishPoint - _startPoint).count();
+                            _finishPoint - _startPoint).count();
 
                     _showEndbox = true;
 
-                    // TODO von Noah in #114: muss in einem späteren ticket richtig gemacht werden
-                    // _endboxTitle = ("Time elapsed: " + std::to_string(duration) + " ms").c_str();
-                    // _endboxText = ("Duration rating: " + getDurationRating(duration)).c_str();
-                    _endboxTitle = "Spielende";
-                    _endboxText = "Gut gemacht";
+                    // convert long long duration to string
+                    std::stringstream durationStream;
+                    durationStream << duration;
+
+                    _endBoxTitleString =
+                        "Vergangene Zeit: " + durationStream.str() + "ms";
+                    _endboxTitle = _endBoxTitleString.c_str();
+
+                    _endBoxTextString =
+                        "Bewertung: " + getDurationRating(duration);
+                    _endboxText = _endBoxTextString.c_str();
                 } else {
                     _isGameRunning = false;
                     _showEndbox = true;
@@ -144,9 +155,5 @@ namespace reaction {
     bool Reaction::isGreen() const {
         return _windowColor.x == commons::Colors::GREEN.x && _windowColor.y == commons::Colors::GREEN.y
                && _windowColor.z == commons::Colors::GREEN.z && _windowColor.w == commons::Colors::GREEN.w;
-    }
-
-    std::string Reaction::getName() const {
-        return _gameName;
     }
 } // reaction

@@ -6,7 +6,6 @@
 #include "TextCentered.hpp"
 #include "Centered.hpp"
 
-
 namespace ui_elements {
     InfoBox::InfoBox(
         bool &showOverlay,

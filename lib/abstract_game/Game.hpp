@@ -5,7 +5,6 @@
 #include "CsvStorage.hpp"
 #include "GameIDs.hpp"
 #include <string>
-#include <chrono>
 #include <memory>
 
 namespace abstract_game {
@@ -52,23 +51,23 @@ public:
 	 */
 	virtual void stop();
 
-	/**
-	 * @brief Resets the game.
-	 *
-	 * Resets the game state, preparing it for a new session.
-	 */
-	virtual void reset() = 0;
+    /**
+     * @brief Resets the game.
+     *
+     * Resets the game state, preparing it for a new session.
+     */
+    virtual void reset() = 0;
 
-    virtual std::string getName() const = 0;
+    virtual std::string getName() const;
 
 
-	/**
-	 * @brief Updates the game statistics.
-	 *
-	 * This method must be implemented in derived classes and is called to update
-	 * the statistics, e.g., when a new level is reached or the game ends.
-	 */
-	virtual void updateStatistics() = 0;
+    /**
+     * @brief Updates the game statistics.
+     *
+     * This method must be implemented in derived classes and is called to update
+     * the statistics, e.g., when a new level is reached or the game ends.
+     */
+    virtual void updateStatistics() = 0;
 
     GameID getGameID() const;
 
