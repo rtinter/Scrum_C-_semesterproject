@@ -140,7 +140,7 @@ namespace game {
                 ImGui::PopFont();
                 ui_elements::TextCentered(std::move(_endboxText));
 
-                ui_elements::Centered([this]() {
+                ui_elements::Centered(true, true, [this]() {
                     if (ImGui::Button("Versuch es nochmal")) {
                         reset();
                     }
