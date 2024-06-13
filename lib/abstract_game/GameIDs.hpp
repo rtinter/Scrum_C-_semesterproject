@@ -8,7 +8,8 @@
 namespace abstract_game {
     enum class GameID {
         REACTION = 1001,
-        COLOR_MATCH = 1002
+        COLOR_MATCH = 1002,
+        SEQUENCE = 1003,
         // ZweitesSpiel = 2,
         // DrittesSpiel = 3,
     };
