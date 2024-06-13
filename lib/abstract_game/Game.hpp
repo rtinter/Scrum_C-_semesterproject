@@ -2,10 +2,12 @@
 #define GAME_H
 
 #include "GameSession.hpp"
+#include "CsvStorage.hpp"
+#include "GameIDs.hpp"
 #include <string>
 #include <memory>
 
-
+namespace abstract_game {
 /**
  * @brief Abstract base class representing a generic game.
  *
@@ -16,39 +18,38 @@
  */
 class Game {
 public:
-    Game();
+    explicit Game(GameID gameID);
+	virtual ~Game() = default;
 
-    virtual ~Game() = default;
-
-    /**
+	/**
 	 * @brief Renders the game.
 	 *
 	 * This method is called by the SceneManager to render the game.
 	 */
-    virtual void render() = 0;
+	virtual void render() =	0;
 
 
-    /**
-     * @brief Renders the game.
-     *
-     * This method is called the in the game to actually render the game.
-     */
-    virtual void renderGame() = 0;
+	/**
+	 * @brief Renders the game.
+	 *
+	 * This method is called the in the game to actually render the game.
+	 */
+	virtual void renderGame() = 0;
 
-    /**
-     * @brief Starts the game.
-     *
-     * Begins the game, transitioning it from a ready state to an active state.
-     */
-    virtual void start() = 0;
+	/**
+	 * @brief Starts the game.
+	 *
+	 * Begins the game, transitioning it from a ready state to an active state.
+	 */
+	virtual void start() = 0;
 
-    /**
-     * @brief Stops the game.
-     *
-     * Ends the game, transitioning it to a stopped state and uploads the game
-     * statistics. Stop calls the reset method.
-     */
-    virtual void stop();
+	/**
+	 * @brief Stops the game.
+	 *
+	 * Ends the game, transitioning it to a stopped state and uploads the game
+	 * statistics. Stop calls the reset method.
+	 */
+	virtual void stop();
 
     /**
      * @brief Resets the game.
@@ -70,17 +71,19 @@ public:
 
 
 protected:
-    const char *_gameName;
-    const char *_gameDescription;
-    const char *_gameRules;
-    const char *_gameControls;
+	const char *_gameName;
+	const char *_gameDescription;
+	const char *_gameRules;
+	const char *_gameControls;
 
-    const char *_endboxTitle{"Game Over"};
-    const char *_endboxText{"Game Over"};
+	const char *_endboxTitle {"Game Over"};
+	const char *_endboxText {"Game Over"};
 
-    bool _showInfobox{true};
-    bool _showEndbox{false};
-    bool _isGameRunning{false};
+	bool _showInfobox{true};
+	bool _showEndbox{false};
+	bool _isGameRunning{false};
+
+    GameID _gameID;
 
 private:
 
@@ -102,9 +105,11 @@ private:
      */
     void saveRunThroughResult(std::string const &resultUnit, long const &result);
 
-    GameSession _gameSession;
+    GameSession _gameSession{_gameID,1};
 
-    int _gameID;
+
 };
+
+} // abstract_game
 
 #endif  // GAME_H
