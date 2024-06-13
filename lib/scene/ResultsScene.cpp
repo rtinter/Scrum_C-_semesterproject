@@ -10,10 +10,10 @@ namespace scene {
     }){
         //TODO Testdaten -> Hier Spieldaten einbinden!
         std::map<int, std::vector<std::string>> map;
-        std::vector<std::string> stringvector {"Test", "Daten", "Für", "Tabelle"};
+        std::vector<std::string> stringvectorHeaderline {"Test", "Daten", "Für", "Tabelle"};
         std::vector<std::string> stringvectordata {"Heute", "Tom", "300 pkt", "win"};
-        map[1] = stringvector;
-        map[2] = stringvectordata;
+        map[0] = stringvectorHeaderline;
+        map[1] = stringvectordata;
         ui_elements::StatisticsGameTable coolTable{map};
         _results.addGameTableContainer(ui_elements::TableContainer("hallo", coolTable));
         _results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));

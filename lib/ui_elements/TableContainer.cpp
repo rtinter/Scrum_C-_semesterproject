@@ -17,7 +17,9 @@ namespace ui_elements {
 
         ImGui::BeginChild(_gameName.c_str(), ImVec2(childWidth, childHeight), true, ImGuiWindowFlags_AlwaysAutoResize);
 
+        ImGui::PushFont(commons::Fonts::_header2);
         ImGui::Text("Spiel %s", _gameName.c_str());
+        ImGui::PopFont();
 
         _statisticsGameTable.render();
 

@@ -45,7 +45,7 @@ namespace ui_elements {
 
     void StatisticsGameTable::createTableHead() const {
 
-        ImGui::PushFont(commons::Fonts::_header2);
+        ImGui::PushFont(commons::Fonts::_header3);
         // Kopfzeile
         for (auto &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
