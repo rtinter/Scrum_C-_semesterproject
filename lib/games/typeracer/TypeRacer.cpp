@@ -10,6 +10,8 @@
 #include <Window.hpp>
 #include <random>
 #include <set>
+#include <sstream>
+#include <iomanip>
 #include "fireDepartmentAndPoliceTexts.h"
 
 namespace typeracer {
@@ -42,6 +44,7 @@ namespace typeracer {
 
 
 
+    std::string TypeRacer::_endBoxTitleString {};
     std::string TypeRacer::_endBoxTextString {};
 
     int getRandomIndex(int arraySize) {
@@ -93,8 +96,8 @@ namespace typeracer {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Type Racer").render([this]() {
             std::set<int> mistypedIndices;
-            //std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
-            std::string sentence = "Dies ist ein Test.";
+            std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            //std::string sentence = "Dies ist ein Test.";
 
             // Start time when typing begins
             if (!_runTimer && strlen(_input) > 0) {
@@ -112,10 +115,15 @@ namespace typeracer {
                 } else {
                     ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_Text)); // Default
                 }
-
+                ImGui::PushFont(commons::Fonts::_header2);
                 ImGui::TextUnformatted(std::string(1, sentence[i]).c_str());
+                ImGui::PopFont();
                 ImGui::PopStyleColor();
 
+                if (sentence[i] == '.') {
+                    ImGui::NewLine();
+                    i++;
+                }
                 ImGui::SameLine(0.0f, 0.0f);
 
             }
@@ -133,11 +141,16 @@ namespace typeracer {
                 int numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 
-                std::string wpmString = std::to_string(_wpm);
+                std::stringstream wpmStream;
+                wpmStream << std::setprecision(4) << _wpm;
+
+
                 // Stop and save the WPM when the sentence is completed
                 if (strlen(_input) >= sentence.size() && mistypedIndices.empty()) {
+                    _endBoxTitleString = "Geschafft!";
+                    _endboxTitle = _endBoxTitleString.c_str();
                     _endBoxTextString =
-                            "Wörter pro Minute: " + wpmString + " WPM";
+                            "Wörter pro Minute: " + wpmStream.str() + " WPM";
                     _endboxText = _endBoxTextString.c_str();
                     _runTimer = false;
                     _isGameRunning = false;
