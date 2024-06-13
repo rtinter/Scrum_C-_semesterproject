@@ -143,6 +143,9 @@ void games::AimTrainer::renderGame() {
 }
 
 void games::AimTrainer::reset() {
+    _missedCounter = 0;
+    _missedFactor = 1;
+    _spawnAmount = 1;
     _currentBlobs.clear();
 }
 
@@ -158,9 +161,20 @@ void games::AimTrainer::start() {
     int windowHeight {static_cast<int>(size.y)};
 
     for(int i {0}; i < _spawnAmount; ++i) {
+        int x { randomPos(windowWidth) };
+        if(x < 240)
+            x = 240;
+        if(x > windowWidth)
+            x = windowWidth - 240;
+        int y { randomPos(windowHeight) };
+
+        if(y < 240)
+            y = 240;
+        if(y > windowHeight)
+            y = windowHeight - 240;
         _currentBlobs.emplace_back(
-                randomPos(windowWidth),
-                randomPos(windowHeight),
+                x,
+                y,
                 _currentBlobs.size() + 1
         );
     }
