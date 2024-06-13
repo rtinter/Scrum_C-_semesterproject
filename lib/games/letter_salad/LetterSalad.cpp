@@ -469,7 +469,7 @@ namespace game {
 
     void LetterSalad::fillGameFieldWithWordlist() {
 
-        for (const auto &wordPair : _activeWordList) {
+        for (auto const &wordPair : _activeWordList) {
             if (!placeWord(wordPair.getWord())) {
                 std::cerr << "Could not place word: " << wordPair.getWord()
                           << std::endl;
