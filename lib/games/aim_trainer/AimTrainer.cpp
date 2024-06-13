@@ -178,7 +178,14 @@ std::string games::AimTrainer::getName() const {
 
 games::AimTrainer::AimTrainer() : Game(abstract_game::GameID::AIM_TRAINER) {
     _gameName = "Aim Trainer";
-    _gameDescription = "Ziel treffen";
+    _gameDescription = R"(
+Willkommen in der Welt von "Circle Strike", dem fesselnden Aim Trainer,
+der deine Zielpräzision auf die Probe stellt und auf die nächste Stufe hebt.
+Perfekt für Gamer, die ihre Fähigkeiten schärfen wollen, oder für jeden,
+der seine Mausgenauigkeit und Reaktionszeit verbessern möchte.
+"Circle Strike" bietet eine einfache, doch herausfordernde Spielmechanik,
+die dich nicht mehr loslassen wird.
+    )";
     _gameRules = "Das ist nicht so kompliziert";
     _gameControls = "";
 }
