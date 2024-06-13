@@ -15,7 +15,7 @@ namespace reaction {
      * um deine Reaktionszeit in Millisekunden zu messen.
     **************************************************+***/
 
-    class Reaction : public Game {
+    class Reaction : public abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::RED};
         float _redDuration{0};
 
