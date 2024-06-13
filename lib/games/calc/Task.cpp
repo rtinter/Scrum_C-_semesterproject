@@ -1,9 +1,7 @@
 #include "Task.hpp"
 
-Task::Task(const std::vector<std::pair<int, char>>& operations)
-        : _operations(operations) {
-    _currentResult = 0; // Startwert für Berechnung
-}
+Task::Task(int target, const std::vector<std::pair<int, char>>& operations)
+        : _target(target), _operations(operations) {}
 
 int Task::getCurrentNumber() const {
     return _operations[_currentIndex].first;
@@ -17,22 +15,21 @@ bool Task::hasMoreOperations() const {
     return _currentIndex < _operations.size();
 }
 
-void Task::advance() {
+bool Task::advance() {
     if (_currentIndex < _operations.size()) {
         int number = _operations[_currentIndex].first;
         char op = _operations[_currentIndex].second;
-        switch (op) {
-            case '+': _currentResult += number; break;
-            case '-': _currentResult -= number; break;
-            case '*': _currentResult *= number; break;
-            case '/': _currentResult /= number; break; // TODO Caspar division bei 0 nicht gut
-            case '%': _currentResult %= number; break;
-            default: break; // Füge eine Default-Anweisung hinzu
-        }
+        _currentResult = arithmetic_utils::performOperation(_currentResult, op, number);
         ++_currentIndex;
+        return true;
     }
+    return false;
 }
 
 int Task::getCurrentResult() const {
     return _currentResult;
+}
+
+int Task::getTarget() const {
+    return _target;
 }
