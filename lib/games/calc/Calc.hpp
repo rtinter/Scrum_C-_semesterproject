@@ -13,12 +13,14 @@ namespace games {
         int _currentLevel{1};
         int _currentScore{0};
         int _numberOfCorrectAnswers{0};
-        int _numberOfTasks{5}; // Anzahl der Aufgaben pro Level
+        int _numberOfTasks{5};
         int _currentResult{0};
         Task _currentTask;
         TaskGenerator _taskGenerator;
         ui_elements::Timer _taskTimer{"Task Timer", 30};
+        ui_elements::Timer _displayTimer{"Display Timer", 4};  // Display timer for showing numbers
         std::chrono::seconds _displayDuration{2};
+        enum State { SHOW_START_NUMBER, SHOW_OPERATION, WAIT_FOR_INPUT } _state;
 
         void generateTask();
         void displayTask();
