@@ -4,7 +4,7 @@
 //
 
 #include "WordTarget.hpp"
-WordTarget::WordTarget(const std::string &word) {
+WordTarget::WordTarget(std::string const &word) {
     _word = word;
     _found = false;
 }
