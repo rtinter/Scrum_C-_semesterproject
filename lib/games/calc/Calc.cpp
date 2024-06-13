@@ -11,7 +11,7 @@
 #include <sstream>
 
 namespace games {
-    Calc::Calc() {
+    Calc::Calc() : abstract_game::Game(abstract_game::GameID::CALC){
         _gameName = "Schnelles Rechnen";
         _gameDescription = "Unser Spiel 'Schnelles Rechnen' testet die Merkfähigkeit und Kopfrechenfähigkeit, "
                            "die für Polizei- und Feuerwehranwärter unerlässlich sind. Durch die schnelle Abfolge "
@@ -33,7 +33,7 @@ namespace games {
     }
 
     void Calc::render() {
-        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this]() {
+        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this]() {
             start();
         }).render();
 
@@ -62,7 +62,7 @@ namespace games {
             ImGui::PopFont();
             ui_elements::TextCentered(std::move(_endScreenText));
 
-            ui_elements::Centered([this]() {
+            ui_elements::Centered(true, true,[this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
                     start();
                 }
@@ -72,5 +72,25 @@ namespace games {
                 }
             });
         });
+    }
+
+    std::string Calc::getName() const {
+        return "Schnelles Rechnen";
+    }
+
+    void Calc::renderGame() {
+
+    }
+
+    void Calc::reset() {
+
+    }
+
+    void Calc::stop() {
+        Game::stop();
+    }
+
+    void Calc::updateStatistics() {
+
     }
 }
