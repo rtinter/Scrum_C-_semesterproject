@@ -21,19 +21,18 @@ namespace typeracer {
         _gameName = "Type Racer";
         _gameDescription =
                 "TypeRacer ist ein spannendes Tipp-Spiel, das deine Tippgeschwindigkeit und Genauigkeit herausfordert.\n"
-                "Tritt gegen dich selbst an, um einen vorgegebenen Satz so schnell und genau wie möglich zu tippen.\n"
                 "Das Spiel wird auf Englisch gespielt, um deine Englischkenntnisse zu verbessern.\n"
                 "Bei der Polizei und Feuerwehr ist wichtig, dass die Kommunikation schnell und präzise ist.\n"
                 "Beispielsweise könnten Berichte auch auf Englisch verfasst werden, \n um den Austausch mit Menschen aus anderen Ländern zu erleichtern.\n"
                 "Viel Spaß beim Tippen!\n";
 
+
         _gameRules =
                 "1. Das Spiel zeigt dir einen zufälligen Satz zu dem Thema Feuerwehr und Polizei an.\n"
-                "2. Beginne, den Satz in das bereitgestellte Eingabefeld zu tippen.\n"
-                "3. Deine Tippgeschwindigkeit wird in Wörtern pro Minute (WPM) gemessen.\n"
-                "4. Das Spiel endet, wenn du den gesamten Satz korrekt getippt hast.\n"
-                "5. Falsch getippte Zeichen werden rot hervorgehoben. Korrekte Zeichen werden grün hervorgehoben.\n"
-                "6. Deine endgültige WPM-Wertung wird angezeigt, sobald du den Text beendet hast.";
+                "2. Deine Tippgeschwindigkeit wird in Wörtern pro Minute (WPM) gemessen.\n"
+                "3. Das Spiel endet, wenn du den gesamten Satz korrekt getippt hast.\n"
+                "4. Falsch getippte Zeichen werden rot hervorgehoben. Korrekte Zeichen werden grün hervorgehoben.\n"
+                "5. Deine endgültige WPM-Wertung wird angezeigt, sobald du den Text beendet hast.";
 
         _gameControls =
                 "Steuerung:\n"
