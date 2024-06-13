@@ -1,5 +1,6 @@
 //
-// Created by Benjamin Puhani on 08.06.2024.
+// Created by Benjamin Puhani (941077) on 08.06.2024.
+// &22 Buchstabensalat
 //
 
 #include <iostream>
@@ -25,11 +26,12 @@ std::mt19937 gen(rd());
 std::string LetterSalad::_gameName = "Buchstaben Salat";
 std::string LetterSalad::_gameDescription = "Finde die versteckten Wörter im "
                                             "Buchstaben Salat.";
-std::string LetterSalad::_gameRules = "Es wird die Zeit gemessen wie lange du "
-                                      "brauchst um alle Wörter zu finden.";
+std::string
+    LetterSalad::_gameRules = "Du hast 15min Zeit alle Wörter zu finden.";
 std::string LetterSalad::_gameControls = "Klicke auf den ersten und letzten "
                                          "Buchstaben eines Wortes um es zu "
-                                         "markieren.";
+                                         "markieren.\nDie gefundenen Wörter"
+                                         " erscheinen links in der Liste";
 
 std::string LetterSalad::getName() const {
     return _gameName;
@@ -178,7 +180,7 @@ void LetterSalad::renderGame() {
 
 void LetterSalad::renderTextList() {
     if (ImGui::BeginListBox("##textList",
-                        ImVec2(350, 900))) {
+                            ImVec2(350, 900))) {
         for (auto const &wordPair : _activeWordList) {
             ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
             ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
@@ -187,7 +189,6 @@ void LetterSalad::renderTextList() {
 
         ImGui::EndListBox(); // ##textList
     }
-
 
 }
 
