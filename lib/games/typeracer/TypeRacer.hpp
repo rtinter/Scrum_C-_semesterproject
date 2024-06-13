@@ -14,7 +14,7 @@ namespace typeracer {
      * und falsche Buchstaben.
     **************************************************+***/
 
-    class TypeRacer : public Game {
+    class TypeRacer : public abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
         std::chrono::steady_clock::time_point _startGameSession;
         int _mistakes {0};

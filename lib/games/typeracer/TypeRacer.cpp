@@ -15,7 +15,7 @@
 #include "fireDepartmentAndPoliceTexts.h"
 
 namespace typeracer {
-    TypeRacer::TypeRacer() {
+    TypeRacer::TypeRacer() : abstract_game::Game(abstract_game::GameID::TYPERACER) {
         _gameName = "Type Racer";
         _gameDescription =
                 "TypeRacer ist ein spannendes Tipp-Spiel, das deine Tippgeschwindigkeit und Genauigkeit herausfordert.\n"
@@ -43,9 +43,8 @@ namespace typeracer {
     }
 
 
-
-    std::string TypeRacer::_endBoxTitleString {};
-    std::string TypeRacer::_endBoxTextString {};
+    std::string TypeRacer::_endBoxTitleString{};
+    std::string TypeRacer::_endBoxTextString{};
 
     int getRandomIndex(int arraySize) {
         std::random_device rd;
@@ -57,16 +56,18 @@ namespace typeracer {
     }
 
     void TypeRacer::render() {
-        ui_elements::InfoBox(_showInfobox,
-        _gameName,
-        _gameDescription,
-        _gameRules,
-        _gameControls,
-        [this] (){
-            reset();
-            _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
-            _startGameSession = std::chrono::steady_clock::now();
-        }).render();
+        ui_elements::InfoBox(
+                _gameID,
+                _showInfobox,
+                _gameName,
+                _gameDescription,
+                _gameRules,
+                _gameControls,
+                [this]() {
+                    reset();
+                    _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
+                    _startGameSession = std::chrono::steady_clock::now();
+                }).render();
 
         ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
             ui_elements::Centered([this]() {
@@ -105,7 +106,7 @@ namespace typeracer {
                 _runTimer = true;
             }
             // Render the sentence with character matching
-            for (int i {0}; i < sentence.size(); ++i) {
+            for (int i{0}; i < sentence.size(); ++i) {
                 if (i < strlen(_input) && _input[i] == sentence[i]) {
                     ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::GREEN); // Green
                     mistypedIndices.erase(i);
@@ -181,7 +182,7 @@ namespace typeracer {
         _mistakes = 0;
         _wpm = 0.0f;
         _endBoxTextString = "";
-        for (char & i : _input) {
+        for (char &i: _input) {
             i = '\0';
         }
         start();
@@ -199,7 +200,7 @@ namespace typeracer {
         _mistakes = 0;
         _wpm = 0.0f;
         _runTimer = false;
-        for (char & i : _input) {
+        for (char &i: _input) {
             i = '\0';
         }
     }
