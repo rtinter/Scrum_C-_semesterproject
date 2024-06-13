@@ -9,9 +9,8 @@ using Tile = ui_elements::Tile;
 
 scene::DashboardScene::DashboardScene() {
 
-    _header = std::make_unique<views::Header>("Home", "Meine Statistik", []() {
-        // Add the linking to statistic site here
-        // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
+    _header = std::make_unique<views::Header>("Home", "Meine Werte", []() {
+        //linking to user result site
         SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
     });
 
