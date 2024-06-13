@@ -18,20 +18,18 @@ namespace {
         ImGui::PopFont();
 
 
-        ui_elements::Centered([&tiles] {
-            int count = 0;
-            for (UniqueTile &tile: tiles) {
-                count++;
-                if (tile)
-                    tile->render();
-                if (count == 4) {
-                    ImGui::NewLine();
-                    count = 0;
-                } else {
-                    ImGui::SameLine();
-                }
+        int count = 0;
+        for (UniqueTile &tile: tiles) {
+            count++;
+            if (tile)
+                tile->render();
+            if (count == 4) {
+                ImGui::NewLine();
+                count = 0;
+            } else {
+                ImGui::SameLine();
             }
-        });
+        }
     }
 }
 
