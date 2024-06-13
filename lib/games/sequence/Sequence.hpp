@@ -10,6 +10,16 @@ namespace sequence {
         std::string _endBoxString;
         int _longestReproducedSequence;
 
+        int const _NUMBER_OF_BUTTONS {9};
+
+        int _levelCounter {1};
+
+
+
+        void displayButtons();
+
+        void isClickedInCorrectOrder();
+
     public:
         Sequence();
 

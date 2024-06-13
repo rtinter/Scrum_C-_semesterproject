@@ -8,6 +8,7 @@
 #include "DashboardScene.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
+#include <iostream>
 
 namespace sequence {
 
@@ -58,6 +59,7 @@ namespace sequence {
                 ImGui::NewLine();
 
                 //TODO Render buttons here
+                displayButtons();
             });
         }));
 
@@ -83,6 +85,30 @@ namespace sequence {
     }
 
     void Sequence::updateStatistics() {
+
+    }
+
+    void Sequence::displayButtons() {
+        ImGui::NewLine();
+        for (int i{0}; i < _NUMBER_OF_BUTTONS; i++) {
+            if (i % 3) {
+                ImGui::SameLine();
+            } else {
+                ImGui::NewLine();
+            }
+            ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::SEAFOAM);
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
+
+            if(ImGui::Button(std::to_string(i).c_str(), ImVec2(200, 200))) {
+                std::cout << "Clicked Button " << i << std::endl;
+                isClickedInCorrectOrder();
+            }
+            ImGui::PopStyleColor(2);
+        }
+
+    }
+
+    void Sequence::isClickedInCorrectOrder() {
 
     }
 } // sequence
