@@ -4,6 +4,7 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 #include "ColorMatch.hpp"
+#include "../games/matrix/MatrixGame.hpp"
 
 using Tile = ui_elements::Tile;
 
@@ -51,10 +52,13 @@ scene::DashboardScene::DashboardScene() {
     // CREATE Dummy in Category 2
     kCategory2Tiles.push_back(
             std::make_unique<Tile>(
-                    "Pictogram3",
-                    "Dummy",
-                    "Dummy Beschreibung",
-                    []() {}
+                    "PictogramMatrix",
+                    "Matrix",
+                    "Matrix Beschreibung",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::MatrixGame>>());
+                    }
             )
     );
 
