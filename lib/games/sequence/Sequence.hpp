@@ -7,6 +7,8 @@ namespace sequence {
 
     class Sequence : public Game {
     public:
+        Sequence();
+
         void render() override;
 
         void renderGame() override;
@@ -15,29 +17,11 @@ namespace sequence {
 
         void reset() override;
 
+        void stop() override;
+
         void updateStatistics() override;
 
     };
-
-    void Sequence::render() {
-
-    }
-
-    void Sequence::renderGame() {
-
-    }
-
-    void Sequence::start() {
-
-    }
-
-    void Sequence::reset() {
-
-    }
-
-    void Sequence::updateStatistics() {
-
-    }
 
 } // sequence
 
