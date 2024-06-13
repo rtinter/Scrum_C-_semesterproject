@@ -7,7 +7,6 @@
 #include "LetterSalad.hpp"
 #include "Window.hpp"
 #include <algorithm>
-#include <random>
 #include "Fonts.hpp"
 #include "TextCentered.hpp"
 #include "imgui_internal.h"
@@ -17,11 +16,9 @@
 #include "Centered.hpp"
 #include "SceneManager.hpp"
 #include "DashboardScene.hpp"
+#include "RandomPicker.hpp"
 
 namespace game {
-
-    std::random_device rd;
-    std::mt19937 gen(rd());
 
     std::string LetterSalad::_gameName = "Buchstaben Salat";
     std::string
@@ -464,7 +461,7 @@ namespace game {
         _activeWordList.clear();
 
         while (_activeWordList.size() < NR_OF_WORDS) {
-            int randomIndex{randomInt(0, _wordList.size() - 1)};
+            int randomIndex{RandomPicker::randomInt(0, _wordList.size() - 1)};
             auto wordPair{*std::next(_wordList.begin(), randomIndex)};
             _activeWordList.insert(wordPair);
         }
@@ -480,15 +477,10 @@ namespace game {
         }
     }
 
-    int LetterSalad::randomInt(int min, int max) {
-        std::uniform_int_distribution<> dis(min, max);
-        return dis(gen);
-    }
-
     bool LetterSalad::placeWord(std::string word) {
         // get random orientation
         // 0 = horizontal, 1 = vertical, 2 = diagonal_1, 3 = diagonal_2
-        Orientation orientation{randomInt(1, 3)};
+        Orientation orientation{RandomPicker::randomInt(1, 3)};
 
         int height{20};
         int width{20};
@@ -504,27 +496,27 @@ namespace game {
 
             switch (orientation) {
                 case Orientation::HORIZONTAL: {
-                    row = randomInt(0, height - word.length());
-                    col = randomInt(0, width - 1);
+                    row = RandomPicker::randomInt(0, height - word.length());
+                    col = RandomPicker::randomInt(0, width - 1);
                     if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::VERTICAL: {
                     // place word vertically
-                    row = randomInt(0, height - 1);
-                    col = randomInt(0, width - word.length());
+                    row = RandomPicker::randomInt(0, height - 1);
+                    col = RandomPicker::randomInt(0, width - word.length());
                     break;
                 }
                 case Orientation::DIAGONAL_DOWN: {
                     // place word diagonally top left to bottom right
-                    row = randomInt(0, height - word.length());
-                    col = randomInt(0, width - word.length());
+                    row = RandomPicker::randomInt(0, height - word.length());
+                    col = RandomPicker::randomInt(0, width - word.length());
                     break;
                 }
                 case Orientation::DIAGONAL_UP: {
                     // place word diagonally bottom left to top right
-                    row = randomInt(word.length() - 1, height - 1);
-                    col = randomInt(0, width - word.length());
+                    row = RandomPicker::randomInt(word.length() - 1, height - 1);
+                    col = RandomPicker::randomInt(0, width - word.length());
                 }
             }
 

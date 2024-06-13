@@ -16,9 +16,11 @@
 #include "WordTarget.hpp"
 #include "Timer.hpp"
 #include <set>
+#include "RandomPicker.hpp"
 
 namespace game {
 
+    using RandomPicker = commons::RandomPicker;
     using CharVector2D = std::vector<std::vector<std::unique_ptr<Box>>>;
 
     class LetterSalad : abstract_game::Game {
@@ -53,7 +55,6 @@ namespace game {
       bool isWordInList(std::set<WordTarget> &wordlist,
                         const std::string &word);
       void getRandomWords();
-      static int randomInt(int min, int max);
       void renderGameField();
       void renderSelectedWord() const;
       void fillGameFieldWithWordlist();
