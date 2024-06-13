@@ -38,6 +38,7 @@ namespace game {
       bool _isFirstCellSelected{false};
       bool _isSecondCellSelected{false};
       std::string _selectedWord;
+      static void loadWordsFromFile();
       void clickCell(Coordinates const &coords);
       void resetSelectedPair();
       static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates const &end);

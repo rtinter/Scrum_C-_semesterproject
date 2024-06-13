@@ -7,6 +7,7 @@
 #include "LetterSalad.hpp"
 #include "Window.hpp"
 #include <algorithm>
+#include <fstream>
 #include "Fonts.hpp"
 #include "TextCentered.hpp"
 #include "imgui_internal.h"
@@ -22,6 +23,7 @@ namespace game {
 
     LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
         _gameName = "Buchstaben Salat";
+        loadWordsFromFile();
     }
 
     std::string
@@ -84,38 +86,25 @@ namespace game {
 
     }
 
-    std::vector<WordTarget> LetterSalad::_wordList = {
-            WordTarget{"KREATIV"},
-            WordTarget{"GESCHWINDIGKEIT"},
-            WordTarget{"UNIVERSUM"},
-            WordTarget{"GLUECK"},
-            WordTarget{"WASSER"},
-            WordTarget{"BIBLIOTHEK"},
-            WordTarget{"KONVERSATION"},
-            WordTarget{"LAND"},
-            WordTarget{"SONNE"},
-            WordTarget{"HOFFNUNG"},
-            WordTarget{"GLUEHBIRNE"},
-            WordTarget{"FLUGZEUG"},
-            WordTarget{"WISSENSCHAFT"},
-            WordTarget{"DISKOTHEK"},
-            WordTarget{"ZIRKUS"},
-            WordTarget{"TRAUM"},
-            WordTarget{"SCHOKOLADE"},
-            WordTarget{"GEMEINSCHAFT"},
-            WordTarget{"KUNST"},
-            WordTarget{"KULTUR"},
-            WordTarget{"FRIEDEN"},
-            WordTarget{"FREIHEIT"},
-            WordTarget{"GESUNDHEIT"},
-            WordTarget{"GELD"},
-            WordTarget{"GESELLSCHAFT"},
-            WordTarget{"GESCHICHTE"},
-            WordTarget{"GLAUBE"},
-            WordTarget{"GRENZE"},
-            WordTarget{"GRENZUEBERGANG"},
-            WordTarget{"GRENZUEBERSCHREITUNG"},
-    };
+    // the vector is read in from the file
+    std::vector<WordTarget> LetterSalad::_wordList = {};
+
+    void LetterSalad::loadWordsFromFile() {
+        std::ifstream file("./config/games/letter_salad_words.txt", std::ios::binary);
+        if (!file) {
+            std::cerr << "Unable to open file letter_salad_words.txt";
+            return;
+        }
+
+        std::string line;
+        while (std::getline(file, line)) {
+            line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
+            line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
+            _wordList.emplace_back(line);
+        }
+
+        file.close();
+    }
 
     void LetterSalad::render() {
         ui_elements::InfoBox(
@@ -448,7 +437,7 @@ namespace game {
         }
     }
 
-    void LetterSalad::getRandomWords() {
+    void LetterSalad::fillGameFieldWithRandomWords() {
         // get random words from another source of words.
         std::vector<WordTarget> randomWords;
         _activeWordList.clear();
