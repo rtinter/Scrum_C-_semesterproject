@@ -15,16 +15,26 @@ int randomPos(int n){
 }
 
 void games::AimTrainer::spawnBlobs(){
-    const auto size = ImGui::GetContentRegionMax();
+    const auto size = ImGui::GetWindowSize();
     int windowWidth {static_cast<int>(size.x)};
     int windowHeight {static_cast<int>(size.y)};
 
     for(int i {0}; i < _spawnAmount; ++i){
-        int x = randomPos(windowWidth);
-        int y = randomPos(windowHeight);
+        int x { randomPos(windowWidth) };
+        if(x < 240)
+            x = 240;
+        if(x > windowWidth)
+            x = windowWidth - 240;
+        int y { randomPos(windowHeight) };
+
+        if(y < 240)
+            y = 240;
+        if(y > windowHeight)
+            y = windowHeight - 240;
+
         _currentBlobs.emplace_back(
-                std::min(windowHeight, x),
-                std::min(windowWidth - 120, y),
+                x,
+                y,
                 _currentBlobs.size() + 1
         );
     }
