@@ -157,29 +157,7 @@ void games::AimTrainer::start() {
     _timer = std::make_unique<ui_elements::Timer>("Aim Trainer", 60);
     _timer->start();
 
-    const auto size  {ImGui::GetWindowSize()};
-    int windowWidth {static_cast<int>(size.x)};
-    int windowHeight {static_cast<int>(size.y)};
-
-    for(int i {0}; i < _spawnAmount; ++i) {
-        int x { randomPos(windowWidth) };
-        if(x < 240)
-            x = 240;
-        if(x > windowWidth)
-            x = windowWidth - 240;
-
-        int y { randomPos(windowHeight) };
-        if(y < 240)
-            y = 240;
-        if(y > windowHeight)
-            y = windowHeight - 240;
-
-        _currentBlobs.emplace_back(
-                x,
-                y,
-                _currentBlobs.size() + 1
-        );
-    }
+    spawnBlobs();
 }
 
 void games::AimTrainer::stop() {
