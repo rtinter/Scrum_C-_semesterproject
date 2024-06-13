@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include <Overlay.hpp>
 #include <imgui.h>
 #include "InfoBox.hpp"
@@ -35,12 +35,7 @@ namespace ui_elements {
             ImGui::Text(_gameRules);
             ImGui::Text(_gameControls);
 
-            // const float windowHeight = ImGui::GetWindowHeight();
-            // const float buttonHeight = ImGui::GetFrameHeight();
-            // const float newPosY = windowHeight - buttonHeight - ImGui::GetStyle().ItemSpacing.y;
-            // ImGui::SetCursorPosY(newPosY);
-
-            Centered([this]() {
+            Centered(true, false,[this] {
                 if (ImGui::Button("Spiel starten!")) {
                     if (_startCallback) {
                         _startCallback();

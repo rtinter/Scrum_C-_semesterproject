@@ -1,33 +1,37 @@
-#include <Centered.hpp>
+#include "Centered.hpp"
 
 #include <imgui.h>
 
-namespace ui_elements {
-    Centered::Centered(const std::function<void()> &content) {
-        float availableWidth = ImGui::GetContentRegionAvail().x;
-        float initialCursorPosX = ImGui::GetCursorPos().x;
 
-        ImGui::Dummy(ImVec2(0, 0));
-        float leftDummyCursorPosX = ImGui::GetCursorPos().x;
+namespace ui_elements {
+    Centered::Centered(bool horizontal, bool vertical, const std::function<void()> &content) {
+        ImVec2 available = ImGui::GetContentRegionAvail();
+        ImVec2 inital = ImGui::GetCursorPos();
 
         ImGui::PushClipRect(ImVec2(0, 0), ImVec2(0, 0), true);
+        ImGui::BeginGroup();
         content();
+        ImGui::EndGroup();
+        ImVec2 contentSize = ImGui::GetItemRectSize();
         ImGui::PopClipRect();
-        float contentCursorPosX = ImGui::GetCursorPos().x;
-        float contentWidth = contentCursorPosX - leftDummyCursorPosX;
-
-        float padding = (availableWidth - contentWidth) / 2.0f;
 
 
-        ImGui::SetCursorPosX(initialCursorPosX);
-        ImGui::Dummy(ImVec2(padding, 200));
-        ImGui::SameLine();
+        ImGui::SetCursorPos(inital);
+        ImGui::Dummy(contentSize);
 
+
+        float hPAdding = (available.x - contentSize.x) / 2.0f;
+        float vPAdding = (available.y - contentSize.y) / 2.0f;
+
+
+        if (horizontal) {
+            ImGui::SetCursorPosX(inital.x + hPAdding);
+        }
+        if (vertical) {
+            ImGui::SetCursorPosY(inital.y + vPAdding);
+        }
+        ImGui::BeginChild("##Child", contentSize);
         content();
-        ImGui::SameLine();
-
-        ImGui::Dummy(ImVec2(padding, 200));
-
+        ImGui::EndChild();
     }
-
 } // ui_elements
