@@ -54,6 +54,7 @@ namespace game {
     }
 
     void LetterSalad::start() {
+        init();
         getRandomWords();
         fillGameFieldWithWordlist();
         randomizeGameField();
@@ -67,7 +68,6 @@ namespace game {
         _activeWordList.clear();
         _gameField.clear();
         _timer.reset();
-        init();
         start();
     }
 
@@ -79,7 +79,6 @@ namespace game {
             }
             _gameField.emplace_back(std::move(row));
         }
-        _isGameInitialized = true;
     }
 
     void LetterSalad::updateStatistics() {
@@ -120,12 +119,6 @@ namespace game {
     };
 
     void LetterSalad::render() {
-
-        if (!_isGameInitialized) {
-            init();
-            return;
-        }
-
         ui_elements::InfoBox(
                 _gameID,
                 _showInfobox,
@@ -319,7 +312,6 @@ namespace game {
             // if the first cell has been selected
             // then this is the second cell selected
             _isSecondCellSelected = true;
-            _secondSelectedCell = coords;
             // check if the selected elements are correct, if not reset
             resetSelectedPair();
         }
@@ -365,7 +357,6 @@ namespace game {
         }
 
         _firstSelectedCell = {-1, -1};
-        _secondSelectedCell = {-1, -1};
         _selectedWord = "";
         _currentLine.clear();
     }

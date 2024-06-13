@@ -24,7 +24,6 @@ namespace game {
     using CharVector2D = std::vector<std::vector<Box>>;
 
     class LetterSalad : abstract_game::Game {
-      bool _isGameInitialized;
       static std::string _gameDescription;
       static std::string _gameRules;
       static std::string _gameControls;
@@ -36,7 +35,6 @@ namespace game {
       std::set<WordTarget> _activeWordList;
       // save clicked cells
       Coordinates _firstSelectedCell{-1, -1};
-      Coordinates _secondSelectedCell{-1, -1};
       bool _isFirstCellSelected{false};
       bool _isSecondCellSelected{false};
       std::string _selectedWord;
