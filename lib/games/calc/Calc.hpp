@@ -7,16 +7,21 @@
 #include "MathTaskFactory.hpp"
 
 namespace games {
-    class Calc : public Game {
+    class Calc : public abstract_game::Game {
     public:
         Calc();
         void render() override;
+
+        void renderGame() override;
+        void reset() override;
         void start() override;
+        void stop() override;
+        void updateStatistics() override;
+        std::string getName() const override;
 
     private:
         int _completedLevels{0};
         std::unique_ptr<MathTask> _currentLevel;
-        bool _showEndScreen{false};
         const char* _endScreenTitle{"Game Over"};
         const char* _endScreenText;
 
