@@ -99,6 +99,7 @@ void games::AimTrainer::render() {
 
         ui_elements::Centered(true, true, [this]() {
             if (ImGui::Button("Versuch es nochmal")) {
+                reset();
                 start();
             }
 
