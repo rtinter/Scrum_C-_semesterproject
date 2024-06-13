@@ -4,6 +4,7 @@
 #include <Game.hpp>
 #include <imgui.h>
 #include <map>
+#include "Timer.hpp"
 
 #include "SFML/System/Clock.hpp"
 
@@ -13,13 +14,15 @@ namespace games {
     **************************************************+***/
 
     class Remembering : public abstract_game::Game {
-        ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
 
         std::string _userTextBuffer;
         sf::Clock _colorClock;
+        bool showText{true};
 
         std::string _endBoxTitleString;
         std::string _endBoxTextString;
+        ui_elements::Timer _timer{"Remembering Game", 5};
+
 
         std::string text = "Am 12. Juni 2024, um etwa 14:30 Uhr, saß ich im Café \"Kaffeekränzchen\" in der Hauptstraße \n"
                            "23. Plötzlich hörte ich ein lautes Geräusch von zerbrechendem Glas. Eine Person in einem \n"
@@ -62,6 +65,8 @@ namespace games {
         void displayCenteredText(const char *text) const;
 
         void initializeQuestionsAndAnswers();
+
+        void submitAnswers();
 
     };
 }

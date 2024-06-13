@@ -29,6 +29,7 @@ namespace games {
                         "Tastatur um deine Antwort einzugeben.";
 
         initializeQuestionsAndAnswers(); // Initialize the questions and answers
+        _timer.start();
     }
 
     void Remembering::initializeQuestionsAndAnswers() {
@@ -81,37 +82,45 @@ namespace games {
 
     void Remembering::renderGame() {
         ui_elements::Window("Remembering Game").render([this]() {
-            displayCenteredText(getText().c_str());
-
-            static int selectedAnswers[15] = {-1};
-            static bool submitted = false;
-
-            for (int i = 0; i < questions.size(); ++i) {
-                const auto &q = questions[i];
-                ImGui::Text("%s", q.question.c_str()); // Display the question
-
-                // Convert std::vector<std::string> to const char* array
-                std::vector<const char *> answers_cstr;
-                for (const auto &answer: q.answers) {
-                    answers_cstr.push_back(answer.c_str());
-                }
-
-                if (submitted) {
-                    // Display the question with a color based on the correctness of the answer
-                    ImVec4 color = (selectedAnswers[i] == q.correctAnswerIndex) ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0,
-                                                                                                              1);
-                    ImGui::PushStyleColor(ImGuiCol_Text, color);
-                    ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers_cstr.data(),
-                                 answers_cstr.size());
-                    ImGui::PopStyleColor();
-                } else {
-                    ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers_cstr.data(),
-                                 answers_cstr.size());
-                }
+            if (showText) {
+                _timer.render();
+                displayCenteredText(getText().c_str());
             }
+            if (_timer.isExpiredNow()) {
+                showText = false;
+            }
+            if (!showText) {
+                static int selectedAnswers[15] = {-1};
+                static bool submitted = false;
 
-            if (!submitted && ImGui::Button("Submit All")) {
-                submitted = true;
+                for (int i = 0; i < questions.size(); ++i) {
+                    const auto &q = questions[i];
+                    ImGui::Text("%s", q.question.c_str()); // Display the question
+
+                    // Convert std::vector<std::string> to const char* array
+                    std::vector<const char *> answers_cstr;
+                    for (const auto &answer: q.answers) {
+                        answers_cstr.push_back(answer.c_str());
+                    }
+
+                    if (submitted) {
+                        // Display the question with a color based on the correctness of the answer
+                        ImVec4 color = (selectedAnswers[i] == q.correctAnswerIndex) ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0,
+                                                                                                                  0,
+                                                                                                                  1);
+                        ImGui::PushStyleColor(ImGuiCol_Text, color);
+                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers_cstr.data(),
+                                     answers_cstr.size());
+                        ImGui::PopStyleColor();
+                    } else {
+                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers_cstr.data(),
+                                     answers_cstr.size());
+                    }
+                }
+
+                if (!submitted && ImGui::Button("Submit All")) {
+                    submitted = true;
+                }
             }
         });
     }
