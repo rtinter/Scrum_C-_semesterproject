@@ -25,7 +25,7 @@ bool WordTarget::operator<(WordTarget const &rhs) const {
         // string comparison
         return (rhs._word < _word);
     }
-    return rhsLength < lhsLength;
+    return (rhsLength < lhsLength);
 }
 std::string WordTarget::getWord() const {
     return _word;
