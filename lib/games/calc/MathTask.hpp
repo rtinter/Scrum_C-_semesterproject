@@ -15,17 +15,17 @@ public:
     /**
      * @brief Destructor for MathTask.
      */
-    virtual ~MathTask() = default;
+    virtual ~MathTask()  = default;
 
     /**
      * @brief Starts the MathTask.
      */
-    virtual void start() = 0;
+    virtual void start() const = 0;
 
     /**
      * @brief Renders the games visuals.
      */
-    virtual void render() = 0;
+    virtual void render() const = 0;
 
     /**
      * @brief Checks if the math task is currently running.
@@ -38,12 +38,6 @@ public:
      * @return True if the math task was successful, false otherwise.
      */
     virtual bool wasSuccessfullyCompleted() const = 0;
-
-    /**
-    * @brief Sets the difficulty level for the MathTask.
-    * @param level The difficulty level to set.
-    */
-    virtual void setDifficulty(int level) = 0;
 };
 
 #endif // MATH_TASK_HPP

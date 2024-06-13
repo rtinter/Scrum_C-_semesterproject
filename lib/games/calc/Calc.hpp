@@ -2,34 +2,26 @@
 #define ATHENA_CALC_H
 
 #include <string>
-#include <vector>
 #include "Game.hpp"
-#include "Timer.hpp"
+#include "MathTask.hpp"
+#include "MathTaskFactory.hpp"
 
 namespace games {
     class Calc : public Game {
-    private:
-        int _currentLevel{1};
-        int _currentScore{0};
-        int _numberOfCorrectAnswers{0};
-        int _numberOfTasks{5};
-        std::vector<std::string> _currentTasks;
-        bool _isGameRunning{false};
-        ui_elements::Timer _taskTimer{"Task Timer", 30};
-        std::chrono::seconds _displayDuration{2};
-
-        void generateTasks();
-        void displayTasks();
-        int calculateResult(const std::string &task);
-
     public:
         Calc();
         void render() override;
-        void renderGame() override;
         void start() override;
-        void reset() override;
-        void stop() override;
-        void updateStatistics() override;
+
+    private:
+        int _completedLevels{0};
+        std::unique_ptr<MathTask> _currentLevel;
+        bool _showEndScreen{false};
+        const char* _endScreenTitle{"Game Over"};
+        const char* _endScreenText;
+
+        void nextLevel();
+        void showEndScreen();
     };
 }
 
