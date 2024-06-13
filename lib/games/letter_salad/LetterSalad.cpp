@@ -55,8 +55,7 @@ namespace game {
 
     void LetterSalad::start() {
         init();
-        getRandomWords();
-        fillGameFieldWithWordlist();
+        fillGameFieldWithRandomWords();
         randomizeGameField();
         _isGameRunning = true;
         _showInfobox = false;
@@ -457,16 +456,10 @@ namespace game {
         while (_activeWordList.size() < NR_OF_WORDS) {
             int randomIndex{RandomPicker::randomInt(0, _wordList.size() - 1)};
             auto wordPair{*std::next(_wordList.begin(), randomIndex)};
-            _activeWordList.insert(wordPair);
-        }
-    }
-
-    void LetterSalad::fillGameFieldWithWordlist() {
-
-        for (auto const &wordPair : _activeWordList) {
-            if (!placeWord(wordPair.getWord())) {
-                std::cerr << "Could not place word: " << wordPair.getWord()
-                          << std::endl;
+            // check if the word can be placed
+            if (placeWord(wordPair.getWord())) {
+                // if yes add it to the active wordList
+                _activeWordList.insert(wordPair);
             }
         }
     }

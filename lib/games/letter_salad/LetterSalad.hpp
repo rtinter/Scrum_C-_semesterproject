@@ -48,10 +48,9 @@ namespace game {
       void randomizeGameField();
       void renderTextList();
       bool isWordInList(std::set<WordTarget> &wordlist, std::string const &word);
-      void getRandomWords();
       void renderGameField();
       void renderSelectedWord() const;
-      void fillGameFieldWithWordlist();
+      void fillGameFieldWithRandomWords();
       bool placeWord(std::string word);
      public:
       LetterSalad();
