@@ -45,7 +45,7 @@ namespace ui_elements {
 
     void StatisticsGameTable::createTableHead() const {
 
-        ImGui::PushFont(commons::Fonts::_header2);
+        ImGui::PushFont(commons::Fonts::_header3);
         // Kopfzeile
         for (auto &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
@@ -74,26 +74,26 @@ namespace ui_elements {
                 }
                 i++;
             }
-            ImGui::PopFont();
+           ImGui::PopFont();
         }
     }
 
     void StatisticsGameTable::createTable() const {
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
-            ImGui::StyleColorsClassic();
+
+            ImGui::PushStyleColor(ImGuiCol_TableHeaderBg, commons::Colors::SEAFOAM);
             createTableHead();
 
             //TextColor
             ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
             createTableRows();
-            ImGui::PopStyleColor();
+            ImGui::PopStyleColor(2);
             ImGui::EndTable();
         }
     }
 
     void StatisticsGameTable::render() {
-        ui_elements::Window("Dashboard").render([this]() {
             //backgroundColor
             ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::LIGHT_GRAY);
             if (_input.empty()) {
@@ -103,6 +103,5 @@ namespace ui_elements {
                 createTable();
             }
             ImGui::PopStyleColor();
-        });
     }
 }
