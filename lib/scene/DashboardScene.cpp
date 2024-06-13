@@ -1,4 +1,5 @@
 #include "DashboardScene.hpp"
+#include "ResultsScene.h"
 #include "SceneManager.hpp"
 #include "GameScene.hpp"
 #include "Reaction.hpp"
@@ -9,9 +10,9 @@ using Tile = ui_elements::Tile;
 
 scene::DashboardScene::DashboardScene() {
 
-    _header = std::make_unique<views::Header>("Home", "Meine Statistik", []() {
-      // Add the linking to statistic site here
-      // SceneManager::getInstance().switchTo(std::make_unique<PLACEHOLDER>());
+    _header = std::make_unique<views::Header>("Home", "Meine Werte", []() {
+      // linking to user result site
+       SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
     });
 
     _dashboard = std::make_unique<views::Dashboard>();
@@ -59,7 +60,7 @@ scene::DashboardScene::DashboardScene() {
         )
     );
 
-    // CREATE Dummy in Category 3
+    // CREATE LetterSalad in Category 3
     kCategory3Tiles.push_back(
         std::make_unique<Tile>(
             "Pictogram",
