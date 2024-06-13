@@ -9,7 +9,7 @@
 #include "Timer.hpp"
 
 namespace games {
-    class ColorMatch : public Game {
+    class ColorMatch : public abstract_game::Game {
         int _numberOfRandomColors{3};
         bool _isTimeForNewRandomColors;
         int _indexOfCurrentColor;

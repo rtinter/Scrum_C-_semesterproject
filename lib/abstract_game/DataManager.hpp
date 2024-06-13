@@ -8,6 +8,7 @@
 #include <string>
 #include <memory>
 #include <vector>
+#include "GameIDs.hpp"
 
 
 namespace abstract_game {
@@ -22,7 +23,7 @@ namespace abstract_game {
          *
          * @param filename The name of the CSV file.
          */
-        virtual void saveGameSession(size_t sessionUID, int userID, int gameID,
+        virtual void saveGameSession(size_t sessionUID, int userID, GameID gameID,
                                      long long startTime, long long endTime,
                                      unsigned long long duration, bool ended) = 0;
 

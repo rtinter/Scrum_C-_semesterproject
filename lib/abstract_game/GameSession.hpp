@@ -7,6 +7,7 @@
 #include <vector>
 #include "GameRunThrough.hpp"
 #include "DataManager.hpp"
+#include "GameIDs.hpp"
 
 namespace abstract_game {
 
@@ -18,7 +19,7 @@ namespace abstract_game {
     class GameSession {
 
         // General information
-        int _gameID;
+        GameID _gameID;
         int _userID;
 
         // Session information
@@ -49,7 +50,7 @@ namespace abstract_game {
 
         std::vector<GameRunThrough> _gameRunThroughs;
 
-        GameSession(int gameID, int userID);
+        GameSession(GameID gameID, int userID);
 
         /**
          * @brief Save the current time as the end time of the game session.
@@ -79,7 +80,7 @@ namespace abstract_game {
          */
         void addNewGameRunThrough(std::string const &resultUnit, long const &result);
 
-        int getGameID() const;
+        GameID getGameID() const;
 
         int getUserID() const;
 

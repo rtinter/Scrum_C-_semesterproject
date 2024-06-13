@@ -18,7 +18,7 @@ namespace abstract_game {
  */
 class Game {
 public:
-	explicit Game(GameID gameID);
+    explicit Game(GameID gameID);
 	virtual ~Game() = default;
 
 	/**
@@ -69,8 +69,6 @@ public:
      */
     virtual void updateStatistics() = 0;
 
-    GameID getGameID() const;
-
 
 protected:
 	const char *_gameName;
@@ -107,7 +105,7 @@ private:
      */
     void saveRunThroughResult(std::string const &resultUnit, long const &result);
 
-    GameSession _gameSession;
+    GameSession _gameSession{_gameID,1};
 
 
 };

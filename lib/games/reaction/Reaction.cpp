@@ -31,9 +31,9 @@ namespace reaction {
     }
 
     void Reaction::render() {
-        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
-        }, this).render();
+        }).render();
 
         ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
             ImGui::PushFont(commons::Fonts::_header2);
@@ -57,6 +57,7 @@ namespace reaction {
             renderGame();
         }
     }
+
 
     std::string Reaction::_endBoxTitleString {};
     std::string Reaction::_endBoxTextString {};

@@ -2,7 +2,8 @@
 
 namespace abstract_game {
 
-    Game::Game(GameID gameID) : _gameID{gameID}, _gameSession{static_cast<int>(gameID), 1} {}
+    Game::Game(GameID gameID) : _gameID(gameID) {
+    }
 
     void Game::stop() {
         reset();
@@ -20,9 +21,6 @@ namespace abstract_game {
         _gameSession.addNewGameRunThrough(resultUnit, result);
     }
 
-    GameID Game::getGameID() const {
-        return _gameID;
-    }
 
     std::string Game::getName() const {
         return _gameName;

@@ -8,20 +8,20 @@
 
 namespace ui_elements {
     InfoBox::InfoBox(
-        bool &showOverlay,
-        const char *gameName,
-        const char *gameDescription,
-        const char *gameRules,
-        const char *gameControls,
-        const std::function<void()> &startCallback,
-        abstract_game::Game* game
-    ) : _showOverlay(showOverlay),
+            abstract_game::GameID &gameID,
+            bool &showOverlay,
+            const char *gameName,
+            const char *gameDescription,
+            const char *gameRules,
+            const char *gameControls,
+            const std::function<void()> &startCallback
+    ) : _gameID(gameID),
+        _showOverlay(showOverlay),
         _gameName(gameName),
         _gameDescription(gameDescription),
         _gameRules(gameRules),
         _gameControls(gameControls),
-        _startCallback(startCallback),
-        _game(game){
+        _startCallback(startCallback) {
     }
 
     void InfoBox::render() {
@@ -45,7 +45,7 @@ namespace ui_elements {
             Centered([this]() {
                 if (ImGui::Button("Spiel starten!")) {
                     if (_startCallback) {
-                        abstract_game::GameSessionManager::getInstance().startSession(_game->getGameID());
+                        abstract_game::GameSessionManager::getInstance().startSession(_gameID);
                         _startCallback();
                     }
                     _showOverlay = false;

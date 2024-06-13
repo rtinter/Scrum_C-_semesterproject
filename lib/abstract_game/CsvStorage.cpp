@@ -10,7 +10,7 @@
 namespace abstract_game {
     const std::string CSV_FILENAME = "game_session.csv";
 
-    void CsvStorage::saveGameSession(size_t sessionUID, int userID, int gameID,
+    void CsvStorage::saveGameSession(size_t sessionUID, int userID, GameID gameID,
                                      long long startTime, long long endTime,
                                      unsigned long long duration, bool ended) {
         std::ofstream file(CSV_FILENAME, std::ios::app); // Open file in append mode
@@ -32,7 +32,7 @@ namespace abstract_game {
         std::stringstream ss;
         ss << sessionUID << ","
            << userID << ","
-           << gameID << ","
+           << static_cast<int>(gameID) << ","
            << startTime << ","
            << endTime << ","
            << duration << ","

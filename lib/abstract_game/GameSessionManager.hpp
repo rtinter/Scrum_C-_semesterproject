@@ -12,14 +12,14 @@
 namespace abstract_game {
     class GameSessionManager {
     public:
-        static GameSessionManager& getInstance() {
+        static GameSessionManager &getInstance() {
             static GameSessionManager instance;
             return instance;
         }
 
         void startSession(GameID gameID) {
-            int const userID {1}; // Default or constant userID
-            _currentSession = std::make_unique<GameSession>(static_cast<int>(gameID), userID);
+            int const userID{1}; // Default or constant userID
+            _currentSession = std::make_unique<GameSession>(gameID, userID);
         }
 
         void endSession() {
@@ -29,12 +29,13 @@ namespace abstract_game {
             }
         }
 
-        GameSession* getCurrentSession() const {
+        GameSession *getCurrentSession() const {
             return _currentSession.get();
         }
 
     private:
         GameSessionManager() = default;
+
         std::unique_ptr<GameSession> _currentSession;
     };
 } // namespace abstract_game

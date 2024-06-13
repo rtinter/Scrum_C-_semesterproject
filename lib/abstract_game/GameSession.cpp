@@ -7,7 +7,7 @@
 
 namespace abstract_game {
 
-    GameSession::GameSession(int gameID, int userID) : _gameSessionUID{calcGameSessionUID()}, _userID{userID}, _gameID{gameID},
+    GameSession::GameSession(GameID gameID, int userID) : _gameSessionUID{calcGameSessionUID()}, _userID{userID}, _gameID{gameID},
                                                        _startPoint{std::chrono::steady_clock::now()}, _ended{false}, _dataManager {DataManagerFactory::Create("CsvManager")} {}
 
     size_t GameSession::calcGameSessionUID() {
@@ -51,7 +51,7 @@ namespace abstract_game {
         }
     }
 
-    int GameSession::getGameID() const {
+    GameID GameSession::getGameID() const {
         return _gameID;
     }
 

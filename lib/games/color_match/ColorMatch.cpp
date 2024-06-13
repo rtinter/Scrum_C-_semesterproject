@@ -11,7 +11,7 @@
 #include "RandomPicker.hpp"
 
 namespace games {
-    ColorMatch::ColorMatch() {
+    ColorMatch::ColorMatch() : Game(abstract_game::GameID::COLOR_MATCH) {
         _gameName = "Farb-Wort-Spiel";
         _gameDescription =
                 "Unser Spiel 'Farb Wort Test' zielt darauf ab, die kognitive Flexibilität zu testen,\n"
@@ -30,7 +30,7 @@ namespace games {
     }
 
     void ColorMatch::render() {
-        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
         }).render();
 

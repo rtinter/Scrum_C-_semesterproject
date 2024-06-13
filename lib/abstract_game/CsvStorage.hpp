@@ -13,11 +13,12 @@ namespace abstract_game {
 
     class CsvStorage : public DataManager {
     public:
-        void saveGameSession(size_t sessionUID, int userID, int gameID,
-                             long long startTime, long long endTime,
-                             unsigned long long duration, bool ended) ;
 
-        void getUserData(int userID) ;
+        void saveGameSession(size_t sessionUID, int userID, GameID gameID,
+                             long long startTime, long long endTime,
+                             unsigned long long duration, bool ended) override;
+
+        void getUserData(int userID) override;
 
     };
 
