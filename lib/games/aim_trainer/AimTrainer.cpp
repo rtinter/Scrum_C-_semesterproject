@@ -1,15 +1,6 @@
 #include "AimTrainer.hpp"
 #include "Window.hpp"
 
-template<typename T, typename Key>
-std::unordered_map<Key, std::vector<T>> group_by(const std::vector<T>& vec, std::function<Key(T)> key_function) {
-    std::unordered_map<Key, std::vector<T>> grouped;
-    for (const auto& item : vec) {
-        grouped[key_function(item)].push_back(item);
-    }
-    return grouped;
-}
-
 int randomPos(int n){
     return rand() % n + 1;
 }
@@ -42,14 +33,14 @@ void games::AimTrainer::spawnBlobs(){
 
 void games::AimTrainer::updateBlobs(){
     // remove blobs that are to be disposed
-    int missed = 0;
+    int missed {0};
     _currentBlobs.erase(
             std::remove_if(
                     _currentBlobs.begin(),
                     _currentBlobs.end(),
                     [&missed](aim_trainer::Blob &b){
 
-                        bool dispose = b.canBeDisposed();
+                        bool dispose {b.canBeDisposed()};
                         if(dispose)
                             missed++;
                         return dispose;
@@ -68,23 +59,23 @@ void games::AimTrainer::render() {
     }).render();
 
     if(ImGui::IsMouseClicked(0)){
-        auto const mousePos = ImGui::GetMousePos();
+        auto const mousePos {ImGui::GetMousePos()};
 
         std::vector<aim_trainer::Blob> blobsToDelete;
-        bool hit = false;
+        bool hit {false};
         _currentBlobs.erase(
                 std::remove_if(
                         _currentBlobs.begin(),
                         _currentBlobs.end(),
                         [this, &hit, mousePos](aim_trainer::Blob &b){
 
-                            const auto coords = b.getCoords();
-                            const float dx = coords.x - mousePos.x;
-                            const float dy = coords.y - mousePos.y;
-                            const float dist =  dx * dx + dy * dy;
+                            const auto coords {b.getCoords()};
+                            const float dx {coords.x - mousePos.x};
+                            const float dy {coords.y - mousePos.y};
+                            const float dist {dx * dx + dy * dy};
 
                             // increment successful clicks of blobs
-                            bool inCircle = dist <= b.getRadius() * b.getRadius();
+                            bool inCircle {dist <= b.getRadius() * b.getRadius()};
                             if(inCircle){
                                 _successCounter++;
                                 hit = true;
@@ -161,7 +152,7 @@ void games::AimTrainer::start() {
     _timer = std::make_unique<ui_elements::Timer>("Aim Trainer", 60);
     _timer->start();
 
-    const auto size = ImGui::GetWindowContentRegionMax();
+    const auto size  {ImGui::GetWindowSize()};
     int windowWidth {static_cast<int>(size.x)};
     int windowHeight {static_cast<int>(size.y)};
 
