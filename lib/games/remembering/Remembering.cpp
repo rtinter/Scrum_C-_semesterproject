@@ -59,9 +59,9 @@ namespace games {
 
         ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
             ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
+            ui_elements::TextCentered(_endBoxTitleString.c_str());
             ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
+            ui_elements::TextCentered(_endBoxTextString.c_str());
 
             ui_elements::Centered(true, true, [this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
@@ -90,8 +90,9 @@ namespace games {
                 showText = false;
             }
             if (!showText) {
-                static int selectedAnswers[15] = {-1};
+                static std::vector<int> selectedAnswers(questions.size(), -1);
                 static bool submitted = false;
+                static bool score = 0;
 
                 for (int i = 0; i < questions.size(); ++i) {
                     const auto &q = questions[i];
@@ -104,10 +105,15 @@ namespace games {
                     }
 
                     if (submitted) {
-                        // Display the question with a color based on the correctness of the answer
-                        ImVec4 color = (selectedAnswers[i] == q.correctAnswerIndex) ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0,
-                                                                                                                  0,
-                                                                                                                  1);
+                        // Determine the color based on correctness and whether an answer was selected
+                        ImVec4 color;
+                        if (selectedAnswers[i] == -1) {
+                            color = ImVec4(1, 0, 0, 1); // Red for unanswered
+                        } else {
+                            color = (selectedAnswers[i] == q.correctAnswerIndex) ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0,
+                                                                                                               1); // Green for correct, red for incorrect
+                        }
+
                         ImGui::PushStyleColor(ImGuiCol_Text, color);
                         ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers_cstr.data(),
                                      answers_cstr.size());
@@ -117,13 +123,20 @@ namespace games {
                                      answers_cstr.size());
                     }
                 }
-
                 if (!submitted && ImGui::Button("Submit All")) {
                     submitted = true;
+                    // Calculate the final score and prepare the end box text
+                    _showEndbox = true;
+                    _endboxTitle = "Ergebnis";
+
+                    std::stringstream endboxTextStream;
+                    endboxTextStream << "Deine Punktzahl: " << score << "/" << questions.size();
+                    _endboxText = endboxTextStream.str().c_str();
                 }
             }
         });
     }
+
 
     std::string Remembering::getText() const {
         return text;
