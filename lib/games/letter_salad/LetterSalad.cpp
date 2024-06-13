@@ -25,15 +25,24 @@ namespace game {
 
     std::string LetterSalad::_gameName = "Buchstaben Salat";
     std::string
-        LetterSalad::_gameDescription = "Finde die versteckten Wörter im "
-                                        "Buchstaben Salat.";
+            LetterSalad::_gameDescription = "Dieses Spiel testet ob du in der Lage bist, "
+                                            "über einen längeren Zeitraum, "
+                                            "konzentriert zu arbeiten.\n"
+                                            "Gute Augen und die Fähigkeit Muster "
+                                            "schnell zu erkennen sind wichtig "
+                                            "für die Berufungen\nPolizei und Feuerwehr.";
     std::string
-        LetterSalad::_gameRules = "Du hast 15min Zeit alle Wörter zu finden.";
+            LetterSalad::_gameRules = "Du hast 15min Zeit alle versteckten Wörter "
+                                      "im Buchstabensalat zu finden.";
     std::string
-        LetterSalad::_gameControls = "Klicke auf den ersten und letzten "
-                                     "Buchstaben eines Wortes um es zu "
-                                     "markieren.\nDie gefundenen Wörter"
-                                     " erscheinen links in der Liste";
+            LetterSalad::_gameControls = "Wörter können vorwärts, rückwärts und "
+                                         "horizontal, vertikal oder auf beiden diagonalen "
+                                         "erscheinen.\n\n"
+                                         "Um ein Wort zu markieren: "
+                                         "Klicke auf den ersten und letzten "
+                                         "Buchstaben eines Wortes\n\n"
+                                         "Die gefundenen Wörter "
+                                         "werden links in der Liste abgehakt.\n\n";
 
     std::string LetterSalad::getName() const {
         return _gameName;
@@ -72,41 +81,42 @@ namespace game {
         }
         _isGameInitialized = true;
     }
+
     void LetterSalad::updateStatistics() {
 
     }
 
     std::vector<WordTarget> LetterSalad::_wordList = {
-        WordTarget{"KREATIV"},
-        WordTarget{"GESCHWINDIGKEIT"},
-        WordTarget{"UNIVERSUM"},
-        WordTarget{"GLUECK"},
-        WordTarget{"WASSER"},
-        WordTarget{"BIBLIOTHEK"},
-        WordTarget{"KONVERSATION"},
-        WordTarget{"LAND"},
-        WordTarget{"SONNE"},
-        WordTarget{"HOFFNUNG"},
-        WordTarget{"GLUEHBIRNE"},
-        WordTarget{"FLUGZEUG"},
-        WordTarget{"WISSENSCHAFT"},
-        WordTarget{"DISKOTHEK"},
-        WordTarget{"ZIRKUS"},
-        WordTarget{"TRAUM"},
-        WordTarget{"SCHOKOLADE"},
-        WordTarget{"GEMEINSCHAFT"},
-        WordTarget{"KUNST"},
-        WordTarget{"KULTUR"},
-        WordTarget{"FRIEDEN"},
-        WordTarget{"FREIHEIT"},
-        WordTarget{"GESUNDHEIT"},
-        WordTarget{"GELD"},
-        WordTarget{"GESELLSCHAFT"},
-        WordTarget{"GESCHICHTE"},
-        WordTarget{"GLAUBE"},
-        WordTarget{"GRENZE"},
-        WordTarget{"GRENZUEBERGANG"},
-        WordTarget{"GRENZUEBERSCHREITUNG"},
+            WordTarget{"KREATIV"},
+            WordTarget{"GESCHWINDIGKEIT"},
+            WordTarget{"UNIVERSUM"},
+            WordTarget{"GLUECK"},
+            WordTarget{"WASSER"},
+            WordTarget{"BIBLIOTHEK"},
+            WordTarget{"KONVERSATION"},
+            WordTarget{"LAND"},
+            WordTarget{"SONNE"},
+            WordTarget{"HOFFNUNG"},
+            WordTarget{"GLUEHBIRNE"},
+            WordTarget{"FLUGZEUG"},
+            WordTarget{"WISSENSCHAFT"},
+            WordTarget{"DISKOTHEK"},
+            WordTarget{"ZIRKUS"},
+            WordTarget{"TRAUM"},
+            WordTarget{"SCHOKOLADE"},
+            WordTarget{"GEMEINSCHAFT"},
+            WordTarget{"KUNST"},
+            WordTarget{"KULTUR"},
+            WordTarget{"FRIEDEN"},
+            WordTarget{"FREIHEIT"},
+            WordTarget{"GESUNDHEIT"},
+            WordTarget{"GELD"},
+            WordTarget{"GESELLSCHAFT"},
+            WordTarget{"GESCHICHTE"},
+            WordTarget{"GLAUBE"},
+            WordTarget{"GRENZE"},
+            WordTarget{"GRENZUEBERGANG"},
+            WordTarget{"GRENZUEBERSCHREITUNG"},
     };
 
     void LetterSalad::render() {
@@ -117,15 +127,15 @@ namespace game {
         }
 
         ui_elements::InfoBox(
-            _gameID,
-            _showInfobox,
-            _gameName.c_str(),
-            _gameDescription.c_str(),
-            _gameRules.c_str(),
-            _gameControls.c_str(),
-            [this] {
-              start();
-            }).render();
+                _gameID,
+                _showInfobox,
+                _gameName.c_str(),
+                _gameDescription.c_str(),
+                _gameRules.c_str(),
+                _gameControls.c_str(),
+                [this] {
+                    start();
+                }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -133,33 +143,32 @@ namespace game {
 
         if (_showEndbox) {
             ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-              ImGui::PushFont(commons::Fonts::_header2);
-              ui_elements::TextCentered(std::move(_endboxTitle));
-              ImGui::PopFont();
-              ui_elements::TextCentered(std::move(_endboxText));
+                ImGui::PushFont(commons::Fonts::_header2);
+                ui_elements::TextCentered(std::move(_endboxTitle));
+                ImGui::PopFont();
+                ui_elements::TextCentered(std::move(_endboxText));
 
-              ui_elements::Centered([this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    reset();
-                }
+                ui_elements::Centered([this]() {
+                    if (ImGui::Button("Versuch es nochmal")) {
+                        reset();
+                    }
 
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(
-                        std::make_unique<scene::DashboardScene>());
-                }
-              });
+                    if (ImGui::Button("Zurück zur Startseite")) {
+                        scene::SceneManager::getInstance().switchTo(
+                                std::make_unique<scene::DashboardScene>());
+                    }
+                });
             });
         }
     }
 
     void LetterSalad::renderGame() {
         ui_elements::Window("###letterSalad").render([this]() {
-
-          _timer.render();
-          LetterSalad::renderTextList();
-          ImGui::SameLine();
-          this->renderGameField();
-          this->renderSelectedWord();
+            _timer.render();
+            LetterSalad::renderTextList();
+            ImGui::SameLine();
+            this->renderGameField();
+            this->renderSelectedWord();
         });
 
         if (_timer.isExpiredNow()) {
@@ -175,16 +184,15 @@ namespace game {
                 }
             }
             static std::string missingWordsText = "Dir fehlen noch\n" +
-                std::to_string(missingWords) + " Wörter\nBzw. " +
-                std::to_string(missingLetters) + " Buchstaben.";
+                    std::to_string(missingWords) + " Wörter\nBzw. " +
+                    std::to_string(missingLetters) + " Buchstaben.";
             _endboxText = missingWordsText.c_str();
             stop();
         }
     }
 
     void LetterSalad::renderTextList() {
-        if (ImGui::BeginListBox("##textList",
-                                ImVec2(350, 900))) {
+        if (ImGui::BeginListBox("##textList", ImVec2(350, 900))) {
             for (auto const &wordPair : _activeWordList) {
                 ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
                 ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
@@ -213,10 +221,10 @@ namespace game {
                 // PushID is used to ensure that each cell has a unique ID
                 ImGui::PushID(y * 20 + x);
                 if (ImGui::Selectable(
-                    _gameField[y][x]->getChar(),
-                    _gameField[y][x]->isSelected || _gameField[y][x]->isSolved,
-                    ImGuiSelectableFlags_AllowOverlap,
-                    ImVec2(20, 20))) {
+                        _gameField[y][x]->getChar(),
+                        _gameField[y][x]->isSelected || _gameField[y][x]->isSolved,
+                        ImGuiSelectableFlags_AllowOverlap,
+                        ImVec2(20, 20))) {
                     // Toggle clicked cell if clicked
                     clickCell({y, x});
                 }
@@ -242,8 +250,7 @@ namespace game {
         static int const HEIGHT = 40;
 
         ImVec2 startPos{
-            ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2),
-                   810)
+                ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)
         };
 
         ImGui::PushFont(commons::Fonts::_header2);
@@ -354,9 +361,9 @@ namespace game {
                 std::string seconds{std::to_string(secondsLeft % 60)};
 
                 static std::string endboxString =
-                    "Du hast alle Wörter gefunden!\n"
-                    "Und sogar noch Zeit übrig gehabt!\n"
-                        + minutes + " Minuten und " + seconds + " Sekunden\n";
+                        "Du hast alle Wörter gefunden!\n"
+                        "Und sogar noch Zeit übrig gehabt!\n" + minutes +
+                                " Minuten und " + seconds + " Sekunden\n";
                 _endboxText = endboxString.c_str();
                 stop();
             }
@@ -369,8 +376,8 @@ namespace game {
     }
 
     bool LetterSalad::isWordInList(
-        std::set<WordTarget> &wordlist,
-        std::string const &word) {
+            std::set<WordTarget> &wordlist,
+            std::string const &word) {
         return wordlist.find(WordTarget{word}) != _activeWordList.end();
     }
 
@@ -379,8 +386,7 @@ namespace game {
  * Diagonally, horizontally or vertically.
  * Basing on the Bresenham's line algorithm.
  */
-    std::vector<Coordinates> LetterSalad::getLine(Coordinates const &start,
-                                                  Coordinates const &end) {
+    std::vector<Coordinates> LetterSalad::getLine(Coordinates const &start, Coordinates const &end) {
         std::vector<Coordinates> linePoints;
         int x1{start.x};
         int y1{start.y};
@@ -553,14 +559,12 @@ namespace game {
                     }
                 }
 
-                if (currentRow < 0 || currentRow >= height || currentCol < 0
-                    || currentCol >= width) {
+                if (currentRow < 0 || currentRow >= height || currentCol < 0 || currentCol >= width) {
                     fits = false;
                     break;
                 }
 
-                std::string
-                    letter{_gameField[currentRow][currentCol]->getLetter()};
+                std::string letter{_gameField[currentRow][currentCol]->getLetter()};
 
                 if (letter != EMPTY_CELL && letter != std::string(1, word[i])) {
                     fits = false;
@@ -594,22 +598,20 @@ namespace game {
                             break;
                         }
                     }
-                    _gameField[currentRow][currentCol]
-                        ->setLetter(std::string(1, word[i]));
+                    _gameField[currentRow][currentCol]->setLetter(std::string(1, word[i]));
                 }
                 placed = true;
             } else {
                 // try
                 if (orientation != Orientation::DIAGONAL_UP && tries % 7 == 0) {
-                    orientation =
-                        Orientation{(rand() % 4)};
+                    orientation = Orientation{(rand() % 4)};
                 }
             }
         }
         return placed;
     }
-    LetterSalad::LetterSalad()
-        : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
+
+    LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
     }
 
 } // namespace game
