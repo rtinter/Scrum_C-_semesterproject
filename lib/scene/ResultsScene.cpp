@@ -18,6 +18,9 @@ namespace scene {
         _results.addGameTableContainer(ui_elements::TableContainer("hallo", coolTable));
         _results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
         _results.addGameTableContainer(ui_elements::TableContainer("hallo3", coolTable));
+        _results.addGameTableContainer(ui_elements::TableContainer("hallo4", coolTable));
+        _results.addGameTableContainer(ui_elements::TableContainer("hallo5", coolTable));
+        _results.addGameTableContainer(ui_elements::TableContainer("hallo6", coolTable));
 
     }
 
