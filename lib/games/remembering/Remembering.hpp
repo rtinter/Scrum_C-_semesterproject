@@ -66,7 +66,5 @@ namespace games {
 
         void initializeQuestionsAndAnswers();
 
-        void submitAnswers();
-
     };
 }
