@@ -10,11 +10,12 @@
 #include <SceneManager.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
+#include "GameSessionManager.hpp"
 #include <iostream>
 #include <sstream>
 
 namespace reaction {
-    Reaction::Reaction() {
+    Reaction::Reaction() : abstract_game::Game(abstract_game::GameID::REACTION) {
         _gameName = "Reaction";
         _gameDescription =
                 "Unser Reaktionszeit-Spiel bewertet die Fähigkeit, schnell und präzise auf visuelle Reize zu reagieren,\n"
@@ -22,15 +23,15 @@ namespace reaction {
                 "In diesen Berufen ist es entscheidend, rasch auf sich ändernde Situationen zu reagieren, \n"
                 "daher ist das Spiel ein zuverlässiger Indikator für die persönliche Eignung.\n";
         _gameRules = "Der Bildschirm zeigt zunächst eine rote Farbe.\n"
-                     "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
-                     "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
-                     "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
-                     "Versuche, deine beste Zeit zu schlagen!";
+                "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
+                "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
+                "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
+                "Versuche, deine beste Zeit zu schlagen!";
         _gameControls = "Linke Maustaste: Klicken, sobald der Bildschirm Grün wird.";
     }
 
     void Reaction::render() {
-        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
         }).render();
 
@@ -46,6 +47,7 @@ namespace reaction {
                 }
 
                 if (ImGui::Button("Zurück zur Startseite")) {
+                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
                     scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
                 }
             });
@@ -55,6 +57,7 @@ namespace reaction {
             renderGame();
         }
     }
+
 
     std::string Reaction::_endBoxTitleString {};
     std::string Reaction::_endBoxTextString {};

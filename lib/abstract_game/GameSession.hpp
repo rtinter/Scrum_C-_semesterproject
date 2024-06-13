@@ -6,20 +6,20 @@
 #include <utility>
 #include <vector>
 #include "GameRunThrough.hpp"
-#include "GameRunThroughCsvWriter.hpp"
+#include "DataManager.hpp"
+#include "GameIDs.hpp"
 
 namespace abstract_game {
-
 
 /**
  * @brief Class for holding game session information.
  *
  * This class holds information about a game session.
  */
-    class GameSession {
+class GameSession {
 
         // General information
-        int _gameID;
+        GameID _gameID;
         int _userID;
 
         // Session information
@@ -27,25 +27,30 @@ namespace abstract_game {
         std::chrono::steady_clock::time_point _startPoint;
         std::chrono::steady_clock::time_point _endPoint;
         bool _ended;
+        const std::string CSV_FILENAME = "game_session.csv";
+        std::unique_ptr<DataManager> _dataManager;
 
-        int _runThroughCount{0};
 
-        /**
-         * @brief Calculates the game session UID.
-         *
-         * This method calculates a unique identifier for the game session.
-         *
-         * @return The game session UID.
-         */
-        static size_t calcGameSessionUID();
+    int _runThroughCount {0};
 
-        void increaseRunThroughCount();
+    /**
+     * @brief Calculates the game session UID.
+     *
+     * This method calculates a unique identifier for the game session.
+     *
+     * @return The game session UID.
+     */
+    static size_t calcGameSessionUID();
+
+    void increaseRunThroughCount();
+
+    void writeToDataManager() const;
 
     public:
 
         std::vector<GameRunThrough> _gameRunThroughs;
 
-        GameSession(int gameID, int userID);
+        GameSession(GameID gameID, int userID);
 
         /**
          * @brief Save the current time as the end time of the game session.
@@ -75,40 +80,22 @@ namespace abstract_game {
          */
         void addNewGameRunThrough(std::string const &resultUnit, long const &result);
 
-        /**
-        * @brief Write GameRunThrough data to a CSV file.
-        *
-        * This method writes all the GameRunThrough data of the current session to a CSV file.
-        *
-        * @param filename The name of the CSV file.
-        */
-        void writeRunThroughsToCsv(const std::string &filename) const;
+        GameID getGameID() const;
 
-        int getGameID() const {
-            return _gameID;
-        }
+        int getUserID() const;
 
-        int getUserID() const {
-            return _userID;
-        }
+        size_t getGameSessionUID() const;
 
-        size_t getGameSessionUID() const {
-            return _gameSessionUID;
-        }
+        std::chrono::steady_clock::time_point getStartPoint() const;
 
-        std::chrono::steady_clock::time_point getStartPoint() const {
-            return _startPoint;
-        }
+        std::chrono::steady_clock::time_point getEndPoint() const;
 
-        std::chrono::steady_clock::time_point getEndPoint() const {
-            return _endPoint;
-        }
+        bool isEnded() const;
 
-        bool isEnded() const {
-            return _ended;
-        }
+
     };
 
-}
+} // abstract_game
+
 
 #endif //ATHENA_GAMESESSION_HPP

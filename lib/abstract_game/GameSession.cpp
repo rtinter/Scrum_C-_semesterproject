@@ -1,12 +1,14 @@
 #include <sstream>
+#include <fstream>
+#include <iostream>
 #include "GameSession.hpp"
+#include "DataManagerFactory.hpp"
+
 
 namespace abstract_game {
 
-
-    GameSession::GameSession(int gameID, int userID) : _gameID{gameID}, _userID{userID},
-                                                       _gameSessionUID{calcGameSessionUID()},
-                                                       _startPoint{std::chrono::steady_clock::now()}, _ended{false} {}
+    GameSession::GameSession(GameID gameID, int userID) : _gameSessionUID{calcGameSessionUID()}, _userID{userID}, _gameID{gameID},
+                                                       _startPoint{std::chrono::steady_clock::now()}, _ended{false}, _dataManager {DataManagerFactory::Create("CsvManager")} {}
 
     size_t GameSession::calcGameSessionUID() {
 
@@ -35,6 +37,7 @@ namespace abstract_game {
 
         // save the current time as the end time of the game session
         _endPoint = std::chrono::steady_clock::now();
+    writeToDataManager();
     }
 
     unsigned long long GameSession::getDurationInSeconds() const {
@@ -48,6 +51,39 @@ namespace abstract_game {
         }
     }
 
+    GameID GameSession::getGameID() const {
+        return _gameID;
+    }
+
+    int GameSession::getUserID() const {
+        return _userID;
+    }
+
+    size_t GameSession::getGameSessionUID() const {
+        return _gameSessionUID;
+    }
+
+    std::chrono::steady_clock::time_point GameSession::getStartPoint() const {
+        return _startPoint;
+    }
+
+    std::chrono::steady_clock::time_point GameSession::getEndPoint() const {
+        return _endPoint;
+    }
+
+    bool GameSession::isEnded() const {
+        return _ended;
+    }
+
+    void GameSession::writeToDataManager() const {
+        long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
+        long long endTime = _ended ? std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count() : 0;
+        unsigned long long duration = getDurationInSeconds();
+        _dataManager->saveGameSession(_gameSessionUID, _userID, _gameID, startTime, endTime, duration, _ended);
+    }
+
+
+
     void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
 
         increaseRunThroughCount();
@@ -58,16 +94,5 @@ namespace abstract_game {
         _runThroughCount++;
     }
 
-    void GameSession::writeRunThroughsToCsv(const std::string &filename) const {
-        GameRunThroughCsvWriter<std::string> writer(filename);
-        writer.writeHeader({"GameRunThroughUID", "GameSessionUID", "Result", "ResultUnit"});
-        for (const auto &runThrough: _gameRunThroughs) {
-            writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
-                             std::to_string(runThrough.gameSessionUID),
-                             std::to_string(runThrough.result),
-                             runThrough.resultUnit});
-        }
-        writer.close();
-    }
 
-}
+} // abstract_game

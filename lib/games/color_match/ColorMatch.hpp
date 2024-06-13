@@ -9,6 +9,7 @@
 #include "Timer.hpp"
 
 namespace games {
+
     class ColorMatch : public abstract_game::Game {
         int _numberOfRandomColors{3};
         bool _isTimeForNewRandomColors;
@@ -17,13 +18,18 @@ namespace games {
         int _numberOfCorrectClicksSinceLastError;
         int _longestStreak;
         std::string _endboxString;
+        enum GameMode {
+            MATCH_IMVEC4, // click text button according to font color
+            MATCH_STRING  // click color button according to word
+        };
+        GameMode _currentGameMode;
         ui_elements::Timer _timer{"Color Match Game", 60};
 
-        std::vector<std::string> const _AVAILABLE_COLORS_TEXT{"rot", "blau", "gelb", "lila", "grün"};
+        std::vector<std::string> const _AVAILABLE_COLORS_STRING{"rot", "blau", "gelb", "lila", "grün"};
         std::vector<ImVec4> const _AVAILABLE_COLORS_IMVEC4{commons::Colors::RED, commons::Colors::BLUE,
                                                            commons::Colors::YELLOW, commons::Colors::PURPLE,
                                                            commons::Colors::GREEN};
-        std::vector<std::string> _randomColorsText;
+        std::vector<std::string> _randomColorsString;
         std::vector<ImVec4> _randomColorsImVec4;
         std::array<std::string, 3> const _clickedColors;
 
@@ -53,7 +59,6 @@ namespace games {
         void onClick(bool isCurrentColor);
     };
 
-    void createText();
 }
 
 #endif //ATHENA_COLORMATCH_H
