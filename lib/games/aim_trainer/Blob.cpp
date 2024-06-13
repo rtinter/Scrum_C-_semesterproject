@@ -19,5 +19,5 @@ void aim_trainer::Blob::decrease(float percentage) {
 
 void aim_trainer::Blob::render() const {
     auto *drawList = ImGui::GetWindowDrawList();
-    drawList->AddCircleFilled(this->getCoords(), _radius, ImColor(_color));
+    drawList->AddCircleFilled(this->getCoords(), _radius, IM_COL32(_color.x, _color.y, _color.z, 255));
 }

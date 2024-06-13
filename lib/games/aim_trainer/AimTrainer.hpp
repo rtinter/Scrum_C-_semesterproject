@@ -25,17 +25,21 @@ private:
 
     std::vector<aim_trainer::Blob> _currentBlobs;
 
-    std::atomic_int _successCounter {0};
-    std::atomic_int _missedCounter {0};
+    int _successCounter {0};
+    int _missedCounter {0};
 
-    std::atomic_int _spawnAmount{3};
+    float _spawnAmount{1};
 
-    void spawnBlobBackgroundTask();
+    sf::Clock _clock;
+    sf::Time _elapsedTime;
+
+    std::unique_ptr<ui_elements::Timer> _timer;
+    float _missedFactor {1};
+
     void spawnBlobs();
     void updateBlobs();
 public:
     AimTrainer();
-    ~AimTrainer() override;
 
     std::string getName() const override;
     void render() override;
