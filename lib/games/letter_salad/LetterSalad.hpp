@@ -21,7 +21,7 @@ namespace game {
 
 using CharVector2D = std::vector<std::vector<std::unique_ptr<Box>>>;
 
-class LetterSalad : Game {
+class LetterSalad : abstract_game::Game {
   bool _isGameInitialized;
   static std::string _gameName;
   static std::string _gameDescription;
@@ -57,6 +57,7 @@ class LetterSalad : Game {
   void fillGameFieldWithWordlist();
   bool placeWord(std::string word);
  public:
+  LetterSalad();
   void stop() override;
   std::string getName() const override;
   void render() override;

@@ -114,14 +114,16 @@ void LetterSalad::render() {
         return;
     }
 
-    ui_elements::InfoBox(_showInfobox,
-                         _gameName.c_str(),
-                         _gameDescription.c_str(),
-                         _gameRules.c_str(),
-                         _gameControls.c_str(),
-                         [this] {
-                           start();
-                         }).render();
+    ui_elements::InfoBox(
+        _gameID,
+        _showInfobox,
+        _gameName.c_str(),
+        _gameDescription.c_str(),
+        _gameRules.c_str(),
+        _gameControls.c_str(),
+        [this] {
+          start();
+        }).render();
 
     if (_isGameRunning) {
         renderGame();
@@ -598,6 +600,10 @@ bool LetterSalad::placeWord(std::string word) {
         }
     }
     return placed;
+}
+LetterSalad::LetterSalad()
+    : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
+
 }
 
 } // namespace game
