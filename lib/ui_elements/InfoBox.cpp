@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include <Overlay.hpp>
 #include <imgui.h>
 #include "InfoBox.hpp"
@@ -8,13 +8,15 @@
 
 namespace ui_elements {
     InfoBox::InfoBox(
+            abstract_game::GameID &gameID,
             bool &showOverlay,
             const char *gameName,
             const char *gameDescription,
             const char *gameRules,
             const char *gameControls,
             const std::function<void()> &startCallback
-    ) : _showOverlay(showOverlay),
+    ) : _gameID(gameID),
+        _showOverlay(showOverlay),
         _gameName(gameName),
         _gameDescription(gameDescription),
         _gameRules(gameRules),
@@ -35,14 +37,10 @@ namespace ui_elements {
             ImGui::Text(_gameRules);
             ImGui::Text(_gameControls);
 
-            // const float windowHeight = ImGui::GetWindowHeight();
-            // const float buttonHeight = ImGui::GetFrameHeight();
-            // const float newPosY = windowHeight - buttonHeight - ImGui::GetStyle().ItemSpacing.y;
-            // ImGui::SetCursorPosY(newPosY);
-
-            Centered([this]() {
+            Centered(true, false,[this] {
                 if (ImGui::Button("Spiel starten!")) {
                     if (_startCallback) {
+                        abstract_game::GameSessionManager::getInstance().startSession(_gameID);
                         _startCallback();
                     }
                     _showOverlay = false;

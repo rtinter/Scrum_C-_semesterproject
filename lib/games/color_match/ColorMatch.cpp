@@ -12,7 +12,7 @@
 #include "ColorHelper.hpp"
 
 namespace games {
-    ColorMatch::ColorMatch() {
+    ColorMatch::ColorMatch() : Game(abstract_game::GameID::COLOR_MATCH) {
         _gameName = "Farb-Wort-Spiel";
         _gameDescription =
                 "Unser Spiel 'Farb Wort Test' zielt darauf ab, die kognitive Flexibilität zu testen,\n"
@@ -25,14 +25,14 @@ namespace games {
                 "zwischen verschiedenen Reizen zu unterscheiden, sind wesentliche Fähigkeiten\n"
                 "für den Einsatz von Polizei- und Feuerwehrkräften.";
         _gameRules = "Es wird zufällig zwischen zwei Spiel-Modi gewechselt: "
-                     "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
-                     "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
-                     "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
+                "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
+                "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
+                "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
         _gameControls = "Linke Maustaste: Klicken der richtigen Antworten in der richtigen Reihenfolge";
     }
 
     void ColorMatch::render() {
-        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
         }).render();
 
@@ -42,7 +42,7 @@ namespace games {
             ImGui::PopFont();
             ui_elements::TextCentered(std::move(_endboxText));
 
-            ui_elements::Centered([this]() {
+            ui_elements::Centered(true, true, [this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
                     start();
                 }
@@ -70,7 +70,7 @@ namespace games {
                 pickRandomColorsImVec4();
                 _isTimeForNewRandomColors = false;
             }
-            ui_elements::Centered([this] {
+            ui_elements::Centered(true, false,[this] {
                 switch (_currentGameMode) {
                     case GameMode::MATCH_STRING:
                         ImGui::Text("Finde die Übereinstimmung mit dem Farbwort:");
@@ -89,7 +89,7 @@ namespace games {
     void ColorMatch::start() {
         reset();
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-                std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
+            std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
         _isGameRunning = true;
         _showEndbox = false;
         _timer.start();
@@ -117,7 +117,8 @@ namespace games {
         }
     }
 
-    void ColorMatch::displayRandomColors() { // TODO@Noah: use bigger font and center
+    void ColorMatch::displayRandomColors() {
+        // TODO@Noah: use bigger font and center
         for (int i{0}; i < _randomColorsString.size(); i++) {
             // current color has bigger font
             ImGui::PushFont(_indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
@@ -157,8 +158,9 @@ namespace games {
             }
 
             ImGui::PushStyleColor(ImGuiCol_ButtonActive, // show whether click was correct via quick color change
-                                  isCurrentColor ? commons::ColorTheme::SUCCESS_COLOR
-                                                 : commons::ColorTheme::ERROR_COLOR);
+                                  isCurrentColor
+                                      ? commons::ColorTheme::SUCCESS_COLOR
+                                      : commons::ColorTheme::ERROR_COLOR);
 
             if (ImGui::Button(buttonID.c_str(), ImVec2(80, 40))) {
                 onClick(isCurrentColor);
@@ -196,9 +198,3 @@ namespace games {
         // add code here
     }
 }
-
-
-
-
-
-
