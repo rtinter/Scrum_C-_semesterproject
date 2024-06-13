@@ -11,6 +11,8 @@ namespace commons {
     public:
         ColorHelper() = delete; // static class
         static ImVec4 adjustBrightness(const ImVec4 &color, float factor);
+
+        static bool isEqual(const ImVec4 &color1, const ImVec4 &color2);
     };
 } // commons
 

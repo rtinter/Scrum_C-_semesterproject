@@ -26,4 +26,19 @@ namespace commons {
         adjusted.z = std::max(0.0f, std::min(1.0f, adjusted.z)); // blue
         return adjusted;
     }
+
+    /**********************************************************************
+     * isEqual() compares whether two ImVec4 colors are the same
+     * @param color1 ImVec4
+     * @param color2 ImVec4
+     * @return boolean value: Are color1 and color2 the same color?
+     **********************************************************************/
+    bool ColorHelper::isEqual(ImVec4 const &color1, ImVec4 const &color2) {
+        float epsilon = 0.005f; // max. difference that is allowed for "same" colors
+        return std::abs(color1.x - color2.x) < epsilon &&
+               std::abs(color1.y - color2.y) < epsilon &&
+               std::abs(color1.z - color2.z) < epsilon &&
+               std::abs(color1.w - color2.w) < epsilon;
+    }
+    
 } // commons
