@@ -12,7 +12,7 @@
 #include <random>
 #include <thread>
 
-namespace sequence {
+namespace sequence { //TODO change namespace to game
 
     Sequence::Sequence() : Game(abstract_game::GameID::SEQUENCE) {
         _gameName = "Abfolge-Merken-Spiel";
@@ -38,7 +38,7 @@ namespace sequence {
             ImGui::PopFont();
             ui_elements::TextCentered(std::move(_endboxText));
 
-            ui_elements::Centered([this]() {
+            ui_elements::Centered(true, true, [this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
                     start();
                 }
@@ -58,9 +58,17 @@ namespace sequence {
     void Sequence::renderGame() {
         ui_elements::Window("Sequence Game").render(([this] {
 
-            ui_elements::Centered([this] {
-                ImGui::Text("Wiederhole die Reihenfolge!");
-                ImGui::NewLine();
+            ui_elements::Centered(true, true, [this] {
+                switch (_currentGameMode) {
+                    case GameMode::WATCH:
+                        ImGui::Text("Sieh zu und versuch dir die Reihenfolge zu merken!");
+                        break;
+                    case GameMode::REPEAT:
+                        ImGui::Text("Wiederhole die Reihenfolge!");
+                        break;
+                }
+
+               // ImGui::NewLine();
 
                 displayButtons();
             });
@@ -70,8 +78,15 @@ namespace sequence {
 
     void Sequence::start() {
         reset();
+        _currentGameMode = GameMode::WATCH;
         _isGameRunning = true;
         _showEndbox = false;
+        int i{0};
+        for (bool state: _buttonStates) {
+            std::cout << state << " " << i << std::endl;
+            i++;
+        }
+
         chooseNextRandomButton();
 
         showSequence();
@@ -80,7 +95,8 @@ namespace sequence {
     void Sequence::reset() {
         _levelCounter = 1;
         _buttonsClickedSequence.clear();
-        std::fill(_buttonStates.begin(), _buttonStates.end(), false); //Set all button states to false (not lighting up)
+        //Set all button states to false/0 (not lighting up)
+        _buttonStatess.fill(0);
     }
 
     void Sequence::stop() {
@@ -97,26 +113,41 @@ namespace sequence {
     }
 
     void Sequence::displayButtons() {
+
+
+
         ImGui::NewLine();
+
+
         for (int i{1}; i <= _NUMBER_OF_BUTTONS; i++) {
             if ((i - 1) % 3) {
                 ImGui::SameLine();
             } else {
                 ImGui::NewLine();
             }
-            if (_buttonStates[i]) {
-                std::cout << "Light up this shit " << i << std::endl;
-                ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
-            } else {
-                std::cout << "No light up :(" << i << std::endl;
-                ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::SEAFOAM);
-            }
+        switch (_currentGameMode) {
+            case GameMode::WATCH:
 
-            if (ImGui::Button(std::to_string(i).c_str(), ImVec2(200, 200))) {
-                std::cout << "Clicked Button " << i << std::endl;
-                isClickedInCorrectOrder();
-                start();
-            }
+                checkLitUpExpired(_buttonStatess[i - 1]);
+                if (_buttonStatess[i - 1]) {
+                    std::cout << "Light up this shit " << i - 1 << std::endl;
+                    ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
+                } else {
+                    //std::cout << "No light up :(" << i << std::endl;
+                    ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::SEAFOAM);
+                }
+
+                if (ImGui::Button(std::to_string(i - 1).c_str(), ImVec2(200, 200))) {
+                    std::cout << "Clicked Button " << i - 1 << std::endl;
+                    isClickedInCorrectOrder();
+                }
+                break;
+            case GameMode::REPEAT:
+                //do sth
+                break;
+
+        }
+
             ImGui::PopStyleColor();
         }
 
@@ -133,19 +164,35 @@ namespace sequence {
     void Sequence::chooseNextRandomButton() {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distribution(1, _NUMBER_OF_BUTTONS);
+        std::uniform_int_distribution<> distribution(0, _NUMBER_OF_BUTTONS - 1);
 
         _buttonsClickedSequence.emplace_back(distribution(gen));
     }
 
     void Sequence::showSequence() {
         for (int button: _buttonsClickedSequence) {
-            _buttonStates[button - 1] = true;
-            std::cout << "Light up!" << button - 1 << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
-            _buttonStates[button - 1] = false;
+            if (_buttonStatess[button] == 0) {        //if chosen button is not yet lit up, light it up!
+                lightUp(_buttonStatess[button]);    //light up button X by setting state of button X to 1/true
+                std::cout << "Light up!" << button << std::endl;
+            } else {
+               // checkLitUpExpired()
+
+            }
+            _buttonStates[button] = false;
             std::cout << "Wait next light up!" << std::endl;
-            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+        }
+    }
+
+    void Sequence::lightUp(int &buttonState) {
+        //Sets a button to be lit up for 1 Second
+        _stopHighlightingHere = std::chrono::steady_clock::now() + std::chrono::seconds(_lightUpDurationInSeconds);
+        buttonState = 1;
+    }
+
+    void Sequence::checkLitUpExpired(int &buttonState) {
+        //if Lighting up time is expired
+        if ((buttonState == 1) && std::chrono::steady_clock::now() > _stopHighlightingHere) {
+            buttonState = 0;
         }
     }
 } // sequence
