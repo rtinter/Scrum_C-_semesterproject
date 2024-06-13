@@ -3,6 +3,7 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 #include "ColorMatch.hpp"
+#include "Remembering.hpp"
 
 using Tile = ui_elements::Tile;
 
@@ -53,7 +54,10 @@ scene::DashboardScene::DashboardScene() {
                     "Pictogram3",
                     "Dummy",
                     "Dummy Beschreibung",
-                    []() {}
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Remembering>>());
+                    }
             )
     );
 
