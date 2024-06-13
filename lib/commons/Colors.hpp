@@ -28,6 +28,7 @@ namespace commons {
         static const ImVec4 BRIGHT_GREEN;
         static const ImVec4 BRIGHT_RED;
         static const ImVec4 VERY_LIGHT_GRAY;
+        static const ImVec4 BLACK;
     };
 }
 // commons

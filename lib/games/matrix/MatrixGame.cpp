@@ -48,7 +48,13 @@ namespace games {
     void MatrixGame::renderGame() {
         ui_elements::Window("Matrix Game").render([this] {
             _timer.render();
-
+            _mainMatrix.render(30.f);
+            ImGui::NewLine();
+            ImGui::NewLine();
+            _mainMatrix.getMirroredCopy().render(10.f);
+            ImGui::NewLine();
+            ImGui::NewLine();
+            _mainMatrix.getRotatedCopy().render(10.f);
             if (_timer.isExpiredNow()) {
                 stop();
             }
@@ -74,7 +80,7 @@ namespace games {
     }
 
     void MatrixGame::reset() {
-
+        _mainMatrix.init();
     }
 
     void MatrixGame::updateStatistics() {

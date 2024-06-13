@@ -1,9 +1,10 @@
-#ifndef ATHENA_MATRIX_H
+#ifndef ATHENA_MATRIX_HPP
 #define ATHENA_MATRIX_H
 
 #include "Game.hpp"
 #include "Colors.hpp"
 #include "Timer.hpp"
+#include "Matrix.hpp"
 
 namespace games {
 
@@ -12,6 +13,7 @@ namespace games {
         std::string _endboxString;
         int _numberOfCorrectClicksInTotal;
         int _longestStreak;
+        Matrix _mainMatrix;
 
     public:
         MatrixGame();
@@ -31,4 +33,4 @@ namespace games {
 
 } // games
 
-#endif //ATHENA_MATRIX_H
+#endif //ATHENA_MATRIX_HPP

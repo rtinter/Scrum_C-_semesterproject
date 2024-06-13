@@ -16,4 +16,5 @@ namespace commons {
     ImVec4 const Colors::BROWN = {0.38, 0.18, 0, 1};
     ImVec4 const Colors::YELLOW = {0.98, 0.9, 0.03, 1};
     ImVec4 const Colors::PURPLE = {0.49, 0, 0.49, 1};
+    ImVec4 const Colors::BLACK = {0, 0, 0, 1};
 }
