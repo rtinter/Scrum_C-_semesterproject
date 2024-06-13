@@ -1,28 +1,38 @@
 #include "Tile.hpp"
-#include "../commons/Fonts.hpp"
-#include "Window.hpp"
-#include <sstream>
 
+#include <Fonts.hpp>
+#include <sstream>
+#include <Window.hpp>
+#include <X11/Xproto.h>
 
 namespace ui_elements {
-
     // Konstruktor
     Tile::Tile(std::string const &pic, std::string const &name, std::string const &desc,
                std::function<void()> const &onClick)
-            : _pictogram(pic), _gameName(name), _description(desc), _onClick(onClick) {
+        : _pictogram(pic), _gameName(name), _description(desc), _onClick(onClick) {
+        setButtonText();
+    }
+
+    Tile::Tile(std::string const &name, std::function<void()> const &onClick) : _gameName(name), _onClick(onClick) {
         setButtonText();
     }
 
     // Setter-Methode für den Button-Text
     void Tile::setButtonText() {
         std::stringstream ss;
-        ss << _pictogram << "\n" << _gameName << "\n" << _description;
+        if (!_pictogram.empty()) {
+            ss << _pictogram << "\n";
+        }
+        ss << _gameName << "\n";
+        if (!_description.empty()) {
+            ss << "\n" << _description;
+        }
         _buttonText = ss.str();
     }
 
     // Render-Methode
     void Tile::render() {
-        ui_elements::Window("Dashboard").render([this]() {
+        Window("Dashboard").render([this]() {
             ImGui::SetWindowPos(ImVec2(0, 50), ImGuiCond_Always);
             ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50),
                                  ImGuiCond_Always);
@@ -37,6 +47,3 @@ namespace ui_elements {
         });
     }
 }
-
-
-
