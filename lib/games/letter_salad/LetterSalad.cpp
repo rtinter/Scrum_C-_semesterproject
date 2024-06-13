@@ -233,9 +233,6 @@ namespace game {
                     onHover({y, x});
                 }
 
-                ImGui::BeginDisabled(true);
-                ImGui::EndDisabled();
-
                 ImGui::PopID();
             }
         }
