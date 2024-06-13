@@ -22,6 +22,8 @@ namespace views {
                 }
                 ++count;
             }
+            ImGui::NewLine();
+            ImGui::NewLine();
         });
     }
 
