@@ -20,7 +20,10 @@
 
 namespace game {
 
-    std::string LetterSalad::_gameName = "Buchstaben Salat";
+    LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
+        _gameName = "Buchstaben Salat";
+    }
+
     std::string
             LetterSalad::_gameDescription = "Dieses Spiel testet ob du in der Lage bist, "
                                             "über einen längeren Zeitraum, "
@@ -70,9 +73,9 @@ namespace game {
 
     void LetterSalad::init() {
         for (int y{0}; y < 20; y++) {
-            std::vector<std::unique_ptr<Box>> row;
+            std::vector<Box> row;
             for (int x{0}; x < 20; x++) {
-                row.emplace_back(std::make_unique<Box>(EMPTY_CELL));
+                row.emplace_back(EMPTY_CELL);
             }
             _gameField.emplace_back(std::move(row));
         }
@@ -126,7 +129,7 @@ namespace game {
         ui_elements::InfoBox(
                 _gameID,
                 _showInfobox,
-                _gameName.c_str(),
+                _gameName,
                 _gameDescription.c_str(),
                 _gameRules.c_str(),
                 _gameControls.c_str(),
@@ -216,8 +219,8 @@ namespace game {
                 // PushID is used to ensure that each cell has a unique ID
                 ImGui::PushID(y * 20 + x);
                 if (ImGui::Selectable(
-                        _gameField[y][x]->getChar(),
-                        _gameField[y][x]->isSelected || _gameField[y][x]->isSolved,
+                        _gameField[y][x].getChar(),
+                        _gameField[y][x].isSelected || _gameField[y][x].isSolved,
                         ImGuiSelectableFlags_AllowOverlap,
                         ImVec2(20, 20))) {
                     // Toggle clicked cell if clicked
@@ -297,7 +300,7 @@ namespace game {
 
             for (auto &lineE : _currentLine) {
                 selectBox(lineE);
-                _selectedWord += _gameField[lineE.y][lineE.x]->getChar();
+                _selectedWord += _gameField[lineE.y][lineE.x].getChar();
             }
         }
 
@@ -428,28 +431,28 @@ namespace game {
 
     void LetterSalad::selectBox(Coordinates const &coords) {
         if (checkIfCoordsAreInRange(coords, 0, 20)) {
-            _gameField[coords.y][coords.x]->isSelected = true;
+            _gameField[coords.y][coords.x].isSelected = true;
         }
     }
 
     void LetterSalad::deselectBox(Coordinates const &coords) {
         if (checkIfCoordsAreInRange(coords, 0, 20)) {
-            _gameField[coords.y][coords.x]->isSelected = false;
+            _gameField[coords.y][coords.x].isSelected = false;
         }
     }
 
     void LetterSalad::finalize(Coordinates const &coords) {
         if (checkIfCoordsAreInRange(coords, 0, 20)) {
-            _gameField[coords.y][coords.x]->isSolved = true;
+            _gameField[coords.y][coords.x].isSolved = true;
         }
     }
 
     void LetterSalad::randomizeGameField() {
         for (auto &row : _gameField) {
             for (auto &box : row) {
-                if (box->getLetter() == EMPTY_CELL) {
+                if (box.getLetter() == EMPTY_CELL) {
                     std::string letter{std::string(1, 'A' + rand() % 26)};
-                    box->setLetter(letter);
+                    box.setLetter(letter);
                 }
             }
         }
@@ -551,7 +554,7 @@ namespace game {
                     break;
                 }
 
-                std::string letter{_gameField[currentRow][currentCol]->getLetter()};
+                std::string letter{_gameField[currentRow][currentCol].getLetter()};
 
                 if (letter != EMPTY_CELL && letter != std::string(1, word[i])) {
                     fits = false;
@@ -585,7 +588,7 @@ namespace game {
                             break;
                         }
                     }
-                    _gameField[currentRow][currentCol]->setLetter(std::string(1, word[i]));
+                    _gameField[currentRow][currentCol].setLetter(std::string(1, word[i]));
                 }
                 placed = true;
             } else {
@@ -596,9 +599,6 @@ namespace game {
             }
         }
         return placed;
-    }
-
-    LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
     }
 
 } // namespace game

@@ -21,11 +21,10 @@
 namespace game {
 
     using RandomPicker = commons::RandomPicker;
-    using CharVector2D = std::vector<std::vector<std::unique_ptr<Box>>>;
+    using CharVector2D = std::vector<std::vector<Box>>;
 
     class LetterSalad : abstract_game::Game {
       bool _isGameInitialized;
-      static std::string _gameName;
       static std::string _gameDescription;
       static std::string _gameRules;
       static std::string _gameControls;
@@ -43,17 +42,14 @@ namespace game {
       std::string _selectedWord;
       void clickCell(Coordinates const &coords);
       void resetSelectedPair();
-      static std::vector<Coordinates> getLine(Coordinates const &start,
-                                              Coordinates
-                                              const &end);
-      void onHover(const Coordinates &coords);
+      static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates const &end);
+      void onHover(Coordinates const &coords);
       void selectBox(Coordinates const &coords);
       void deselectBox(Coordinates const &coords);
       void finalize(Coordinates const &coords);
       void randomizeGameField();
       void renderTextList();
-      bool isWordInList(std::set<WordTarget> &wordlist,
-                        const std::string &word);
+      bool isWordInList(std::set<WordTarget> &wordlist, std::string const &word);
       void getRandomWords();
       void renderGameField();
       void renderSelectedWord() const;
