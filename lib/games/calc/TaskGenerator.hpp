@@ -1,22 +1,38 @@
-#ifndef TASKGENERATOR_H
-#define TASKGENERATOR_H
+#ifndef TASK_GENERATOR_HPP
+#define TASK_GENERATOR_HPP
 
 #include "Task.hpp"
 #include <vector>
 #include <map>
-#include <utility> // Für std::pair
+#include <random>
 
 class TaskGenerator {
 public:
     TaskGenerator();
-    Task generateTask(int levelIndex, int currentResult);
+
+    /**
+     * @brief Generiert eine Task für das gegebene Level und Ziel.
+     * @param levelIndex Der Index des Levels.
+     * @param target Das Ziel, das erreicht werden soll.
+     * @return Eine generierte Task.
+     */
+    Task generateTask(int levelIndex, int target) const;
 
 private:
     std::vector<std::map<char, std::pair<int, int>>> _levels;
-    void initializeLevels();
-    std::map<char, std::pair<int, int>> getLevelConfig(int levelIndex);
+    mutable std::default_random_engine _generator;
 
-    static int adjustValueForCurrentResult(char op, int value, int currentResult);
+    /**
+     * @brief Initialisiert die Levelkonfigurationen.
+     */
+    void initializeLevels();
+
+    /**
+     * @brief Holt die Konfiguration des Levels.
+     * @param levelIndex Der Index des Levels.
+     * @return Die Levelkonfiguration als std::map.
+     */
+    std::map<char, std::pair<int, int>> getLevelConfig(int levelIndex) const;
 };
 
-#endif // TASKGENERATOR_H
+#endif // TASK_GENERATOR_HPP

@@ -6,7 +6,10 @@ add_library(${LIBRARY_NAME} ${SOURCES}
         Task.cpp
         Task.hpp
         TaskGenerator.cpp
-        TaskGenerator.hpp)
+        TaskGenerator.hpp
+        ArithmeticUtils.cpp
+        ArithmeticUtils.hpp
+)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
