@@ -46,7 +46,7 @@ namespace game {
                                               const &end);
       void onHover(const Coordinates &coords);
       void selectBox(Coordinates const &coords);
-      void deSelectBox(Coordinates const &coords);
+      void deselectBox(Coordinates const &coords);
       void finalize(Coordinates const &coords);
       void randomizeGameField();
       void renderTextList();

@@ -291,7 +291,7 @@ namespace game {
                                 newlines.end(),
                                 std::back_inserter(difference));
             for (auto &lineE : difference) {
-                deSelectBox(lineE);
+                deselectBox(lineE);
             }
 
         } else {
@@ -331,7 +331,7 @@ namespace game {
         _isSecondCellSelected = false;
         if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
             for (auto &lineE : _currentLine) {
-                LetterSalad::deSelectBox(lineE);
+                LetterSalad::deselectBox(lineE);
             }
         } else {
             for (auto &lineE : _currentLine) {
@@ -411,11 +411,11 @@ namespace game {
             linePoints.emplace_back(y1, x1);
             if (x1 == x2 && y1 == y2) break;
             e2 = 2 * err;
-            if (e2 >= dy) { // Fehler akkumulierte sich in horizontaler Richtung
+            if (e2 >= dy) { // error is growing in horizontal direction
                 err += dy;
                 x1 += sx;
             }
-            if (e2 <= dx) { // Fehler akkumulierte sich in vertikaler Richtung
+            if (e2 <= dx) { // error is growing in vertical direction
                 err += dx;
                 y1 += sy;
             }
@@ -435,7 +435,7 @@ namespace game {
         }
     }
 
-    void LetterSalad::deSelectBox(Coordinates const &coords) {
+    void LetterSalad::deselectBox(Coordinates const &coords) {
         if (checkIfCoordsAreInRange(coords, 0, 20)) {
             _gameField[coords.y][coords.x]->isSelected = false;
         }
