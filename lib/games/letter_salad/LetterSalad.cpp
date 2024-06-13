@@ -177,16 +177,18 @@ void LetterSalad::renderGame() {
 }
 
 void LetterSalad::renderTextList() {
-    ImGui::BeginListBox("##textList",
-                        ImVec2(350, 900));
+    if (ImGui::BeginListBox("##textList",
+                        ImVec2(350, 900))) {
+        for (auto const &wordPair : _activeWordList) {
+            ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+            ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
+            ImGui::PopItemFlag();
+        }
 
-    for (auto const &wordPair : _activeWordList) {
-        ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-        ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
-        ImGui::PopItemFlag();
+        ImGui::EndListBox(); // ##textList
     }
 
-    ImGui::EndListBox(); // ##textList
+
 }
 
 void LetterSalad::renderGameField() {
