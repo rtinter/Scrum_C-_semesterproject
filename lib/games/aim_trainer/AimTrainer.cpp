@@ -117,7 +117,7 @@ void games::AimTrainer::render() {
 void games::AimTrainer::renderGame() {
     ImGui::PushStyleColor(ImGuiCol_WindowBg, sf::Color(200, 200, 200, 255));
     ui_elements::Window("Aim Trainer").render([this] {
-
+        _timer->render();
         if(_timer->isExpiredNow()){
             _isGameRunning = false;
             _showEndbox = true;
@@ -139,7 +139,6 @@ void games::AimTrainer::renderGame() {
             blob.render();
         }
     });
-    _timer->render();
     ImGui::PopStyleColor();
 }
 
@@ -203,6 +202,6 @@ der seine Mausgenauigkeit und Reaktionszeit verbessern möchte.
 "Circle Strike" bietet eine einfache, doch herausfordernde Spielmechanik,
 die dich nicht mehr loslassen wird.
     )";
-    _gameRules = "Das ist nicht so kompliziert";
+    _gameRules = "Klicke nur auf die Kreise, nirgendswo anders hin!";
     _gameControls = "";
 }
