@@ -207,9 +207,7 @@ namespace game {
     void LetterSalad::renderGameField() {
         ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 360, 50));
         ImGui::BeginChild("##gameField", ImVec2(720, 760));
-        ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign,
-                            ImVec2(0.5f, 0.5f)
-        );
+        ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 
         for (int y = 0; y < _gameField.size(); y++) {
             auto &row = _gameField[y];
