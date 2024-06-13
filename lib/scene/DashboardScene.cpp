@@ -3,6 +3,7 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 #include "ColorMatch.hpp"
+#include "AimTrainer.hpp"
 
 using Tile = ui_elements::Tile;
 
@@ -43,6 +44,19 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::ColorMatch>>());
+                    }
+            )
+    );
+
+    // CREATE Dummy in Category 2
+    kCategory1Tiles.push_back(
+            std::make_unique<Tile>(
+                    "Pictogram3",
+                    "Aim Trainer",
+                    "Aim Trainer Beschreibung",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::AimTrainer>>());
                     }
             )
     );
