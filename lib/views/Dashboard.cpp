@@ -13,10 +13,11 @@ namespace {
     void renderCategory(const String &categoryName, std::vector<UniqueTile> &tiles) {
         ImGui::Spacing();
 
-        ImGui::PushFont(commons::Fonts::_header1);
-        ui_elements::TextCentered(categoryName.c_str());
+        ImGui::PushFont(commons::Fonts::_header2);
+        ImGui::TextUnformatted(categoryName.c_str());
         ImGui::PopFont();
 
+        ImGui::Spacing();
 
         int count = 0;
         for (UniqueTile &tile: tiles) {
