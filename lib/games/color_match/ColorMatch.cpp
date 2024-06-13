@@ -9,6 +9,7 @@
 #include "DashboardScene.hpp"
 #include "Window.hpp"
 #include "RandomPicker.hpp"
+#include "ColorHelper.hpp"
 
 namespace games {
     ColorMatch::ColorMatch() {
@@ -69,7 +70,14 @@ namespace games {
                 _isTimeForNewRandomColors = false;
             }
             ui_elements::Centered([this] {
-                ImGui::Text("Finde die Übereinstimmung mit dem Farbwort:");
+                switch (_currentGameMode) {
+                    case GameMode::MATCH_TEXT:
+                        ImGui::Text("Finde die Übereinstimmung mit dem Farbwort:");
+                        break;
+                    case GameMode::MATCH_IMVEC4:
+                        ImGui::Text("Finde die Übereinstimmung mit der Schriftfarbe:");
+                        break;
+                }
                 ImGui::NewLine();
                 displayRandomColors();
                 displayColorButtons();
@@ -79,6 +87,8 @@ namespace games {
 
     void ColorMatch::start() {
         reset();
+        _currentGameMode = commons::RandomPicker::pickRandomElement(
+                std::vector<GameMode>{GameMode::MATCH_TEXT, GameMode::MATCH_IMVEC4});
         _isGameRunning = true;
         _showEndbox = false;
         _timer.start();
@@ -106,8 +116,9 @@ namespace games {
         }
     }
 
-    void ColorMatch::displayRandomColors() {
+    void ColorMatch::displayRandomColors() { // TODO@Noah: use bigger font and center
         for (int i{0}; i < _randomColorsText.size(); i++) {
+            // current color has bigger font
             ImGui::PushFont(_indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
             ImGui::PushStyleColor(ImGuiCol_Text, _randomColorsImVec4.at(i));
             ImGui::Text("%s", _randomColorsText.at(i).c_str());
@@ -124,15 +135,31 @@ namespace games {
                 _isTimeForNewRandomColors = true;
                 _indexOfCurrentColor = 0;
             }
-            bool isCurrentColor = _AVAILABLE_COLORS_TEXT.at(i) == _randomColorsText.at(_indexOfCurrentColor);
-            ImGui::PushStyleColor(ImGuiCol_Button, _AVAILABLE_COLORS_IMVEC4.at(i)); // Normal state
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, _AVAILABLE_COLORS_IMVEC4.at(i)); // Hover state
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive,
+            bool isCurrentColor;
+            std::string buttonID;
+            switch (_currentGameMode) {
+                case GameMode::MATCH_TEXT:
+                    isCurrentColor = _AVAILABLE_COLORS_TEXT.at(i) == _randomColorsText.at(_indexOfCurrentColor);
+                    buttonID = "##" + _AVAILABLE_COLORS_TEXT.at(i);
+                    ImGui::PushStyleColor(ImGuiCol_Button, _AVAILABLE_COLORS_IMVEC4.at(i)); // Normal state
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
+                                          _AVAILABLE_COLORS_IMVEC4.at(i)); // Hover state equals normal state
+                    break;
+                case GameMode::MATCH_IMVEC4:
+                    isCurrentColor = commons::ColorHelper::isEqual(_AVAILABLE_COLORS_IMVEC4.at(i),
+                                                                   _randomColorsImVec4.at(_indexOfCurrentColor));
+                    buttonID = _AVAILABLE_COLORS_TEXT.at(i);
+                    ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::VERY_LIGHT_GRAY); // Normal state
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
+                                          commons::Colors::VERY_LIGHT_GRAY); // Hover state equals normal state
+                    break;
+            }
+
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, // show whether click was correct via quick color change
                                   isCurrentColor ? commons::ColorTheme::SUCCESS_COLOR
                                                  : commons::ColorTheme::ERROR_COLOR);
-
-            std::string buttonID = "##" + _AVAILABLE_COLORS_TEXT.at(i);
-            if (ImGui::Button(buttonID.c_str(), ImVec2(70, 30))) {
+            
+            if (ImGui::Button(buttonID.c_str(), ImVec2(80, 40))) {
                 onClick(isCurrentColor);
             }
             ImGui::PopStyleColor(3);
@@ -142,14 +169,15 @@ namespace games {
 
     void ColorMatch::onClick(bool isCurrentColor) {
         if (isCurrentColor) {
+            // when incorrect button was clicked
             _indexOfCurrentColor++;
             _numberOfCorrectClicksInTotal++;
             _numberOfCorrectClicksSinceLastError++;
             _longestStreak = std::max(_numberOfCorrectClicksSinceLastError, _longestStreak);
         } else {
+            // when correct button was clicked
             _numberOfCorrectClicksSinceLastError = 0;
             _timer.reduceTime(5);
-            if (_timer.isExpiredNow()) { stop(); }
         }
     }
 
