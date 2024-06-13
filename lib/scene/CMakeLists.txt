@@ -19,6 +19,7 @@ set(CUSTOM_LIBS
         calc
         reaction
         color_match
+        sequence
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC

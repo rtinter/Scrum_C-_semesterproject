@@ -3,6 +3,7 @@
 #include "GameScene.hpp"
 #include "Reaction.hpp"
 #include "ColorMatch.hpp"
+#include "Sequence.hpp"
 
 using Tile = ui_elements::Tile;
 
@@ -43,6 +44,18 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::ColorMatch>>());
+                    }
+            )
+    );
+
+    kCategory1Tiles.push_back(
+            std::make_unique<Tile>(
+                    "Pictogram3",
+                    "Farbe & Text",
+                    "Beschreibung3",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<sequence::Sequence>>());
                     }
             )
     );
