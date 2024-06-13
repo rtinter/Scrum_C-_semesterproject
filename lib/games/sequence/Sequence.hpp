@@ -6,6 +6,10 @@
 namespace sequence {
 
     class Sequence : public Game {
+
+        std::string _endBoxString;
+        int _longestReproducedSequence;
+
     public:
         Sequence();
 

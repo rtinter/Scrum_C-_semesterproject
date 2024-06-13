@@ -23,7 +23,7 @@ namespace sequence {
     }
 
     void Sequence::render() {
-        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this]{
+        ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
         }).render();
 
@@ -51,11 +51,22 @@ namespace sequence {
     }
 
     void Sequence::renderGame() {
+        ui_elements::Window("Sequence Game").render(([this] {
+
+            ui_elements::Centered([this] {
+                ImGui::Text("Wiederhole die Reihenfolge!");
+                ImGui::NewLine();
+
+                //TODO Render buttons here
+            });
+        }));
 
     }
 
     void Sequence::start() {
-
+        reset();
+        _isGameRunning = true;
+        _showEndbox = false;
     }
 
     void Sequence::reset() {
@@ -63,7 +74,12 @@ namespace sequence {
     }
 
     void Sequence::stop() {
-
+        _endBoxString = "Du hast eine Abfolge von " + std::to_string(_longestReproducedSequence) +
+                        " Klicks richtig wiederholt!";
+        _endboxText = _endBoxString.c_str();
+        _isGameRunning = false;
+        _showEndbox = true;
+        _endboxTitle = "Falsch geklickt!";
     }
 
     void Sequence::updateStatistics() {
