@@ -154,4 +154,8 @@ namespace reaction {
         return _windowColor.x == commons::Colors::GREEN.x && _windowColor.y == commons::Colors::GREEN.y
                && _windowColor.z == commons::Colors::GREEN.z && _windowColor.w == commons::Colors::GREEN.w;
     }
+
+    std::string Reaction::getName() const {
+        return Game::getName();
+    }
 } // reaction

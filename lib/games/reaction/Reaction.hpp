@@ -44,7 +44,7 @@ namespace reaction {
 
         void updateStatistics() override;
 
-        std::string getName() const ;
+        std::string getName() const override ;
     };
 
 } // reaction
