@@ -482,8 +482,8 @@ bool LetterSalad::placeWord(std::string word) {
     // get random orientation // 1 = horizontal, 2 = vertical, 3 = diagonal
     Orientation orientation{randomInt(1, 3)};
 
-    int height{static_cast<int>(_gameField.size())};
-    int width{static_cast<int>(_gameField[0].size())};
+    int height{20};
+    int width{20};
 
     bool placed{false};
     int tries{0};
@@ -603,7 +603,6 @@ bool LetterSalad::placeWord(std::string word) {
 }
 LetterSalad::LetterSalad()
     : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
-
 }
 
 } // namespace game
