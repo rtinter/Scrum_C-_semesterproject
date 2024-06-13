@@ -13,6 +13,8 @@
 #include <sstream>
 #include <iomanip>
 #include "fireDepartmentAndPoliceTexts.h"
+#include "GameSessionManager.hpp"
+
 
 namespace typeracer {
     TypeRacer::TypeRacer() : abstract_game::Game(abstract_game::GameID::TYPERACER) {
@@ -70,20 +72,23 @@ namespace typeracer {
                 }).render();
 
         ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ui_elements::Centered([this]() {
+            ui_elements::Centered(true, true,[this]() {
                 ImGui::PushFont(commons::Fonts::_header2);
                 ui_elements::TextCentered(std::move(_endboxTitle));
                 ImGui::PopFont();
                 ui_elements::TextCentered(std::move(_endboxText));
-
+                ImGui::BeginGroup();
+                if (ImGui::Button("Zurück zur Startseite")) {
+                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
+                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
+                }
+                ImGui::SameLine();
                 if (ImGui::Button("Versuch es nochmal")) {
                     reset();
                     _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
                 }
+                ImGui::EndGroup();
 
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
             });
         });
 
@@ -96,8 +101,8 @@ namespace typeracer {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Type Racer").render([this]() {
             std::set<int> mistypedIndices;
-            std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
-            //std::string sentence = "Dies ist ein Test.";
+            //std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            std::string sentence = "Dies ist ein Test.";
             float windowWidth = ImGui::GetWindowWidth();
             float textWidth = ImGui::CalcTextSize(sentence.c_str()).x;
 
@@ -142,13 +147,12 @@ namespace typeracer {
 
             // Render the _input field beneath the sentence
             ImGui::NewLine();
-            ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
-            ImGui::PushItemWidth(textWidth);
+            ImGui::SetCursorPosX((windowWidth - textWidth) / 3);
+            ImGui::PushItemWidth(windowWidth / 2);
             ImGui::PushFont(commons::Fonts::_header2);
             ImGui::InputText("##hidden_label", _input, IM_ARRAYSIZE(_input));
             ImGui::PopFont();
             ImGui::PopItemWidth();
-            ImGui::SetKeyboardFocusHere(-1);
 
             ImGui::SameLine();
             // Display WPM
