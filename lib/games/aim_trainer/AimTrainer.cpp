@@ -47,6 +47,7 @@ void games::AimTrainer::updateBlobs(){
                     }), _currentBlobs.end());
 
     _missedCounter += missed;
+
     // decrease blob size
     for(auto &blob : _currentBlobs){
         blob.decrease((1.0/(200)));
