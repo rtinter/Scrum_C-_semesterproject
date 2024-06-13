@@ -37,7 +37,7 @@ void games::AimTrainer::updateBlobs(){
             std::remove_if(
                     _currentBlobs.begin(),
                     _currentBlobs.end(),
-                    [this, &missed](aim_trainer::Blob &b){
+                    [&missed](aim_trainer::Blob &b){
 
                         bool dispose = b.canBeDisposed();
                         if(dispose)
