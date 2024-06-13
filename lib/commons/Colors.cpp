@@ -3,6 +3,7 @@
 namespace commons {
     ImVec4 const Colors::NONE = {0, 0, 0, 0};
     ImVec4 const Colors::LIGHT_GRAY = {0.92, 0.92, 0.92, 1};
+    ImVec4 const Colors::VERY_LIGHT_GRAY = {0.97, 0.97, 0.97, 1};
     ImVec4 const Colors::DARK_GRAY = {0.22, 0.22, 0.22, 1};
     ImVec4 const Colors::INDIGO = {0.27, 0.27, 0.78, 1};
     ImVec4 const Colors::SEAFOAM = {0.15, 0.65, 0.67, 1};
