@@ -16,7 +16,7 @@
 #include "Timer.hpp"
 
 namespace games {
-class AimTrainer : Game{
+class AimTrainer : abstract_game::Game{
 private:
     std::future<void> _backgroundBlobTask;
     std::future<void> _spawnBlobTask;

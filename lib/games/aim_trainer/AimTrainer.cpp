@@ -54,7 +54,7 @@ void games::AimTrainer::updateBlobs(){
 }
 
 void games::AimTrainer::render() {
-    ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+    ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
         start();
     }).render();
 
@@ -175,7 +175,7 @@ std::string games::AimTrainer::getName() const {
     return "AimTrainer";
 }
 
-games::AimTrainer::AimTrainer() {
+games::AimTrainer::AimTrainer() : Game(abstract_game::GameID::AIM_TRAINER) {
     _gameName = "Aim Trainer";
     _gameDescription = "Ziel treffen";
     _gameRules = "Das ist nicht so kompliziert";
