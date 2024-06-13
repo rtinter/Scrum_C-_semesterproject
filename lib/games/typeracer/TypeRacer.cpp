@@ -77,7 +77,6 @@ namespace typeracer {
                 ui_elements::TextCentered(std::move(_endboxText));
 
                 if (ImGui::Button("Versuch es nochmal")) {
-                    // Abspeichern von stuff
                     reset();
                     _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
                 }
@@ -99,12 +98,20 @@ namespace typeracer {
             std::set<int> mistypedIndices;
             std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
             //std::string sentence = "Dies ist ein Test.";
+            float windowWidth = ImGui::GetWindowWidth();
+            float textWidth = ImGui::CalcTextSize(sentence.c_str()).x;
+
+            ImGui::NewLine();
+            ImGui::NewLine();
+            ImGui::NewLine();
+            ImGui::NewLine();
 
             // Start time when typing begins
             if (!_runTimer && strlen(_input) > 0) {
                 _startPoint = std::chrono::steady_clock::now();
                 _runTimer = true;
             }
+            ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
             // Render the sentence with character matching
             for (int i{0}; i < sentence.size(); ++i) {
                 if (i < strlen(_input) && _input[i] == sentence[i]) {
@@ -116,23 +123,36 @@ namespace typeracer {
                 } else {
                     ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_Text)); // Default
                 }
+
                 ImGui::PushFont(commons::Fonts::_header2);
                 ImGui::TextUnformatted(std::string(1, sentence[i]).c_str());
                 ImGui::PopFont();
                 ImGui::PopStyleColor();
 
                 if (sentence[i] == '.') {
+                    ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
                     ImGui::NewLine();
+                    ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
                     i++;
                 }
                 ImGui::SameLine(0.0f, 0.0f);
+
 
             }
 
             // Render the _input field beneath the sentence
             ImGui::NewLine();
+            ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+            ImGui::PushItemWidth(textWidth);
+            ImGui::PushFont(commons::Fonts::_header2);
             ImGui::InputText("##hidden_label", _input, IM_ARRAYSIZE(_input));
+            ImGui::PopFont();
+            ImGui::PopItemWidth();
             ImGui::SetKeyboardFocusHere(-1);
+
+            ImGui::SameLine();
+            // Display WPM
+            ImGui::Text("%.2f wpm", _wpm);
 
             // Calculate WPM in real-time
             if (_runTimer && strlen(_input) > 0) {
@@ -159,10 +179,6 @@ namespace typeracer {
                     _wpmHistory.emplace_back(_wpm);
                 }
             }
-            _mistakes = mistypedIndices.size();
-            ImGui::Text("Fehler: %d", _mistakes);
-            // Display WPM
-            ImGui::Text("Wörter pro Minute (WPM): %.2f", _wpm);
         });
         ImGui::PopStyleColor();
     }
