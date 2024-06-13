@@ -8,6 +8,7 @@ namespace scene {
     ResultsScene::ResultsScene() : _header("Meine Werte", "Home", [](){
         SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
     }){
+        //Testdaten -> Hier Spieldaten einbinden!
         std::map<int, std::vector<std::string>> map;
         std::vector<std::string> stringvector {"Test", "Daten", "Für", "Tabelle"};
         std::vector<std::string> stringvectordata {"Heute", "Tom", "300 pkt", "win"};
