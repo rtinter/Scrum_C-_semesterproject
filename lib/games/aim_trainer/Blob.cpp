@@ -6,9 +6,9 @@
 
 
 aim_trainer::Blob::Blob(float x, float y, float z) : GameObject(x, y, z){
-    float r = rand() % 255 + 1;
-    float g = rand() % 255 + 1;
-    float b = rand() % 255 + 1;
+    float r { static_cast<float>(rand() % 255 + 1) };
+    float g { static_cast<float>(rand() % 255 + 1) };
+    float b { static_cast<float>(rand() % 255 + 1) };
 
     this->_color = {r, g, b, 255};
 }
@@ -18,6 +18,6 @@ void aim_trainer::Blob::decrease(float percentage) {
 }
 
 void aim_trainer::Blob::render() const {
-    auto *drawList = ImGui::GetWindowDrawList();
+    auto *drawList {ImGui::GetWindowDrawList()};
     drawList->AddCircleFilled(this->getCoords(), _radius, IM_COL32(_color.x, _color.y, _color.z, 255));
 }
