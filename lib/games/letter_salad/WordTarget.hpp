@@ -15,7 +15,7 @@ class WordTarget {
   bool *isFound() const;
   void setFound() const;
   explicit WordTarget(std::string const &word);
-  bool operator<(const WordTarget &rhs) const;
+  bool operator<(WordTarget const &rhs) const;
 };
 
 #endif //ATHENA_LIB_GAMES_LETTER_SALAD_WORDTARGET_HPP_

@@ -15,7 +15,7 @@ WordTarget::WordTarget(const std::string &word) {
  * @param rhs
  * @return
  */
-bool WordTarget::operator<(const WordTarget &rhs) const {
+bool WordTarget::operator<(WordTarget const &rhs) const {
     const size_t lhsLength{_word.length()};
     const size_t rhsLength{rhs._word.length()};
 
