@@ -18,7 +18,7 @@ set(CUSTOM_LIBS
         views
         calc
         reaction
-        colortext
+        color_match
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC

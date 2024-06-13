@@ -17,7 +17,7 @@ namespace views {
         std::string _rightButtonText;
         std::function<void()> _buttonClickCallback;
 
-        static constexpr float HEADER_HEIGHT = 100.0f;
+        static constexpr float HEADER_HEIGHT = 50.0f;
         static constexpr float SIDE_MARGIN = 30.0f;
         static constexpr float TOP_MARGIN = 10.0f;
 
@@ -25,7 +25,7 @@ namespace views {
         // Konstruktor
         Header(std::string const &left, std::string const &right, std::function<void()> const &callback);
 
-        // Render-Methode
-        void render();
-    };
+    // Render-Methode
+    void render();
+};
 }

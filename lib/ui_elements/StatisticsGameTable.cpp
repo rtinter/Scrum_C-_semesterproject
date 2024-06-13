@@ -7,8 +7,9 @@
 #include <unordered_map>
 
 namespace ui_elements {
-    StatisticsGameTable::StatisticsGameTable( std::map<int, //Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
-        std::vector<std::string> > input) {
+    StatisticsGameTable::StatisticsGameTable(
+            std::map<int, //Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
+                    std::vector<std::string> > input) {
         _input = input;
         if (input.empty()) {
             _column_size = 0;
@@ -16,6 +17,8 @@ namespace ui_elements {
             _column_size = _input.begin()->second.size();
         }
     }
+
+
 
     std::string timePointToString(const std::chrono::system_clock::time_point &tp) {
         std::time_t t = std::chrono::system_clock::to_time_t(tp);
@@ -41,16 +44,15 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::createTableHead() const {
-        ImGui::PushFont(commons::Fonts::_header2);
+
+        ImGui::PushFont(commons::Fonts::_header3);
         // Kopfzeile
-        ImGui::StyleColorsClassic();
         for (auto &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
         }
         ImGui::TableHeadersRow();
         ImGui::PopFont();
-        //TextColor
-        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
+
     }
 
     void StatisticsGameTable::createTableRows() const {
@@ -72,23 +74,26 @@ namespace ui_elements {
                 }
                 i++;
             }
-            ImGui::PopFont();
+           ImGui::PopFont();
         }
     }
 
     void StatisticsGameTable::createTable() const {
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
+
+            ImGui::PushStyleColor(ImGuiCol_TableHeaderBg, commons::Colors::SEAFOAM);
             createTableHead();
 
+            //TextColor
+            ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
             createTableRows();
             ImGui::PopStyleColor(2);
             ImGui::EndTable();
         }
     }
 
-    void StatisticsGameTable::render() const {
-        ui_elements::Window("Dashboard").render([this]() {
+    void StatisticsGameTable::render() {
             //backgroundColor
             ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::LIGHT_GRAY);
             if (_input.empty()) {
@@ -97,6 +102,6 @@ namespace ui_elements {
             } else {
                 createTable();
             }
-        });
+            ImGui::PopStyleColor();
     }
 }
