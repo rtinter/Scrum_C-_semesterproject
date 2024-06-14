@@ -119,6 +119,8 @@ namespace sequence { //TODO change namespace to game
 
 
         for (int i{1}; i <= _NUMBER_OF_BUTTONS; i++) {
+            int buttonID {i - 1};
+
             if ((i - 1) % 3) {
                 ImGui::SameLine();
             } else {
@@ -127,31 +129,58 @@ namespace sequence { //TODO change namespace to game
             switch (_currentGameMode) {
                 case GameMode::WATCH:
 
-                    checkLitUpExpired(_buttonStatess[i - 1]);       //check, if Button is currently already lit up and then should be turned off
-                    if (_buttonStatess[i - 1]) {        //button is supposed to light up -> light button up by pushing accentColor
-                        std::cout << "Light up this shit " << i - 1 << std::endl;
+                    checkLitUpExpired(_buttonStatess[buttonID]);       //check, if Button is currently already lit up and then should be turned off
+                    if (_buttonStatess[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
+                        std::cout << "Light up this shit " << buttonID << std::endl;
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
+                        ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
+                        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::ACCENT_COLOR);
                     } else {                            //button is not supposed to light up -> normal render color
-                        ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::SEAFOAM);
+                        ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
+                        ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::PRIMARY_COLOR);
+                        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::PRIMARY_COLOR);
                     }
 
-                    if (ImGui::Button(std::to_string(i - 1).c_str(), ImVec2(200, 200))) {
-                        std::cout << "Clicked Button " << i - 1 << " - not supposed to have any effect." << std::endl;
+                    if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
+                        std::cout << "Clicked Button " << buttonID << " - not supposed to have any effect." << std::endl;
                     }
+
+                    ImGui::PopStyleColor(); //one times extra because of Hovered color
+
                     break;
                 case GameMode::REPEAT:
+
+                    ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
+
+                    if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
+                        std::cout << "Clicked Button " << buttonID << " - will still get effect." << std::endl;
+
+                        isClickedInCorrectOrder(buttonID);
+                    }
+
                     //do sth
                     break;
 
             }
 
-            ImGui::PopStyleColor();
+            ImGui::PopStyleColor(2);
         }
 
     }
 
-    void Sequence::isClickedInCorrectOrder() {
+    void Sequence::isClickedInCorrectOrder(int const &buttonID) {
 
+        if (buttonID == _buttonsClickedSequence[_sequenceButtonIterator]) {     //if clicked button is the right button to be clicked in sequence
+            _correctClicksOfCurrentSequence++;
+            if (_correctClicksOfCurrentSequence == _levelCounter) {
+                //go to next level and switch back to watch gamemode
+                nextLevel();
+                switchGameMode();
+            }
+        } else {
+            stop();     //wrong button clicked -> GAMEOVER!
+        }
 
     }
 
@@ -211,10 +240,16 @@ namespace sequence { //TODO change namespace to game
         switch (_currentGameMode) {
             case GameMode::WATCH:
                 _currentGameMode = GameMode::REPEAT;
+
+                _correctClicksOfCurrentSequence = 0; //reset correctClicksCount for the new round
+                _sequenceButtonIterator = 0;
                 break;
 
             case GameMode::REPEAT:
                 _currentGameMode = GameMode::WATCH;
+
+                _isLastButtonOfSequence = false; //reset sequence show endtime checker variable
+                _sequenceButtonIterator = 0;
                 break;
         }
     }
