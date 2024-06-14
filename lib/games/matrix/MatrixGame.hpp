@@ -9,12 +9,18 @@
 namespace games {
 
     class MatrixGame : public abstract_game::Game {
-        ui_elements::Timer _timer{"Matrix Game", 60};
-        int _numberOfCorrectClicksInTotal;
+        ui_elements::Timer _timer{"Matrix Game", 10};
+        int _nCorrectClicksInTotal;
         int _longestStreak;
+        int _nColoredCellsMin;
+        int _nColoredCellsMax;
         Matrix _mainMatrix;
         std::array<Matrix, 2> _allMirroredVersions;
         std::array<Matrix, 3> _allRotatedVersions;
+        std::array<Matrix, 3> _matricesToChooseFrom;
+        bool _isClicked;
+
+        void checkForCorrectClick();
 
     public:
         MatrixGame();

@@ -1,16 +1,20 @@
 #include "Matrix.hpp"
 #include <array>
+#include <iostream>
 #include "imgui.h"
 #include "Colors.hpp"
 #include "Fonts.hpp"
 #include "RandomPicker.hpp"
 #include "imgui_internal.h"
 
+bool Matrix::_isClicked = false;
+
 /**************************************
  * init() fills the matrix with values
  * @param nColoredCells
  **************************************/
 void Matrix::init(int nColoredCells) {
+    _isClicked = false;
     // check if nColoredCells is within a reasonable range
     if (nColoredCells < _SIZE || nColoredCells > _SIZE * _SIZE / 2) {
         throw std::invalid_argument("nColoredCells has to be between [_SIZE] and [_SIZE * _SIZE / 2]");
@@ -23,15 +27,23 @@ void Matrix::init(int nColoredCells) {
     }
 
     // color some cells
-    for (int i{0}; i < nColoredCells; ++i) {
+    for (int n{0}; n < nColoredCells; ++n) {
         bool isFilled{false};
         while (!isFilled) {
             int x{commons::RandomPicker::randomInt(0, _SIZE - 1)};
             int y{commons::RandomPicker::randomInt(0, _SIZE - 1)};
             if (_data[x][y] == 0) { // only add number < 1 when not already filled
-                // the numbers from 100 to 103 represent different Strings ("0" or "1") in different color shades
-                _data[x][y] = commons::RandomPicker::randomInt(100, 103);
+                // the numbers from 100 to 103 represent different color shades
+                if (n % 2 == 0) {
+                    //  10, 20, 30, 40 represent "0" in different color shades
+                    _data[x][y] = commons::RandomPicker::pickRandomElement(std::vector<int>{10, 20, 30, 40});
+                } else {
+                    //  11, 21, 31, 41 represent "1" in different color shades
+                    _data[x][y] = commons::RandomPicker::pickRandomElement(std::vector<int>{11, 21, 31, 41});
+
+                }
                 isFilled = true;
+
             }
         }
     }
@@ -62,39 +74,37 @@ void Matrix::render(float cellSize) {
     style.FrameRounding = 0.f;
 
     // create a button for each matrix cell
+    ImGui::BeginGroup();
     for (int i{0}; i < _SIZE; ++i) {
         for (int j{0}; j < _SIZE; ++j) {
             ImGui::PushID(i * _SIZE + j); // ensure unique ID
             ImVec4 buttonColor{commons::Colors::BLACK};
             ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonColor);
+            //ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);
+            //ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonColor);
             if (0 == _data[i][j]) { // 0 represents 'empty' cell
-                if (ImGui::Button("", ImVec2(cellSize, cellSize))) {
+                if (ImGui::Button("", ImVec2(cellSize, cellSize))) { ;
                     _isClicked = true;
                 }
             } else {
                 char const *buttonText;
-                ImVec4 textColor;
-                switch (_data[i][j]) {
-                    // the numbers from 100 to 103 represent different Strings ("0" or "1") in different color shades
-                    case 100:
-                        textColor = commons::Colors::BRIGHT_GREEN;
-                        buttonText = "0";
-                        break;
-                    case 101:
-                        textColor = commons::Colors::BRIGHT_GREEN1;
-                        buttonText = "1";
-                        break;
-                    case 102:
-                        textColor = commons::Colors::BRIGHT_GREEN2;
-                        buttonText = "0";
-                        break;
-                    case 103:
-                    default:
-                        textColor = commons::Colors::BRIGHT_GREEN3;
-                        buttonText = "1";
+                if (_data[i][j] % 10 == 0) {
+                    buttonText = "0";
+                } else {
+                    buttonText = "1";
                 }
+
+                ImVec4 textColor;
+                if (_data[i][j] <= 11) {
+                    textColor = commons::Colors::BRIGHT_GREEN;
+                } else if (_data[i][j] <= 21) {
+                    textColor = commons::Colors::BRIGHT_GREEN1;
+                } else if (_data[i][j] <= 31) {
+                    textColor = commons::Colors::BRIGHT_GREEN2;
+                } else {
+                    textColor = commons::Colors::BRIGHT_GREEN3;
+                }
+
                 ImGui::PushStyleColor(ImGuiCol_Text, textColor);
                 if (ImGui::Button(buttonText, ImVec2(cellSize, cellSize))) {
                     _isClicked = true;
@@ -102,11 +112,12 @@ void Matrix::render(float cellSize) {
                 ImGui::PopStyleColor(); // pop ImGuiCol_text
             }
 
-            ImGui::PopStyleColor(3); // pop ImGuiCol_Button(Hovered/Active)
+            ImGui::PopStyleColor(1); // pop ImGuiCol_Button(Hovered/Active)
             ImGui::PopID();
             if (j < _SIZE - 1) ImGui::SameLine();
         }
     }
+    ImGui::EndGroup();
     // reset style settings
     style.ItemSpacing = oldItemSpacing;
     style.FrameRounding = oldFrameRounding;
@@ -153,5 +164,9 @@ Matrix Matrix::mirrorVertically() const {
         }
     }
     return mirroredMatrix;
+}
+
+int Matrix::getSize() {
+    return _SIZE;
 }
 

@@ -3,6 +3,8 @@
 #include "InfoBox.hpp"
 #include "Fonts.hpp"
 #include "TextCentered.hpp"
+#include "RandomPicker.hpp"
+#include "Centered.hpp"
 
 namespace games {
 
@@ -12,6 +14,8 @@ namespace games {
                 "Das Spiel 'Matrix' trainiert das räumliche Vorstellungsvermögen";
         _gameRules = "Finde in der unteren Zeile die gedrehte/gespiegelte Version der oberen Matrix";
         _gameControls = "Linke Maustaste: Klicke auf die richtige Matrix in der unteren Zeile";
+        _nColoredCellsMax = _mainMatrix.getSize() * _mainMatrix.getSize() / 2;
+        _nColoredCellsMin = _mainMatrix.getSize();
     }
 
     void MatrixGame::render() {
@@ -30,36 +34,39 @@ namespace games {
     }
 
     void MatrixGame::renderGame() {
-
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::BLACK);
         ui_elements::Window("Matrix Game").render([this] {
-            ImGuiStyle &style{ImGui::GetStyle()};
-            ImVec4 oldImGuiCol_WindowBg = style.Colors[ImGuiCol_WindowBg];
-            style.Colors[ImGuiCol_WindowBg] = commons::Colors::BLACK;
             _timer.render();
-            _mainMatrix.renderBig();
-            ImGui::NewLine();
-            ImGui::NewLine();
-            _allMirroredVersions[0].renderSmall();
-            ImGui::NewLine();
-            ImGui::NewLine();
+            _mainMatrix.renderBig(); // TODO: Positioning
+            ImGui::SameLine();
+            ui_elements::Centered(true, false, [this] {
+                ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::BRIGHT_GREEN);
+                ImGui::PushFont(commons::Fonts::_matrixFontBig);
+                //ImGui::Text("ROTierT?");
+                ImGui::Text("GesPiEgelT?");
+                ImGui::PopStyleColor(); // pop ImGuiCol_Text
+                ImGui::PopFont();
+                for (Matrix matrix: _allRotatedVersions) {
+                    matrix.renderSmall();
+                    ImGui::NewLine();
+                    ImGui::NewLine();
 
-
-            for (Matrix matrix: _allRotatedVersions) {
-                matrix.renderSmall();
-                ImGui::NewLine();
-                ImGui::NewLine();
+                }
+            });
+            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+                checkForCorrectClick();
             }
 
             if (_timer.isExpiredNow()) {
                 stop();
             }
-
         });
+        ImGui::PopStyleColor(); // pop ImGuiCol_WindowBg
     }
 
     void MatrixGame::stop() {
         _endBoxText =
-                "Richtige: " + std::to_string(_numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
+                "Richtige: " + std::to_string(_nCorrectClicksInTotal) + "\nLängster Streak: " +
                 std::to_string(_longestStreak);
         _isGameRunning = false;
         _showEndBox = true;
@@ -68,19 +75,33 @@ namespace games {
 
     void MatrixGame::start() {
         reset();
-        _mainMatrix.init(7);
-        _allMirroredVersions = _mainMatrix.getAllMirroredVersions();
-        _allRotatedVersions = _mainMatrix.getAllRotatedVersions();
         _isGameRunning = true;
         _showEndBox = false;
         _timer.start();
     }
 
     void MatrixGame::reset() {
-
+        int nColoredCells{commons::RandomPicker::randomInt(_nColoredCellsMin, _nColoredCellsMax)};
+        _mainMatrix.init(nColoredCells);
+        _matricesToChooseFrom[0].init(nColoredCells); // TODO: loop doesnt work
+        _matricesToChooseFrom[1].init(nColoredCells);
+        _matricesToChooseFrom[2].init(nColoredCells);
+        _allMirroredVersions = _mainMatrix.getAllMirroredVersions();
+        _allRotatedVersions = _mainMatrix.getAllRotatedVersions();
     }
 
     void MatrixGame::updateStatistics() {
+
+    }
+
+    void MatrixGame::checkForCorrectClick() {
+        for (int i{0}; i < 3; i++) {
+            if (_matricesToChooseFrom[i]._isClicked) {
+                std::cout << "Click";
+                reset();
+            }
+
+        }
 
     }
 } // games

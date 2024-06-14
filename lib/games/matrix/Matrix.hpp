@@ -20,8 +20,10 @@ class Matrix {
 
     void render(float cellSize);
 
+
 public:
-    bool _isClicked{false};
+
+    static bool _isClicked;
 
     void renderBig();
 
@@ -32,6 +34,9 @@ public:
     std::array<Matrix, 3> getAllRotatedVersions() const;
 
     void init(int nColoredCells);
+
+    int getSize();
+
 
 };
 
