@@ -11,6 +11,7 @@
 #include "TypeRacer.hpp"
 #include "MatrixGame.hpp"
 #include "RowsOfNumbers.hpp"
+#include "Calc.hpp"
 
 
 using Tile = ui_elements::Tile;
