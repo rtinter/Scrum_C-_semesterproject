@@ -17,13 +17,12 @@ const std::string App::TILE{"Human Benchmark"};
 const int App::FRAME_RATE{60};
 
 void App::start() {
-    sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
-    window.setFramerateLimit(App::FRAME_RATE);
-
-    // set sfml background color
+    sf::VideoMode videoMode(WINDOW_WIDTH, WINDOW_HEIGHT);
+    sf::RenderWindow window(videoMode, TILE, sf::Style::Close);
+    window.setFramerateLimit(FRAME_RATE);
 
     //init singleton and start Dashboard
-    scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
+    scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {

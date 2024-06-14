@@ -2,10 +2,7 @@
 
 #include <Centered.hpp>
 #include <ColorHelper.hpp>
-#include <Colors.hpp>
-
-#include "../commons/Fonts.hpp"
-#include "Window.hpp"
+#include <Fonts.hpp>
 #include <sstream>
 #include <TextCentered.hpp>
 
@@ -27,7 +24,13 @@ namespace ui_elements {
     // Setter-Methode für den Button-Text
     void Tile::setButtonText() {
         std::stringstream ss;
-        ss << _pictogram << "\n" << _gameName << "\n" << _description;
+        if (!_pictogram.empty()) {
+            ss << _pictogram << "\n";
+        }
+        ss << _gameName << "\n";
+        if (!_description.empty()) {
+            ss << "\n" << _description;
+        }
         _buttonText = ss.str();
     }
 
