@@ -26,6 +26,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         ImGui-SFML::ImGui-SFML
         sfml-graphics
         box2d
+        implot
 )
 
 if (WIN32)

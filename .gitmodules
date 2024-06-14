@@ -1,0 +1,3 @@
+[submodule "lib/implot"]
+	path = lib/implot
+	url = https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/implot

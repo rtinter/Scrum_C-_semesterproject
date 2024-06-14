@@ -8,7 +8,7 @@
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
-
+#include "implot.h"
 
 
 const int App::WINDOW_WIDTH{1920};
