@@ -3,7 +3,6 @@
 #include <Fonts.hpp>
 #include <sstream>
 #include <Window.hpp>
-#include <X11/Xproto.h>
 
 namespace ui_elements {
     // Konstruktor
