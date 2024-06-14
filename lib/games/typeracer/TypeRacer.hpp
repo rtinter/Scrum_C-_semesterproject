@@ -17,12 +17,12 @@ namespace typeracer {
     class TypeRacer : public abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
         std::chrono::steady_clock::time_point _startGameSession;
-        int _mistakes {0};
+        int _mistakes{0};
         std::chrono::steady_clock::time_point _startPoint;
-        bool _runTimer {false};
-        float _wpm {0.0f};
+        bool _runTimer{false};
+        float _wpm{0.0f};
         char _input[256];
-        int _randomIndex {0};
+        int _randomIndex{0};
         std::vector<float> _wpmHistory;
 
     public:
