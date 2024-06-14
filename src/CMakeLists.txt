@@ -16,6 +16,7 @@ set(GAME_LIBS
         calc
         reaction
         color_match
+        letter_salad
         remembering
 )
 

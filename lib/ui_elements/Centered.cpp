@@ -16,14 +16,11 @@ namespace ui_elements {
         ImGui::PopClipRect();
 
 
-        ImGui::SetCursorPos(inital);
-        ImGui::Dummy(contentSize);
-
-
         float hPAdding = (available.x - contentSize.x) / 2.0f;
         float vPAdding = (available.y - contentSize.y) / 2.0f;
 
 
+        ImGui::SetCursorPos(inital);
         if (horizontal) {
             ImGui::SetCursorPosX(inital.x + hPAdding);
         }
