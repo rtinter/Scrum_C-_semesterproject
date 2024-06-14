@@ -240,6 +240,9 @@ namespace games {
         reset();
         _isGameRunning = true;
         _showEndbox = false;
+        showText = true;
+        _timer.reset();
+        _timer.start();
     }
 
     void Remembering::stop() {
@@ -248,6 +251,8 @@ namespace games {
 
     void Remembering::reset() {
         selectedAnswers.assign(questions.size(), -1); // Zurücksetzen der ausgewählten Antworten
+        submitted = false;
+        score = 0;
         std::fill(_userTextBuffer.begin(), _userTextBuffer.end(), 0);
     }
 
