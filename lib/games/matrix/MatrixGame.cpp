@@ -39,11 +39,10 @@ namespace games {
             _mainMatrix.renderBig();
             ImGui::NewLine();
             ImGui::NewLine();
-            for (Matrix matrix: _allMirroredVersions) {
-                matrix.renderSmall();
-                ImGui::NewLine();
-                ImGui::NewLine();
-            }
+            _allMirroredVersions[0].renderSmall();
+            ImGui::NewLine();
+            ImGui::NewLine();
+
 
             for (Matrix matrix: _allRotatedVersions) {
                 matrix.renderSmall();

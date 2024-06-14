@@ -4,6 +4,7 @@
 #include "Colors.hpp"
 #include "Fonts.hpp"
 #include "RandomPicker.hpp"
+#include "imgui_internal.h"
 
 /**************************************
  * init() fills the matrix with values
@@ -64,32 +65,44 @@ void Matrix::render(float cellSize) {
     for (int i{0}; i < _SIZE; ++i) {
         for (int j{0}; j < _SIZE; ++j) {
             ImGui::PushID(i * _SIZE + j); // ensure unique ID
-            ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::BLACK);
+            ImVec4 buttonColor{commons::Colors::BLACK};
+            ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonColor);
             if (0 == _data[i][j]) { // 0 represents 'empty' cell
-                ImGui::Button("##btn", ImVec2(cellSize, cellSize));
+                if (ImGui::Button("", ImVec2(cellSize, cellSize))) {
+                    _isClicked = true;
+                }
             } else {
+                char const *buttonText;
+                ImVec4 textColor;
                 switch (_data[i][j]) {
                     // the numbers from 100 to 103 represent different Strings ("0" or "1") in different color shades
                     case 100:
-                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::BRIGHT_GREEN);
-                        ImGui::Button("0##btn", ImVec2(cellSize, cellSize));
+                        textColor = commons::Colors::BRIGHT_GREEN;
+                        buttonText = "0";
                         break;
                     case 101:
-                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::BRIGHT_GREEN1);
-                        ImGui::Button("1##btn", ImVec2(cellSize, cellSize));
+                        textColor = commons::Colors::BRIGHT_GREEN1;
+                        buttonText = "1";
                         break;
                     case 102:
-                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::BRIGHT_GREEN2);
-                        ImGui::Button("0##btn", ImVec2(cellSize, cellSize));
+                        textColor = commons::Colors::BRIGHT_GREEN2;
+                        buttonText = "0";
                         break;
                     case 103:
                     default:
-                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::BRIGHT_GREEN3);
-                        ImGui::Button("1##btn", ImVec2(cellSize, cellSize));
+                        textColor = commons::Colors::BRIGHT_GREEN3;
+                        buttonText = "1";
+                }
+                ImGui::PushStyleColor(ImGuiCol_Text, textColor);
+                if (ImGui::Button(buttonText, ImVec2(cellSize, cellSize))) {
+                    _isClicked = true;
                 }
                 ImGui::PopStyleColor(); // pop ImGuiCol_text
             }
-            ImGui::PopStyleColor(); // pop ImGuiCol_Button
+
+            ImGui::PopStyleColor(3); // pop ImGuiCol_Button(Hovered/Active)
             ImGui::PopID();
             if (j < _SIZE - 1) ImGui::SameLine();
         }
