@@ -16,6 +16,7 @@
 #include "Overlay.hpp"
 #include "SceneManager.hpp"
 #include "RandomPicker.hpp"
+#include "SoundManager.hpp"
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
@@ -303,8 +304,15 @@ namespace game {
         } else {
             for (auto &lineE : _currentLine) {
                 LetterSalad::finalize(lineE);
-                _activeWordList.find(WordTarget{_selectedWord})->setFound();
             }
+            auto foundWord{_activeWordList.find(WordTarget{_selectedWord})};
+
+
+            if (!(*foundWord->isFound())) {
+                foundWord->setFound();
+                commons::SoundManager::playSound(commons::Sound::CORRECT);
+            }
+
             bool allWordsFound{true};
 
             // and check, if the game has ended
