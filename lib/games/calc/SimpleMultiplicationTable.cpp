@@ -37,6 +37,7 @@ void SimpleMultiplicationTable::generateTask() {
 
 void SimpleMultiplicationTable::render() {
     if (_running) {
+
         ImGui::Text("What is %d * %d?", _leftOperand, _rightOperand);
 
         static char input[128] = "";

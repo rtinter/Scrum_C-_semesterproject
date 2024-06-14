@@ -21,14 +21,14 @@ namespace games {
         _gameRules = "Es werden Rechenaufgaben angezeigt, die im Kopf gelöst werden müssen.\n"
                      "Die Schwierigkeit erhöht sich mit jeder Runde.";
         _gameControls = "Eingabefeld: Ergebnis der Rechenaufgabe eingeben und bestätigen.";
+        _endScreenTitle = "Spiel beendet";
+        _endScreenStatisticText = "";
     }
 
     void Calc::start() {
         _completedLevels = 0;
         _showEndbox = false;
-        _elapsedTimeSet = false;
-        _endScreenTitle = "Spiel beendet";
-        _endScreenStatisticText = "";
+        _endTime.reset();
         _startTime = std::chrono::steady_clock::now();
         nextLevel();
     }
@@ -54,20 +54,22 @@ namespace games {
 
         if (!_currentLevel->isRunning()) {
             if (!_currentLevel->wasSuccessfullyCompleted()) {
-                if (!_elapsedTimeSet) {
+                if (!_endTime.has_value()) {
                     _endTime = std::chrono::steady_clock::now();
                     calculateEndScreenText();
-                    _elapsedTimeSet = true;
                 }
-                showEndScreen();
-                return;
+                _showEndbox = true;
+            } else {
+                _completedLevels++;
+                nextLevel();
             }
-
-            _completedLevels++;
-            nextLevel();
         }
 
-        renderGame();
+        if (_showEndbox) {
+            showEndScreen();
+        } else {
+            renderGame();
+        }
     }
 
     void Calc::showEndScreen() {
@@ -97,12 +99,17 @@ namespace games {
     }
 
     void Calc::calculateEndScreenText() {
-        _elapsedTimeCalculated = getElapsedTimeInMinutes();
-        double levelsPerMinute = std::round(_completedLevels / _elapsedTimeCalculated);
+        _elapsedTimeCalculated = getElapsedTimeInSeconds();
 
         std::ostringstream endScreenTextStream;
-        endScreenTextStream << "Richtig gelößte Aufgaben: " << _completedLevels << "\n";
-        endScreenTextStream << "Durchschnitt gelößte Aufgaben pro Minute: " << levelsPerMinute;
+        endScreenTextStream << "Richtig gelöste Aufgaben: " << _completedLevels << "\n";
+
+        if (_completedLevels > 0) {
+            double averageTimePerTask = _elapsedTimeCalculated / _completedLevels;
+            endScreenTextStream << "Durchschnittlich benötigte Zeit pro Aufgabe: " << std::round(averageTimePerTask) << " Sekunden";
+        } else {
+            endScreenTextStream << "Keine Aufgaben erfolgreich gelöst.";
+        }
 
         _endScreenStatisticText = endScreenTextStream.str();
     }
@@ -116,8 +123,19 @@ namespace games {
     void Calc::stop() {}
 
     double Calc::getElapsedTimeInMinutes() const {
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(_endTime - _startTime);
+        if (!_endTime.has_value()) {
+            return 0.0;
+        }
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime);
         return duration.count() / 60.0;
+    }
+
+    double Calc::getElapsedTimeInSeconds() const {
+        if (!_endTime.has_value()) {
+            return 0.0;
+        }
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime);
+        return static_cast<double>(duration.count());
     }
 
     void Calc::updateStatistics() {
