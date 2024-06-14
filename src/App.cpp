@@ -7,17 +7,16 @@
 #include <SceneManager.hpp>
 #include <stack>
 #include <StyleManager.hpp>
+#include <SoundManager.hpp>
+#include <Sound.hpp>
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
-
-
 
 const int App::WINDOW_WIDTH{1920};
 const int App::WINDOW_HEIGHT{1080};
 const std::string App::TILE{"Human Benchmark"};
 const int App::FRAME_RATE{60};
-
 
 void App::start() {
     sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
@@ -32,7 +31,10 @@ void App::start() {
         return;
     }
 
-    //load the styleManager to adjust Colors etc.
+    // load the sounds
+    commons::SoundManager::loadSounds();
+
+    // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();
     sf::Clock deltaClock;
 
