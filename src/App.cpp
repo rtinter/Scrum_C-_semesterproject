@@ -1,12 +1,8 @@
-#pragma once
-
 #include "App.hpp"
-
 #include <imgui-SFML.h>
 #include <SceneManager.hpp>
 #include <StyleManager.hpp>
 #include <SoundManager.hpp>
-#include <Sound.hpp>
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
@@ -35,7 +31,6 @@ void App::start() {
     commons::SoundManager::loadSounds();
 #endif
 
-    commons::SoundManager::playSound(commons::Sound::LASER_GUN);
 
     // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();
