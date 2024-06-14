@@ -111,13 +111,13 @@ namespace games {
         _elapsedTimeCalculated = getElapsedTimeInSeconds();
 
         std::ostringstream endScreenTextStream;
-        endScreenTextStream << "Richtig gelöste Aufgaben: " << _completedLevels;
+        endScreenTextStream << "Du hast insgesamt " << _completedLevels << " Aufgaben erfolgreich gelößt.";
         _endScreenStatisticText = endScreenTextStream.str();
 
         if (_completedLevels > 0) {
             double averageTimePerTask = _elapsedTimeCalculated / _completedLevels;
             std::ostringstream averageTimeStream;
-            averageTimeStream << "Durchschnittlich benötigte Zeit pro Aufgabe: " << std::round(averageTimePerTask) << " Sekunden";
+            averageTimeStream << "Durchschnittlich hast du " << std::round(averageTimePerTask) << " Sekunden für eine Aufgabe gebraucht.";
             _averageTimeText = averageTimeStream.str();
         } else {
             _averageTimeText = "Keine Aufgaben erfolgreich gelöst.";
