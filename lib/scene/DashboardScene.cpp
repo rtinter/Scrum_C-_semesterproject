@@ -22,44 +22,35 @@ scene::DashboardScene::DashboardScene() {
     _dashboard = std::make_unique<views::Dashboard>();
 
     // initialize Categories
-    std::vector<UniqueTile> kCategory1Tiles = {};
-    std::vector<UniqueTile> kCategory2Tiles = {};
-    std::vector<UniqueTile> kCategory3Tiles = {};
+    std::vector<UniqueTile> reactionCategory = {};
+    std::vector<UniqueTile> accuracyCategory = {};
+    std::vector<UniqueTile> problemSolvingCategory = {};
 
-
-    // CREATE Reaktionsspiel in Category 1
-    kCategory1Tiles.push_back(
+    // Kategorie: Reaktion
+    reactionCategory.push_back(
             std::make_unique<Tile>(
-                    "Pictogram1",
                     "Reaktionsspiel",
-                    "Beschreibung1",
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<reaction::Reaction>>()
+                                std::make_unique<GameScene<reaction::Reaction> >()
                         );
                     }
             )
     );
 
-    // CREATE Color Match in Category 1
-    kCategory1Tiles.push_back(
+    reactionCategory.push_back(
             std::make_unique<Tile>(
-                    "Pictogram2",
                     "Farbe & Text",
-                    "Beschreibung2",
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::ColorMatch>>());
+                                std::make_unique<GameScene<games::ColorMatch> >());
                     }
             )
     );
 
-    // CREATE Dummy in Category 2
-    kCategory1Tiles.push_back(
+    reactionCategory.push_back(
             std::make_unique<Tile>(
-                    "Pictogram3",
                     "Aim Trainer",
-                    "Aim Trainer Beschreibung",
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::AimTrainer>>());
@@ -67,12 +58,10 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    // CREATE Color Match in Category 1
-    kCategory1Tiles.push_back(
+    // Kategorie: Genauigkeit
+    accuracyCategory.push_back(
             std::make_unique<Tile>(
-                    "Pictogram3",
                     "Type Racer",
-                    "Schnelles Tippen",
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<typeracer::TypeRacer>>()
@@ -81,24 +70,10 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    // CREATE Dummy in Category 2
-    kCategory2Tiles.push_back(
+    // Kategorie: Problemlösung
+    problemSolvingCategory.push_back(
             std::make_unique<Tile>(
-                    "Pictogram",
-                    "Fakten Merken",
-                    "Merke dir so viele Fakten\nwie möglich",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Remembering>>()
-                        );
-                    }
-            )
-    );
-
-    // CREATE LetterSalad in Category 3
-    kCategory3Tiles.push_back(
-            std::make_unique<Tile>(
-                    "Pictogram",
+                    "",
                     "Buchstabensalat",
                     "Finde alle Wörter\nin vorgegebener Zeit",
                     []() {
@@ -109,9 +84,12 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    _dashboard->addTilesToCategory("Kategorie 1", kCategory1Tiles);
-    _dashboard->addTilesToCategory("Kategorie 2", kCategory2Tiles);
-    _dashboard->addTilesToCategory("Kategorie 3", kCategory3Tiles);
+    /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
+     * hier festgelegt.
+    */
+    _dashboard->addTilesToCategory("Problemlösung", problemSolvingCategory);
+    _dashboard->addTilesToCategory("Genauigkeit", accuracyCategory);
+    _dashboard->addTilesToCategory("Reaktion", reactionCategory);
 }
 
 void scene::DashboardScene::render() {
