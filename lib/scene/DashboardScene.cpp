@@ -84,9 +84,9 @@ scene::DashboardScene::DashboardScene() {
     // CREATE Dummy in Category 2
     kCategory2Tiles.push_back(
             std::make_unique<Tile>(
-                    "Pictogram3",
-                    "Dummy",
-                    "Dummy Beschreibung",
+                    "Pictogram",
+                    "Fakten Merken",
+                    "Merke dir so viele Fakten\nwie möglich",
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::Remembering>>()
