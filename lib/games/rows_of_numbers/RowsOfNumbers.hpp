@@ -5,12 +5,20 @@
 #include <imgui.h>
 #include <Colors.hpp>
 #include <WordTarget.hpp>
+#include "Sequence.hpp"
 
 namespace game {
 
     class RowsOfNumbers : abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
-        static std::vector<WordTarget> _wordList;
+        int _input {0};
+        int _solvedCounter {0};
+        int _randomSequence;
+        std::string _currentSequence;
+        int _currentSolution;
+        std::string _currentExplanation;
+        bool _inputChanged {false};  // Flag zum Verfolgen von Änderungen
+        static std::vector<game::Sequence> _sequences;
 
         static void loadWordsFromFile();
 
@@ -23,6 +31,7 @@ namespace game {
         void updateStatistics() override;
         void stop() override;
         std::string getName() const override;
+        int randomIndexGenerator(int size);
         ~RowsOfNumbers() override;
     };
 

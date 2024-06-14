@@ -3,6 +3,7 @@
 //
 
 #include "RowsOfNumbers.hpp"
+#include "Sequence.hpp"
 #include <InfoBox.hpp>
 #include <Window.hpp>
 #include <Fonts.hpp>
@@ -10,6 +11,7 @@
 
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include <random>
 
 using json = nlohmann::json;
 
@@ -24,7 +26,7 @@ namespace game {
     }
 
     // the vector is read in from the file
-    std::vector<WordTarget> RowsOfNumbers::_wordList;
+    std::vector<game::Sequence> RowsOfNumbers::_sequences;
 
     void RowsOfNumbers::loadWordsFromFile() {
         std::fstream file("./config/games/rows_of_numbers.json");
@@ -34,7 +36,7 @@ namespace game {
         }
 
         json data = json::parse(file);
-        _wordList = {data["sequences"].begin(), data["sequences"].end()};
+        _sequences = {data["sequences"].begin(), data["sequences"].end()};
 
         file.close();
     }
@@ -67,26 +69,63 @@ namespace game {
         }
     }
 
+
+
     void RowsOfNumbers::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
 
-        ui_elements::Window("Zahlenreihen").render([]() {
+        ui_elements::Window("Zahlenreihen").render([this]() {
+                ImGui::Spacing();
 
-            ImGui::Spacing();
+                ImGui::PushFont(commons::Fonts::_header1);
+                if (_inputChanged && _input == _currentSolution) {
+                    // TODO: Jane - Richtig laenger anzeigen
+                    ui_elements::TextCentered("Richtig!");
+                    _solvedCounter++;
+                    _randomSequence = randomIndexGenerator(_sequences.size());
+                    _currentSequence = _sequences[_randomSequence].sequence;
+                    _currentSolution = _sequences[_randomSequence].solution;
+                    _currentExplanation = _sequences[_randomSequence].explanation;
+                    _inputChanged = false;
 
-            ImGui::PushFont(commons::Fonts::_header1);
-            //ui_elements::TextCentered(_wordList[0].getWord().c_str());
-            ImGui::PopFont();
+                } else if (_inputChanged && _input != _currentSolution) {
+                    ui_elements::TextCentered("Falsch!");
+                    _showEndBox = true;
+                    if (_solvedCounter > (_sequences.size() / 2))
+                        _endBoxTitle = "Gut gemacht!";
+                    else
+                        _endBoxTitle = "Probiere es nochmal!";
+                    _endBoxText = "Du hast " + std::to_string(_solvedCounter) + " von " + std::to_string(_sequences.size()) + " Zahlenreihen gelöst.\n\n" +
+                            + "Die Lösung der letzten Aufgabe: " + std::to_string(_currentSolution) + "\n" + _currentExplanation;
+                }
 
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered("Füge die fehlende Zahl ein:");
-            ImGui::PopFont();
+                ui_elements::TextCentered(_currentSequence.c_str());
+                ImGui::PopFont();
+
+                ImGui::Spacing();
+
+                ImGui::PushFont(commons::Fonts::_header2);
+                ui_elements::TextCentered("Füge die fehlende Zahl ein:");
+                ImGui::SameLine();
+                ImGui::PushItemWidth(100);
+                if (ImGui::InputInt("##input", &_input, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue)) {
+                    _inputChanged = true;
+                }
+                ImGui::PopItemWidth();
+                ImGui::PopFont();
         });
 
         ImGui::PopStyleColor();
     }
 
     void RowsOfNumbers::start() {
+        _inputChanged = false;
+        _input = 0;
+        _solvedCounter = 0;
+        _randomSequence = randomIndexGenerator(_sequences.size());
+        _currentSequence = _sequences[_randomSequence].sequence;
+        _currentSolution = _sequences[_randomSequence].solution;
+        _currentExplanation = _sequences[_randomSequence].explanation;
         _isGameRunning = true;
         _showEndBox = false;
 
@@ -94,7 +133,7 @@ namespace game {
     }
 
     void RowsOfNumbers::reset() {
-
+        start();
     }
 
     void RowsOfNumbers::updateStatistics() {
@@ -111,6 +150,13 @@ namespace game {
 
     RowsOfNumbers::~RowsOfNumbers() {
 
+    }
+
+    int RowsOfNumbers::randomIndexGenerator(int size) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> dis(0, size - 1);
+        return dis(gen);
     }
 
 
