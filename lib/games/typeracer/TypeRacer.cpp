@@ -43,23 +43,20 @@ namespace typeracer {
                 "5. Klicke auf 'Zurück zur Startseite', um zum Hauptmenü zurückzukehren.";
     }
 
-
-    std::string TypeRacer::_endBoxTitleString{};
-    std::string TypeRacer::_endBoxTextString{};
-
     int getRandomIndex(int arraySize) {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distr(0, arraySize - 1);
 
-        int randomIndex { distr(gen) };
+        int randomIndex{distr(gen)};
         return randomIndex;
     }
 
     void TypeRacer::render() {
         ui_elements::InfoBox(
                 _gameID,
-                _showInfobox,
+                _showStartBox,
+                "Startbox",
                 _gameName,
                 _gameDescription,
                 _gameRules,
@@ -70,23 +67,15 @@ namespace typeracer {
                     _startGameSession = std::chrono::steady_clock::now();
                 }).render();
 
-        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::Spacing();
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
-            ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
-            ui_elements::Centered(true, true,[this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
+        ui_elements::InfoBox(
+                _gameID,
+                _showEndBox,
+                "Endbox",
+                _endBoxTitle,
+                _endBoxText,
+                [this]() {
                     reset();
-                    _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
-                }
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    abstract_game::GameSessionManager::endSession(); // End the session when going back
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
+                }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -97,11 +86,11 @@ namespace typeracer {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Type Racer").render([this]() {
             std::set<int> mistypedIndices;
-            std::string sentence { FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex] };
+            std::string sentence{FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex]};
             // for testing purposes
             // std::string sentence = "Dies ist ein Test.";
-            float windowWidth { ImGui::GetWindowWidth() };
-            float textWidth { ImGui::CalcTextSize(sentence.c_str()).x };
+            float windowWidth{ImGui::GetWindowWidth()};
+            float textWidth{ImGui::CalcTextSize(sentence.c_str()).x};
 
             ImGui::NewLine();
             ImGui::NewLine();
@@ -159,9 +148,9 @@ namespace typeracer {
 
             // Calculate WPM in real-time
             if (_runTimer && strlen(_input) > 0) {
-                auto currentTime{ std::chrono::steady_clock::now() };
-                std::chrono::duration<float> elapsedSeconds{ currentTime - _startPoint };
-                float minutes { elapsedSeconds.count() / 60.0f };
+                auto currentTime{std::chrono::steady_clock::now()};
+                std::chrono::duration<float> elapsedSeconds{currentTime - _startPoint};
+                float minutes{elapsedSeconds.count() / 60.0f};
                 int numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 
@@ -171,14 +160,12 @@ namespace typeracer {
 
                 // Stop and save the WPM when the sentence is completed
                 if (strlen(_input) >= sentence.size() && mistypedIndices.empty()) {
-                    _endBoxTitleString = "Geschafft!";
-                    _endboxTitle = _endBoxTitleString.c_str();
-                    _endBoxTextString =
+                    _endBoxTitle = "Geschafft!";
+                    _endBoxText =
                             "Wörter pro Minute: " + wpmStream.str() + " WPM";
-                    _endboxText = _endBoxTextString.c_str();
                     _runTimer = false;
                     _isGameRunning = false;
-                    _showEndbox = true;
+                    _showEndBox = true;
                     _wpmHistory.emplace_back(_wpm);
                 }
             }
@@ -188,7 +175,7 @@ namespace typeracer {
 
     void TypeRacer::start() {
         _isGameRunning = true;
-        _showEndbox = false;
+        _showEndBox = false;
 
         _windowColor = commons::Colors::LIGHT_GRAY;
     }
@@ -200,7 +187,7 @@ namespace typeracer {
     void TypeRacer::reset() {
         _mistakes = 0;
         _wpm = 0.0f;
-        _endBoxTextString = "";
+        _endBoxText = "";
         for (char &i: _input) {
             i = '\0';
         }
