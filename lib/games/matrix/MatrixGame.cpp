@@ -1,12 +1,8 @@
 #include "MatrixGame.hpp"
 #include "Window.hpp"
 #include "InfoBox.hpp"
-#include "Overlay.hpp"
 #include "Fonts.hpp"
 #include "TextCentered.hpp"
-#include "Centered.hpp"
-#include "SceneManager.hpp"
-#include "DashboardScene.hpp"
 
 namespace games {
 
@@ -19,26 +15,14 @@ namespace games {
     }
 
     void MatrixGame::render() {
-        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,
+                             [this] {
+                                 start();
+                             }).render();
+
+        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
             start();
         }).render();
-
-        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
-            ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
-
-            ui_elements::Centered(true, true, [this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    start();
-                }
-
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
 
         if (_isGameRunning) {
             renderGame();
@@ -75,13 +59,12 @@ namespace games {
     }
 
     void MatrixGame::stop() {
-        _endboxString =
+        _endBoxText =
                 "Richtige: " + std::to_string(_numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
                 std::to_string(_longestStreak);
-        _endboxText = _endboxString.c_str();
         _isGameRunning = false;
-        _showEndbox = true;
-        _endboxTitle = "Zeit abgelaufen!";
+        _showEndBox = true;
+        _endBoxTitle = "Zeit abgelaufen!";
     }
 
     void MatrixGame::start() {
@@ -90,7 +73,7 @@ namespace games {
         _allMirroredVersions = _mainMatrix.getAllMirroredVersions();
         _allRotatedVersions = _mainMatrix.getAllRotatedVersions();
         _isGameRunning = true;
-        _showEndbox = false;
+        _showEndBox = false;
         _timer.start();
     }
 
