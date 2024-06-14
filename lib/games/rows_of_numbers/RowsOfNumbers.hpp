@@ -4,11 +4,16 @@
 #include <Game.hpp>
 #include <imgui.h>
 #include <Colors.hpp>
+#include <WordTarget.hpp>
 
 namespace game {
 
     class RowsOfNumbers : abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
+        static std::vector<WordTarget> _wordList;
+
+        static void loadWordsFromFile();
+
     public:
         RowsOfNumbers();
         void render() override;

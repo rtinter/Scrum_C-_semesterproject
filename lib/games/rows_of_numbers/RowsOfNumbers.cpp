@@ -8,12 +8,35 @@
 #include <Fonts.hpp>
 #include <TextCentered.hpp>
 
+#include <nlohmann/json.hpp>
+#include <fstream>
+
+using json = nlohmann::json;
+
 namespace game {
     RowsOfNumbers::RowsOfNumbers() : abstract_game::Game(abstract_game::GameID::ROWS_OF_NUMBERS) {
         _gameName = "Zahlenreihen";
         _gameDescription = "Finde die fehlende Zahl in der Zahlenreihe.";
         _gameRules = "Tippe die fehlende Zahl der Zahlenreihe in das Eingabefeld.";
         _gameControls = "Tippe die fehlende Zahl der Zahlenreihe in das Eingabefeld.";
+
+        loadWordsFromFile();
+    }
+
+    // the vector is read in from the file
+    std::vector<WordTarget> RowsOfNumbers::_wordList;
+
+    void RowsOfNumbers::loadWordsFromFile() {
+        std::fstream file("./config/games/rows_of_numbers.json");
+        if (!file) {
+            std::cerr << "Unable to open file letter_salad_words.json";
+            return;
+        }
+
+        json data = json::parse(file);
+        _wordList = {data["sequences"].begin(), data["sequences"].end()};
+
+        file.close();
     }
 
     void RowsOfNumbers::render() {
@@ -52,7 +75,7 @@ namespace game {
             ImGui::Spacing();
 
             ImGui::PushFont(commons::Fonts::_header1);
-            ui_elements::TextCentered("1 2 3 4 5 6 7 8 9 10");
+            //ui_elements::TextCentered(_wordList[0].getWord().c_str());
             ImGui::PopFont();
 
             ImGui::PushFont(commons::Fonts::_header2);
