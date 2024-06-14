@@ -19,8 +19,6 @@ namespace ui_elements {
             std::optional<std::string> _gameDescription,
             std::optional<std::string> _gameRules,
             std::optional<std::string> _gameControls,
-            std::optional<std::string> _endGameTitle,
-            std::optional<std::string> _endGameText,
             std::function<void()> const &_callback) :
             _gameID(_gameID),
         _showOverlay(_showOverlay),
@@ -29,9 +27,22 @@ namespace ui_elements {
         _gameDescription(std::move(_gameDescription)),
         _gameRules(std::move(_gameRules)),
         _gameControls(std::move(_gameControls)),
-        _endGameTitle(std::move(_endGameTitle)),
-        _endGameText(std::move(_endGameText)),
         _callback(std::move(_callback)) {
+    }
+
+    InfoBox::InfoBox(
+            abstract_game::GameID &_gameID,
+            bool &_showOverlay,
+            std::string _overlayType,
+            std::optional<std::string> _endGameTitle,
+            std::optional<std::string> _endGameText,
+            std::function<void()> const &_callback) :
+            _gameID(_gameID),
+            _showOverlay(_showOverlay),
+            _overlayType(std::move(_overlayType)),
+            _endGameTitle(std::move(_endGameTitle)),
+            _endGameText(std::move(_endGameText)),
+            _callback(std::move(_callback)) {
     }
 
     void InfoBox::render() {

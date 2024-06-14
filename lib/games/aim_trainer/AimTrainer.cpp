@@ -55,7 +55,7 @@ void games::AimTrainer::updateBlobs(){
 }
 
 void games::AimTrainer::render() {
-    ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls, std::nullopt, std::nullopt, [this] {
+    ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls, [this] {
         start();
     }).render();
 
@@ -91,7 +91,7 @@ void games::AimTrainer::render() {
         }
     }
 
-    ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", std::nullopt, std::nullopt, std::nullopt, std::nullopt, _endBoxTitle, _endBoxText, [this] {
+    ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
         reset();
         start();
     }).render();

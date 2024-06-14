@@ -32,11 +32,11 @@ namespace games {
     }
 
     void ColorMatch::render() {
-        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls, std::nullopt, std::nullopt,  [this] {
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,  [this] {
             start();
         }).render();
 
-        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", std::nullopt, std::nullopt, std::nullopt, std::nullopt, _endBoxTitle, _endBoxText, [this] {
+        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
             start();
         }).render();
 

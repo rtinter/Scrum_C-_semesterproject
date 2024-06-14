@@ -112,8 +112,6 @@ namespace game {
                 _gameDescription,
                 _gameRules,
                 _gameControls,
-                std::nullopt,
-                std::nullopt,
                 [this] {
                     start();
                 }).render();
@@ -127,10 +125,6 @@ namespace game {
                     _gameID,
                     _showEndBox,
                     "Endbox",
-                    std::nullopt,
-                    std::nullopt,
-                    std::nullopt,
-                    std::nullopt,
                     _endBoxTitle,
                     _endBoxText,
                     [this] {
