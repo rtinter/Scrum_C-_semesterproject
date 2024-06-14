@@ -157,24 +157,29 @@ namespace games {
                 // Pop the styles to reset to default
                 ImGui::PopStyleColor(2);
 
-                if (!submitted && ImGui::Button("Submit All")) {
-                    submitted = true;
-                    _showContinueButton = true; // Zeige den Button nach dem Einreichen
-                }
-                if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
-                    submitted = false;
-                    _showContinueButton = false;
-                    _showEndbox = true;
-                    // Calculate the final score and prepare the end box text
-                    for (int i = 0; i < questions.size(); ++i) {
-                        if (selectedAnswers[i] == questions[i].correctAnswerIndex) {
-                            ++score;
-                        }
+                ui_elements::Centered(true, false, [this]() {
+
+                    if (!submitted && ImGui::Button("Submit All")) {
+                        submitted = true;
+                        _showContinueButton = true; // Zeige den Button nach dem Einreichen
                     }
-                    _endBoxTitleString = "Dein Ergebnis";
-                    _endBoxTextString = displayEvaluation(score, questions.size());
-                    displayCenteredText(_endBoxTextString.c_str());
-                }
+
+                    if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
+                        submitted = false;
+                        _showContinueButton = false;
+                        _showEndbox = true;
+                        // Calculate the final score and prepare the end box text
+                        for (int i = 0; i < questions.size(); ++i) {
+                            if (selectedAnswers[i] == questions[i].correctAnswerIndex) {
+                                ++score;
+                            }
+                        }
+
+                        _endBoxTitleString = "Dein Ergebnis";
+                        _endBoxTextString = displayEvaluation(score, questions.size());
+                        displayCenteredText(_endBoxTextString.c_str());
+                    }
+                });
             }
         });
     }
