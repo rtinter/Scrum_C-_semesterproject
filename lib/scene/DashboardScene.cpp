@@ -8,6 +8,7 @@
 #include "AimTrainer.hpp"
 #include "Remembering.hpp"
 #include "TypeRacer.hpp"
+#include "RowsOfNumbers.hpp"
 
 
 using Tile = ui_elements::Tile;
