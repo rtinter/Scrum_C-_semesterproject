@@ -6,7 +6,8 @@
 #include "LetterSalad.hpp"
 #include "ColorMatch.hpp"
 #include "AimTrainer.hpp"
-#include "../games/typeracer/TypeRacer.hpp"
+#include "Remembering.hpp"
+#include "TypeRacer.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -24,6 +25,7 @@ scene::DashboardScene::DashboardScene() {
     std::vector<UniqueTile> reactionCategory = {};
     std::vector<UniqueTile> accuracyCategory = {};
     std::vector<UniqueTile> problemSolvingCategory = {};
+    std::vector<UniqueTile> rememberCategory = {};
 
     // Kategorie: Reaktion
     reactionCategory.push_back(
@@ -83,10 +85,25 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
+    // Kategorie: Merkfähigkeit
+    rememberCategory.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Fakten merken",
+                    "Merke dir so möglichst\nviele Fakten",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Remembering>>()
+                        );
+                    }
+            )
+    );
+
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
      * hier festgelegt.
     */
     _dashboard->addTilesToCategory("Problemlösung", problemSolvingCategory);
+    _dashboard->addTilesToCategory("Merkfähigkeit", rememberCategory);
     _dashboard->addTilesToCategory("Genauigkeit", accuracyCategory);
     _dashboard->addTilesToCategory("Reaktion", reactionCategory);
 }
