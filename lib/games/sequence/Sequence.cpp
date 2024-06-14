@@ -263,7 +263,7 @@ namespace sequence {
 
                 std::cout << "SWITCH GAMEMODE TO WATCH\n";
 
-                //_sleep(1000);
+                std::this_thread::sleep_for(std::chrono::milliseconds(700));
                 _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable
                 _sequenceButtonIterator = 0;
                 chooseNextRandomButton(); //Sequence must be elongated by one button click
