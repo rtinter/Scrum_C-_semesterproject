@@ -5,6 +5,7 @@
 #include "TextCentered.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
+#include "SoundManager.hpp"
 #include <algorithm>
 #include <iostream>
 #include <random>
@@ -164,6 +165,7 @@ namespace sequence {
         if (buttonID ==
             _buttonsClickedSequence[_sequenceButtonIterator]) {     //if clicked button is the right button to be clicked in sequence
             _correctClicksOfCurrentSequence++;
+            playButtonSound(buttonID);
             std::cout << "CORRECT CLICK!\n";
             _sequenceButtonIterator++;  //make sure that the next button in line gets rated as correct now!
             if (_correctClicksOfCurrentSequence == _levelCounter) {
@@ -175,6 +177,7 @@ namespace sequence {
             }
 
         } else {
+            commons::SoundManager::playSound(commons::Sound::BEEP_FAIL);
             std::cout << "WRONG: it was supposed to be " << _buttonsClickedSequence[_sequenceButtonIterator]
                       << " you clicked " << buttonID << std::endl;
             stop();     //wrong button clicked -> GAMEOVER!
@@ -204,7 +207,7 @@ namespace sequence {
             if ((_buttonStatess[button] == 0) &&
                 _canShowNextButtonInSequence && (_sequenceButtonIterator ==
                                                  buttonForLoopIteration) && !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
-                lightUp(_buttonStatess[button]);    //light up button X by setting state of button X to 1/true
+                lightUp(_buttonStatess[button], button);    //light up button X by setting state of button X to 1/true
                 std::cout << "Light up!" << button << std::endl;
             } else {
                 std::cout << "Not allowed to light up now." << std::endl;
@@ -214,10 +217,11 @@ namespace sequence {
         }
     }
 
-    void Sequence::lightUp(int &buttonState) {
+    void Sequence::lightUp(int &buttonState, int const &buttonID) {
         //Sets a button to be lit up for 800ms
         _stopHighlightingHere = std::chrono::steady_clock::now() + std::chrono::milliseconds(_lightUpDurationInMilliseconds);
         buttonState = 1;
+        playButtonSound(buttonID);
         _canShowNextButtonInSequence = false;   //another button is currently lit up, this variable assures no other button is being lit up at the same time
         std::cout << "canShowNextButton = FALSE  (another button is currently lit up!)" << std::endl;
     }
@@ -231,10 +235,6 @@ namespace sequence {
             std::cout << "ENTERING CHECKLITUP EXPIRED FIRST IF (lit up button is turned off)" << std::endl;
 
             std::cout << "sequence Iterartor: " << _sequenceButtonIterator << " level: " << _levelCounter << std::endl;
-
-
-
-
 
         }
     }
@@ -303,6 +303,43 @@ namespace sequence {
                 std::cout << "REACHED " << _sequenceButtonIterator << " BUTTON OF SEQUENCE, LEVEL " << _levelCounter
                           << std::endl;
             }
+        }
+    }
+
+    void Sequence::playButtonSound(const int &buttonID) {
+        switch (buttonID) {
+            case 0:
+                std::cout << "case 0\n";
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.666f);
+                break;
+            case 1:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.777f);
+                break;
+            case 2:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.888f);
+                break;
+            case 3:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.999f);
+                break;
+            case 4:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.11f);
+                break;
+            case 5:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.222f);
+                break;
+            case 6:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.333f);
+                break;
+            case 7:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.444f);
+                break;
+            case 8:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.555f);
+                break;
+            default:
+                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.0f);
+                break;
+
         }
     }
 } // sequence

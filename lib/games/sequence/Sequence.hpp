@@ -44,7 +44,7 @@ namespace sequence {
 
         void showSequence();
 
-        void lightUp(int &buttonState);
+        void lightUp(int &buttonState, int const &buttonID);
 
         void checkLitUpExpired(int &buttonState);
 
@@ -57,6 +57,8 @@ namespace sequence {
         void waitInBetweenButtons();
 
         void checkWaitTimeExpired();
+
+        static void playButtonSound(int const &buttonID);
 
     public:
         Sequence();
