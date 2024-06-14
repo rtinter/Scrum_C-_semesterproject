@@ -1,15 +1,15 @@
 #include <sstream>
-#include <fstream>
 #include <iostream>
 #include "GameSession.hpp"
 #include "DataManagerFactory.hpp"
-#include "GameRunThroughCsvWriter.hpp"
 
 
 namespace abstract_game {
 
-    GameSession::GameSession(GameID gameID, int userID) : _gameSessionUID{calcGameSessionUID()}, _userID{userID}, _gameID{gameID},
-                                                       _startPoint{std::chrono::steady_clock::now()}, _ended{false}, _dataManager {DataManagerFactory::Create("CsvManager")} {}
+    GameSession::GameSession(GameID gameID, int userID) : _gameSessionUID{calcGameSessionUID()}, _userID{userID},
+                                                          _gameID{gameID},
+                                                          _startPoint{std::chrono::steady_clock::now()}, _ended{false},
+                                                          _dataManager{DataManagerFactory::Create("CsvManager")} {}
 
     size_t GameSession::calcGameSessionUID() {
 
@@ -33,6 +33,18 @@ namespace abstract_game {
         return hash;
     }
 
+    void GameSession::increaseRunThroughCount() {
+        _runThroughCount++;
+    }
+
+    void GameSession::writeToDataManager() const {
+        long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
+        long long endTime = std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count();
+        unsigned long long duration{getDurationInSeconds()};
+        _dataManager->saveGameSession(_gameSessionUID, _userID, _gameID, startTime, endTime, duration, _ended);
+        _dataManager->saveRunThroughs(_gameRunThroughs);
+    }
+
     void GameSession::end() {
         _ended = true;
 
@@ -46,10 +58,15 @@ namespace abstract_game {
             // game session is still running
             return std::chrono::duration_cast<std::chrono::seconds>(
                     std::chrono::steady_clock::now() - _startPoint).count();
-        } else {
-            // game session has ended
-            return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
-        }
+        }             // game session has ended
+        return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
+
+    }
+
+    void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
+
+        increaseRunThroughCount();
+        _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
     }
 
     GameID GameSession::getGameID() const {
@@ -75,27 +92,6 @@ namespace abstract_game {
     bool GameSession::isEnded() const {
         return _ended;
     }
-
-    void GameSession::writeToDataManager() const {
-        long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
-        long long endTime = _ended ? std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count() : 0;
-        unsigned long long duration {getDurationInSeconds()};
-        _dataManager->saveGameSession(_gameSessionUID, _userID, _gameID, startTime, endTime, duration, _ended);
-        _dataManager->saveRunThroughs(_gameRunThroughs);
-    }
-
-
-
-    void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
-
-        increaseRunThroughCount();
-        _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
-    }
-
-    void GameSession::increaseRunThroughCount() {
-        _runThroughCount++;
-    }
-
 
 
 } // abstract_game

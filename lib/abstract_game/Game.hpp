@@ -6,7 +6,6 @@
 #include "GameIDs.hpp"
 #include <memory>
 #include <string>
-#include <memory>
 
 namespace abstract_game {
 /**
