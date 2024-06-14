@@ -5,6 +5,8 @@ namespace commons {
         CLICK,
         LASER_GUN,
         EXPLOSION,
-        ERROR
+        ERROR,
+        COMPLETE,
+        CORRECT
     };
 }
