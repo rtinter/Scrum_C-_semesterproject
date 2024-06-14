@@ -7,6 +7,8 @@
 #include "ColorMatch.hpp"
 #include "Sequence.hpp"
 #include "AimTrainer.hpp"
+#include "../games/typeracer/TypeRacer.hpp"
+
 
 using Tile = ui_elements::Tile;
 
@@ -73,6 +75,20 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::AimTrainer>>());
+                    }
+            )
+    );
+
+    // CREATE Color Match in Category 1
+    kCategory1Tiles.push_back(
+            std::make_unique<Tile>(
+                    "Pictogram3",
+                    "Type Racer",
+                    "Schnelles Tippen",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<typeracer::TypeRacer>>()
+                                );
                     }
             )
     );

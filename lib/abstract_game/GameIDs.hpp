@@ -11,9 +11,8 @@ namespace abstract_game {
         COLOR_MATCH = 1002,
         AIM_TRAINER = 1003,
         LETTER_SALAD = 1004,
-        SEQUENCE = 1005
-        // ZweitesSpiel = 2,
-        // DrittesSpiel = 3,
+        TYPERACER = 1005,
+        SEQUENCE = 1011
     };
 } // namespace abstract_game
 
