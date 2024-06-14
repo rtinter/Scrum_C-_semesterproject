@@ -13,13 +13,14 @@
 
 namespace abstract_game {
 
-    template<typename T>
+
     class GameRunThroughCsvWriter {
     public:
         explicit GameRunThroughCsvWriter(const std::string &filename);
 
         void writeHeader(const std::vector<std::string> &header);
 
+        template<typename T>
         void writeRow(const std::vector<T> &row);
 
         void close();

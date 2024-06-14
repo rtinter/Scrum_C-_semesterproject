@@ -9,8 +9,8 @@
 
 
 namespace abstract_game {
-    const std::string SESSION_CSV_FILENAME = "game_session.csv";
-    const std::string RUNTHROUGH_CSV_FILENAME = "game_runthroughs.csv";
+    const std::string SESSION_CSV_FILENAME {"game_session.csv"};
+    const std::string RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
 
     void CsvStorage::saveGameSession(size_t sessionUID, int userID, GameID gameID,
                                      long long startTime, long long endTime,
@@ -22,14 +22,10 @@ namespace abstract_game {
         }
 
         // Check if the file is empty before writing the header
-        std::ifstream infile(SESSION_CSV_FILENAME);
-        infile.seekg(0, std::ios::end);
-        bool isEmpty = infile.tellg() == 0;
-        infile.close();
-
-        if (isEmpty) {
+        if (file.tellp() == 0) {
             file << "GameSessionUID,UserID,GameID,StartTime,EndTime,DurationInSeconds,Ended\n";
         }
+
         // Write session data
         std::stringstream ss;
         ss << sessionUID << ","
@@ -55,11 +51,11 @@ namespace abstract_game {
         // Check if the file is empty before writing the header
         std::ifstream infile(RUNTHROUGH_CSV_FILENAME);
         infile.seekg(0, std::ios::end);
-        bool isEmpty = infile.tellg() == 0;
+        bool isEmpty {infile.tellg() == 0};
         infile.close();
 
 
-        GameRunThroughCsvWriter<std::string> writer(RUNTHROUGH_CSV_FILENAME);
+        GameRunThroughCsvWriter writer(RUNTHROUGH_CSV_FILENAME);
 
         if (isEmpty) {
             writer.writeHeader({"GameRunThroughUID", "GameSessionUID", "Result", "ResultUnit"});
@@ -67,7 +63,7 @@ namespace abstract_game {
 
 
         for (const auto &runThrough: _gameRunThroughs) {
-            writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
+            writer.writeRow<std::string>({std::to_string(runThrough.gameRunThroughUID),
                              std::to_string(runThrough.gameSessionUID),
                              std::to_string(runThrough.result),
                              runThrough.resultUnit});

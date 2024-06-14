@@ -4,7 +4,7 @@
 #include <imgui.h>
 
 #include "SFML/System/Clock.hpp"
-#include "../../commons/Colors.hpp"
+#include "Colors.hpp"
 
 namespace reaction {
     /******************************************************

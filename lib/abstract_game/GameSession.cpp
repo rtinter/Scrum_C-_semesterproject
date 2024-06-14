@@ -79,7 +79,7 @@ namespace abstract_game {
     void GameSession::writeToDataManager() const {
         long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
         long long endTime = _ended ? std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count() : 0;
-        unsigned long long duration = getDurationInSeconds();
+        unsigned long long duration {getDurationInSeconds()};
         _dataManager->saveGameSession(_gameSessionUID, _userID, _gameID, startTime, endTime, duration, _ended);
         _dataManager->saveRunThroughs(_gameRunThroughs);
     }
