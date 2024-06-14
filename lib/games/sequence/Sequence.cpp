@@ -26,26 +26,13 @@ namespace sequence { //TODO change namespace to game
     }
 
     void Sequence::render() {
-        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
         }).render();
 
-        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
-            ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
-
-            ui_elements::Centered(true, true, [this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    start();
-                }
-
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
+        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
+            start();
+        }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -78,7 +65,7 @@ namespace sequence { //TODO change namespace to game
     void Sequence::start() {
         _currentGameMode = GameMode::WATCH;
         _isGameRunning = true;
-        _showEndbox = false;
+        _showEndBox = false;
         _sequenceButtonIterator = 0;
         _wasLastButtonOfSequence = false;
 
@@ -110,10 +97,10 @@ namespace sequence { //TODO change namespace to game
     void Sequence::stop() {
         _endBoxString = "Du hast eine Abfolge von " + std::to_string(_longestReproducedSequence) +
                         " Klicks richtig wiederholt!";
-        _endboxText = _endBoxString.c_str();
+        _endBoxText = _endBoxString.c_str();
         _isGameRunning = false;
-        _showEndbox = true;
-        _endboxTitle = "Falsch geklickt!";
+        _showEndBox = true;
+        _endBoxTitle = "Falsch geklickt!";
     }
 
     void Sequence::updateStatistics() {
