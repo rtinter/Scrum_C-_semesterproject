@@ -21,12 +21,12 @@ scene::DashboardScene::DashboardScene() {
     _dashboard = std::make_unique<views::Dashboard>();
 
     // initialize Categories
-    std::vector<UniqueTile> kCategory1Tiles = {};
-    std::vector<UniqueTile> kCategory2Tiles = {};
-    std::vector<UniqueTile> kCategory3Tiles = {};
+    std::vector<UniqueTile> reactionCategory = {};
+    std::vector<UniqueTile> accuracyCategory = {};
+    std::vector<UniqueTile> problemSolvingCategory = {};
 
-    // Kategorie 1:
-    kCategory1Tiles.push_back(
+    // Kategorie: Reaktion
+    reactionCategory.push_back(
             std::make_unique<Tile>(
                     "Reaktionsspiel",
                     []() {
@@ -37,7 +37,7 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    kCategory1Tiles.push_back(
+    reactionCategory.push_back(
             std::make_unique<Tile>(
                     "Farbe & Text",
                     []() {
@@ -47,7 +47,7 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    kCategory1Tiles.push_back(
+    reactionCategory.push_back(
             std::make_unique<Tile>(
                     "Aim Trainer",
                     []() {
@@ -57,7 +57,8 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    kCategory2Tiles.push_back(
+    // Kategorie: Genauigkeit
+    accuracyCategory.push_back(
             std::make_unique<Tile>(
                     "Type Racer",
                     []() {
@@ -68,7 +69,8 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    kCategory3Tiles.push_back(
+    // Kategorie: Problemlösung
+    problemSolvingCategory.push_back(
             std::make_unique<Tile>(
                     "",
                     "Buchstabensalat",
@@ -81,9 +83,12 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    _dashboard->addTilesToCategory("Problemlösung", kCategory3Tiles);
-    _dashboard->addTilesToCategory("Genauigkeit", kCategory2Tiles);
-    _dashboard->addTilesToCategory("Reaktion", kCategory1Tiles);
+    /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
+     * hier festgelegt.
+    */
+    _dashboard->addTilesToCategory("Problemlösung", problemSolvingCategory);
+    _dashboard->addTilesToCategory("Genauigkeit", accuracyCategory);
+    _dashboard->addTilesToCategory("Reaktion", reactionCategory);
 }
 
 void scene::DashboardScene::render() {
