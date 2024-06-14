@@ -14,9 +14,7 @@
 #include "Orientation.hpp"
 #include "InfoBox.hpp"
 #include "Overlay.hpp"
-#include "Centered.hpp"
 #include "SceneManager.hpp"
-#include "DashboardScene.hpp"
 #include "RandomPicker.hpp"
 
 #include <nlohmann/json.hpp>
@@ -147,15 +145,15 @@ namespace game {
             int missingWords{0};
             int missingLetters{0};
             // get the number of words that are still missing
-            for (auto const &wordTarget: _activeWordList) {
+            for (auto const &wordTarget : _activeWordList) {
                 if (!(*(wordTarget.isFound()))) {
                     missingWords++;
                     missingLetters += wordTarget.getWord().size();
                 }
             }
             static std::string missingWordsText = "Dir fehlen noch:\n" +
-                                                  std::to_string(missingWords) + " Wörter\nBzw. " +
-                                                  std::to_string(missingLetters) + " Buchstaben.";
+                    std::to_string(missingWords) + " Wörter\nBzw. " +
+                    std::to_string(missingLetters) + " Buchstaben.";
             _endBoxText = missingWordsText;
             stop();
         }
@@ -163,7 +161,7 @@ namespace game {
 
     void LetterSalad::renderTextList() {
         if (ImGui::BeginListBox("##textList", ImVec2(350, 900))) {
-            for (auto const &wordPair: _activeWordList) {
+            for (auto const &wordPair : _activeWordList) {
                 ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
                 ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
                 ImGui::PopItemFlag();
@@ -260,7 +258,7 @@ namespace game {
                                 newlines.begin(),
                                 newlines.end(),
                                 std::back_inserter(difference));
-            for (auto &lineE: difference) {
+            for (auto &lineE : difference) {
                 deselectBox(lineE);
             }
 
@@ -268,7 +266,7 @@ namespace game {
             _selectedWord = "";
             _currentLine = getLine(_firstSelectedCell, coords);
 
-            for (auto &lineE: _currentLine) {
+            for (auto &lineE : _currentLine) {
                 selectBox(lineE);
                 _selectedWord += _gameField[lineE.y][lineE.x].getChar();
             }
@@ -299,18 +297,18 @@ namespace game {
         _isFirstCellSelected = false;
         _isSecondCellSelected = false;
         if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
-            for (auto &lineE: _currentLine) {
+            for (auto &lineE : _currentLine) {
                 LetterSalad::deselectBox(lineE);
             }
         } else {
-            for (auto &lineE: _currentLine) {
+            for (auto &lineE : _currentLine) {
                 LetterSalad::finalize(lineE);
                 _activeWordList.find(WordTarget{_selectedWord})->setFound();
             }
             bool allWordsFound{true};
 
             // and check, if the game has ended
-            for (auto const &word: _activeWordList) {
+            for (auto const &word : _activeWordList) {
                 if (!(*word.isFound())) {
                     allWordsFound = false;
                     break;
@@ -327,7 +325,7 @@ namespace game {
                 static std::string endboxString =
                         "Du hast alle Wörter gefunden!\n"
                         "Und sogar noch Zeit übrig gehabt!\n" + minutes +
-                        " Minuten und " + seconds + " Sekunden\n";
+                                " Minuten und " + seconds + " Sekunden\n";
                 _endBoxText = endboxString;
                 stop();
             }
@@ -416,8 +414,8 @@ namespace game {
     }
 
     void LetterSalad::randomizeGameField() {
-        for (auto &row: _gameField) {
-            for (auto &box: row) {
+        for (auto &row : _gameField) {
+            for (auto &box : row) {
                 if (box.getLetter() == EMPTY_CELL) {
                     std::string letter{std::string(1, 'A' + rand() % 26)};
                     box.setLetter(letter);
