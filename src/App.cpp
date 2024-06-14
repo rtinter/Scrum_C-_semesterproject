@@ -1,5 +1,3 @@
-#pragma once
-
 #include "App.hpp"
 
 #include <imgui-SFML.h>
@@ -10,7 +8,6 @@
 #include "SFML/Window/Event.hpp"
 
 
-
 const int App::WINDOW_WIDTH{1920};
 const int App::WINDOW_HEIGHT{1080};
 const std::string App::TILE{"Human Benchmark"};
@@ -18,12 +15,13 @@ const int App::FRAME_RATE{60};
 
 
 void App::start() {
-    sf::VideoMode videoMode(WINDOW_WIDTH, WINDOW_HEIGHT);
-    sf::RenderWindow window(videoMode, TILE, sf::Style::Close);
-    window.setFramerateLimit(FRAME_RATE);
+    sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
+    window.setFramerateLimit(App::FRAME_RATE);
+
+    // set sfml background color
 
     //init singleton and start Dashboard
-    scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
+    scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {
@@ -37,7 +35,7 @@ void App::start() {
 
     while (window.isOpen()) {
         ImGui::SFML::Update(window, deltaClock.restart());
-        window.clear();
+        window.clear(sf::Color(245, 242, 247, 255));
 
         sf::Event event{};
         while (window.pollEvent(event)) {

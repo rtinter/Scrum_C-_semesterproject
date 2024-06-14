@@ -1,8 +1,14 @@
 #include "Tile.hpp"
 
-#include <Fonts.hpp>
+#include <Centered.hpp>
+#include <ColorHelper.hpp>
+#include <Colors.hpp>
+
+#include "../commons/Fonts.hpp"
+#include "Window.hpp"
 #include <sstream>
-#include <Window.hpp>
+#include <TextCentered.hpp>
+
 
 namespace ui_elements {
     // Konstruktor
@@ -12,37 +18,55 @@ namespace ui_elements {
         setButtonText();
     }
 
-    Tile::Tile(std::string const &name, std::function<void()> const &onClick) : _gameName(name), _onClick(onClick) {
+    Tile::Tile(std::string const &pic, std::string const &name, std::string const &desc,
+               ImVec4 const &color, std::function<void()> const &onClick)
+        : _pictogram(pic), _gameName(name), _description(desc), _buttonColor(color), _onClick(onClick) {
         setButtonText();
     }
 
     // Setter-Methode für den Button-Text
     void Tile::setButtonText() {
         std::stringstream ss;
-        if (!_pictogram.empty()) {
-            ss << _pictogram << "\n";
-        }
-        ss << _gameName << "\n";
-        if (!_description.empty()) {
-            ss << "\n" << _description;
-        }
+        ss << _pictogram << "\n" << _gameName << "\n" << _description;
         _buttonText = ss.str();
     }
 
     // Render-Methode
     void Tile::render() {
-        Window("Dashboard").render([this]() {
-            ImGui::SetWindowPos(ImVec2(0, 50), ImGuiCond_Always);
-            ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50),
-                                 ImGuiCond_Always);
+        ImGui::SetNextWindowSize(ImVec2(this->_width, this->_height), ImGuiCond_Always);
+        ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 7.0f);
+
+        if (_isHovered) {
+            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = commons::ColorHelper::withOpacity(_buttonColor, 0.8f);
+        } else {
+            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = _buttonColor;
+        }
+        ImGui::BeginChild(_gameName.c_str(), ImVec2(this->_width, this->_height), true,
+                          ImGuiWindowFlags_AlwaysAutoResize);
+        _isHovered = ImGui::IsWindowHovered(ImGuiHoveredFlags_ChildWindows);
+        if (_isHovered) {
+            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = sf::Color::Blue;
+
+            if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+                if (_onClick) _onClick();
+            }
+        }
+
+        Centered(true, true, [*this] {
+            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = commons::Colors::NONE;
+
+            ImGui::PushFont(commons::Fonts::_iconRegular);
+            TextCentered(_pictogram.c_str());
+            ImGui::PopFont();
 
             ImGui::PushFont(commons::Fonts::_header2);
-            if (ImGui::Button(_buttonText.c_str(), ImVec2(this->_width, this->_height))) {
-                if (_onClick) {
-                    _onClick();
-                }
-            }
+            TextCentered(_gameName.c_str());
             ImGui::PopFont();
+
+            TextCentered(_description.c_str());
         });
+
+        ImGui::EndChild();
+        ImGui::PopStyleVar();
     }
 }
