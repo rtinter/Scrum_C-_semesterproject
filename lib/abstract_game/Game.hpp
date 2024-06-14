@@ -73,9 +73,9 @@ namespace abstract_game {
 
 
     protected:
-        std::string_gameName;
-        std::string_gameDescription;
-        std::string_gameRules;
+        std::string _gameName;
+        std::string _gameDescription;
+        std::string _gameRules;
         std::string _gameControls;
 
         std::string _endBoxTitle{"Game Over"};
@@ -87,8 +87,9 @@ namespace abstract_game {
 
         GameID _gameID;
 
-
+        long _statisticResult;
     };
+
 
 } //abstract_game
 

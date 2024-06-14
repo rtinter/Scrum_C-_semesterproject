@@ -50,12 +50,14 @@ namespace abstract_game {
             std::cerr << "Failed to open file: " << RUNTHROUGH_CSV_FILENAME << std::endl;
             return;
         }
+        file.close();
 
         // Check if the file is empty before writing the header
         std::ifstream infile(RUNTHROUGH_CSV_FILENAME);
         infile.seekg(0, std::ios::end);
         bool isEmpty = infile.tellg() == 0;
         infile.close();
+
 
         GameRunThroughCsvWriter<std::string> writer(RUNTHROUGH_CSV_FILENAME);
 

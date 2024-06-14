@@ -179,11 +179,10 @@ namespace games {
         _isGameRunning = false;
         _showEndBox = true;
         _endBoxTitle = "Zeit abgelaufen!";
-        std::shared_ptr<abstract_game::GameSession> gameSession {abstract_game::GameSessionManager::getCurrentSession()};
-        gameSession->addNewGameRunThrough("", _numberOfCorrectClicksInTotal);
+        updateStatistics();
     }
 
     void ColorMatch::updateStatistics() {
-        // add code here
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("", _numberOfCorrectClicksInTotal);
     }
 }
