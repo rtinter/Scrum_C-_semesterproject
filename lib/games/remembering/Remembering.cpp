@@ -1,14 +1,4 @@
 #include "Remembering.hpp"
-#include <Centered.hpp>
-#include <DashboardScene.hpp>
-#include <Fonts.hpp>
-#include <InfoBox.hpp>
-#include <Overlay.hpp>
-#include <SceneManager.hpp>
-#include <TextCentered.hpp>
-#include <Window.hpp>
-#include <sstream>
-#include <algorithm>
 
 namespace games {
 
@@ -16,7 +6,8 @@ namespace games {
     std::string Remembering::_endBoxTextString{};
     std::vector<int> Remembering::selectedAnswers;
 
-    Remembering::Remembering() : Game(abstract_game::GameID::REMEMBERING) {
+    Remembering::Remembering() : Game(abstract_game::GameID::REMEMBERING),
+                                 questionBank(std::make_unique<QuestionBank>()) {
         _gameName = "Remembering";
         _gameDescription =
                 "Unser Merkspiel bewertet die Fähigkeit, sich schnell und präzise Fakten zu merken,\n"
@@ -32,29 +23,13 @@ namespace games {
         _gameControls = "Linke Maustaste um das Feld in das du schreiben möchtest auszuwählen\n"
                         "Tastatur um deine Antwort einzugeben.";
 
-        initializeQuestionsAndAnswers();
-        selectedAnswers.resize(questions.size(), -1);
+        selectRandomQuestionSet();
+        selectedAnswers.resize(currentQuestionSet.questions.size(), -1);
         _timer.start();
     }
 
-    void Remembering::initializeQuestionsAndAnswers() {
-        questions = {
-                {"In welchem Monat fand das Ereignis statt?", {"Januar",          "Mai",             "Juni",        "Dezember"},   2},
-                {"Um wieviel Uhr fand das Ereignis statt?",   {"13:00",           "14:30",           "15:00",       "16:30"},      1},
-                {"In welchem Café saß die Person?",           {"Bäckerei",        "Kaffeekränzchen", "Restaurant",  "Bar"},        1},
-                {"In welcher Straße liegt das Café?",         {"Bahnhofstraße",   "Hauptstraße",     "Nebenstraße", "Ringstraße"}, 1},
-                {"Welches Geräusch hörte die Person?",        {"Schrei",          "Sirene",          "Glas",        "Motor"},      2},
-                {"Was trug die Person?",                      {"Kapuzenpullover", "Anzug",           "T-Shirt",     "Hemd"},       0},
-                {"Welche Farbe hatte die Jeans der Person?",  {"schwarz",         "rot",             "blau",        "weiß"},       2},
-                {"Wie groß war die Person?",                  {"1,60",            "1,70",            "1,80",        "1,90"},       2},
-                {"In welche Richtung rannte die Person?",     {"Bahnhof",         "Stadtpark",       "Marktplatz",  "Kirche"},     1},
-                {"Wie heißt der Polizist?",                   {"Schmidt",         "Müller",          "Weber",       "Fischer"},    1},
-                {"Wie viel ist das Diamantarmband wert?",     {"5.000",           "10.000",          "15.000",      "20.000"},     1},
-                {"Wie viel ist die Rolex-Uhr wert?",          {"10.000",          "15.000",          "20.000",      "25.000"},     1},
-                {"Welches Auto fuhr der Täter?",              {"BMW",             "Mercedes",        "Audi",        "Volkswagen"}, 2},
-                {"Welches Kennzeichen hatte das Auto?",       {"B-CD 1234",       "B-AB 1234",       "B-EF 5678",   "B-GH 9012"},  1},
-                {"Wartete noch jemand im Auto?",              {"ja",              "nein",            "vielleicht",  "unbekannt"},  0}
-        };
+    void Remembering::selectRandomQuestionSet() {
+        currentQuestionSet = questionBank->getRandomQuestionSet();
     }
 
     void Remembering::render() {
@@ -93,7 +68,7 @@ namespace games {
         ui_elements::Window("Remembering Game").render([this]() {
             if (showText) {
                 _timer.render();
-                displayCenteredText(getText().c_str());
+                displayCenteredText(currentQuestionSet.text.c_str());
             }
             if (_timer.isExpiredNow()) {
                 showText = false;
@@ -101,8 +76,8 @@ namespace games {
             if (!showText) {
                 setStyles();
 
-                for (int i = 0; i < questions.size(); ++i) {
-                    renderQuestion(i, questions[i], selectedAnswers[i]);
+                for (int i = 0; i < currentQuestionSet.questions.size(); ++i) {
+                    renderQuestion(i, currentQuestionSet.questions[i], selectedAnswers[i]);
                 }
 
                 ImGui::PopStyleColor(2);
@@ -112,7 +87,7 @@ namespace games {
         });
     }
 
-    void Remembering::renderQuestion(int index, const Question &q, int &selectedAnswer) {
+    void Remembering::renderQuestion(int index, const QuestionBank::Question &q, int &selectedAnswer) {
         // Calculate text width
         ImVec2 textSize = ImGui::CalcTextSize(q.question.c_str());
         float textOffsetX = (ImGui::GetWindowWidth() - textSize.x) / 2.0f;
@@ -179,14 +154,14 @@ namespace games {
                 _showContinueButton = false;
                 _showEndbox = true;
                 // Calculate the final score and prepare the end box text
-                for (int i = 0; i < questions.size(); ++i) {
-                    if (selectedAnswers[i] == questions[i].correctAnswerIndex) {
+                for (int i = 0; i < currentQuestionSet.questions.size(); ++i) {
+                    if (selectedAnswers[i] == currentQuestionSet.questions[i].correctAnswerIndex) {
                         ++score;
                     }
                 }
 
                 _endBoxTitleString = "Dein Ergebnis";
-                _endBoxTextString = displayEvaluation(score, questions.size());
+                _endBoxTextString = displayEvaluation(score, currentQuestionSet.questions.size());
                 displayCenteredText(_endBoxTextString.c_str());
             }
         });
@@ -206,7 +181,7 @@ namespace games {
     }
 
     std::string Remembering::getText() const {
-        return text;
+        return currentQuestionSet.text;
     }
 
     void Remembering::displayCenteredText(std::string const &text) const {
@@ -250,7 +225,8 @@ namespace games {
     }
 
     void Remembering::reset() {
-        selectedAnswers.assign(questions.size(), -1); // Zurücksetzen der ausgewählten Antworten
+        selectRandomQuestionSet();
+        selectedAnswers.assign(currentQuestionSet.questions.size(), -1); // Zurücksetzen der ausgewählten Antworten
         submitted = false;
         score = 0;
         std::fill(_userTextBuffer.begin(), _userTextBuffer.end(), 0);
