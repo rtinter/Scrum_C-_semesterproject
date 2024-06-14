@@ -18,6 +18,7 @@ namespace commons {
         // load sound buffers, add new sounds here
         initSoundBuffer(Sound::CLICK, "click.mp3");
         initSoundBuffer(Sound::LASER_GUN, "laser-gun.mp3");
+        initSoundBuffer(Sound::EXPLOSION, "explosion.mp3");
 
     }
 
