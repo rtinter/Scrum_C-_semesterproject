@@ -16,6 +16,8 @@ set(GAME_LIBS
         calc
         reaction
         color_match
+        letter_salad
+        typeracer
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE

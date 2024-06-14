@@ -1,18 +1,34 @@
-#include <Centered.hpp>
+#include "Centered.hpp"
 
 #include <imgui.h>
 
+
 namespace ui_elements {
-    Centered::Centered(const std::function<void()> &callback) {
-        ImGui::BeginGroup();
+    Centered::Centered(bool horizontal, bool vertical, const std::function<void()> &content) {
+        ImVec2 available = ImGui::GetContentRegionAvail();
+        ImVec2 inital = ImGui::GetCursorPos();
 
-        ImVec2 windowSize = ImGui::GetWindowSize();
-        ImGui::SetCursorPosX((windowSize.x - ImGui::CalcItemWidth() / 2) * 0.5f);
-
+        ImGui::PushClipRect(ImVec2(0, 0), ImVec2(0, 0), true);
         ImGui::BeginGroup();
-        callback();
+        content();
         ImGui::EndGroup();
-        ImGui::EndGroup();
+        ImVec2 contentSize = ImGui::GetItemRectSize();
+        ImGui::PopClipRect();
+
+
+        float hPAdding = (available.x - contentSize.x) / 2.0f;
+        float vPAdding = (available.y - contentSize.y) / 2.0f;
+
+
+        ImGui::SetCursorPos(inital);
+        if (horizontal) {
+            ImGui::SetCursorPosX(inital.x + hPAdding);
+        }
+        if (vertical) {
+            ImGui::SetCursorPosY(inital.y + vPAdding);
+        }
+        ImGui::BeginChild("##Child", contentSize);
+        content();
+        ImGui::EndChild();
     }
-
 } // ui_elements
