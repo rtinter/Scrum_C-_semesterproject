@@ -6,8 +6,8 @@
 #include "LetterSalad.hpp"
 #include "ColorMatch.hpp"
 #include "AimTrainer.hpp"
-#include "../games/typeracer/TypeRacer.hpp"
-#include "RowsOfNumbers.hpp"
+#include "Remembering.hpp"
+#include "TypeRacer.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -25,6 +25,7 @@ scene::DashboardScene::DashboardScene() {
     std::vector<UniqueTile> reactionCategory = {};
     std::vector<UniqueTile> accuracyCategory = {};
     std::vector<UniqueTile> problemSolvingCategory = {};
+    std::vector<UniqueTile> rememberCategory = {};
     std::vector<UniqueTile> logicalThinking = {};
 
     // Kategorie: Reaktion
@@ -85,6 +86,20 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
+    // Kategorie: Merkfähigkeit
+    rememberCategory.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Fakten merken",
+                    "Merke dir so möglichst\nviele Fakten",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Remembering>>()
+                        );
+                    }
+            )
+    );
+
     // Kategorie: Logisches Denken
     logicalThinking.push_back(
             std::make_unique<Tile>(
@@ -105,6 +120,7 @@ scene::DashboardScene::DashboardScene() {
     */
     _dashboard->addTilesToCategory("Logisches Denken", logicalThinking);
     _dashboard->addTilesToCategory("Problemlösung", problemSolvingCategory);
+    _dashboard->addTilesToCategory("Merkfähigkeit", rememberCategory);
     _dashboard->addTilesToCategory("Genauigkeit", accuracyCategory);
     _dashboard->addTilesToCategory("Reaktion", reactionCategory);
 }

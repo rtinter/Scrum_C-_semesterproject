@@ -18,6 +18,7 @@ set(GAME_LIBS
         color_match
         letter_salad
         typeracer
+        remembering
         rows_of_numbers
 )
 

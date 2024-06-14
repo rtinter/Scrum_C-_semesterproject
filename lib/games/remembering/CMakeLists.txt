@@ -1,8 +1,9 @@
-set(LIBRARY_NAME scene)
+set(LIBRARY_NAME remembering)
 
 file(GLOB SOURCES *.cpp)
 
-add_library(${LIBRARY_NAME} ${SOURCES})
+add_library(${LIBRARY_NAME} ${SOURCES}
+        QuestionBank.hpp)
 
 target_include_directories(${LIBRARY_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
@@ -12,18 +13,10 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
+        abstract_game
         commons
         ui_elements
-        abstract_game
-        views
-        calc
-        reaction
-        color_match
-        remembering
-        letter_salad
-        aim_trainer
-        typeracer
-        rows_of_numbers
+        scene
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
