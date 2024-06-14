@@ -19,13 +19,15 @@ namespace sequence {
         int _longestReproducedSequence{0};
 
         static int constexpr _NUMBER_OF_BUTTONS{9};
-        std::chrono::steady_clock::time_point _startHighlightingHere;
         std::chrono::steady_clock::time_point _stopHighlightingHere;
-        int _lightUpDurationInSeconds{1};
+        std::chrono::steady_clock::time_point _stopWaitingHere;
+        int _waitDurationInMilliseconds{300};
+        int _lightUpDurationInMilliseconds{800};
         int _sequenceButtonIterator;        //to be used in both gamemodes -> for iterating through sequence during show and repeat
         int _correctClicksOfCurrentSequence;
         bool _wasLastButtonOfSequence{false};
         bool _canShowNextButtonInSequence{true};    //in the beginning, no button is lit up
+        bool _mustWait{false};
 
         std::vector<int> _buttonsClickedSequence;
         //true -> Button lights up
@@ -51,6 +53,10 @@ namespace sequence {
         void switchGameMode();
 
         void moveOnToNextButton();
+
+        void waitInBetweenButtons();
+
+        void checkWaitTimeExpired();
 
     public:
         Sequence();
