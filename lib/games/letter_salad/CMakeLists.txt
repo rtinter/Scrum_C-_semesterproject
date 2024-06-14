@@ -16,6 +16,7 @@ set(CUSTOM_LIBS
         commons
         ui_elements
         scene
+        nlohmann_json::nlohmann_json
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
@@ -25,4 +26,4 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC
         box2d
 )
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/letter_salad_words.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config/games/letter_salad_words.txt COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/letter_salad_words.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config/games/letter_salad_words.json COPYONLY)
