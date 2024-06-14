@@ -43,7 +43,8 @@ scene::DashboardScene::DashboardScene() {
         )
     );
 
-    _dashboard->addTilesToCategory("Spiele", kCategory1Tiles);
+    _dashboard->addTilesToCategory("Kategorie 1", kCategory1Tiles);
+    _dashboard->addTilesToCategory("Kategorie 2", kCategory2Tiles);
 }
 
 void scene::DashboardScene::render() {
