@@ -41,19 +41,17 @@ namespace games {
 
     private:
         std::string _userTextBuffer;
-        bool showText{true};
+        bool _showText{true};
         bool _showContinueButton{false};
-        bool submitted{false};
-        int score{0};
+        bool _submitted{false};
+        int _score{0};
         static std::string _endBoxTitleString;
         static std::string _endBoxTextString;
-        ui_elements::Timer _timer{"Remembering Game", 5};
-        static std::vector<int> selectedAnswers;
+        ui_elements::Timer _timer{"Remembering Game", 30};
+        static std::vector<int> _selectedAnswers;
 
-        std::unique_ptr<QuestionBank> questionBank;
-        QuestionBank::QuestionSet currentQuestionSet;
-
-        std::string getText() const;
+        std::unique_ptr<QuestionBank> _questionBank;
+        QuestionBank::QuestionSet _currentQuestionSet;
 
         void displayCenteredText(const std::string &text) const;
 
@@ -61,7 +59,7 @@ namespace games {
 
         std::string displayEvaluation(int const &score, int const &size) const;
 
-        void renderQuestion(int index, const QuestionBank::Question &q, int &selectedAnswer);
+        void renderQuestion(int index, const QuestionBank::Question &q, int &selectedAnswer) const;
 
         void setStyles();
 

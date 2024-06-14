@@ -2,12 +2,10 @@
 
 namespace games {
 
-    std::string Remembering::_endBoxTitleString{};
-    std::string Remembering::_endBoxTextString{};
-    std::vector<int> Remembering::selectedAnswers;
+    std::vector<int> Remembering::_selectedAnswers;
 
     Remembering::Remembering() : Game(abstract_game::GameID::REMEMBERING),
-                                 questionBank(std::make_unique<QuestionBank>()) {
+                                 _questionBank(std::make_unique<QuestionBank>()) {
         _gameName = "Remembering";
         _gameDescription =
                 "Unser Merkspiel bewertet die Fähigkeit, sich schnell und präzise Fakten zu merken,\n"
@@ -24,12 +22,12 @@ namespace games {
                         "Tastatur um deine Antwort einzugeben.";
 
         selectRandomQuestionSet();
-        selectedAnswers.resize(currentQuestionSet.questions.size(), -1);
+        _selectedAnswers.resize(_currentQuestionSet.questions.size(), -1);
         _timer.start();
     }
 
     void Remembering::selectRandomQuestionSet() {
-        currentQuestionSet = questionBank->getRandomQuestionSet();
+        _currentQuestionSet = _questionBank->getRandomQuestionSet();
     }
 
     void Remembering::render() {
@@ -49,18 +47,18 @@ namespace games {
 
     void Remembering::renderGame() {
         ui_elements::Window("Remembering Game").render([this]() {
-            if (showText) {
+            if (_showText) {
                 _timer.render();
-                displayCenteredText(currentQuestionSet.text.c_str());
+                displayCenteredText(_currentQuestionSet.text.c_str());
             }
             if (_timer.isExpiredNow()) {
-                showText = false;
+                _showText = false;
             }
-            if (!showText) {
+            if (!_showText) {
                 setStyles();
 
-                for (int i = 0; i < currentQuestionSet.questions.size(); ++i) {
-                    renderQuestion(i, currentQuestionSet.questions[i], selectedAnswers[i]);
+                for (int i = 0; i < _currentQuestionSet.questions.size(); ++i) {
+                    renderQuestion(i, _currentQuestionSet.questions[i], _selectedAnswers[i]);
                 }
 
                 ImGui::PopStyleColor(2);
@@ -70,36 +68,32 @@ namespace games {
         });
     }
 
-    void Remembering::renderQuestion(int index, const QuestionBank::Question &q, int &selectedAnswer) {
+    void Remembering::renderQuestion(int index, const QuestionBank::Question &q, int &selectedAnswer) const {
         // Calculate text width
         ImVec2 textSize = ImGui::CalcTextSize(q.question.c_str());
         float textOffsetX = (ImGui::GetWindowWidth() - textSize.x) / 2.0f;
 
-        // Calculate combo box width and offset
         float comboWidth = ImGui::GetWindowWidth() * 0.3f;
         float comboOffsetX = (ImGui::GetWindowWidth() - comboWidth) / 2.0f;
 
-        // Set cursor position for text
         ImGui::SetCursorPosX(textOffsetX);
-        ImGui::Text("%s", q.question.c_str()); // Display the question
+        ImGui::Text("%s", q.question.c_str());
 
         std::vector<const char *> answers;
         for (const auto &answer: q.answers) {
             answers.emplace_back(answer.c_str());
         }
 
-        // Set cursor position for combo box
         ImGui::SetCursorPosX(comboOffsetX);
         ImGui::SetNextItemWidth(comboWidth);
 
-        if (submitted) {
-            // Determine the color based on correctness and whether an answer was selected
+        if (_submitted) {
             ImVec4 color;
             if (selectedAnswer == -1) {
-                color = ImVec4(1, 0, 0, 1); // Red for unanswered
+                color = ImVec4(1, 0, 0, 1);
             } else {
                 color = (selectedAnswer == q.correctAnswerIndex) ?
-                        ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1); // Green for correct, red for incorrect
+                        ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1);
             }
 
             ImGui::PushStyleColor(ImGuiCol_Text, color);
@@ -113,38 +107,35 @@ namespace games {
     }
 
     void Remembering::setStyles() {
-        // Set style for combo boxes
         ImGuiStyle &style = ImGui::GetStyle();
         style.ItemSpacing = ImVec2(12, 4);
         style.FramePadding = ImVec2(4, 2);
 
-        // Set color scheme for the combo box
         ImGui::PushStyleColor(ImGuiCol_FrameBgActive,
-                              ImVec4(0.4f, 0.4f, 0.4f, 1.0f)); // Active background color
+                              ImVec4(0.4f, 0.4f, 0.4f, 1.0f));
         ImGui::PushStyleColor(ImGuiCol_PopupBg,
-                              ImVec4(0.8f, 0.8f, 0.8f, 1.0f)); // Popup background color (light gray)
+                              ImVec4(0.8f, 0.8f, 0.8f, 1.0f));
     }
 
     void Remembering::renderSubmitButtons() {
         ui_elements::Centered(true, false, [this]() {
-            if (!submitted && ImGui::Button("Submit All")) {
-                submitted = true;
-                _showContinueButton = true; // Zeige den Button nach dem Einreichen
+            if (!_submitted && ImGui::Button("Submit All")) {
+                _submitted = true;
+                _showContinueButton = true;
             }
 
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
-                submitted = false;
+                _submitted = false;
                 _showContinueButton = false;
                 stop();
-                // Calculate the final score and prepare the end box text
-                for (int i = 0; i < currentQuestionSet.questions.size(); ++i) {
-                    if (selectedAnswers[i] == currentQuestionSet.questions[i].correctAnswerIndex) {
-                        ++score;
+                for (int i = 0; i < _currentQuestionSet.questions.size(); ++i) {
+                    if (_selectedAnswers[i] == _currentQuestionSet.questions[i].correctAnswerIndex) {
+                        ++_score;
                     }
                 }
 
                 _endBoxTitle = "Dein Ergebnis";
-                _endBoxText = displayEvaluation(score, currentQuestionSet.questions.size());
+                _endBoxText = displayEvaluation(_score, _currentQuestionSet.questions.size());
                 displayCenteredText(_endBoxText);
             }
         });
@@ -163,14 +154,9 @@ namespace games {
         return evaluation;
     }
 
-    std::string Remembering::getText() const {
-        return currentQuestionSet.text;
-    }
-
     void Remembering::displayCenteredText(std::string const &text) const {
         ImVec2 windowSize = ImGui::GetWindowSize();
 
-        // Split the text into lines
         std::istringstream stream(text);
         std::string line;
         std::vector<std::string> lines;
@@ -179,7 +165,6 @@ namespace games {
             lines.push_back(line);
         }
 
-        // Display each line centered
         for (const auto &line: lines) {
             ImVec2 textSize = ImGui::CalcTextSize(line.c_str(), nullptr, false, windowSize.x);
             float offsetX = (windowSize.x - textSize.x) * 0.5f;
@@ -197,7 +182,7 @@ namespace games {
     void Remembering::start() {
         _isGameRunning = true;
         _showEndBox = false;
-        showText = true;
+        _showText = true;
         _timer.reset();
         _timer.start();
     }
@@ -210,9 +195,9 @@ namespace games {
     void Remembering::reset() {
         start();
         selectRandomQuestionSet();
-        selectedAnswers.assign(currentQuestionSet.questions.size(), -1); // Zurücksetzen der ausgewählten Antworten
-        submitted = false;
-        score = 0;
+        _selectedAnswers.assign(_currentQuestionSet.questions.size(), -1);
+        _submitted = false;
+        _score = 0;
         std::fill(_userTextBuffer.begin(), _userTextBuffer.end(), 0);
     }
 

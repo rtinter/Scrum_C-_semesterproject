@@ -4,8 +4,8 @@
 #include <string>
 #include <memory>
 
-class QuestionBank {
-public:
+struct QuestionBank {
+
     struct Question {
         std::string question;
         std::vector<std::string> answers;
@@ -22,6 +22,6 @@ public:
     const QuestionSet &getRandomQuestionSet() const;
 
 private:
-    std::vector<QuestionSet> questionSets;
+    std::vector<QuestionSet> _questionSets;
 };
 
