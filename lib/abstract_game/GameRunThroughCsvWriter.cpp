@@ -30,17 +30,6 @@ namespace abstract_game {
         }
     }
 
-    template<typename T>
-    void GameRunThroughCsvWriter::writeRow(const std::vector<T> &row) {
-        for (size_t i {0}; i < row.size(); ++i) {
-            _file << row[i];
-            if (i != row.size() - 1) {
-                _file << ",";
-            }
-        }
-        _file << "\n";
-    }
-
 
     void GameRunThroughCsvWriter::close() {
         if (_file.is_open()) {

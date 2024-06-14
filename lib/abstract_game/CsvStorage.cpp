@@ -22,7 +22,7 @@ namespace abstract_game {
         }
 
         // Check if the file is empty before writing the header
-        if (file.tellp() == 0) {
+        if (file.tellp() == 0){
             file << "GameSessionUID,UserID,GameID,StartTime,EndTime,DurationInSeconds,Ended\n";
         }
 
@@ -63,7 +63,7 @@ namespace abstract_game {
 
 
         for (const auto &runThrough: _gameRunThroughs) {
-            writer.writeRow<std::string>({std::to_string(runThrough.gameRunThroughUID),
+            writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
                              std::to_string(runThrough.gameSessionUID),
                              std::to_string(runThrough.result),
                              runThrough.resultUnit});

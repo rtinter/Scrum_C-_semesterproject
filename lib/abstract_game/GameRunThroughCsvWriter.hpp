@@ -20,8 +20,15 @@ namespace abstract_game {
 
         void writeHeader(const std::vector<std::string> &header);
 
-        template<typename T>
-        void writeRow(const std::vector<T> &row);
+        void writeRow(const std::vector<std::string> &row) {
+            for (size_t i {0}; i < row.size(); ++i) {
+                _file << row[i];
+                if (i != row.size() - 1) {
+                    _file << ",";
+                }
+            }
+            _file << "\n";
+        }
 
         void close();
 
