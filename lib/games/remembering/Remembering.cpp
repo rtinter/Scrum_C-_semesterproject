@@ -99,13 +99,24 @@ namespace games {
             if (!showText) {
                 static std::vector<int> selectedAnswers(questions.size(), -1);
 
+                // Set style for combo boxes
+                ImGuiStyle &style = ImGui::GetStyle();
+                style.ItemSpacing = ImVec2(12, 4);
+                style.FramePadding = ImVec2(4, 2);
+
+                // Set color scheme for the combo box
+                ImGui::PushStyleColor(ImGuiCol_FrameBgActive,
+                                      ImVec4(0.4f, 0.4f, 0.4f, 1.0f)); // Active background color
+                ImGui::PushStyleColor(ImGuiCol_PopupBg,
+                                      ImVec4(0.8f, 0.8f, 0.8f, 1.0f)); // Popup background color (light gray)
+
                 for (int i = 0; i < questions.size(); ++i) {
                     const auto &q = questions[i];
                     ImGui::Text("%s", q.question.c_str()); // Display the question
 
                     std::vector<const char *> answers;
                     for (const auto &answer: q.answers) {
-                        answers.push_back(answer.c_str());
+                        answers.emplace_back(answer.c_str());
                     }
 
                     if (submitted) {
@@ -114,19 +125,27 @@ namespace games {
                         if (selectedAnswers[i] == -1) {
                             color = ImVec4(1, 0, 0, 1); // Red for unanswered
                         } else {
-                            color = (selectedAnswers[i] == q.correctAnswerIndex) ? ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0,
-                                                                                                               1); // Green for correct, red for incorrect
+                            color = (selectedAnswers[i] == q.correctAnswerIndex) ?
+                                    ImVec4(0, 1, 0, 1) : ImVec4(1, 0, 0, 1); // Green for correct, red for incorrect
                         }
 
                         ImGui::PushStyleColor(ImGuiCol_Text, color);
-                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers.data(),
-                                     answers.size());
+                        ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.3f); // Set width to 50% of window width
+                        (void) ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i],
+                                            answers.data(),
+                                            answers.size());
                         ImGui::PopStyleColor();
                     } else {
-                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers.data(),
-                                     answers.size());
+                        ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.3f); // Set width to 50% of window width
+                        (void) ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i],
+                                            answers.data(),
+                                            answers.size());
                     }
                 }
+
+                // Pop the styles to reset to default
+                ImGui::PopStyleColor(2);
+
                 if (!submitted && ImGui::Button("Submit All")) {
                     submitted = true;
                     _showContinueButton = true; // Zeige den Button nach dem Einreichen
