@@ -12,8 +12,6 @@ namespace abstract_game {
         AIM_TRAINER = 1003,
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
-        // ZweitesSpiel = 2,
-        // DrittesSpiel = 3,
     };
 } // namespace abstract_game
 
