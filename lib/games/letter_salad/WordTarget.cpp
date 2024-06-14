@@ -36,3 +36,8 @@ bool *WordTarget::isFound() const {
 void WordTarget::setFound() const {
     _found = true;
 }
+WordTarget& WordTarget::operator=(const std::string &word) {
+    _word = word;
+    _found = false;
+    return *this;
+}
