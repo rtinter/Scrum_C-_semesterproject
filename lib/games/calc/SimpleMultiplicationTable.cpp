@@ -3,6 +3,7 @@
 #include <imgui.h>
 #include <chrono>
 #include "Fonts.hpp"
+#include "SoundManager.hpp"
 
 SimpleMultiplicationTable::SimpleMultiplicationTable()
         : _leftOperand(0), _rightOperand(0), _answer(0), _running(false),
@@ -59,14 +60,17 @@ void SimpleMultiplicationTable::render() {
         }
 
         // Make input text field shorter and center it
-        ImVec2 inputTextSize = ImGui::CalcTextSize(input);
         float inputFieldWidth = 150.0f; // Set desired width
-        ImGui::SetCursorPos(ImVec2((windowSize.x - inputFieldWidth) / 2.0f, (windowSize.y - inputTextSize.y) / 2.0f + textSize.y + 50.0f));
+        ImGui::SetCursorPos(ImVec2((windowSize.x - inputFieldWidth) / 2.0f, (windowSize.y / 2.0f) + textSize.y + 20.0f));
         ImGui::SetNextItemWidth(inputFieldWidth); // Set the width of the input field
 
         if (ImGui::InputText("##input", input, sizeof(input), ImGuiInputTextFlags_EnterReturnsTrue)) {
             _answer = std::atoi(input);
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
+
+            if (_completedSuccessfully) {
+                commons::SoundManager::playSound(commons::Sound::CORRECT, 100.f, 1.2);
+            }
             _running = false;
             std::fill(std::begin(input), std::end(input), 0);  // Clear input
         }
