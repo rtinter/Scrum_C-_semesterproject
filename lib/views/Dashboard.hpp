@@ -12,7 +12,7 @@ namespace views {
      * user can start games by clicking on them.
      **************************************************************/
     class Dashboard {
-        std::map<String, std::vector<UniqueTile> > _categoryTiles;
+        std::unordered_map<String, std::vector<UniqueTile> > _categoryTiles;
 
         void addTileToCategory(String const &category, UniqueTile &tile);
 

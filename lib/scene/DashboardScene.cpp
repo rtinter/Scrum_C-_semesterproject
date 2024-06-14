@@ -81,9 +81,9 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    _dashboard->addTilesToCategory("Reaktion", kCategory1Tiles);
-    _dashboard->addTilesToCategory("Genauigkeit", kCategory2Tiles);
     _dashboard->addTilesToCategory("Problemlösung", kCategory3Tiles);
+    _dashboard->addTilesToCategory("Genauigkeit", kCategory2Tiles);
+    _dashboard->addTilesToCategory("Reaktion", kCategory1Tiles);
 }
 
 void scene::DashboardScene::render() {
