@@ -2,9 +2,7 @@ set(LIBRARY_NAME typeracer)
 
 file(GLOB SOURCES *.cpp)
 
-add_library(${LIBRARY_NAME} ${SOURCES}
-        fireDepartmentAndPoliceTexts.h
-        fireDepartmentAndPoliceTexts.cpp)
+add_library(${LIBRARY_NAME} ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}

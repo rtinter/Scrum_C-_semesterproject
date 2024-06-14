@@ -1,4 +1,4 @@
-#include "fireDepartmentAndPoliceTexts.h"
+#include "fireDepartmentAndPoliceTexts.hpp"
 
 namespace typeracer {
     std::vector<std::string> FireDepartmentAndPoliceTexts::_mixedTexts = {

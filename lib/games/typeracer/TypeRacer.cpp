@@ -12,7 +12,7 @@
 #include <set>
 #include <sstream>
 #include <iomanip>
-#include "fireDepartmentAndPoliceTexts.h"
+#include "fireDepartmentAndPoliceTexts.hpp"
 #include "GameSessionManager.hpp"
 
 
@@ -52,7 +52,7 @@ namespace typeracer {
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distr(0, arraySize - 1);
 
-        int randomIndex = distr(gen);
+        int randomIndex { distr(gen) };
         return randomIndex;
     }
 
@@ -97,11 +97,11 @@ namespace typeracer {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Type Racer").render([this]() {
             std::set<int> mistypedIndices;
-            std::string sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            std::string sentence { FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex] };
             // for testing purposes
             // std::string sentence = "Dies ist ein Test.";
-            float windowWidth = ImGui::GetWindowWidth();
-            float textWidth = ImGui::CalcTextSize(sentence.c_str()).x;
+            float windowWidth { ImGui::GetWindowWidth() };
+            float textWidth { ImGui::CalcTextSize(sentence.c_str()).x };
 
             ImGui::NewLine();
             ImGui::NewLine();
@@ -159,9 +159,9 @@ namespace typeracer {
 
             // Calculate WPM in real-time
             if (_runTimer && strlen(_input) > 0) {
-                auto currentTime = std::chrono::steady_clock::now();
-                std::chrono::duration<float> elapsedSeconds = currentTime - _startPoint;
-                float minutes = elapsedSeconds.count() / 60.0f;
+                auto currentTime{ std::chrono::steady_clock::now() };
+                std::chrono::duration<float> elapsedSeconds{ currentTime - _startPoint };
+                float minutes { elapsedSeconds.count() / 60.0f };
                 int numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 
