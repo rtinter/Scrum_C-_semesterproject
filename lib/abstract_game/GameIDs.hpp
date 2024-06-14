@@ -13,6 +13,7 @@ namespace abstract_game {
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
         REMEMBERING = 1006,
+        MEMORY = 1007,
     };
 } // namespace abstract_game
 
