@@ -57,6 +57,7 @@ namespace sequence { //TODO change namespace to game
         ui_elements::Window("Sequence Game").render(([this] {
 
             ui_elements::Centered(true, true, [this] {
+                ImGui::PushFont(commons::Fonts::_header3);
                 switch (_currentGameMode) {
                     case GameMode::WATCH:
                         ImGui::Text("Sieh zu und versuch dir die Reihenfolge zu merken!");
@@ -65,6 +66,7 @@ namespace sequence { //TODO change namespace to game
                         ImGui::Text("Wiederhole die Reihenfolge!");
                         break;
                 }
+                ImGui::PopFont();
 
                 // ImGui::NewLine();
                 displayButtons();
@@ -74,31 +76,35 @@ namespace sequence { //TODO change namespace to game
     }
 
     void Sequence::start() {
-        reset();
         _currentGameMode = GameMode::WATCH;
         _isGameRunning = true;
         _showEndbox = false;
         _sequenceButtonIterator = 0;
+        _wasLastButtonOfSequence = false;
+
+        _levelCounter = 0;
+        _buttonsClickedSequence.clear();
+        //Set all button states to false/0 (not lighting up)
+        _buttonStatess.fill(0);
 
         //TODO remove, currently used to show all buttons are in state 0 at beginning
+        //TODO switch with increasing sequence -> perhaps everytime gameMode is switched back to WATCH
         int i{0};
         for (int state: _buttonStatess) {
             std::cout << state << " " << i << std::endl;
             i++;
         }
 
-        for (int k{0}; k < 10; k++) {
+        for (int k{0}; k < 5; k++) {
             chooseNextRandomButton();
+            nextLevel();
         }
         showSequence();
 
     }
 
     void Sequence::reset() {
-        _levelCounter = 1;
-        _buttonsClickedSequence.clear();
-        //Set all button states to false/0 (not lighting up)
-        _buttonStatess.fill(0);
+        start();
     }
 
     void Sequence::stop() {
@@ -132,8 +138,13 @@ namespace sequence { //TODO change namespace to game
                 case GameMode::WATCH:
 
                     checkLitUpExpired(_buttonStatess[buttonID]);       //check, if Button is currently already lit up and then should be turned off
+                    if(_wasLastButtonOfSequence) {
+                        switchGameMode();
+                        std::cout << "Was last button -> THUS GAMEMODE SWITCHED TO: " << _currentGameMode << std::endl;
+                    }
+
                     if (_buttonStatess[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
-                        std::cout << "Light up this shit " << buttonID << std::endl;
+                        //std::cout << "Light up this shit " << buttonID << std::endl;
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::ACCENT_COLOR);
@@ -198,20 +209,19 @@ namespace sequence { //TODO change namespace to game
     }
 
     void Sequence::showSequence() {
-        int i {0};
+        int buttonForLoopIteration {0};
         for (int button: _buttonsClickedSequence) {
             std::cout << button << std::endl;
-            std::cout << "cond1" << (_buttonStatess[button] == 0) << "\ncond2" << (_canShowNextButtonInSequence) << "\ncond3" << (_sequenceButtonIterator == i) << std::endl;
-            std::cout << "buttonIterator " << _sequenceButtonIterator << " i " << i << std::endl;
+            std::cout << "cond1 " << (_buttonStatess[button] == 0) << "\ncond2 " << (_canShowNextButtonInSequence) << "\ncond3 " << (_sequenceButtonIterator == buttonForLoopIteration) << std::endl;
+            std::cout << "buttonIterator " << _sequenceButtonIterator << " =? buttonForLoopIteration " << buttonForLoopIteration << std::endl;
             if ((_buttonStatess[button] == 0) &&
-                _canShowNextButtonInSequence && (_sequenceButtonIterator == i)) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
+                _canShowNextButtonInSequence && (_sequenceButtonIterator == buttonForLoopIteration)) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
                 lightUp(_buttonStatess[button]);    //light up button X by setting state of button X to 1/true
                 std::cout << "Light up!" << button << std::endl;
             } else {
-                // checkLitUpExpired()
-                std::cout << "Wait next light up!" << std::endl;
+                std::cout << "Not allowed to light up now." << std::endl;
             }
-            i++;
+            buttonForLoopIteration++;
 
         }
     }
@@ -225,14 +235,31 @@ namespace sequence { //TODO change namespace to game
     }
 
     void Sequence::checkLitUpExpired(int &buttonState) {
+
         //if Lighting up time is expired
         if ((buttonState == 1) && std::chrono::steady_clock::now() > _stopHighlightingHere) {
             buttonState = 0;
-            _canShowNextButtonInSequence = true;    //Button ist wieder aus, also kann nun der nächste Button aufleuchten
-            //TODO maybe implement moveOnToNextButton here
-            moveOnToNextButton();
-            showSequence();
-            std::cout << "canShowNextButton = TRUE" << std::endl;
+            std::cout << "ENTERING CHECKLITUP EXPIRED FIRST IF" << std::endl;
+
+            std::cout << "sequence Iterartor: " << _sequenceButtonIterator << " level: " << _levelCounter << std::endl;
+
+            if(_sequenceButtonIterator <= _levelCounter) {
+
+                std::cout << "IN IF sequene Iterartor: " << _sequenceButtonIterator << " level: " << _levelCounter << std::endl;
+                _canShowNextButtonInSequence = true;    //Button ist wieder aus, also kann nun der nächste Button aufleuchten
+                std::cout << "canShowNextButton = TRUE" << std::endl;
+
+                std::cout << "************************************************NEXT BUTTON***************************************\n";
+                moveOnToNextButton();
+                showSequence();
+                if (_sequenceButtonIterator == _levelCounter) {
+                    _wasLastButtonOfSequence = true;
+                    std::cout << "REACHED LAST BUTTON OF SEQUENCE" << std::endl;
+                }
+                std::cout << "REACHED " << _sequenceButtonIterator << " BUTTON OF SEQUENCE, LEVEL " << _levelCounter << std::endl;
+            }
+
+
         }
     }
 
@@ -258,7 +285,7 @@ namespace sequence { //TODO change namespace to game
             case GameMode::REPEAT:
                 _currentGameMode = GameMode::WATCH;
 
-                _isLastButtonOfSequence = false; //reset sequence show endtime checker variable
+                _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable
                 _sequenceButtonIterator = 0;
                 break;
         }
