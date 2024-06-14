@@ -7,6 +7,7 @@
 #include "ColorMatch.hpp"
 #include "AimTrainer.hpp"
 #include "../games/typeracer/TypeRacer.hpp"
+#include "Analogy.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -82,6 +83,21 @@ scene::DashboardScene::DashboardScene() {
                     }
             )
     );
+
+    // Kategorie: Problemlösung
+    problemSolvingCategory.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Analogie Spiel",
+                    "Finde das passende Wort",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Analogy>>()
+                        );
+                    }
+            )
+    );
+
 
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
      * hier festgelegt.
