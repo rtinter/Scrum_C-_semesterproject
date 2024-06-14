@@ -13,10 +13,13 @@ namespace games {
                 "In diesen Berufen ist es entscheidend, rasch und genau auf Informationen zu reagieren,\n"
                 "daher ist das Spiel ein zuverlässiger Indikator für das persönliche können und hilft \n"
                 "sich in dieser Domäne zu verbessern.";
-        _gameRules = "Ein Text wird angezeigt, der eine Zeugenaussage oder andere detaillierte Informationen enthält.\n"
-                     "Der User hat 30 Sekunden Zeit, sich den Text durchzulesen und so viele Details wie möglich zu merken.\n"
-                     "Nach Ablauf der Zeit verschwindet der Text und es werden Detailfragen zum jeweiligen Text gestellt.\n"
-                     "Versuche, so viele Fragen wie möglich richtig zu beantworten!"
+        _gameRules = "Ein Text wird angezeigt, der eine Zeugenaussage \n"
+                     "oder andere detaillierte Informationen enthält.\n"
+                     "Der User hat 30 Sekunden Zeit, sich den Text durchzulesen und so \n"
+                     "viele Details wie möglich zu merken.\n"
+                     "Nach Ablauf der Zeit verschwindet der Text und es werden \n"
+                     "Detailfragen zum jeweiligen Text gestellt.\n"
+                     "Versuche, so viele Fragen wie möglich richtig zu beantworten!\n"
                      "Beachte die Rechtschreibung und schreibe zahlen aus ";
         _gameControls = "Linke Maustaste um das Feld in das du schreiben möchtest auszuwählen\n"
                         "Tastatur um deine Antwort einzugeben.";
@@ -198,7 +201,6 @@ namespace games {
         start();
         selectRandomQuestionSet();
         _selectedAnswers.assign(_currentQuestionSet.questions.size(), -1);
-        std::cout << "test";
         _submitted = false;
         _score = 0;
         std::fill(_userTextBuffer.begin(), _userTextBuffer.end(), 0);

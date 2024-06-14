@@ -12,7 +12,8 @@ namespace ui_elements {
     class Window {
     public:
         explicit Window(std::string const &name, bool *p_open = nullptr,
-                        ImGuiWindowFlags flags = ImGuiWindowFlags_NoTitleBar |
+                        ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize |
+                                                 ImGuiWindowFlags_NoTitleBar |
                                                  ImGuiWindowFlags_NoDecoration |
                                                  ImGuiWindowFlags_NoBringToFrontOnFocus |
                                                  ImGuiWindowFlags_NoMove
