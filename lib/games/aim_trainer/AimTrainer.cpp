@@ -55,7 +55,7 @@ void games::AimTrainer::updateBlobs(){
 }
 
 void games::AimTrainer::render() {
-    ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+    ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls, [this] {
         start();
     }).render();
 
@@ -91,23 +91,10 @@ void games::AimTrainer::render() {
         }
     }
 
-    ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-        ImGui::PushFont(commons::Fonts::_header2);
-        ui_elements::TextCentered(std::move(_endboxTitle));
-        ImGui::PopFont();
-        ui_elements::TextCentered(std::move(_endboxText));
-
-        ui_elements::Centered(true, true, [this]() {
-            if (ImGui::Button("Versuch es nochmal")) {
-                reset();
-                start();
-            }
-
-            if (ImGui::Button("Zurück zur Startseite")) {
-                scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-            }
-        });
-    });
+    ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
+        reset();
+        start();
+    }).render();
 
     if (_isGameRunning) {
         renderGame();
@@ -120,7 +107,7 @@ void games::AimTrainer::renderGame() {
         _timer->render();
         if(_timer->isExpiredNow()){
             _isGameRunning = false;
-            _showEndbox = true;
+            _showEndBox = true;
         }
         _elapsedTime = _clock.getElapsedTime();
         if (_elapsedTime.asSeconds() >= 2) {
@@ -152,7 +139,7 @@ void games::AimTrainer::reset() {
 
 void games::AimTrainer::start() {
     _isGameRunning = true;
-    _showEndbox = false;
+    _showEndBox = false;
 
     _timer = std::make_unique<ui_elements::Timer>("Aim Trainer", 60);
     _timer->start();
