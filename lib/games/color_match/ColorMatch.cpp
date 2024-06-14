@@ -25,33 +25,21 @@ namespace games {
                 "zwischen verschiedenen Reizen zu unterscheiden, sind wesentliche Fähigkeiten\n"
                 "für den Einsatz von Polizei- und Feuerwehrkräften.";
         _gameRules = "Es wird zufällig zwischen zwei Spiel-Modi gewechselt: "
-                "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
-                "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
-                "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
+                     "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
+                     "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
+                     "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
         _gameControls = "Linke Maustaste: Klicken der richtigen Antworten in der richtigen Reihenfolge";
     }
 
     void ColorMatch::render() {
-        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,
+                             [this] {
+                                 start();
+                             }).render();
+
+        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
             start();
         }).render();
-
-        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
-            ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
-
-            ui_elements::Centered(true, true, [this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    start();
-                }
-
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
 
         if (_isGameRunning) {
             renderGame();
@@ -70,7 +58,7 @@ namespace games {
                 pickRandomColorsImVec4();
                 _isTimeForNewRandomColors = false;
             }
-            ui_elements::Centered(true, false,[this] {
+            ui_elements::Centered(true, false, [this] {
                 switch (_currentGameMode) {
                     case GameMode::MATCH_STRING:
                         ImGui::Text("Finde die Übereinstimmung mit dem Farbwort:");
@@ -89,9 +77,9 @@ namespace games {
     void ColorMatch::start() {
         reset();
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-            std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
+                std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
         _isGameRunning = true;
-        _showEndbox = false;
+        _showEndBox = false;
         _timer.start();
     }
 
@@ -159,8 +147,8 @@ namespace games {
 
             ImGui::PushStyleColor(ImGuiCol_ButtonActive, // show whether click was correct via quick color change
                                   isCurrentColor
-                                      ? commons::ColorTheme::SUCCESS_COLOR
-                                      : commons::ColorTheme::ERROR_COLOR);
+                                  ? commons::ColorTheme::SUCCESS_COLOR
+                                  : commons::ColorTheme::ERROR_COLOR);
 
             if (ImGui::Button(buttonID.c_str(), ImVec2(80, 40))) {
                 onClick(isCurrentColor);
@@ -185,13 +173,12 @@ namespace games {
     }
 
     void ColorMatch::stop() {
-        _endboxString =
+        _endBoxText =
                 "Richtige: " + std::to_string(_numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
                 std::to_string(_longestStreak);
-        _endboxText = _endboxString.c_str();
         _isGameRunning = false;
-        _showEndbox = true;
-        _endboxTitle = "Zeit abgelaufen!";
+        _showEndBox = true;
+        _endBoxTitle = "Zeit abgelaufen!";
     }
 
     void ColorMatch::updateStatistics() {

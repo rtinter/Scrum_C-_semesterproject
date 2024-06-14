@@ -17,7 +17,6 @@ namespace games {
         int _numberOfCorrectClicksInTotal;
         int _numberOfCorrectClicksSinceLastError;
         int _longestStreak;
-        std::string _endboxString;
         enum GameMode {
             MATCH_IMVEC4, // click text button according to font color
             MATCH_STRING  // click color button according to word
@@ -54,7 +53,7 @@ namespace games {
 
         void displayColorButtons();
 
-        void stop();
+        void stop() override;
 
         void onClick(bool isCurrentColor);
     };
