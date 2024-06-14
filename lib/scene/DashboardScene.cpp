@@ -14,8 +14,8 @@ using Tile = ui_elements::Tile;
 scene::DashboardScene::DashboardScene() {
 
     _header = std::make_unique<views::Header>("Home", "Meine Werte", []() {
-      // linking to user result site
-       SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
+        // linking to user result site
+        SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
     });
 
     _dashboard = std::make_unique<views::Dashboard>();
@@ -28,25 +28,25 @@ scene::DashboardScene::DashboardScene() {
 
     // CREATE Reaktionsspiel in Category 1
     kCategory1Tiles.push_back(
-        std::make_unique<Tile>(
-            "Reaktionsspiel",
-            []() {
-                SceneManager::getInstance().switchTo(
-                    std::make_unique<GameScene<reaction::Reaction> >()
-                );
-            }
-        )
+            std::make_unique<Tile>(
+                    "Reaktionsspiel",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<reaction::Reaction> >()
+                        );
+                    }
+            )
     );
 
     // CREATE Color Match in Category 1
     kCategory1Tiles.push_back(
-        std::make_unique<Tile>(
-            "Farbe & Text",
-            []() {
-                SceneManager::getInstance().switchTo(
-                    std::make_unique<GameScene<games::ColorMatch> >());
-            }
-        )
+            std::make_unique<Tile>(
+                    "Farbe & Text",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::ColorMatch> >());
+                    }
+            )
     );
 
     // CREATE Dummy in Category 2
@@ -67,22 +67,23 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<typeracer::TypeRacer>>()
-                                );
+                        );
                     }
             )
     );
 
     // CREATE LetterSalad in Category 3
     kCategory3Tiles.push_back(
-        std::make_unique<Tile>(
-            "Buchstabensalat",
-            "Finde alle Wörter\nin vorgegebener Zeit",
-            []() {
-              SceneManager::getInstance().switchTo(
-                  std::make_unique<GameScene<game::LetterSalad>>()
-              );
-            }
-        )
+            std::make_unique<Tile>(
+                    "Pic",
+                    "Buchstabensalat",
+                    "Finde alle Wörter\nin vorgegebener Zeit",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<game::LetterSalad>>()
+                        );
+                    }
+            )
     );
 
     _dashboard->addTilesToCategory("Kategorie 1", kCategory1Tiles);
