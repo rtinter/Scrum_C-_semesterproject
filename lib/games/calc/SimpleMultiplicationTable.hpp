@@ -18,6 +18,7 @@ public:
     void setDifficulty(int level) override;
 
 private:
+    bool _focusSet{true};
     int _leftOperand;
     int _rightOperand;
     int _answer;

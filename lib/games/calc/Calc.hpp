@@ -1,44 +1,43 @@
-#ifndef ATHENA_CALC_H
-#define ATHENA_CALC_H
+#ifndef CALC_HPP
+#define CALC_HPP
 
 #include <string>
-#include "Game.hpp"
-#include "MathTask.hpp"
-#include "MathTaskFactory.hpp"
 #include <chrono>
 #include <optional>
+#include "../abstract_game/Game.hpp"
+#include "../ui_elements/Timer.hpp"
+#include "MathTask.hpp"
 
 namespace games {
     class Calc : public abstract_game::Game {
     public:
         Calc();
-        void start() override;
+
         void render() override;
-        std::string getName() const override;
+        void start() override;
         void reset() override;
         void stop() override;
+        void updateStatistics() override;
+        std::string getName() const override;
 
     private:
         void nextLevel();
+        void renderGame() override;
         void showEndScreen();
         void calculateEndScreenText();
-        double getElapsedTimeInMinutes() const;
         double getElapsedTimeInSeconds() const;
-        void updateStatistics() override;
-        void renderGame() override;
-        bool hasGameEnded() const;
-        void handleGameEnd();
 
-        std::unique_ptr<MathTask> _currentLevel;
         int _completedLevels{0};
         bool _showEndbox{false};
-        bool _elapsedTimeSet{false};
-        double _elapsedTimeCalculated{0.0};
-        std::string _endScreenStatisticText;
-        std::string _endScreenTitle;
-        std::chrono::steady_clock::time_point _startTime;
+        bool _showInfobox{true};
+        std::optional<std::chrono::steady_clock::time_point> _startTime;
         std::optional<std::chrono::steady_clock::time_point> _endTime;
+        double _elapsedTimeCalculated{0.0};
+        std::string _endScreenTitle;
+        std::string _endScreenStatisticText;
+        std::string _averageTimeText;
+        std::shared_ptr<MathTask> _currentLevel;
     };
 }
 
-#endif // ATHENA_CALC_H
+#endif // CALC_HPP

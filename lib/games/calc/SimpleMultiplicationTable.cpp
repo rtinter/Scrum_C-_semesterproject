@@ -2,6 +2,7 @@
 #include <random>
 #include <imgui.h>
 #include <chrono>
+#include "Fonts.hpp"
 
 SimpleMultiplicationTable::SimpleMultiplicationTable()
         : _leftOperand(0), _rightOperand(0), _answer(0), _running(false),
@@ -19,6 +20,7 @@ void SimpleMultiplicationTable::start() {
     generateTask();
     _running = true;
     _completedSuccessfully = false;
+    _focusSet = false; // Reset focus flag at the start of each game
 }
 
 bool SimpleMultiplicationTable::isRunning() const {
@@ -37,20 +39,29 @@ void SimpleMultiplicationTable::generateTask() {
 
 void SimpleMultiplicationTable::render() {
     if (_running) {
+        ImGui::PushFont(commons::Fonts::_header2);
 
-        ImGui::Text("What is %d * %d?", _leftOperand, _rightOperand);
+        std::string taskText = std::to_string(_leftOperand) + " * " + std::to_string(_rightOperand) + "?";
+        ImVec2 textSize = ImGui::CalcTextSize(taskText.c_str());
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - textSize.x) / 2.0f);
+        ImGui::Text("%s", taskText.c_str());
+
+        ImGui::PopFont();
 
         static char input[128] = "";
-        ImGui::InputText("##input", input, sizeof(input));
 
-        if (ImGui::Button("Submit")) {
+        if (!_focusSet) {
+            ImGui::SetKeyboardFocusHere();
+            _focusSet = true; // Focus set once per game session
+        }
+
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(input).x) / 2.0f);
+        if (ImGui::InputText("##input", input, sizeof(input), ImGuiInputTextFlags_EnterReturnsTrue)) {
             _answer = std::atoi(input);
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
             _running = false;
             std::fill(std::begin(input), std::end(input), 0);  // Clear input
         }
-    } else {
-        ImGui::Text("Press start to begin the task.");
     }
 }
 

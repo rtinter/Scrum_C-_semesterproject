@@ -1,11 +1,12 @@
 #include "Calc.hpp"
 #include "Overlay.hpp"
-#include "InfoBox.hpp"
 #include "../commons/Fonts.hpp"
 #include "TextCentered.hpp"
+#include "InfoBox.hpp"
 #include "Centered.hpp"
 #include "SceneManager.hpp"
 #include "DashboardScene.hpp"
+#include "MathTaskFactory.hpp"
 #include "Window.hpp"
 #include <iostream>
 #include <sstream>
@@ -23,6 +24,7 @@ namespace games {
         _gameControls = "Eingabefeld: Ergebnis der Rechenaufgabe eingeben und bestätigen.";
         _endScreenTitle = "Spiel beendet";
         _endScreenStatisticText = "";
+        _averageTimeText = ""; // Initialize the new member variable
     }
 
     void Calc::start() {
@@ -45,12 +47,15 @@ namespace games {
     }
 
     void Calc::render() {
-        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this]() {
-            start();
-        }).render();
+        ui_elements::InfoBox(
+                _gameID, _showInfobox, "Startbox",
+                _gameName, _gameDescription, _gameRules, _gameControls,
+                [this]() { start(); }
+        ).render();
 
-        if (_showInfobox)
+        if (_showInfobox) {
             return;
+        }
 
         if (!_currentLevel->isRunning()) {
             if (!_currentLevel->wasSuccessfullyCompleted()) {
@@ -67,14 +72,15 @@ namespace games {
 
         if (_showEndbox) {
             showEndScreen();
-        } else {
-            renderGame();
+            return;
         }
+
+        renderGame();
     }
 
     void Calc::showEndScreen() {
         _showEndbox = true;
-
+        // TODO: could be replaced with InfoBox if the InfoBox supports Content rendering in Lambda
         ui_elements::Overlay("EndScreen", _showEndbox).render([this]() {
             ImGui::PushFont(commons::Fonts::_header2);
             ui_elements::TextCentered(_endScreenTitle.c_str());
@@ -85,6 +91,9 @@ namespace games {
             while (std::getline(endScreenTextStream, line)) {
                 ui_elements::TextCentered(line.c_str());
             }
+
+            // Render the average time text separately
+            ui_elements::TextCentered(_averageTimeText.c_str());
 
             ui_elements::Centered(true, true, [this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
@@ -102,16 +111,17 @@ namespace games {
         _elapsedTimeCalculated = getElapsedTimeInSeconds();
 
         std::ostringstream endScreenTextStream;
-        endScreenTextStream << "Richtig gelöste Aufgaben: " << _completedLevels << "\n";
+        endScreenTextStream << "Richtig gelöste Aufgaben: " << _completedLevels;
+        _endScreenStatisticText = endScreenTextStream.str();
 
         if (_completedLevels > 0) {
             double averageTimePerTask = _elapsedTimeCalculated / _completedLevels;
-            endScreenTextStream << "Durchschnittlich benötigte Zeit pro Aufgabe: " << std::round(averageTimePerTask) << " Sekunden";
+            std::ostringstream averageTimeStream;
+            averageTimeStream << "Durchschnittlich benötigte Zeit pro Aufgabe: " << std::round(averageTimePerTask) << " Sekunden";
+            _averageTimeText = averageTimeStream.str();
         } else {
-            endScreenTextStream << "Keine Aufgaben erfolgreich gelöst.";
+            _averageTimeText = "Keine Aufgaben erfolgreich gelöst.";
         }
-
-        _endScreenStatisticText = endScreenTextStream.str();
     }
 
     std::string Calc::getName() const {
@@ -122,19 +132,11 @@ namespace games {
 
     void Calc::stop() {}
 
-    double Calc::getElapsedTimeInMinutes() const {
-        if (!_endTime.has_value()) {
-            return 0.0;
-        }
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime);
-        return duration.count() / 60.0;
-    }
-
     double Calc::getElapsedTimeInSeconds() const {
         if (!_endTime.has_value()) {
             return 0.0;
         }
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime);
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime.value());
         return static_cast<double>(duration.count());
     }
 
