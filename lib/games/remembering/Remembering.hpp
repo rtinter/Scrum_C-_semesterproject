@@ -47,7 +47,7 @@ namespace games {
         int _score{0};
         static std::string _endBoxTitleString;
         static std::string _endBoxTextString;
-        ui_elements::Timer _timer{"Remembering Game", 30};
+        ui_elements::Timer _timer{"Remembering Game", 3};
         static std::vector<int> _selectedAnswers;
 
         std::unique_ptr<QuestionBank> _questionBank;

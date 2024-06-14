@@ -185,6 +185,8 @@ namespace games {
         _showText = true;
         _timer.reset();
         _timer.start();
+        _selectedAnswers.assign(_currentQuestionSet.questions.size(), -1);
+        std::fill(_userTextBuffer.begin(), _userTextBuffer.end(), 0);
     }
 
     void Remembering::stop() {
@@ -196,6 +198,7 @@ namespace games {
         start();
         selectRandomQuestionSet();
         _selectedAnswers.assign(_currentQuestionSet.questions.size(), -1);
+        std::cout << "test";
         _submitted = false;
         _score = 0;
         std::fill(_userTextBuffer.begin(), _userTextBuffer.end(), 0);
