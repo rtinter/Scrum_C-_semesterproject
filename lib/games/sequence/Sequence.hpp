@@ -37,6 +37,7 @@ namespace sequence {
         std::array<int, _NUMBER_OF_BUTTONS> _buttonStatess;
 
 
+        //TODO kurze Wartezeit zwischen light up buttons, falls Buttons zweimal hintereinander aufleuchten
 
         void displayButtons();
 
@@ -53,6 +54,8 @@ namespace sequence {
         void nextLevel();
 
         void switchGameMode();
+
+        void moveOnToNextButton();
 
     public:
         Sequence();

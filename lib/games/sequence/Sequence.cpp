@@ -78,6 +78,7 @@ namespace sequence { //TODO change namespace to game
         _currentGameMode = GameMode::WATCH;
         _isGameRunning = true;
         _showEndbox = false;
+        _sequenceButtonIterator = 0;
 
         //TODO remove, currently used to show all buttons are in state 0 at beginning
         int i{0};
@@ -86,8 +87,9 @@ namespace sequence { //TODO change namespace to game
             i++;
         }
 
-        chooseNextRandomButton();
-        chooseNextRandomButton();
+        for (int k{0}; k < 10; k++) {
+            chooseNextRandomButton();
+        }
         showSequence();
 
     }
@@ -196,16 +198,21 @@ namespace sequence { //TODO change namespace to game
     }
 
     void Sequence::showSequence() {
+        int i {0};
         for (int button: _buttonsClickedSequence) {
+            std::cout << button << std::endl;
+            std::cout << "cond1" << (_buttonStatess[button] == 0) << "\ncond2" << (_canShowNextButtonInSequence) << "\ncond3" << (_sequenceButtonIterator == i) << std::endl;
+            std::cout << "buttonIterator " << _sequenceButtonIterator << " i " << i << std::endl;
             if ((_buttonStatess[button] == 0) &&
-                _canShowNextButtonInSequence) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
+                _canShowNextButtonInSequence && (_sequenceButtonIterator == i)) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
                 lightUp(_buttonStatess[button]);    //light up button X by setting state of button X to 1/true
                 std::cout << "Light up!" << button << std::endl;
             } else {
                 // checkLitUpExpired()
-
+                std::cout << "Wait next light up!" << std::endl;
             }
-            std::cout << "Wait next light up!" << std::endl;
+            i++;
+
         }
     }
 
@@ -222,6 +229,9 @@ namespace sequence { //TODO change namespace to game
         if ((buttonState == 1) && std::chrono::steady_clock::now() > _stopHighlightingHere) {
             buttonState = 0;
             _canShowNextButtonInSequence = true;    //Button ist wieder aus, also kann nun der nächste Button aufleuchten
+            //TODO maybe implement moveOnToNextButton here
+            moveOnToNextButton();
+            showSequence();
             std::cout << "canShowNextButton = TRUE" << std::endl;
         }
     }
@@ -252,5 +262,9 @@ namespace sequence { //TODO change namespace to game
                 _sequenceButtonIterator = 0;
                 break;
         }
+    }
+
+    void Sequence::moveOnToNextButton() {
+        _sequenceButtonIterator++;      //increase iterator that runs through button sequence to check/light up next button
     }
 } // sequence
