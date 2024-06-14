@@ -19,6 +19,8 @@ set(CUSTOM_LIBS
         calc
         reaction
         color_match
+        letter_salad
+        aim_trainer
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC

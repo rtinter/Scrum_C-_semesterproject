@@ -1,4 +1,4 @@
-set(LIBRARY_NAME ui_elements)
+set(LIBRARY_NAME typeracer)
 
 file(GLOB SOURCES *.cpp)
 
@@ -12,8 +12,9 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
-        commons
         abstract_game
+        commons
+        ui_elements
         scene
 )
 

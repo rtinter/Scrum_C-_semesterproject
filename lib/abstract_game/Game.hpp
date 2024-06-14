@@ -71,16 +71,16 @@ public:
 
 
 protected:
-	const char *_gameName;
-	const char *_gameDescription;
-	const char *_gameRules;
-	const char *_gameControls;
+	std::string _gameName;
+	std::string _gameDescription;
+    std::string _gameRules;
+    std::string _gameControls;
 
-	const char *_endboxTitle {"Game Over"};
-	const char *_endboxText {"Game Over"};
+    std::string _endBoxTitle {"Game Over"};
+    std::string _endBoxText {"Game Over"};
 
-	bool _showInfobox{true};
-	bool _showEndbox{false};
+	bool _showStartBox{true};
+	bool _showEndBox{false};
 	bool _isGameRunning{false};
 
     GameID _gameID;
