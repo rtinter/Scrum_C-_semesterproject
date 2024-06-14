@@ -19,6 +19,7 @@ namespace commons {
         initSoundBuffer(Sound::CLICK, "click.mp3");
         initSoundBuffer(Sound::LASER_GUN, "laser-gun.mp3");
         initSoundBuffer(Sound::EXPLOSION, "explosion.mp3");
+        initSoundBuffer(Sound::ERROR, "error.mp3");
 
     }
 
