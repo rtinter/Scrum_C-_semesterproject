@@ -25,13 +25,14 @@ namespace sequence {
         std::chrono::steady_clock::time_point _stopHighlightingHere;
         int _lightUpDurationInSeconds {1};
         //bool _isLitUp {false};
+        //TODO iterator through sequence show
+        //TODO GameMode Switching method?
         bool _isLastButtonOfSequence {false};
         bool _sequenceShowMode {false};
-        bool _canShowNextButtonInSequence{false};
+        bool _canShowNextButtonInSequence{true};    //in the beginning, no button is lit up
 
         std::vector<int> _buttonsClickedSequence;
         //true -> Button lights up
-        std::vector<bool> _buttonStates;
         std::array<int, _NUMBER_OF_BUTTONS> _buttonStatess;
 
 
