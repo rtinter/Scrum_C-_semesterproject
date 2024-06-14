@@ -15,14 +15,24 @@ namespace abstract_game {
     void CsvStorage::saveGameSession(size_t sessionUID, int userID, GameID gameID,
                                      long long startTime, long long endTime,
                                      unsigned long long duration, bool ended) {
+
+        bool isEmpty = false;
+
+        // Check if the file is empty before opening in append mode
+        std::ifstream infile(SESSION_CSV_FILENAME);
+        if (infile.peek() == std::ifstream::traits_type::eof()) {
+            isEmpty = true;
+        }
+        infile.close();
+
         std::ofstream file(SESSION_CSV_FILENAME, std::ios::app); // Open file in append mode
         if (!file.is_open()) {
             std::cerr << "Failed to open file: " << SESSION_CSV_FILENAME << std::endl;
             return;
         }
 
-        // Check if the file is empty before writing the header
-        if (file.tellp() == 0){
+        // Write the header if the file was empty
+        if (isEmpty) {
             file << "GameSessionUID,UserID,GameID,StartTime,EndTime,DurationInSeconds,Ended\n";
         }
 
@@ -38,6 +48,7 @@ namespace abstract_game {
         std::string data {ss.str()};
         file << data;
         file.close();
+
     }
 
     void CsvStorage::saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) {
