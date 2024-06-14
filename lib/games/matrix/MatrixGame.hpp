@@ -14,6 +14,8 @@ namespace games {
         int _numberOfCorrectClicksInTotal;
         int _longestStreak;
         Matrix _mainMatrix;
+        std::array<Matrix, 2> _allMirroredVersions;
+        std::array<Matrix, 3> _allRotatedVersions;
 
     public:
         MatrixGame();

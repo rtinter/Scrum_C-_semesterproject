@@ -6,19 +6,28 @@
 #define ATHENA_MATRIX_HPP
 
 
-class Matrix { // TODO: make UiElement?
+#include <array>
 
-public:
+class Matrix {
     int static const _SIZE{5};
     bool _data[_SIZE][_SIZE];
 
+    Matrix rotate90DegreesRight(int nTimes);
+
+    Matrix mirrorHorizontally();
+
+    Matrix mirrorVertically();
+
+public:
     void init();
 
-    void render(float const cellSize);
+    void render(float cellSize) const;
 
-    Matrix getRotatedCopy();
+    std::array<Matrix, 2> getAllMirroredVersions();
 
-    Matrix getMirroredCopy();
+    std::array<Matrix, 3> getAllRotatedVersions();
+
+
 };
 
 #endif //ATHENA_MATRIX_HPP

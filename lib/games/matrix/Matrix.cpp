@@ -1,5 +1,6 @@
 #include "Matrix.hpp"
 #include <cstdlib>
+#include <array>
 #include "imgui.h"
 #include "Colors.hpp"
 
@@ -11,7 +12,7 @@ void Matrix::init() {
     }
 }
 
-void Matrix::render(float const cellSize) {
+void Matrix::render(float const cellSize) const {
     ImGuiStyle &style = ImGui::GetStyle();
     ImVec2 oldItemSpacing = style.ItemSpacing;
     style.ItemSpacing = ImVec2(0, 0);
@@ -33,23 +34,45 @@ void Matrix::render(float const cellSize) {
 
 }
 
-Matrix Matrix::getRotatedCopy() {
-    Matrix rotatedMatrix;
-    for (int i{0}; i < _SIZE; ++i) {
-        for (int j{0}; j < _SIZE; ++j) {
-            rotatedMatrix._data[j][_SIZE - 1 - i] = _data[i][j];
+std::array<Matrix, 2> Matrix::getAllMirroredVersions() {
+    return std::array<Matrix, 2>{mirrorHorizontally(), mirrorVertically()};
+}
+
+std::array<Matrix, 3> Matrix::getAllRotatedVersions() {
+    return std::array<Matrix, 3>{rotate90DegreesRight(1), rotate90DegreesRight(2), rotate90DegreesRight(3)};
+}
+
+Matrix Matrix::rotate90DegreesRight(int const nTimes) {
+    Matrix rotatedMatrix = *this; // copy original matrix
+    for (int t{0}; t < nTimes; t++) {
+        Matrix tempMatrix;
+        for (int i{0}; i < _SIZE; ++i) {
+            for (int j{0}; j < _SIZE; ++j) {
+                tempMatrix._data[j][_SIZE - 1 - i] = rotatedMatrix._data[i][j];
+            }
         }
+        rotatedMatrix = tempMatrix;
     }
     return rotatedMatrix;
 }
 
-Matrix Matrix::getMirroredCopy() {
+Matrix Matrix::mirrorHorizontally() {
     Matrix mirroredMatrix;
     for (int i{0}; i < _SIZE; ++i) {
         for (int j{0}; j < _SIZE; ++j) {
-            bool temp = _data[i][j];
+            mirroredMatrix._data[i][j] = _data[_SIZE - 1 - i][j];
+        }
+    }
+    return mirroredMatrix;
+}
+
+Matrix Matrix::mirrorVertically() {
+    Matrix mirroredMatrix;
+    for (int i{0}; i < _SIZE; ++i) {
+        for (int j{0}; j < _SIZE; ++j) {
             mirroredMatrix._data[i][j] = _data[i][_SIZE - 1 - j];
         }
     }
     return mirroredMatrix;
 }
+

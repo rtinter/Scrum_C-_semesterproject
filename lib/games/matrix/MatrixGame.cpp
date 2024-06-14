@@ -29,7 +29,7 @@ namespace games {
             ImGui::PopFont();
             ui_elements::TextCentered(std::move(_endboxText));
 
-            ui_elements::Centered([this]() {
+            ui_elements::Centered(true, true, [this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
                     start();
                 }
@@ -51,14 +51,21 @@ namespace games {
             _mainMatrix.render(30.f);
             ImGui::NewLine();
             ImGui::NewLine();
-            _mainMatrix.getMirroredCopy().render(10.f);
-            ImGui::NewLine();
-            ImGui::NewLine();
-            _mainMatrix.getRotatedCopy().render(10.f);
+            for (Matrix matrix: _allMirroredVersions) {
+                matrix.render(10.f);
+                ImGui::NewLine();
+                ImGui::NewLine();
+            }
+
+            for (Matrix matrix: _allRotatedVersions) {
+                matrix.render(10.f);
+                ImGui::NewLine();
+                ImGui::NewLine();
+            }
+
             if (_timer.isExpiredNow()) {
                 stop();
             }
-            ImGui::Text("Matrix");
         });
     }
 
@@ -74,13 +81,16 @@ namespace games {
 
     void MatrixGame::start() {
         reset();
+        _mainMatrix.init();
+        _allMirroredVersions = _mainMatrix.getAllMirroredVersions();
+        _allRotatedVersions = _mainMatrix.getAllRotatedVersions();
         _isGameRunning = true;
         _showEndbox = false;
         _timer.start();
     }
 
     void MatrixGame::reset() {
-        _mainMatrix.init();
+
     }
 
     void MatrixGame::updateStatistics() {
