@@ -7,6 +7,8 @@ namespace commons {
         EXPLOSION,
         ERROR,
         COMPLETE,
-        CORRECT
+        CORRECT,
+        BEEP,
+        BEEP_FAIL
     };
 }

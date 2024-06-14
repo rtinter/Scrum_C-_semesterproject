@@ -22,6 +22,8 @@ namespace commons {
         initSoundBuffer(Sound::ERROR, "error.mp3");
         initSoundBuffer(Sound::COMPLETE, "complete.mp3");
         initSoundBuffer(Sound::CORRECT, "correct.mp3");
+        initSoundBuffer(Sound::BEEP, "beep.mp3");
+        initSoundBuffer(Sound::BEEP_FAIL, "beep-fail.mp3");
 
     }
 
