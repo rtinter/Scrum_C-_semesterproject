@@ -21,5 +21,7 @@ namespace commons {
 
         static void loadSounds();
         static void playSound(commons::Sound sound);
+        static void playSound(commons::Sound sound, int volumeInPercent);
+        static void playSound(commons::Sound sound, int volumeInPercent, float pitch);
     };
 }

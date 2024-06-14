@@ -35,6 +35,14 @@ namespace commons {
     }
 
     void SoundManager::playSound(commons::Sound sound) {
+        playSound(sound, 100.0f);
+    }
+
+    void SoundManager::playSound(commons::Sound sound, int volumeInPercent){
+        playSound(sound, volumeInPercent, 1.0f);
+    }
+
+    void SoundManager::playSound(commons::Sound sound, int volumeInPercent, float pitch){
 
         // check if sound manager is initialized
         if(_soundBufferMap.empty()) {
@@ -50,6 +58,8 @@ namespace commons {
 
         // play sound
         _activeSound.setBuffer(_soundBufferMap.at(sound));
+        _activeSound.setVolume(volumeInPercent);
+        _activeSound.setPitch(pitch);
         _activeSound.play();
 
     }
