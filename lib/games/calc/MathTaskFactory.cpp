@@ -28,7 +28,7 @@ namespace math_task_factory {
         std::mt19937 gen(seedSeq);
 
         // Create a uniform distribution from 0 to the last enum value (excluding Count)
-        std::uniform_int_distribution<> dis(0, static_cast<int>(MathTaskType::TEST2) - 1);
+        std::uniform_int_distribution<> dis(0, static_cast<int>(MathTaskType::SIMPLE_MULTIPLICATION_TABLE));
 
         auto randomType = static_cast<MathTaskType>(dis(gen));
         return createMathTask(randomType);

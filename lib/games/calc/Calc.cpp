@@ -8,137 +8,119 @@
 #include "DashboardScene.hpp"
 #include "Window.hpp"
 #include <iostream>
-#include <random>
-#include <ctime>
 #include <sstream>
+#include <cmath>
 
 namespace games {
-    Calc::Calc()
-            : _currentTask(0, {{0, '+'}}), _taskTimer("Schnelles Rechnen", 30), _displayTimer("Schnelles Rechnen", 4), _state(SHOW_START_NUMBER) {
+    Calc::Calc() : abstract_game::Game(abstract_game::GameID::CALC) {
         _gameName = "Schnelles Rechnen";
-        _gameDescription = "Unser Spiel 'Schnelles Rechnen' testet die Merkfähigkeit und Kopfrechenfähigkeit, "
-                           "die für Polizei- und Feuerwehranwärter unerlässlich sind. Durch die schnelle Abfolge "
-                           "von Rechenoperationen und die anschließende Berechnung des Ergebnisses im Kopf wird die "
-                           "Fähigkeit zur schnellen, genauen mentalen Verarbeitung gefordert.";
-        _gameRules = "Es werden Rechenaufgaben angezeigt, die im Kopf gelöst werden müssen. Die Schwierigkeit erhöht sich mit jeder Runde.";
+        _gameDescription = "Unser Spiel 'Schnelles Rechnen' testet die Merkfähigkeit und Kopfrechenfähigkeit,\n"
+                           "die für Polizei- und Feuerwehranwärter unerlässlich sind. Durch die schnelle Abfolge\n"
+                           "von Rechenoperationen und die anschließende Berechnung des Ergebnisses im Kopf wird\n"
+                           "die Fähigkeit zur schnellen, genauen mentalen Verarbeitung gefordert.";
+        _gameRules = "Es werden Rechenaufgaben angezeigt, die im Kopf gelöst werden müssen.\n"
+                     "Die Schwierigkeit erhöht sich mit jeder Runde.";
         _gameControls = "Eingabefeld: Ergebnis der Rechenaufgabe eingeben und bestätigen.";
-
-        // Generate the initial task after the TaskGenerator is constructed
-        _currentTask = _taskGenerator.generateTask(_currentLevel, _currentResult);
     }
 
     void Calc::start() {
-        reset();
-        _isGameRunning = true;
-        _showInfobox = false;
-        _taskTimer.start();
-        _displayTimer.start();  // Start the display timer with 4 seconds
+        _completedLevels = 0;
+        _showEndbox = false;
+        _elapsedTimeSet = false;
+        _endScreenTitle = "Spiel beendet";
+        _endScreenStatisticText = "";
+        _startTime = std::chrono::steady_clock::now();
+        nextLevel();
     }
 
-    void Calc::reset() {
-        _currentTask = _taskGenerator.generateTask(_currentLevel, 0);
-        _numberOfCorrectAnswers = 0;
-        _currentScore = 0;
-        _showInfobox = true;
-        _state = SHOW_START_NUMBER;
-    }
-
-    void Calc::render() {
-        if (_showInfobox) {
-            ui_elements::InfoBox(_showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
-                start();
-            }).render();
-        } else if (_isGameRunning) {
-            renderGame();
-        }
+    void Calc::nextLevel() {
+        _currentLevel = math_task_factory::createRandomMathTask();
+        _currentLevel->start();
     }
 
     void Calc::renderGame() {
         ui_elements::Window("Schnelles Rechnen").render([this] {
-            _taskTimer.render();
-            _displayTimer.render();
-
-            if (_taskTimer.isExpiredNow()) {
-                stop();
-            } else {
-                switch (_state) {
-                    case SHOW_START_NUMBER:
-                        ImGui::Text("Startwert: %d", _currentTask.getCurrentResult());
-                        _state = SHOW_OPERATION;
-                        _displayTimer.start(); // Restart the display timer for 4 seconds
-                        break;
-
-                    case SHOW_OPERATION:
-                        displayTask();
-                        if (_displayTimer.isExpiredNow()) {
-                            if (_currentTask.hasMoreOperations()) {
-                                _currentTask.advance();
-                                _displayTimer.start(); // Restart the display timer for the next operation
-                            } else {
-                                _state = WAIT_FOR_INPUT;
-                            }
-                        }
-                        break;
-
-                    case WAIT_FOR_INPUT:
-                        ImGui::Text("Geben Sie das Endergebnis ein:");
-                        static char input[128] = "";
-                        ImGui::InputText("##input", input, sizeof(input));
-                        if (ImGui::Button("Bestätigen")) {
-                            int playerAnswer = std::atoi(input);
-                            checkAnswer(playerAnswer);
-                            std::fill(std::begin(input), std::end(input), 0);  // Clear input
-                        }
-                        break;
-                }
-            }
+            _currentLevel->render();
         });
     }
 
-    void Calc::stop() {
-        _isGameRunning = false;
+    void Calc::render() {
+        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this]() {
+            start();
+        }).render();
+
+        if (_showInfobox)
+            return;
+
+        if (!_currentLevel->isRunning()) {
+            if (!_currentLevel->wasSuccessfullyCompleted()) {
+                if (!_elapsedTimeSet) {
+                    _endTime = std::chrono::steady_clock::now();
+                    calculateEndScreenText();
+                    _elapsedTimeSet = true;
+                }
+                showEndScreen();
+                return;
+            }
+
+            _completedLevels++;
+            nextLevel();
+        }
+
+        renderGame();
+    }
+
+    void Calc::showEndScreen() {
         _showEndbox = true;
-        _endboxTitle = "Zeit abgelaufen!";
-        std::string endboxText = "Richtige: " + std::to_string(_numberOfCorrectAnswers) + "\nLängster Streak: " + std::to_string(_numberOfCorrectAnswers);
-        _endboxText = endboxText.c_str();  // Hier wird die Zeichenkette korrekt zugewiesen
+
+        ui_elements::Overlay("EndScreen", _showEndbox).render([this]() {
+            ImGui::PushFont(commons::Fonts::_header2);
+            ui_elements::TextCentered(_endScreenTitle.c_str());
+            ImGui::PopFont();
+
+            std::istringstream endScreenTextStream(_endScreenStatisticText);
+            std::string line;
+            while (std::getline(endScreenTextStream, line)) {
+                ui_elements::TextCentered(line.c_str());
+            }
+
+            ui_elements::Centered(true, true, [this]() {
+                if (ImGui::Button("Versuch es nochmal")) {
+                    start();
+                }
+
+                if (ImGui::Button("Zurück zur Startseite")) {
+                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
+                }
+            });
+        });
+    }
+
+    void Calc::calculateEndScreenText() {
+        _elapsedTimeCalculated = getElapsedTimeInMinutes();
+        double levelsPerMinute = std::round(_completedLevels / _elapsedTimeCalculated);
+
+        std::ostringstream endScreenTextStream;
+        endScreenTextStream << "Richtig gelößte Aufgaben: " << _completedLevels << "\n";
+        endScreenTextStream << "Durchschnitt gelößte Aufgaben pro Minute: " << levelsPerMinute;
+
+        _endScreenStatisticText = endScreenTextStream.str();
+    }
+
+    std::string Calc::getName() const {
+        return "Schnelles Rechnen";
+    }
+
+    void Calc::reset() {}
+
+    void Calc::stop() {}
+
+    double Calc::getElapsedTimeInMinutes() const {
+        auto duration = std::chrono::duration_cast<std::chrono::seconds>(_endTime - _startTime);
+        return duration.count() / 60.0;
     }
 
     void Calc::updateStatistics() {
-        // Statistik-Update-Logik hier
-    }
-
-    void Calc::displayTask() {
-        if (_currentTask.hasMoreOperations()) {
-            ImGui::Text("Berechnung: %c %d", _currentTask.getCurrentOperator(), _currentTask.getCurrentNumber());
-        } else {
-            ImGui::Text("Keine weiteren Aufgaben.");
-        }
-    }
-
-    void Calc::checkAnswer(int playerAnswer) {
-        if (_currentTask.getCurrentResult() == playerAnswer) {
-            _numberOfCorrectAnswers++;
-            _currentScore++;
-            // Grünes Feedback
-            ImGui::Text("Richtige Antwort!");
-
-            // Gehe zur nächsten Aufgabe, falls vorhanden
-            if (_currentTask.hasMoreOperations()) {
-                _currentTask.advance();
-            } else {
-                // Level abgeschlossen
-                _endboxTitle = "Level abgeschlossen";
-                _endboxText = "Level erfolgreich abgeschlossen! Möchten Sie zum nächsten Level wechseln?";
-                _showEndbox = true;
-                _isGameRunning = false;
-            }
-        } else {
-            // Rotes Feedback
-            ImGui::Text("Falsche Antwort!");
-            _isGameRunning = false;
-            _showEndbox = true;
-            _endboxTitle = "Spiel beendet";
-            _endboxText = "Falsche Antwort. Spiel beendet.";
-        }
+        // Add logic for updating statistics here if needed
     }
 }
