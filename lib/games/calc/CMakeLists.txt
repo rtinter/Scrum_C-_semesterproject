@@ -2,11 +2,7 @@ set(LIBRARY_NAME calc)
 
 file(GLOB SOURCES *.cpp)
 
-add_library(${LIBRARY_NAME} ${SOURCES}
-        Task.cpp
-        Task.hpp
-        TaskGenerator.cpp
-        TaskGenerator.hpp)
+add_library(${LIBRARY_NAME} ${SOURCES})
 
 target_include_directories(${LIBRARY_NAME} PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}
