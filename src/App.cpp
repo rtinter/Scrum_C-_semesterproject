@@ -49,9 +49,6 @@ void App::start() {
         }
 
         sceneManager.render();
-        ImPlot::CreateContext();
-        ImPlot::ShowDemoWindow();
-        ImPlot::DestroyContext();
 
         ImGui::SFML::Render(window);
         window.display();
