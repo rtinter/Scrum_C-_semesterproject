@@ -5,6 +5,7 @@
 #include "SFML/Audio/Sound.hpp"
 #include "unordered_map"
 
+
 namespace commons {
     class SoundManager {
 
@@ -28,7 +29,7 @@ namespace commons {
          * @param sound The sound.
          * @param filename The filename.
          */
-        static void initSoundBuffer(commons::Sound sound, std::string const& filename);
+        static void initSoundBuffer(commons::Sound sound, std::string const &filename);
 
     public:
         SoundManager() = delete;
