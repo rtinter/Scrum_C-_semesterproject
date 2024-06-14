@@ -41,7 +41,7 @@ namespace reaction {
             ImGui::PopFont();
             ui_elements::TextCentered(std::move(_endboxText));
 
-            ui_elements::Centered([this]() {
+            ui_elements::Centered(true, true, [this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
                     start();
                 }
@@ -59,8 +59,8 @@ namespace reaction {
     }
 
 
-    std::string Reaction::_endBoxTitleString {};
-    std::string Reaction::_endBoxTextString {};
+    std::string Reaction::_endBoxTitleString{};
+    std::string Reaction::_endBoxTextString{};
 
 
     void Reaction::renderGame() {
@@ -77,7 +77,7 @@ namespace reaction {
                     _finishPoint = std::chrono::steady_clock::now();
 
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                            _finishPoint - _startPoint).count();
+                        _finishPoint - _startPoint).count();
 
                     _showEndbox = true;
 
@@ -86,11 +86,11 @@ namespace reaction {
                     durationStream << duration;
 
                     _endBoxTitleString =
-                        "Vergangene Zeit: " + durationStream.str() + "ms";
+                            "Vergangene Zeit: " + durationStream.str() + "ms";
                     _endboxTitle = _endBoxTitleString.c_str();
 
                     _endBoxTextString =
-                        "Bewertung: " + getDurationRating(duration);
+                            "Bewertung: " + getDurationRating(duration);
                     _endboxText = _endBoxTextString.c_str();
 
                     getGameSession()->addNewGameRunThrough("ms", duration);
