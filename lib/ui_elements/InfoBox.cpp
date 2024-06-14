@@ -1,51 +1,97 @@
+#include "InfoBox.hpp"
 
 #include <Overlay.hpp>
+#include <utility>
 #include <imgui.h>
-#include "InfoBox.hpp"
-#include "../commons/Fonts.hpp"
-#include "TextCentered.hpp"
-#include "Centered.hpp"
+#include <optional>
+#include <Fonts.hpp>
+#include <TextCentered.hpp>
+#include <Centered.hpp>
+#include <SceneManager.hpp>
+#include <DashboardScene.hpp>
 
 namespace ui_elements {
     InfoBox::InfoBox(
-            abstract_game::GameID &gameID,
-            bool &showOverlay,
-            const char *gameName,
-            const char *gameDescription,
-            const char *gameRules,
-            const char *gameControls,
-            const std::function<void()> &startCallback
-    ) : _gameID(gameID),
-        _showOverlay(showOverlay),
-        _gameName(gameName),
-        _gameDescription(gameDescription),
-        _gameRules(gameRules),
-        _gameControls(gameControls),
-        _startCallback(startCallback) {
+            abstract_game::GameID &_gameID,
+            bool &_showOverlay,
+            std::string _overlayType,
+            std::optional<std::string> _gameName,
+            std::optional<std::string> _gameDescription,
+            std::optional<std::string> _gameRules,
+            std::optional<std::string> _gameControls,
+            std::function<void()> const &_callback) :
+            _gameID(_gameID),
+            _showOverlay(_showOverlay),
+            _overlayType(std::move(_overlayType)),
+            _gameName(std::move(_gameName)),
+            _gameDescription(std::move(_gameDescription)),
+            _gameRules(std::move(_gameRules)),
+            _gameControls(std::move(_gameControls)),
+            _callback(std::move(_callback)) {
+    }
+
+    InfoBox::InfoBox(
+            abstract_game::GameID &_gameID,
+            bool &_showOverlay,
+            std::string _overlayType,
+            std::optional<std::string> _endGameTitle,
+            std::optional<std::string> _endGameText,
+            std::function<void()> const &_callback) :
+            _gameID(_gameID),
+            _showOverlay(_showOverlay),
+            _overlayType(std::move(_overlayType)),
+            _endGameTitle(std::move(_endGameTitle)),
+            _endGameText(std::move(_endGameText)),
+            _callback(std::move(_callback)) {
     }
 
     void InfoBox::render() {
-        Overlay("Infobox", _showOverlay).render([this]() {
+        Overlay(_overlayType.c_str(), _showOverlay).render([this]() {
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, sf::Color::Blue);
 
             //game name
             ImGui::PushFont(commons::Fonts::_header2);
-            TextCentered(std::move(_gameName));
+
+            if (_overlayType == "Startbox") {
+                TextCentered(_gameName->c_str());
+            } else if (_overlayType == "Endbox") {
+                TextCentered(_endGameTitle->c_str());
+            }
+
             ImGui::PopFont();
 
-            ImGui::Text(_gameDescription);
-            ImGui::Text(_gameRules);
-            ImGui::Text(_gameControls);
+            if (_overlayType == "Startbox") {
+                ImGui::Text("%s", _gameDescription->c_str());
+                ImGui::Text("%s", _gameRules->c_str());
+                ImGui::Text("%s", _gameControls->c_str());
+            } else if (_overlayType == "Endbox") {
+                TextCentered(_endGameText->c_str());
+            }
 
-            Centered(true, false,[this] {
-                if (ImGui::Button("Spiel starten!")) {
-                    if (_startCallback) {
-                        abstract_game::GameSessionManager::getInstance().startSession(_gameID);
-                        _startCallback();
-                    }
-                    _showOverlay = false;
-                    ImGui::CloseCurrentPopup();
+
+            Centered(true, false, [this] {
+                if (ImGui::Button("Zurück zur Startseite")) {
+                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
+                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
                 }
+
+                ImGui::SameLine();
+
+                if (_overlayType == "Startbox") {
+                    if (ImGui::Button("Spiel starten!")) {
+                        if (_callback) {
+                            abstract_game::GameSessionManager::getInstance().startSession(_gameID);
+                            _callback();
+                        }
+                        _showOverlay = false;
+                        ImGui::CloseCurrentPopup();
+                    }
+                } else {
+                    if (ImGui::Button("Versuch es nochmal")) {
+                        _callback();
+                    }
+                }
+
             });
 
 

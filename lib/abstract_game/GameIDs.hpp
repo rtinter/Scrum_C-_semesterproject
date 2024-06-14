@@ -11,7 +11,8 @@ namespace abstract_game {
         COLOR_MATCH = 1002,
         AIM_TRAINER = 1003,
         LETTER_SALAD = 1004,
-        MATRIX = 1005
+        TYPERACER = 1005,
+        MATRIX = 1006
     };
 } // namespace abstract_game
 

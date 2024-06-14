@@ -18,6 +18,7 @@ set(GAME_LIBS
         color_match
         letter_salad
         matrix
+        typeracer
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
