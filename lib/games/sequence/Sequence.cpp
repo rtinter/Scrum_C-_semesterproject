@@ -19,7 +19,7 @@ namespace sequence {
                      "Diese Buttons werden nacheinander aufleuchten und anschließend müssen die Buttons in exakt dieser\n"
                      "Reihenfolge angeklickt werden. Die Abfolge muss also wiederholt werden.\n"
                      "Die Abfolge wird schrittweise ausgegeben. Also erst nur ein Button, dann zwei, dann drei usw.\n"
-                     "bis zu maximal 20 Buttons in einer Abfolge.\n";
+                     "Teste deine Fähigkeiten und schaue, wie weit du kommst!\n";
         _gameControls = "Linke Maustaste: Klicken der Buttons in der korrekten Reihenfolge.\n";
     }
 
@@ -136,7 +136,7 @@ namespace sequence {
                                   << std::endl;
                     }
 
-                    ImGui::PopStyleColor(); //one times extra because of Hovered color
+                    ImGui::PopStyleColor(); //one time extra because of Hovered color
 
                     break;
                 case GameMode::REPEAT:
@@ -215,10 +215,10 @@ namespace sequence {
     }
 
     void Sequence::lightUp(int &buttonState) {
-        //Sets a button to be lit up for 1 Second
+        //Sets a button to be lit up for 800ms
         _stopHighlightingHere = std::chrono::steady_clock::now() + std::chrono::milliseconds(_lightUpDurationInMilliseconds);
         buttonState = 1;
-        _canShowNextButtonInSequence = false;   //Button leuchtet derzeit auf, also darf erstmal kein neuer aufleuchten, bevor dieser nicht wieder aus ist
+        _canShowNextButtonInSequence = false;   //another button is currently lit up, this variable assures no other button is being lit up at the same time
         std::cout << "canShowNextButton = FALSE  (another button is currently lit up!)" << std::endl;
     }
 
