@@ -4,11 +4,11 @@
 #include <utility>
 #include <imgui.h>
 #include <optional>
-#include "../commons/Fonts.hpp"
-#include "TextCentered.hpp"
-#include "Centered.hpp"
-#include "SceneManager.hpp"
-#include "DashboardScene.hpp"
+#include <Fonts.hpp>
+#include <TextCentered.hpp>
+#include <Centered.hpp>
+#include <SceneManager.hpp>
+#include <DashboardScene.hpp>
 
 namespace ui_elements {
     InfoBox::InfoBox(
