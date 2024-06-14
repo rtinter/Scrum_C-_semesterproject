@@ -24,7 +24,7 @@ namespace games {
         static std::string _endBoxTitleString;
         static std::string _endBoxTextString;
         ui_elements::Timer _timer{"Remembering Game", 5};
-
+        static std::vector<int> selectedAnswers;
 
         std::string text = "Am 12. Juni 2024, um etwa 14:30 Uhr, saß ich im Café \"Kaffeekränzchen\" in der Hauptstraße \n"
                            "23. Plötzlich hörte ich ein lautes Geräusch von zerbrechendem Glas. Eine Person in einem \n"
@@ -68,6 +68,12 @@ namespace games {
         void initializeQuestionsAndAnswers();
 
         std::string displayEvaluation(int const &score, int const &size) const;
+
+        void renderQuestion(int index, const Question &q, int &selectedAnswer);
+
+        void setStyles();
+
+        void renderSubmitButtons();
 
     };
 }
