@@ -23,8 +23,6 @@ namespace typeracer {
         float _wpm {0.0f};
         char _input[256];
         int _randomIndex {0};
-        static std::string _endBoxTitleString;
-        static std::string _endBoxTextString;
         std::vector<float> _wpmHistory;
 
     public:
