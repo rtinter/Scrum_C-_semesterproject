@@ -1,4 +1,6 @@
 add_subdirectory(calc)
 add_subdirectory(reaction)
 add_subdirectory(color_match)
+add_subdirectory(letter_salad)
 add_subdirectory(aim_trainer)
+add_subdirectory(typeracer)
