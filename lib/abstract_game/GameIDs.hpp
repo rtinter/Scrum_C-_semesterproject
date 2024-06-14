@@ -10,7 +10,8 @@ namespace abstract_game {
         REACTION = 1001,
         COLOR_MATCH = 1002,
         AIM_TRAINER = 1003,
-        TYPERACER = 1004,
+        LETTER_SALAD = 1004,
+        TYPERACER = 1005,
         // ZweitesSpiel = 2,
         // DrittesSpiel = 3,
     };
