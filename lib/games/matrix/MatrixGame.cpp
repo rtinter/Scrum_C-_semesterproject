@@ -46,13 +46,17 @@ namespace games {
     }
 
     void MatrixGame::renderGame() {
+
         ui_elements::Window("Matrix Game").render([this] {
+            ImGuiStyle &style{ImGui::GetStyle()};
+            ImVec4 oldImGuiCol_WindowBg = style.Colors[ImGuiCol_WindowBg];
+            style.Colors[ImGuiCol_WindowBg] = commons::Colors::BLACK;
             _timer.render();
-            _mainMatrix.render(30.f);
+            _mainMatrix.render(50.f);
             ImGui::NewLine();
             ImGui::NewLine();
             for (Matrix matrix: _allMirroredVersions) {
-                matrix.render(10.f);
+                matrix.render(30.f);
                 ImGui::NewLine();
                 ImGui::NewLine();
             }
@@ -66,6 +70,7 @@ namespace games {
             if (_timer.isExpiredNow()) {
                 stop();
             }
+
         });
     }
 

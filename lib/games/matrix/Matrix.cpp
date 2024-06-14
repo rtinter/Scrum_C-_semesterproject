@@ -3,6 +3,7 @@
 #include <array>
 #include "imgui.h"
 #include "Colors.hpp"
+#include "Fonts.hpp"
 
 void Matrix::init() {
     for (int i{0}; i < _SIZE; ++i) {
@@ -13,24 +14,33 @@ void Matrix::init() {
 }
 
 void Matrix::render(float const cellSize) const {
-    ImGuiStyle &style = ImGui::GetStyle();
-    ImVec2 oldItemSpacing = style.ItemSpacing;
+    ImGuiStyle &style{ImGui::GetStyle()};
+    ImVec2 oldItemSpacing{style.ItemSpacing};
     style.ItemSpacing = ImVec2(0, 0);
+    float oldFrameRounding{style.FrameRounding};
+    style.FrameRounding = 0.f;
     for (int i{0}; i < _SIZE; ++i) {
         for (int j{0}; j < _SIZE; ++j) {
             ImGui::PushID(i * _SIZE + j); // ensure unique ID
+            ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::BLACK);
             if (_data[i][j]) {
-                ImGui::ColorButton("##btn", commons::Colors::BRIGHT_GREEN, ImGuiColorEditFlags_NoTooltip,
-                                   ImVec2(cellSize, cellSize));
+                ImGui::Button("##btn", ImVec2(cellSize, cellSize));
+
             } else {
-                ImGui::ColorButton("##btn", commons::Colors::BLACK, ImGuiColorEditFlags_NoTooltip,
-                                   ImVec2(cellSize, cellSize));
+                ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::BRIGHT_GREEN);
+                ImGui::PushFont(commons::Fonts::_matrixFontSmall);
+                ImGui::Button("0##btn", ImVec2(cellSize, cellSize));
+                ImGui::PopFont();
+                ImGui::PopStyleColor();
             }
+
+            ImGui::PopStyleColor();
             ImGui::PopID();
             if (j < _SIZE - 1) ImGui::SameLine();
         }
     }
     style.ItemSpacing = oldItemSpacing;
+    style.FrameRounding = oldFrameRounding;
 
 }
 
@@ -43,7 +53,7 @@ std::array<Matrix, 3> Matrix::getAllRotatedVersions() {
 }
 
 Matrix Matrix::rotate90DegreesRight(int const nTimes) {
-    Matrix rotatedMatrix = *this; // copy original matrix
+    Matrix rotatedMatrix{*this}; // copy original matrix
     for (int t{0}; t < nTimes; t++) {
         Matrix tempMatrix;
         for (int i{0}; i < _SIZE; ++i) {
