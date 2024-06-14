@@ -1,5 +1,3 @@
-#pragma once
-
 #include <iostream>
 #include "SoundManager.hpp"
 #include <SFML/Audio.hpp>
