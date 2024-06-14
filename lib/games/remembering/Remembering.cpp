@@ -52,6 +52,9 @@ namespace games {
         };
     }
 
+    std::string Remembering::_endBoxTitleString{};
+    std::string Remembering::_endBoxTextString{};
+
     void Remembering::render() {
         ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
             start();
@@ -61,7 +64,12 @@ namespace games {
             ImGui::PushFont(commons::Fonts::_header2);
             ui_elements::TextCentered(_endBoxTitleString.c_str());
             ImGui::PopFont();
-            ui_elements::TextCentered(_endBoxTextString.c_str());
+
+            for (int i{0}; i < 5; ++i) {
+                ImGui::Spacing();
+            }
+
+            displayCenteredText(_endBoxTextString);
 
             ui_elements::Centered(true, true, [this]() {
                 if (ImGui::Button("Versuch es nochmal")) {
@@ -79,7 +87,6 @@ namespace games {
         }
     }
 
-
     void Remembering::renderGame() {
         ui_elements::Window("Remembering Game").render([this]() {
             if (showText) {
@@ -91,17 +98,14 @@ namespace games {
             }
             if (!showText) {
                 static std::vector<int> selectedAnswers(questions.size(), -1);
-                static bool submitted = false;
-                static bool score = 0;
 
                 for (int i = 0; i < questions.size(); ++i) {
                     const auto &q = questions[i];
                     ImGui::Text("%s", q.question.c_str()); // Display the question
 
-                    // Convert std::vector<std::string> to const char* array
-                    std::vector<const char *> answers_cstr;
+                    std::vector<const char *> answers;
                     for (const auto &answer: q.answers) {
-                        answers_cstr.push_back(answer.c_str());
+                        answers.push_back(answer.c_str());
                     }
 
                     if (submitted) {
@@ -115,26 +119,47 @@ namespace games {
                         }
 
                         ImGui::PushStyleColor(ImGuiCol_Text, color);
-                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers_cstr.data(),
-                                     answers_cstr.size());
+                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers.data(),
+                                     answers.size());
                         ImGui::PopStyleColor();
                     } else {
-                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers_cstr.data(),
-                                     answers_cstr.size());
+                        ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i], answers.data(),
+                                     answers.size());
                     }
                 }
                 if (!submitted && ImGui::Button("Submit All")) {
                     submitted = true;
-                    // Calculate the final score and prepare the end box text
+                    _showContinueButton = true; // Zeige den Button nach dem Einreichen
+                }
+                if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
+                    submitted = false;
+                    _showContinueButton = false;
                     _showEndbox = true;
-                    _endboxTitle = "Ergebnis";
-
-                    std::stringstream endboxTextStream;
-                    endboxTextStream << "Deine Punktzahl: " << score << "/" << questions.size();
-                    _endboxText = endboxTextStream.str().c_str();
+                    // Calculate the final score and prepare the end box text
+                    for (int i = 0; i < questions.size(); ++i) {
+                        if (selectedAnswers[i] == questions[i].correctAnswerIndex) {
+                            ++score;
+                        }
+                    }
+                    _endBoxTitleString = "Dein Ergebnis";
+                    _endBoxTextString = displayEvaluation(score, questions.size());
+                    displayCenteredText(_endBoxTextString.c_str());
                 }
             }
         });
+    }
+
+    std::string Remembering::displayEvaluation(int const &score, int const &size) const {
+        std::string evaluation =
+                std::to_string(score) + " von " + std::to_string(size) + " richtig.\n";
+        if (score >= (3 * size) / 4) {
+            evaluation += "Sehr gut gemacht!\n\n";
+        } else if (score >= size / 2) {
+            evaluation += "Gut gemacht!\n\n";
+        } else {
+            evaluation += "Satz mit X das war wohl nix. Nächstes mal wird besser!\n\n";
+        }
+        return evaluation;
     }
 
 
@@ -142,7 +167,7 @@ namespace games {
         return text;
     }
 
-    void Remembering::displayCenteredText(const char *text) const {
+    void Remembering::displayCenteredText(std::string const &text) const {
         ImVec2 windowSize = ImGui::GetWindowSize();
 
         // Split the text into lines

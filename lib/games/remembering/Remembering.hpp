@@ -18,9 +18,11 @@ namespace games {
         std::string _userTextBuffer;
         sf::Clock _colorClock;
         bool showText{true};
-
-        std::string _endBoxTitleString;
-        std::string _endBoxTextString;
+        bool _showContinueButton{false};
+        bool submitted{false};
+        int score{0};
+        static std::string _endBoxTitleString;
+        static std::string _endBoxTextString;
         ui_elements::Timer _timer{"Remembering Game", 5};
 
 
@@ -41,7 +43,6 @@ namespace games {
             std::vector<std::string> answers;
             int correctAnswerIndex;
         };
-
         std::vector<Question> questions;
 
     public:
@@ -62,9 +63,11 @@ namespace games {
 
         std::string getText() const;
 
-        void displayCenteredText(const char *text) const;
+        void displayCenteredText(std::string const &text) const;
 
         void initializeQuestionsAndAnswers();
+
+        std::string displayEvaluation(int const &score, int const &size) const;
 
     };
 }
