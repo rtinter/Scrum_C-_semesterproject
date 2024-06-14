@@ -5,7 +5,7 @@
 #include "TextCentered.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
-#include "SoundManager.hpp"
+#include "SoundPolice.hpp"
 #include <algorithm>
 #include <iostream>
 #include <random>
@@ -177,7 +177,7 @@ namespace sequence {
             }
 
         } else {
-            commons::SoundManager::playSound(commons::Sound::BEEP_FAIL);
+            commons::SoundPolice::safePlaySound(commons::Sound::BEEP_FAIL);
             std::cout << "WRONG: it was supposed to be " << _buttonsClickedSequence[_sequenceButtonIterator]
                       << " you clicked " << buttonID << std::endl;
             stop();     //wrong button clicked -> GAMEOVER!
@@ -312,34 +312,34 @@ namespace sequence {
         switch (buttonID) {
             case 0:
                 std::cout << "case 0\n";
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.666f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.666f);
                 break;
             case 1:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.777f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.777f);
                 break;
             case 2:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.888f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.888f);
                 break;
             case 3:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 0.999f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.999f);
                 break;
             case 4:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.11f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.11f);
                 break;
             case 5:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.222f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.222f);
                 break;
             case 6:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.333f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.333f);
                 break;
             case 7:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.444f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.444f);
                 break;
             case 8:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.555f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.555f);
                 break;
             default:
-                commons::SoundManager::playSound(commons::Sound::BEEP, 100, 1.0f);
+                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.0f);
                 break;
 
         }
