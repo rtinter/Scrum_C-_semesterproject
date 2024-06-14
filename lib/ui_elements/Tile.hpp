@@ -1,9 +1,8 @@
-#include "UiElement.hpp"
-#include <string>
-#include <functional>
-#include <imgui.h>
-
 #pragma once
+#include <functional>
+#include <string>
+#include <UiElement.hpp>
+
 
 namespace ui_elements {
     /**************************************************************
@@ -30,6 +29,7 @@ namespace ui_elements {
 
         explicit Tile(std::string const &pic, std::string const &name, std::string const &desc,
                       std::function<void()> const &onClick);
+        explicit Tile(std::string const &name, std::function<void()> const &onClick);
 
         // Render method
         void render() override;
