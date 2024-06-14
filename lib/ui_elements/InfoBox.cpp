@@ -50,7 +50,7 @@ namespace ui_elements {
             ImGui::PopFont();
 
             if (_overlayType == "Startbox") {
-                ImGui::Text("%s", _gameName->c_str());
+                ImGui::Text("%s", _gameDescription->c_str());
                 ImGui::Text("%s", _gameRules->c_str());
                 ImGui::Text("%s", _gameControls->c_str());
             } else if (_overlayType == "Endbox") {

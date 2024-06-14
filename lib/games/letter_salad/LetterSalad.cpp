@@ -23,35 +23,32 @@ namespace game {
 
     LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
         _gameName = "Buchstaben Salat";
+        _gameDescription = "Dieses Spiel testet ob du in der Lage bist, "
+                           "über einen längeren Zeitraum, "
+                           "konzentriert zu arbeiten.\n"
+                           "Gute Augen und die Fähigkeit Muster "
+                           "schnell zu erkennen sind wichtig "
+                           "für die Berufungen\nPolizei und Feuerwehr.";
+        _gameRules = "Du hast 15min Zeit alle versteckten Wörter "
+                     "im Buchstabensalat zu finden.";
+        _gameControls = "Wörter können vorwärts, rückwärts und "
+                        "horizontal, vertikal oder auf beiden diagonalen "
+                        "erscheinen.\n\n"
+                        "Um ein Wort zu markieren: "
+                        "Klicke auf den ersten und letzten "
+                        "Buchstaben eines Wortes\n\n"
+                        "Die gefundenen Wörter "
+                        "werden links in der Liste abgehakt.\n\n";
+
         loadWordsFromFile();
     }
-
-    std::string
-            LetterSalad::_gameDescription = "Dieses Spiel testet ob du in der Lage bist, "
-                                            "über einen längeren Zeitraum, "
-                                            "konzentriert zu arbeiten.\n"
-                                            "Gute Augen und die Fähigkeit Muster "
-                                            "schnell zu erkennen sind wichtig "
-                                            "für die Berufungen\nPolizei und Feuerwehr.";
-    std::string
-            LetterSalad::_gameRules = "Du hast 15min Zeit alle versteckten Wörter "
-                                      "im Buchstabensalat zu finden.";
-    std::string
-            LetterSalad::_gameControls = "Wörter können vorwärts, rückwärts und "
-                                         "horizontal, vertikal oder auf beiden diagonalen "
-                                         "erscheinen.\n\n"
-                                         "Um ein Wort zu markieren: "
-                                         "Klicke auf den ersten und letzten "
-                                         "Buchstaben eines Wortes\n\n"
-                                         "Die gefundenen Wörter "
-                                         "werden links in der Liste abgehakt.\n\n";
 
     std::string LetterSalad::getName() const {
         return _gameName;
     }
 
     void LetterSalad::stop() {
-        _showEndbox = true;
+        _showEndBox = true;
         _isGameRunning = false;
     }
 
@@ -60,8 +57,8 @@ namespace game {
         fillGameFieldWithRandomWords();
         randomizeGameField();
         _isGameRunning = true;
-        _showInfobox = false;
-        _showEndbox = false;
+        _showStartBox = false;
+        _showEndBox = false;
         _timer.start();
     }
 
@@ -109,11 +106,14 @@ namespace game {
     void LetterSalad::render() {
         ui_elements::InfoBox(
                 _gameID,
-                _showInfobox,
+                _showStartBox,
+                "Startbox",
                 _gameName,
-                _gameDescription.c_str(),
-                _gameRules.c_str(),
-                _gameControls.c_str(),
+                _gameDescription,
+                _gameRules,
+                _gameControls,
+                std::nullopt,
+                std::nullopt,
                 [this] {
                     start();
                 }).render();
@@ -122,24 +122,20 @@ namespace game {
             renderGame();
         }
 
-        if (_showEndbox) {
-            ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-                ImGui::PushFont(commons::Fonts::_header2);
-                ui_elements::TextCentered(std::move(_endboxTitle));
-                ImGui::PopFont();
-                ui_elements::TextCentered(std::move(_endboxText));
-
-                ui_elements::Centered(true, true, [this]() {
-                    if (ImGui::Button("Versuch es nochmal")) {
+        if (_showEndBox) {
+            ui_elements::InfoBox(
+                    _gameID,
+                    _showEndBox,
+                    "Endbox",
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    std::nullopt,
+                    _endBoxTitle,
+                    _endBoxText,
+                    [this] {
                         reset();
-                    }
-
-                    if (ImGui::Button("Zurück zur Startseite")) {
-                        scene::SceneManager::getInstance().switchTo(
-                                std::make_unique<scene::DashboardScene>());
-                    }
-                });
-            });
+                    }).render();
         }
     }
 
@@ -153,7 +149,7 @@ namespace game {
         });
 
         if (_timer.isExpiredNow()) {
-            _endboxTitle = "Die Zeit ist abgelaufen!";
+            _endBoxTitle = "Die Zeit ist abgelaufen!";
 
             int missingWords{0};
             int missingLetters{0};
@@ -164,10 +160,10 @@ namespace game {
                     missingLetters += wordTarget.getWord().size();
                 }
             }
-            static std::string missingWordsText = "Dir fehlen noch\n" +
+            static std::string missingWordsText = "Dir fehlen noch:\n" +
                     std::to_string(missingWords) + " Wörter\nBzw. " +
                     std::to_string(missingLetters) + " Buchstaben.";
-            _endboxText = missingWordsText.c_str();
+            _endBoxText = missingWordsText;
             stop();
         }
     }
@@ -329,7 +325,7 @@ namespace game {
             }
 
             if (allWordsFound) {
-                _endboxTitle = "Herzlichen Glückwunsch!";
+                _endBoxTitle = "Herzlichen Glückwunsch!";
 
                 int secondsLeft{_timer.getSecondsLeft()};
                 std::string minutes{std::to_string(secondsLeft / 60)};
@@ -339,7 +335,7 @@ namespace game {
                         "Du hast alle Wörter gefunden!\n"
                         "Und sogar noch Zeit übrig gehabt!\n" + minutes +
                                 " Minuten und " + seconds + " Sekunden\n";
-                _endboxText = endboxString.c_str();
+                _endBoxText = endboxString;
                 stop();
             }
         }

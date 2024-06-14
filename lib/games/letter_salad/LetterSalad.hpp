@@ -24,10 +24,6 @@ namespace game {
     using CharVector2D = std::vector<std::vector<Box>>;
 
     class LetterSalad : abstract_game::Game {
-      static std::string _gameDescription;
-      static std::string _gameRules;
-      static std::string _gameControls;
-
       CharVector2D _gameField;
       std::vector<Coordinates> _currentLine;
       static std::vector<WordTarget> _wordList;
