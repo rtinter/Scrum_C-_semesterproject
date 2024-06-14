@@ -1,4 +1,4 @@
-set(LIBRARY_NAME scene)
+set(LIBRARY_NAME letter_salad)
 
 file(GLOB SOURCES *.cpp)
 
@@ -12,16 +12,10 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
+        abstract_game
         commons
         ui_elements
-        abstract_game
-        views
-        calc
-        reaction
-        color_match
-        sequence
-        letter_salad
-        aim_trainer
+        scene
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
@@ -30,3 +24,5 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC
         sfml-graphics
         box2d
 )
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/letter_salad_words.txt ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config/games/letter_salad_words.txt COPYONLY)
