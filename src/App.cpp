@@ -2,10 +2,8 @@
 
 #include "App.hpp"
 
-#include <functional>
 #include <imgui-SFML.h>
 #include <SceneManager.hpp>
-#include <stack>
 #include <StyleManager.hpp>
 
 #include "SFML/Graphics/RenderWindow.hpp"
@@ -20,8 +18,9 @@ const int App::FRAME_RATE{60};
 
 
 void App::start() {
-    sf::RenderWindow window(sf::VideoMode(App::WINDOW_WIDTH, WINDOW_HEIGHT), App::TILE);
-    window.setFramerateLimit(App::FRAME_RATE);
+    sf::VideoMode videoMode(WINDOW_WIDTH, WINDOW_HEIGHT);
+    sf::RenderWindow window(videoMode, TILE, sf::Style::Close);
+    window.setFramerateLimit(FRAME_RATE);
 
     //init singleton and start Dashboard
     scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
