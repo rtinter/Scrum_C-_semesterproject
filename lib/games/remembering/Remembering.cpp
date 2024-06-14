@@ -112,12 +112,27 @@ namespace games {
 
                 for (int i = 0; i < questions.size(); ++i) {
                     const auto &q = questions[i];
+
+                    // Calculate text width
+                    ImVec2 textSize = ImGui::CalcTextSize(q.question.c_str());
+                    float textOffsetX = (ImGui::GetWindowWidth() - textSize.x) / 2.0f;
+
+                    // Calculate combo box width and offset
+                    float comboWidth = ImGui::GetWindowWidth() * 0.3f;
+                    float comboOffsetX = (ImGui::GetWindowWidth() - comboWidth) / 2.0f;
+
+                    // Set cursor position for text
+                    ImGui::SetCursorPosX(textOffsetX);
                     ImGui::Text("%s", q.question.c_str()); // Display the question
 
                     std::vector<const char *> answers;
                     for (const auto &answer: q.answers) {
                         answers.emplace_back(answer.c_str());
                     }
+
+                    // Set cursor position for combo box
+                    ImGui::SetCursorPosX(comboOffsetX);
+                    ImGui::SetNextItemWidth(comboWidth);
 
                     if (submitted) {
                         // Determine the color based on correctness and whether an answer was selected
@@ -130,16 +145,12 @@ namespace games {
                         }
 
                         ImGui::PushStyleColor(ImGuiCol_Text, color);
-                        ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.3f); // Set width to 50% of window width
                         (void) ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i],
-                                            answers.data(),
-                                            answers.size());
+                                            answers.data(), answers.size());
                         ImGui::PopStyleColor();
                     } else {
-                        ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.3f); // Set width to 50% of window width
                         (void) ImGui::Combo(("##combo" + std::to_string(i)).c_str(), &selectedAnswers[i],
-                                            answers.data(),
-                                            answers.size());
+                                            answers.data(), answers.size());
                     }
                 }
 
@@ -167,6 +178,7 @@ namespace games {
             }
         });
     }
+
 
     std::string Remembering::displayEvaluation(int const &score, int const &size) const {
         std::string evaluation =
