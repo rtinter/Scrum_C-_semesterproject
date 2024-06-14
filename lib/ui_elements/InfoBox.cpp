@@ -70,6 +70,13 @@ namespace ui_elements {
 
 
             Centered(true, false, [this] {
+                if (ImGui::Button("Zurück zur Startseite")) {
+                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
+                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
+                }
+
+                ImGui::SameLine();
+
                 if (_overlayType == "Startbox") {
                     if (ImGui::Button("Spiel starten!")) {
                         if (_callback) {
@@ -84,10 +91,7 @@ namespace ui_elements {
                         _callback();
                     }
                 }
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
+
             });
 
 
