@@ -32,6 +32,12 @@ FetchContent_Declare(box2d
         GIT_TAG v2.4.1)
 FetchContent_MakeAvailable(box2d)
 
+FetchContent_Declare(json
+        GIT_REPOSITORY https://github.com/nlohmann/json
+        GIT_TAG v3.11.3
+)
+FetchContent_MakeAvailable(json)
+
 add_subdirectory(lib)
 add_subdirectory(src)
 

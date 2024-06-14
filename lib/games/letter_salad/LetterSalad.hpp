@@ -24,45 +24,65 @@ namespace game {
     using CharVector2D = std::vector<std::vector<Box>>;
 
     class LetterSalad : abstract_game::Game {
-      static std::string _gameDescription;
-      static std::string _gameRules;
-      static std::string _gameControls;
+        CharVector2D _gameField;
+        std::vector<Coordinates> _currentLine;
+        static std::vector<WordTarget> _wordList;
+        ui_elements::Timer _timer{"####letterSalad", TIME_LIMIT};
+        std::set<WordTarget> _activeWordList;
+        // save clicked cells
+        Coordinates _firstSelectedCell{-1, -1};
+        bool _isFirstCellSelected{false};
+        bool _isSecondCellSelected{false};
+        std::string _selectedWord;
 
-      CharVector2D _gameField;
-      std::vector<Coordinates> _currentLine;
-      static std::vector<WordTarget> _wordList;
-      ui_elements::Timer _timer{"####letterSalad", TIME_LIMIT};
-      std::set<WordTarget> _activeWordList;
-      // save clicked cells
-      Coordinates _firstSelectedCell{-1, -1};
-      bool _isFirstCellSelected{false};
-      bool _isSecondCellSelected{false};
-      std::string _selectedWord;
-      static void loadWordsFromFile();
-      void clickCell(Coordinates const &coords);
-      void resetSelectedPair();
-      static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates const &end);
-      void onHover(Coordinates const &coords);
-      void selectBox(Coordinates const &coords);
-      void deselectBox(Coordinates const &coords);
-      void finalize(Coordinates const &coords);
-      void randomizeGameField();
-      void renderTextList();
-      bool isWordInList(std::set<WordTarget> &wordlist, std::string const &word);
-      void renderGameField();
-      void renderSelectedWord() const;
-      void fillGameFieldWithRandomWords();
-      bool placeWord(std::string word);
-     public:
-      LetterSalad();
-      void stop() override;
-      std::string getName() const override;
-      void render() override;
-      void renderGame() override;
-      void start() override;
-      void reset() override;
-      void updateStatistics() override;
-      void init();
+        static void loadWordsFromFile();
+
+        void clickCell(Coordinates const &coords);
+
+        void resetSelectedPair();
+
+        static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates const &end);
+
+        void onHover(Coordinates const &coords);
+
+        void selectBox(Coordinates const &coords);
+
+        void deselectBox(Coordinates const &coords);
+
+        void finalize(Coordinates const &coords);
+
+        void randomizeGameField();
+
+        void renderTextList();
+
+        bool isWordInList(std::set<WordTarget> &wordlist, std::string const &word);
+
+        void renderGameField();
+
+        void renderSelectedWord() const;
+
+        void fillGameFieldWithRandomWords();
+
+        bool placeWord(std::string word);
+
+    public:
+        LetterSalad();
+
+        void stop() override;
+
+        std::string getName() const override;
+
+        void render() override;
+
+        void renderGame() override;
+
+        void start() override;
+
+        void reset() override;
+
+        void updateStatistics() override;
+
+        void init();
     };
 
 }
