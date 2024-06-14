@@ -39,7 +39,6 @@ namespace abstract_game {
         // save the current time as the end time of the game session
         _endPoint = std::chrono::steady_clock::now();
         writeToDataManager();
-        writeRunThroughsToCsv(RUNTHROUGH_CSV_FILENAME);
     }
 
     unsigned long long GameSession::getDurationInSeconds() const {
@@ -82,6 +81,7 @@ namespace abstract_game {
         long long endTime = _ended ? std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count() : 0;
         unsigned long long duration = getDurationInSeconds();
         _dataManager->saveGameSession(_gameSessionUID, _userID, _gameID, startTime, endTime, duration, _ended);
+        _dataManager->saveRunThroughs(_gameRunThroughs);
     }
 
 
@@ -94,35 +94,6 @@ namespace abstract_game {
 
     void GameSession::increaseRunThroughCount() {
         _runThroughCount++;
-    }
-
-    void GameSession::writeRunThroughsToCsv(const std::string &filename) const {
-        std::ofstream file(CSV_FILENAME, std::ios::app); // Open file in append mode
-        if (!file.is_open()) {
-            std::cerr << "Failed to open file: " << CSV_FILENAME << std::endl;
-            return;
-        }
-
-        // Check if the file is empty before writing the header
-        std::ifstream infile(CSV_FILENAME);
-        infile.seekg(0, std::ios::end);
-        bool isEmpty = infile.tellg() == 0;
-        infile.close();
-
-        GameRunThroughCsvWriter<std::string> writer(filename);
-
-        if (isEmpty) {
-            writer.writeHeader({"GameRunThroughUID", "GameSessionUID", "Result", "ResultUnit"});
-        }
-
-
-        for (const auto &runThrough: _gameRunThroughs) {
-            writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
-                             std::to_string(runThrough.gameSessionUID),
-                             std::to_string(runThrough.result),
-                             runThrough.resultUnit});
-        }
-        writer.close();
     }
 
 

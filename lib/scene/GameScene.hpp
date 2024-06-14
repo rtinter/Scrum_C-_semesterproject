@@ -27,7 +27,7 @@ template<typename T>
 GameScene<T>::GameScene() : _game{std::make_unique<T>()} {
     // Header initialisieren, nachdem _game initialisiert wurde
     _header = std::make_unique<views::Header>(_game->getName(), "Zurück", []() {
-        abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
+        abstract_game::GameSessionManager::endSession(); // End the session when going back
       SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
     });
 }

@@ -40,7 +40,7 @@ namespace ui_elements {
             Centered(true, false,[this] {
                 if (ImGui::Button("Spiel starten!")) {
                     if (_startCallback) {
-                        abstract_game::GameSessionManager::getInstance().startSession(_gameID);
+                        abstract_game::GameSessionManager::startSession(_gameID);
                         _startCallback();
                     }
                     _showOverlay = false;

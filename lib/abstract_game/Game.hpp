@@ -87,29 +87,6 @@ namespace abstract_game {
 
         GameID _gameID;
 
-        std::shared_ptr<GameSession> getGameSession();
-
-    private:
-
-        /**
-         * @brief Uploads the game session information.
-         *
-         * This function handles the logic for uploading the game session information
-         * when the game ends or exits.
-         */
-        void sendSessionInfo();
-
-        /**
-         * @brief Saves result of the last RunThrough.
-         *
-         * This function creates another instance of GameRunThrough that saves the result
-         * of the last run of the game and adds it to the current Gamessession.
-         * @param resultUnit Unit in which the result is measured.
-         * @param result The result of the run.
-         */
-        void saveRunThroughResult(std::string const &resultUnit, long const &result);
-
-        std::shared_ptr<GameSession> _gameSession {std::make_shared<GameSession>(_gameID, 1)};
 
     };
 

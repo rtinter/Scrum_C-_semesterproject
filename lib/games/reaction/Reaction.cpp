@@ -47,7 +47,7 @@ namespace reaction {
                 }
 
                 if (ImGui::Button("Zurück zur Startseite")) {
-                        abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
+                    abstract_game::GameSessionManager::endSession(); // End the session when going back
                     scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
                 }
             });
@@ -93,13 +93,15 @@ namespace reaction {
                             "Bewertung: " + getDurationRating(duration);
                     _endboxText = _endBoxTextString.c_str();
 
-                    getGameSession()->addNewGameRunThrough("ms", duration);
-                    std::cout << "Duration: " << duration << "ms" << std::endl;
+                    std::shared_ptr<abstract_game::GameSession> gameSession {abstract_game::GameSessionManager::getCurrentSession()};
+                    gameSession->addNewGameRunThrough("ms", duration);
                     stop();
                 } else {
                     _isGameRunning = false;
                     _showEndbox = true;
                     _endboxTitle = "Zu früh geklickt!";
+                    std::shared_ptr<abstract_game::GameSession> gameSession {abstract_game::GameSessionManager::getCurrentSession()};
+                    gameSession->addNewGameRunThrough("ms", -1);
                 }
             }
         });
@@ -121,7 +123,6 @@ namespace reaction {
 
     void Reaction::stop() {
         _isGameRunning = false;
-        //getGameSession()->end();
     }
 
     void Reaction::reset() {

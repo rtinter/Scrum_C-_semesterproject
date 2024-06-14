@@ -28,8 +28,6 @@ namespace abstract_game {
         std::chrono::steady_clock::time_point _startPoint;
         std::chrono::steady_clock::time_point _endPoint;
         bool _ended;
-        const std::string CSV_FILENAME = "game_session.csv";
-        const std::string RUNTHROUGH_CSV_FILENAME = "game_runthroughs.csv";
         std::unique_ptr<DataManager> _dataManager;
 
 
@@ -82,7 +80,7 @@ namespace abstract_game {
          */
         void addNewGameRunThrough(std::string const &resultUnit, long const &result);
 
-        void writeRunThroughsToCsv(const std::string &filename) const;
+
 
         GameID getGameID() const;
 

@@ -48,6 +48,7 @@ namespace games {
                 }
 
                 if (ImGui::Button("Zurück zur Startseite")) {
+                    abstract_game::GameSessionManager::endSession(); // End the session when going back
                     scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
                 }
             });
@@ -192,6 +193,8 @@ namespace games {
         _isGameRunning = false;
         _showEndbox = true;
         _endboxTitle = "Zeit abgelaufen!";
+        std::shared_ptr<abstract_game::GameSession> gameSession {abstract_game::GameSessionManager::getCurrentSession()};
+        gameSession->addNewGameRunThrough("", _numberOfCorrectClicksInTotal);
     }
 
     void ColorMatch::updateStatistics() {
