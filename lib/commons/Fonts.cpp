@@ -17,8 +17,8 @@ namespace commons {
         _header1 = io.Fonts->AddFontFromFileTTF("Fonts/Roboto-Bold.ttf", 80.0);
         _header2 = io.Fonts->AddFontFromFileTTF("Fonts/Roboto-Medium.ttf", 40.0);
         _header3 = io.Fonts->AddFontFromFileTTF("Fonts/Roboto-Medium.ttf", 30.0);
-        _matrixFontBig = io.Fonts->AddFontFromFileTTF("Fonts/Elite Hacker (Corroded).ttf", 30.0);
-        _matrixFontSmall = io.Fonts->AddFontFromFileTTF("Fonts/Elite Hacker (Corroded).ttf", 20.0);
+        _matrixFontBig = io.Fonts->AddFontFromFileTTF("Fonts/Elite Hacker (Corroded).ttf", 50.0);
+        _matrixFontSmall = io.Fonts->AddFontFromFileTTF("Fonts/Elite Hacker (Corroded).ttf", 25.0);
         io.Fonts->Build();
         ImGui::SFML::UpdateFontTexture();
     }

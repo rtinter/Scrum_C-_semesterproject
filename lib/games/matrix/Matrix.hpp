@@ -10,24 +10,27 @@
 
 class Matrix {
     int static const _SIZE{5};
-    bool _data[_SIZE][_SIZE];
+    int _data[_SIZE][_SIZE];
 
-    Matrix rotate90DegreesRight(int nTimes);
+    Matrix rotate90DegreesRight(int nTimes) const;
 
-    Matrix mirrorHorizontally();
+    Matrix mirrorHorizontally() const;
 
-    Matrix mirrorVertically();
+    Matrix mirrorVertically() const;
+
+    void render(float cellSize);
 
 public:
-    void init();
 
-    void render(float cellSize) const;
+    void renderBig();
 
-    std::array<Matrix, 2> getAllMirroredVersions();
+    void renderSmall();
 
-    std::array<Matrix, 3> getAllRotatedVersions();
+    std::array<Matrix, 2> getAllMirroredVersions() const;
 
+    std::array<Matrix, 3> getAllRotatedVersions() const;
 
+    void init(int nColoredCells);
 };
 
 #endif //ATHENA_MATRIX_HPP

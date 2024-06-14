@@ -36,17 +36,17 @@ namespace games {
             ImVec4 oldImGuiCol_WindowBg = style.Colors[ImGuiCol_WindowBg];
             style.Colors[ImGuiCol_WindowBg] = commons::Colors::BLACK;
             _timer.render();
-            _mainMatrix.render(50.f);
+            _mainMatrix.renderBig();
             ImGui::NewLine();
             ImGui::NewLine();
             for (Matrix matrix: _allMirroredVersions) {
-                matrix.render(30.f);
+                matrix.renderSmall();
                 ImGui::NewLine();
                 ImGui::NewLine();
             }
 
             for (Matrix matrix: _allRotatedVersions) {
-                matrix.render(10.f);
+                matrix.renderSmall();
                 ImGui::NewLine();
                 ImGui::NewLine();
             }
@@ -69,7 +69,7 @@ namespace games {
 
     void MatrixGame::start() {
         reset();
-        _mainMatrix.init();
+        _mainMatrix.init(7);
         _allMirroredVersions = _mainMatrix.getAllMirroredVersions();
         _allRotatedVersions = _mainMatrix.getAllRotatedVersions();
         _isGameRunning = true;
