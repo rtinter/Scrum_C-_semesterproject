@@ -25,8 +25,8 @@ namespace sequence {
         std::chrono::steady_clock::time_point _stopHighlightingHere;
         int _lightUpDurationInSeconds {1};
         //bool _isLitUp {false};
-        //TODO iterator through sequence show
-        //TODO GameMode Switching method?
+        //TODO iterator through sequence show -> max value always levelcounter
+        int _sequenceButtonIterator;
         bool _isLastButtonOfSequence {false};
         bool _sequenceShowMode {false};
         bool _canShowNextButtonInSequence{true};    //in the beginning, no button is lit up
@@ -48,6 +48,10 @@ namespace sequence {
         void lightUp(int &buttonState);
 
         void checkLitUpExpired(int &buttonState);
+
+        void nextLevel();
+
+        void switchGameMode();
 
     public:
         Sequence();

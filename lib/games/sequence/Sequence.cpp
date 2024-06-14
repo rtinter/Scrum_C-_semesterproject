@@ -78,6 +78,8 @@ namespace sequence { //TODO change namespace to game
         _currentGameMode = GameMode::WATCH;
         _isGameRunning = true;
         _showEndbox = false;
+
+        //TODO remove, currently used to show all buttons are in state 0 at beginning
         int i{0};
         for (int state: _buttonStatess) {
             std::cout << state << " " << i << std::endl;
@@ -192,6 +194,28 @@ namespace sequence { //TODO change namespace to game
             buttonState = 0;
             _canShowNextButtonInSequence = true;    //Button ist wieder aus, also kann nun der nächste Button aufleuchten
             std::cout << "canShowNextButton = TRUE" << std::endl;
+        }
+    }
+
+    /**
+     * Set up LevelCounter -> max sequence length if player correctly reproduces sequence
+     */
+    void Sequence::nextLevel() {
+        _levelCounter++;
+    }
+
+    /**
+     * Switches GameMode from WATCH to REPEAT and vice versa.
+     */
+    void Sequence::switchGameMode() {
+        switch (_currentGameMode) {
+            case GameMode::WATCH:
+                _currentGameMode = GameMode::REPEAT;
+                break;
+
+            case GameMode::REPEAT:
+                _currentGameMode = GameMode::WATCH;
+                break;
         }
     }
 } // sequence
