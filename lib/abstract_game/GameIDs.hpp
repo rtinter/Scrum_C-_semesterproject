@@ -12,6 +12,7 @@ namespace abstract_game {
         AIM_TRAINER = 1003,
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
+        ROWS_OF_NUMBERS = 1006,
     };
 } // namespace abstract_game
 

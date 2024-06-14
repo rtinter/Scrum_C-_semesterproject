@@ -21,6 +21,7 @@ set(CUSTOM_LIBS
         color_match
         letter_salad
         aim_trainer
+        rows_of_numbers
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC

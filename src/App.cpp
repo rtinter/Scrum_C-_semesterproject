@@ -30,8 +30,10 @@ void App::start() {
         return;
     }
 
-    // load the sounds
-    commons::SoundManager::loadSounds();
+    #if (defined(_WIN32))
+        // load the sounds
+        commons::SoundManager::loadSounds();
+    #endif
 
     // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();
