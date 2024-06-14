@@ -5,12 +5,11 @@
 #include <functional>
 #include <imgui-SFML.h>
 #include <SceneManager.hpp>
-#include <stack>
 #include <StyleManager.hpp>
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
-
+#include "implot.h"
 
 
 const int App::WINDOW_WIDTH{1920};
@@ -50,6 +49,9 @@ void App::start() {
         }
 
         sceneManager.render();
+        ImPlot::CreateContext();
+        ImPlot::ShowDemoWindow();
+        ImPlot::DestroyContext();
 
         ImGui::SFML::Render(window);
         window.display();
