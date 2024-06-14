@@ -1,12 +1,8 @@
-#pragma once
-
 #include "App.hpp"
-
 #include <imgui-SFML.h>
 #include <SceneManager.hpp>
 #include <StyleManager.hpp>
 #include <SoundManager.hpp>
-#include <Sound.hpp>
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
@@ -22,7 +18,7 @@ void App::start() {
     window.setFramerateLimit(FRAME_RATE);
 
     //init singleton and start Dashboard
-    scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
+    scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {
@@ -30,8 +26,11 @@ void App::start() {
         return;
     }
 
+#if (defined(_WIN32))
     // load the sounds
     commons::SoundManager::loadSounds();
+#endif
+
 
     // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();
