@@ -33,31 +33,14 @@ namespace games {
     }
 
     void Remembering::render() {
-        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
-            start();
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,
+                             [this] {
+                                 start();
+                             }).render();
+
+        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
+            reset();
         }).render();
-
-        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(_endBoxTitleString.c_str());
-            ImGui::PopFont();
-
-            for (int i{0}; i < 5; ++i) {
-                ImGui::Spacing();
-            }
-
-            displayCenteredText(_endBoxTextString);
-
-            ui_elements::Centered(true, true, [this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    start();
-                }
-
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
 
         if (_isGameRunning) {
             renderGame();
@@ -152,7 +135,7 @@ namespace games {
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
                 submitted = false;
                 _showContinueButton = false;
-                _showEndbox = true;
+                stop();
                 // Calculate the final score and prepare the end box text
                 for (int i = 0; i < currentQuestionSet.questions.size(); ++i) {
                     if (selectedAnswers[i] == currentQuestionSet.questions[i].correctAnswerIndex) {
@@ -160,9 +143,9 @@ namespace games {
                     }
                 }
 
-                _endBoxTitleString = "Dein Ergebnis";
-                _endBoxTextString = displayEvaluation(score, currentQuestionSet.questions.size());
-                displayCenteredText(_endBoxTextString.c_str());
+                _endBoxTitle = "Dein Ergebnis";
+                _endBoxText = displayEvaluation(score, currentQuestionSet.questions.size());
+                displayCenteredText(_endBoxText);
             }
         });
     }
@@ -212,9 +195,8 @@ namespace games {
     }
 
     void Remembering::start() {
-        reset();
         _isGameRunning = true;
-        _showEndbox = false;
+        _showEndBox = false;
         showText = true;
         _timer.reset();
         _timer.start();
@@ -222,9 +204,11 @@ namespace games {
 
     void Remembering::stop() {
         _isGameRunning = false;
+        _showEndBox = true;
     }
 
     void Remembering::reset() {
+        start();
         selectRandomQuestionSet();
         selectedAnswers.assign(currentQuestionSet.questions.size(), -1); // Zurücksetzen der ausgewählten Antworten
         submitted = false;
