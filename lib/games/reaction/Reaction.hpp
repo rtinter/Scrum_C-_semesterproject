@@ -26,9 +26,6 @@ namespace reaction {
 
         bool isGreen() const;
 
-        static std::string _endBoxTitleString;
-        static std::string _endBoxTextString;
-
     public:
         explicit Reaction();
 

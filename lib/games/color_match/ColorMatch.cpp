@@ -32,26 +32,13 @@ namespace games {
     }
 
     void ColorMatch::render() {
-        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls, std::nullopt, std::nullopt,  [this] {
             start();
         }).render();
 
-        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
-            ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
-
-            ui_elements::Centered(true, true, [this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    start();
-                }
-
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
+        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", std::nullopt, std::nullopt, std::nullopt, std::nullopt, _endBoxTitle, _endBoxText, [this] {
+            start();
+        }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -91,7 +78,7 @@ namespace games {
         _currentGameMode = commons::RandomPicker::pickRandomElement(
             std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
         _isGameRunning = true;
-        _showEndbox = false;
+        _showEndBox = false;
         _timer.start();
     }
 
@@ -185,13 +172,12 @@ namespace games {
     }
 
     void ColorMatch::stop() {
-        _endboxString =
+        _endBoxText =
                 "Richtige: " + std::to_string(_numberOfCorrectClicksInTotal) + "\nLängster Streak: " +
                 std::to_string(_longestStreak);
-        _endboxText = _endboxString.c_str();
         _isGameRunning = false;
-        _showEndbox = true;
-        _endboxTitle = "Zeit abgelaufen!";
+        _showEndBox = true;
+        _endBoxTitle = "Zeit abgelaufen!";
     }
 
     void ColorMatch::updateStatistics() {

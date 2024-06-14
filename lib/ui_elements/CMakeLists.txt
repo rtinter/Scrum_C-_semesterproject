@@ -14,6 +14,7 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 set(CUSTOM_LIBS
         commons
         abstract_game
+        scene
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC

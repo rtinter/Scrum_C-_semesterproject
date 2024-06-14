@@ -1,6 +1,5 @@
 #include "Reaction.hpp"
 
-#include <Centered.hpp>
 #include <Colors.hpp>
 #include <DashboardScene.hpp>
 #include <Fonts.hpp>
@@ -11,7 +10,6 @@
 #include <TextCentered.hpp>
 #include <Window.hpp>
 #include "GameSessionManager.hpp"
-#include <iostream>
 #include <sstream>
 
 namespace reaction {
@@ -31,36 +29,18 @@ namespace reaction {
     }
 
     void Reaction::render() {
-        ui_elements::InfoBox(_gameID, _showInfobox, _gameName, _gameDescription, _gameRules, _gameControls, [this] {
+        ui_elements::InfoBox(_gameID, _showStartBox,"Startbox", _gameName, _gameDescription, _gameRules, _gameControls, std::nullopt, std::nullopt, [this] {
             start();
         }).render();
 
-        ui_elements::Overlay("Endbox", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(std::move(_endboxTitle));
-            ImGui::PopFont();
-            ui_elements::TextCentered(std::move(_endboxText));
-
-            ui_elements::Centered(true, true, [this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    start();
-                }
-
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
+        ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", std::nullopt, std::nullopt, std::nullopt, std::nullopt, _endBoxTitle, _endBoxText, [this] {
+            start();
+        }).render();
 
         if (_isGameRunning) {
             renderGame();
         }
     }
-
-
-    std::string Reaction::_endBoxTitleString{};
-    std::string Reaction::_endBoxTextString{};
 
 
     void Reaction::renderGame() {
@@ -79,23 +59,22 @@ namespace reaction {
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                         _finishPoint - _startPoint).count();
 
-                    _showEndbox = true;
+                    _showEndBox = true;
 
                     // convert long long duration to string
                     std::stringstream durationStream;
                     durationStream << duration;
 
-                    _endBoxTitleString =
+                    _endBoxTitle =
                             "Vergangene Zeit: " + durationStream.str() + "ms";
-                    _endboxTitle = _endBoxTitleString.c_str();
 
-                    _endBoxTextString =
+                    _endBoxText =
                             "Bewertung: " + getDurationRating(duration);
-                    _endboxText = _endBoxTextString.c_str();
                 } else {
                     _isGameRunning = false;
-                    _showEndbox = true;
-                    _endboxTitle = "Zu früh geklickt!";
+                    _showEndBox = true;
+                    _endBoxTitle = "Zu früh geklickt!";
+                    _endBoxText = "Versuche es nochmal!";
                 }
             }
         });
@@ -108,7 +87,7 @@ namespace reaction {
         std::uniform_int_distribution<> dis(2000, 5000);
 
         _isGameRunning = true;
-        _showEndbox = false;
+        _showEndBox = false;
 
         _redDuration = static_cast<float>(dis(gen)) / 1000.0f;
         _windowColor = commons::Colors::RED;
