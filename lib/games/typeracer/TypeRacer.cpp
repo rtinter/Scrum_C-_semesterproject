@@ -82,7 +82,7 @@ namespace typeracer {
                     _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
                 }
                 if (ImGui::Button("Zurück zur Startseite")) {
-                    abstract_game::GameSessionManager::getInstance().endSession(); // End the session when going back
+                    abstract_game::GameSessionManager::endSession(); // End the session when going back
                     scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
                 }
             });
