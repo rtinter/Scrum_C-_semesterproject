@@ -22,7 +22,7 @@ void App::start() {
     window.setFramerateLimit(FRAME_RATE);
 
     //init singleton and start Dashboard
-    scene::SceneManager& sceneManager {scene::SceneManager::getInstance()};
+    scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
     if (!ImGui::SFML::Init(window)) {
@@ -30,8 +30,12 @@ void App::start() {
         return;
     }
 
+#if (defined(_WIN32))
     // load the sounds
     commons::SoundManager::loadSounds();
+#endif
+
+    commons::SoundManager::playSound(commons::Sound::LASER_GUN);
 
     // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();

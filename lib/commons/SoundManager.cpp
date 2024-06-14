@@ -24,10 +24,10 @@ namespace commons {
 
     }
 
-    void SoundManager::initSoundBuffer(commons::Sound sound, std::string const& filename) {
+    void SoundManager::initSoundBuffer(commons::Sound sound, std::string const &filename) {
 
         sf::SoundBuffer soundBuffer;
-        if(soundBuffer.loadFromFile(PATH + filename)){
+        if (soundBuffer.loadFromFile(PATH + filename)) {
             _soundBufferMap[sound] = soundBuffer;
         } else {
             std::cout << "Error loading sound " << filename << std::endl;
@@ -39,20 +39,25 @@ namespace commons {
         playSound(sound, 100.0f);
     }
 
-    void SoundManager::playSound(commons::Sound sound, int volumeInPercent){
+    void SoundManager::playSound(commons::Sound sound, int volumeInPercent) {
         playSound(sound, volumeInPercent, 1.0f);
     }
 
-    void SoundManager::playSound(commons::Sound sound, int volumeInPercent, float pitch){
+    void SoundManager::playSound(commons::Sound sound, int volumeInPercent, float pitch) {
+
+
+#if (!defined(_WIN32))
+        return;
+#endif
 
         // check if sound manager is initialized
-        if(_soundBufferMap.empty()) {
+        if (_soundBufferMap.empty()) {
             std::cout << "SoundManager not initialized" << std::endl;
             return;
         }
 
         // check if sound is in map
-        if(!_soundBufferMap.count(sound)) {
+        if (!_soundBufferMap.count(sound)) {
             std::cout << "Sound could not be loaded" << std::endl;
             return;
         }
