@@ -8,6 +8,7 @@
 #include "GameRunThrough.hpp"
 #include "DataManager.hpp"
 #include "GameIDs.hpp"
+#include "GameRunThroughCsvWriter.hpp"
 
 namespace abstract_game {
 
@@ -16,7 +17,7 @@ namespace abstract_game {
  *
  * This class holds information about a game session.
  */
-class GameSession {
+    class GameSession {
 
         // General information
         GameID _gameID;
@@ -28,23 +29,24 @@ class GameSession {
         std::chrono::steady_clock::time_point _endPoint;
         bool _ended;
         const std::string CSV_FILENAME = "game_session.csv";
+        const std::string RUNTHROUGH_CSV_FILENAME = "game_runthroughs.csv";
         std::unique_ptr<DataManager> _dataManager;
 
 
-    int _runThroughCount {0};
+        int _runThroughCount{0};
 
-    /**
-     * @brief Calculates the game session UID.
-     *
-     * This method calculates a unique identifier for the game session.
-     *
-     * @return The game session UID.
-     */
-    static size_t calcGameSessionUID();
+        /**
+         * @brief Calculates the game session UID.
+         *
+         * This method calculates a unique identifier for the game session.
+         *
+         * @return The game session UID.
+         */
+        static size_t calcGameSessionUID();
 
-    void increaseRunThroughCount();
+        void increaseRunThroughCount();
 
-    void writeToDataManager() const;
+        void writeToDataManager() const;
 
     public:
 
@@ -79,6 +81,8 @@ class GameSession {
          * @param result the result of the specific GameRunThrough
          */
         void addNewGameRunThrough(std::string const &resultUnit, long const &result);
+
+        void writeRunThroughsToCsv(const std::string &filename) const;
 
         GameID getGameID() const;
 

@@ -4,6 +4,7 @@
 #include "GameSession.hpp"
 #include "CsvStorage.hpp"
 #include "GameIDs.hpp"
+#include <memory>
 #include <string>
 #include <memory>
 
@@ -86,6 +87,8 @@ namespace abstract_game {
 
         GameID _gameID;
 
+        std::shared_ptr<GameSession> getGameSession();
+
     private:
 
         /**
@@ -106,7 +109,7 @@ namespace abstract_game {
          */
         void saveRunThroughResult(std::string const &resultUnit, long const &result);
 
-        GameSession _gameSession{_gameID, 1};
+        std::shared_ptr<GameSession> _gameSession {std::make_shared<GameSession>(_gameID, 1)};
 
     };
 
