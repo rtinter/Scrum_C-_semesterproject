@@ -5,7 +5,6 @@
 namespace math_task_factory {
     enum class MathTaskType {
         SIMPLE_MULTIPLICATION_TABLE,
-        TEST2
     };
 }
 

@@ -3,36 +3,37 @@
 
 #include <string>
 #include "Game.hpp"
-#include "Timer.hpp"
-#include "Task.hpp"
-#include "TaskGenerator.hpp"
+#include "MathTask.hpp"
+#include "MathTaskFactory.hpp"
+#include <memory>
+#include <chrono>
 
 namespace games {
-    class Calc : public Game {
-    private:
-        int _currentLevel{1};
-        int _currentScore{0};
-        int _numberOfCorrectAnswers{0};
-        int _numberOfTasks{5};
-        int _currentResult{0};
-        Task _currentTask;
-        TaskGenerator _taskGenerator;
-        ui_elements::Timer _taskTimer{"Task Timer", 30};
-        ui_elements::Timer _displayTimer{"Display Timer", 4};  // Display timer for showing numbers
-        std::chrono::seconds _displayDuration{2};
-        enum State { SHOW_START_NUMBER, SHOW_OPERATION, WAIT_FOR_INPUT } _state;
-
-        void generateTask();
-        void displayTask();
-        void checkAnswer(int playerAnswer);
-
+    class Calc : public abstract_game::Game {
     public:
         Calc();
-        void render() override;
-        void renderGame() override;
         void start() override;
+        void render() override;
+        std::string getName() const override;
         void reset() override;
         void stop() override;
+
+    private:
+        int _completedLevels{0};
+        bool _elapsedTimeSet{false};
+        bool _showEndbox{false};
+        std::string _endScreenTitle;
+        std::string _endScreenStatisticText;
+        std::chrono::steady_clock::time_point _startTime;
+        std::chrono::steady_clock::time_point _endTime;
+        double _elapsedTimeCalculated{0.0};
+        std::unique_ptr<MathTask> _currentLevel;
+
+        void nextLevel();
+        void renderGame() override;
+        void showEndScreen();
+        void calculateEndScreenText();
+        double getElapsedTimeInMinutes() const;
         void updateStatistics() override;
     };
 }
