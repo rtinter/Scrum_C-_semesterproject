@@ -9,7 +9,7 @@ namespace sequence {
     class Sequence : public abstract_game::Game {
 
         std::string _endBoxString;
-        int _longestReproducedSequence;
+        int _longestReproducedSequence{0};
 
         static int constexpr _NUMBER_OF_BUTTONS{9};
 

@@ -8,6 +8,7 @@
 #include "DashboardScene.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
+#include <algorithm>
 #include <iostream>
 #include <random>
 #include <thread>
@@ -74,18 +75,10 @@ namespace sequence { //TODO change namespace to game
         //Set all button states to false/0 (not lighting up)
         _buttonStatess.fill(0);
 
-        //TODO remove, currently used to show all buttons are in state 0 at beginning
         //TODO switch with increasing sequence -> perhaps everytime gameMode is switched back to WATCH
-        int i{0};
-        for (int state: _buttonStatess) {
-            std::cout << state << " " << i << std::endl;
-            i++;
-        }
 
-        for (int k{0}; k < 5; k++) {
-            chooseNextRandomButton();
-            nextLevel();
-        }
+        chooseNextRandomButton();
+        nextLevel();        //first level
         showSequence();
 
     }
@@ -95,9 +88,11 @@ namespace sequence { //TODO change namespace to game
     }
 
     void Sequence::stop() {
-        _endBoxString = "Du hast eine Abfolge von " + std::to_string(_longestReproducedSequence) +
+        //TODO vvvvv this might be redundant once sequence increases with each round!
+        _longestReproducedSequence = std::max(_correctClicksOfCurrentSequence, _longestReproducedSequence);     //if current clicks was higher than
+        _endBoxString = "Du hast eine maximale Abfolge von " + std::to_string(_longestReproducedSequence) +
                         " Klicks richtig wiederholt!";
-        _endBoxText = _endBoxString.c_str();
+        _endBoxText = _endBoxString;
         _isGameRunning = false;
         _showEndBox = true;
         _endBoxTitle = "Falsch geklickt!";
@@ -154,7 +149,7 @@ namespace sequence { //TODO change namespace to game
                     ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
-                        std::cout << "Clicked Button " << buttonID << " - will still get effect." << std::endl;
+                        std::cout << "Clicked Button " << buttonID << std::endl;
 
                         isClickedInCorrectOrder(buttonID);
                     }
@@ -173,12 +168,18 @@ namespace sequence { //TODO change namespace to game
 
         if (buttonID == _buttonsClickedSequence[_sequenceButtonIterator]) {     //if clicked button is the right button to be clicked in sequence
             _correctClicksOfCurrentSequence++;
+            std::cout << "CORRECT CLICK!\n";
+            _sequenceButtonIterator++;  //make sure that the next button in line gets rated as correct now!
             if (_correctClicksOfCurrentSequence == _levelCounter) {
                 //go to next level and switch back to watch gamemode
+                std::cout << "NEXT LEVEL REACHED!\n";
+                _longestReproducedSequence = _correctClicksOfCurrentSequence;
                 nextLevel();
                 switchGameMode();
             }
+
         } else {
+            std::cout << "WRONG: it was supposed to be " << _buttonsClickedSequence[_sequenceButtonIterator] << " you clicked " << buttonID << std::endl;
             stop();     //wrong button clicked -> GAMEOVER!
         }
 
@@ -200,7 +201,7 @@ namespace sequence { //TODO change namespace to game
         for (int button: _buttonsClickedSequence) {
             std::cout << button << std::endl;
             std::cout << "cond1 " << (_buttonStatess[button] == 0) << "\ncond2 " << (_canShowNextButtonInSequence) << "\ncond3 " << (_sequenceButtonIterator == buttonForLoopIteration) << std::endl;
-            std::cout << "buttonIterator " << _sequenceButtonIterator << " =? buttonForLoopIteration " << buttonForLoopIteration << std::endl;
+            std::cout << "sequencebuttonIterator " << _sequenceButtonIterator << " =? buttonForLoopIteration " << buttonForLoopIteration << std::endl;
             if ((_buttonStatess[button] == 0) &&
                 _canShowNextButtonInSequence && (_sequenceButtonIterator == buttonForLoopIteration)) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
                 lightUp(_buttonStatess[button]);    //light up button X by setting state of button X to 1/true
@@ -218,7 +219,7 @@ namespace sequence { //TODO change namespace to game
         _stopHighlightingHere = std::chrono::steady_clock::now() + std::chrono::seconds(_lightUpDurationInSeconds);
         buttonState = 1;
         _canShowNextButtonInSequence = false;   //Button leuchtet derzeit auf, also darf erstmal kein neuer aufleuchten, bevor dieser nicht wieder aus ist
-        std::cout << "canShowNextButton = FALSE" << std::endl;
+        std::cout << "canShowNextButton = FALSE  (another button is currently lit up!)" << std::endl;
     }
 
     void Sequence::checkLitUpExpired(int &buttonState) {
@@ -226,9 +227,10 @@ namespace sequence { //TODO change namespace to game
         //if Lighting up time is expired
         if ((buttonState == 1) && std::chrono::steady_clock::now() > _stopHighlightingHere) {
             buttonState = 0;
-            std::cout << "ENTERING CHECKLITUP EXPIRED FIRST IF" << std::endl;
+            std::cout << "ENTERING CHECKLITUP EXPIRED FIRST IF (lit up button is turned off)" << std::endl;
 
             std::cout << "sequence Iterartor: " << _sequenceButtonIterator << " level: " << _levelCounter << std::endl;
+
 
             if(_sequenceButtonIterator <= _levelCounter) {
 
@@ -272,13 +274,18 @@ namespace sequence { //TODO change namespace to game
             case GameMode::REPEAT:
                 _currentGameMode = GameMode::WATCH;
 
+                std::cout << "SWITCH GAMEMODE TO WATCH\n";
+
                 _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable
                 _sequenceButtonIterator = 0;
+                chooseNextRandomButton(); //Sequence must be elongated by one button click
+                showSequence();
                 break;
         }
     }
 
     void Sequence::moveOnToNextButton() {
+        std::cout << "increased sequence button iterator to " << _sequenceButtonIterator << std::endl;
         _sequenceButtonIterator++;      //increase iterator that runs through button sequence to check/light up next button
     }
 } // sequence
