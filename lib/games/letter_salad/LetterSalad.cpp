@@ -19,6 +19,9 @@
 #include "DashboardScene.hpp"
 #include "RandomPicker.hpp"
 
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
+
 namespace game {
 
     LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
@@ -87,21 +90,17 @@ namespace game {
     }
 
     // the vector is read in from the file
-    std::vector<WordTarget> LetterSalad::_wordList = {};
+    std::vector<WordTarget> LetterSalad::_wordList;
 
     void LetterSalad::loadWordsFromFile() {
-        std::ifstream file("./config/games/letter_salad_words.txt", std::ios::binary);
+        std::fstream file("./config/games/letter_salad_words.json");
         if (!file) {
-            std::cerr << "Unable to open file letter_salad_words.txt";
+            std::cerr << "Unable to open file letter_salad_words.json";
             return;
         }
 
-        std::string line;
-        while (std::getline(file, line)) {
-            line.erase(std::remove(line.begin(), line.end(), '\n'), line.end());
-            line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
-            _wordList.emplace_back(line);
-        }
+        json data = json::parse(file);
+        _wordList = {data["wordlist"].begin(), data["wordlist"].end()};
 
         file.close();
     }
