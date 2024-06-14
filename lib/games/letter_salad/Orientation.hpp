@@ -1,0 +1,16 @@
+//
+// Created by Benjamin Puhani (941077) on 10.06.2024.
+// &22 Buchstabensalat
+//
+
+#ifndef ATHENA_LIB_GAMES_LETTER_SALAD_ORIENTATION_HPP_
+#define ATHENA_LIB_GAMES_LETTER_SALAD_ORIENTATION_HPP_
+
+enum class Orientation {
+  HORIZONTAL,
+  VERTICAL,
+  DIAGONAL_DOWN,
+  DIAGONAL_UP,
+};
+
+#endif //ATHENA_LIB_GAMES_LETTER_SALAD_ORIENTATION_HPP_
