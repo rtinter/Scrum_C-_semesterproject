@@ -277,6 +277,7 @@ namespace game {
     }
 
     void LetterSalad::clickCell(Coordinates const &coords) {
+        commons::SoundManager::playSound(commons::Sound::CLICK);
 
         // if the first has not been selected yet
         if (!_isFirstCellSelected) {
