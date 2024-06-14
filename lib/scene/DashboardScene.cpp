@@ -25,8 +25,7 @@ scene::DashboardScene::DashboardScene() {
     std::vector<UniqueTile> kCategory2Tiles = {};
     std::vector<UniqueTile> kCategory3Tiles = {};
 
-
-    // CREATE Reaktionsspiel in Category 1
+    // Kategorie 1:
     kCategory1Tiles.push_back(
             std::make_unique<Tile>(
                     "Reaktionsspiel",
@@ -38,7 +37,6 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    // CREATE Color Match in Category 1
     kCategory1Tiles.push_back(
             std::make_unique<Tile>(
                     "Farbe & Text",
@@ -49,7 +47,6 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    // CREATE Dummy in Category 2
     kCategory1Tiles.push_back(
             std::make_unique<Tile>(
                     "Aim Trainer",
@@ -60,8 +57,7 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    // CREATE Color Match in Category 1
-    kCategory1Tiles.push_back(
+    kCategory2Tiles.push_back(
             std::make_unique<Tile>(
                     "Type Racer",
                     []() {
@@ -72,10 +68,9 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    // CREATE LetterSalad in Category 3
     kCategory3Tiles.push_back(
             std::make_unique<Tile>(
-                    "Pic",
+                    "",
                     "Buchstabensalat",
                     "Finde alle Wörter\nin vorgegebener Zeit",
                     []() {
@@ -86,9 +81,9 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    _dashboard->addTilesToCategory("Kategorie 1", kCategory1Tiles);
-    _dashboard->addTilesToCategory("Kategorie 2", kCategory2Tiles);
-    _dashboard->addTilesToCategory("Kategorie 3", kCategory3Tiles);
+    _dashboard->addTilesToCategory("Reaktion", kCategory1Tiles);
+    _dashboard->addTilesToCategory("Genauigkeit", kCategory2Tiles);
+    _dashboard->addTilesToCategory("Problemlösung", kCategory3Tiles);
 }
 
 void scene::DashboardScene::render() {

@@ -37,7 +37,7 @@ namespace {
 namespace views {
     void Dashboard::addTileToCategory(const std::string &category,
                                       UniqueTile &tile) {
-        _categoryTiles[category].push_back(std::move(tile));
+        _categoryTiles[category].emplace_back(std::move(tile));
     }
 
     //add tiles to category
