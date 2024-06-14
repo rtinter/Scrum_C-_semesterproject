@@ -21,17 +21,18 @@ namespace reaction {
                 "In diesen Berufen ist es entscheidend, rasch auf sich ändernde Situationen zu reagieren, \n"
                 "daher ist das Spiel ein zuverlässiger Indikator für die persönliche Eignung.\n";
         _gameRules = "Der Bildschirm zeigt zunächst eine rote Farbe.\n"
-                "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
-                "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
-                "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
-                "Versuche, deine beste Zeit zu schlagen!";
+                     "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
+                     "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
+                     "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
+                     "Versuche, deine beste Zeit zu schlagen!";
         _gameControls = "Linke Maustaste: Klicken, sobald der Bildschirm Grün wird.";
     }
 
     void Reaction::render() {
-        ui_elements::InfoBox(_gameID, _showStartBox,"Startbox", _gameName, _gameDescription, _gameRules, _gameControls, [this] {
-            start();
-        }).render();
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,
+                             [this] {
+                                 start();
+                             }).render();
 
         ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
             start();
@@ -57,7 +58,7 @@ namespace reaction {
                     _finishPoint = std::chrono::steady_clock::now();
 
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                        _finishPoint - _startPoint).count();
+                            _finishPoint - _startPoint).count();
 
                     _showEndBox = true;
 

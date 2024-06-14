@@ -25,16 +25,17 @@ namespace games {
                 "zwischen verschiedenen Reizen zu unterscheiden, sind wesentliche Fähigkeiten\n"
                 "für den Einsatz von Polizei- und Feuerwehrkräften.";
         _gameRules = "Es wird zufällig zwischen zwei Spiel-Modi gewechselt: "
-                "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
-                "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
-                "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
+                     "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
+                     "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
+                     "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
         _gameControls = "Linke Maustaste: Klicken der richtigen Antworten in der richtigen Reihenfolge";
     }
 
     void ColorMatch::render() {
-        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,  [this] {
-            start();
-        }).render();
+        ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,
+                             [this] {
+                                 start();
+                             }).render();
 
         ui_elements::InfoBox(_gameID, _showEndBox, "Endbox", _endBoxTitle, _endBoxText, [this] {
             start();
@@ -57,7 +58,7 @@ namespace games {
                 pickRandomColorsImVec4();
                 _isTimeForNewRandomColors = false;
             }
-            ui_elements::Centered(true, false,[this] {
+            ui_elements::Centered(true, false, [this] {
                 switch (_currentGameMode) {
                     case GameMode::MATCH_STRING:
                         ImGui::Text("Finde die Übereinstimmung mit dem Farbwort:");
@@ -76,7 +77,7 @@ namespace games {
     void ColorMatch::start() {
         reset();
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-            std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
+                std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
         _isGameRunning = true;
         _showEndBox = false;
         _timer.start();
@@ -146,8 +147,8 @@ namespace games {
 
             ImGui::PushStyleColor(ImGuiCol_ButtonActive, // show whether click was correct via quick color change
                                   isCurrentColor
-                                      ? commons::ColorTheme::SUCCESS_COLOR
-                                      : commons::ColorTheme::ERROR_COLOR);
+                                  ? commons::ColorTheme::SUCCESS_COLOR
+                                  : commons::ColorTheme::ERROR_COLOR);
 
             if (ImGui::Button(buttonID.c_str(), ImVec2(80, 40))) {
                 onClick(isCurrentColor);

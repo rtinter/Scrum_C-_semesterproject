@@ -21,13 +21,13 @@ namespace ui_elements {
             std::optional<std::string> _gameControls,
             std::function<void()> const &_callback) :
             _gameID(_gameID),
-        _showOverlay(_showOverlay),
-        _overlayType(std::move(_overlayType)),
-        _gameName(std::move(_gameName)),
-        _gameDescription(std::move(_gameDescription)),
-        _gameRules(std::move(_gameRules)),
-        _gameControls(std::move(_gameControls)),
-        _callback(std::move(_callback)) {
+            _showOverlay(_showOverlay),
+            _overlayType(std::move(_overlayType)),
+            _gameName(std::move(_gameName)),
+            _gameDescription(std::move(_gameDescription)),
+            _gameRules(std::move(_gameRules)),
+            _gameControls(std::move(_gameControls)),
+            _callback(std::move(_callback)) {
     }
 
     InfoBox::InfoBox(
@@ -69,8 +69,7 @@ namespace ui_elements {
             }
 
 
-
-            Centered(true, false,[this] {
+            Centered(true, false, [this] {
                 if (_overlayType == "Startbox") {
                     if (ImGui::Button("Spiel starten!")) {
                         if (_callback) {
