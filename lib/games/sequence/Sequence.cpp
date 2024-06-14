@@ -143,7 +143,7 @@ namespace sequence {
                 case GameMode::REPEAT:
 
                     ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
-                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::INFO_COLOR);
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
                         std::cout << "Clicked Button " << buttonID << std::endl;
@@ -263,9 +263,11 @@ namespace sequence {
 
                 std::cout << "SWITCH GAMEMODE TO WATCH\n";
 
+                //_sleep(1000);
                 _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable
                 _sequenceButtonIterator = 0;
                 chooseNextRandomButton(); //Sequence must be elongated by one button click
+
                 showSequence();
                 break;
         }
