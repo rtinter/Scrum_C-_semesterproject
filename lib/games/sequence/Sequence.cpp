@@ -2,10 +2,7 @@
 #include "Fonts.hpp"
 #include "ColorTheme.hpp"
 #include "InfoBox.hpp"
-#include "Overlay.hpp"
 #include "TextCentered.hpp"
-#include "SceneManager.hpp"
-#include "DashboardScene.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
 #include <algorithm>
