@@ -17,6 +17,8 @@ namespace game {
         std::string _currentSequence;
         int _currentSolution;
         std::string _currentExplanation;
+        std::chrono::steady_clock::time_point _correctAnswerTime;
+        bool _waitingForNextNumber;
         bool _inputChanged {false};  // Flag zum Verfolgen von Änderungen
         static std::vector<game::Sequence> _sequences;
 
