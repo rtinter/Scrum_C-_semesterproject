@@ -71,9 +71,9 @@
       "explanation": "Die Differenzen der Zahlen steigen in Schritten von 2."
     },
     {
-      "sequence": "1 3 7 ? 31",
-      "solution": 15,
-      "explanation": "Die Zahlen sind jeweils (2^n) - 1."
+      "sequence": "1 3 7 ? 3 1",
+      "solution": 7,
+      "explanation": "Die Zahlen gehen hoch und dann wieder runter."
     },
     {
       "sequence": "6 11 16 ? 26",
