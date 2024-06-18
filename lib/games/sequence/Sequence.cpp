@@ -121,7 +121,6 @@ namespace sequence {
                     }
 
                     if (_buttonStatess[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
-                        //std::cout << "Light up this shit " << buttonID << std::endl;
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::ACCENT_COLOR);
