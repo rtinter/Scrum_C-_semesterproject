@@ -15,7 +15,7 @@ namespace sequence {
 
     Sequence::Sequence() : Game(abstract_game::GameID::SEQUENCE) {
         _gameName = "Abfolge-Merken-Spiel";
-        _gameDescription = "Unser Abfolge-Merken-Spiel soll die Fähigkeit testen, sich Abfolgen einzuprägen und korrekt wiederzugeben.\n";
+        _gameDescription = "Unser Abfolge-Merken-Spiel soll die Fähigkeit testen, sich Abfolgen einzuprägen\nund korrekt wiederzugeben.\n";
         _gameRules = "Auf dem Bildschirm werden 9 verschiedene Buttons angezeigt.\n"
                      "Diese Buttons werden nacheinander aufleuchten und anschließend müssen die Buttons in exakt dieser\n"
                      "Reihenfolge angeklickt werden. Die Abfolge muss also wiederholt werden.\n"
@@ -193,7 +193,8 @@ namespace sequence {
         for (int button: _buttonsClickedSequence) {
             if ((_buttonStatess[button] == 0) &&
                 _canShowNextButtonInSequence && (_sequenceButtonIterator ==
-                                                 buttonForLoopIteration) && !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
+                                                 buttonForLoopIteration) &&
+                !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
                 lightUp(_buttonStatess[button], button);    //light up button X by setting state of button X to 1/true
             }
             buttonForLoopIteration++;
@@ -203,7 +204,8 @@ namespace sequence {
 
     void Sequence::lightUp(int &buttonState, int const &buttonID) {
         //Sets a button to be lit up for 800ms
-        _stopHighlightingHere = std::chrono::steady_clock::now() + std::chrono::milliseconds(_lightUpDurationInMilliseconds);
+        _stopHighlightingHere =
+                std::chrono::steady_clock::now() + std::chrono::milliseconds(_lightUpDurationInMilliseconds);
         buttonState = 1;
         playButtonSound(buttonID);
         _canShowNextButtonInSequence = false;   //another button is currently lit up, this variable assures no other button is being lit up at the same time
@@ -239,8 +241,7 @@ namespace sequence {
                 break;
 
             case GameMode::REPEAT:
-                _currentGameMode = GameMode::WATCH;
-                ;
+                _currentGameMode = GameMode::WATCH;;
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(700));
                 _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable
