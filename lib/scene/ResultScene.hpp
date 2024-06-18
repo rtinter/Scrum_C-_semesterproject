@@ -1,7 +1,4 @@
-
-#ifndef ATHENA_RESULTSSCENE_H
-#define ATHENA_RESULTSSCENE_H
-
+#pragma once
 #include "Scene.hpp"
 #include "Header.hpp"
 #include "Results.h"
@@ -10,7 +7,6 @@
 namespace scene {
 
     class ResultsScene : public Scene {
-
         views::Header _header;
         views::Results _results;
 
@@ -24,5 +20,3 @@ namespace scene {
     };
 
 } // scene
-
-#endif //ATHENA_RESULTSSCENE_H
