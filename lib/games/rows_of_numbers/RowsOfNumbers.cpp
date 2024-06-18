@@ -1,6 +1,3 @@
-//
-// Created by jane on 14.06.24.
-//
 
 #include "RowsOfNumbers.hpp"
 #include "Sequence.hpp"

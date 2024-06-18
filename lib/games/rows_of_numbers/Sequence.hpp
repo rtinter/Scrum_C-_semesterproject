@@ -1,6 +1,3 @@
-//
-// Created by jane on 14.06.24.
-//
 
 #ifndef ATHENA_SEQUENCE_HPP
 #define ATHENA_SEQUENCE_HPP
@@ -17,8 +14,8 @@ namespace game {
         std::string sequence;
         int solution;
         std::string explanation;
-        Sequence(std::string sequence, int solution, std::string explanation);
-        Sequence(json& config);
+        Sequence(std::string const &sequence, int const &solution, std::string const &explanation);
+        explicit Sequence(json const &config);
     };
 
 } // game
