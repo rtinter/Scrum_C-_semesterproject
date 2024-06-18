@@ -79,8 +79,9 @@ namespace game {
 
                 ImGui::PushFont(commons::Fonts::_header1);
 
-                auto now = std::chrono::steady_clock::now();
-                auto timeSinceCorrectAnswer = std::chrono::duration_cast<std::chrono::seconds>(now - _correctAnswerTime).count();
+                auto now{std::chrono::steady_clock::now()};
+                auto timeSinceCorrectAnswer{
+                        std::chrono::duration_cast<std::chrono::seconds>(now - _correctAnswerTime).count()};
 
 
             if (_inputChanged && _input == _currentSolution) {
