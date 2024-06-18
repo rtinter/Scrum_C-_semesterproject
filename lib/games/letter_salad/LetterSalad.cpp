@@ -16,9 +16,9 @@
 #include "Overlay.hpp"
 #include "SceneManager.hpp"
 #include "RandomPicker.hpp"
-#include "SoundManager.hpp"
-
+#include "SoundPolice.hpp"
 #include <nlohmann/json.hpp>
+
 using json = nlohmann::json;
 
 namespace game {
@@ -57,7 +57,7 @@ namespace game {
     void LetterSalad::start() {
         init();
         fillGameFieldWithRandomWords();
-        randomizeGameField();
+//        randomizeGameField();
         _isGameRunning = true;
         _showStartBox = false;
         _showEndBox = false;
@@ -153,8 +153,8 @@ namespace game {
                 }
             }
             static std::string missingWordsText = "Dir fehlen noch:\n" +
-                    std::to_string(missingWords) + " Wörter\nBzw. " +
-                    std::to_string(missingLetters) + " Buchstaben.";
+                                                  std::to_string(missingWords) + " Wörter\nBzw. " +
+                                                  std::to_string(missingLetters) + " Buchstaben.";
             _endBoxText = missingWordsText;
             stop();
         }
@@ -277,7 +277,7 @@ namespace game {
     }
 
     void LetterSalad::clickCell(Coordinates const &coords) {
-        commons::SoundManager::playSound(commons::Sound::CLICK);
+        commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 70);
 
         // if the first has not been selected yet
         if (!_isFirstCellSelected) {
@@ -308,10 +308,9 @@ namespace game {
             }
             auto foundWord{_activeWordList.find(WordTarget{_selectedWord})};
 
-
             if (!(*foundWord->isFound())) {
                 foundWord->setFound();
-                commons::SoundManager::playSound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             }
 
             bool allWordsFound{true};
@@ -334,7 +333,7 @@ namespace game {
                 static std::string endboxString =
                         "Du hast alle Wörter gefunden!\n"
                         "Und sogar noch Zeit übrig gehabt!\n" + minutes +
-                                " Minuten und " + seconds + " Sekunden\n";
+                        " Minuten und " + seconds + " Sekunden\n";
                 _endBoxText = endboxString;
                 stop();
             }
@@ -477,18 +476,21 @@ namespace game {
                     // place word vertically
                     row = RandomPicker::randomInt(0, height - 1);
                     col = RandomPicker::randomInt(0, width - word.length());
+                    if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::DIAGONAL_DOWN: {
                     // place word diagonally top left to bottom right
                     row = RandomPicker::randomInt(0, height - word.length());
                     col = RandomPicker::randomInt(0, width - word.length());
+                    if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::DIAGONAL_UP: {
                     // place word diagonally bottom left to top right
                     row = RandomPicker::randomInt(word.length() - 1, height - 1);
                     col = RandomPicker::randomInt(0, width - word.length());
+                    if (reverse) std::reverse(word.begin(), word.end());
                 }
             }
 
