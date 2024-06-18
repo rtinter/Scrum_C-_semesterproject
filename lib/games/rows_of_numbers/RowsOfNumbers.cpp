@@ -19,7 +19,7 @@ namespace game {
     RowsOfNumbers::RowsOfNumbers() : abstract_game::Game(abstract_game::GameID::ROWS_OF_NUMBERS) {
         _gameName = "Zahlenreihen";
         _gameDescription = "Finde die fehlende Zahl in der Zahlenreihe.";
-        _gameRules = "Tippe die fehlende Zahl der Zahlenreihe in das Eingabefeld.";
+        _gameRules = "1. Analysiere die gezeigte Zahlenreihe.\n2. Finde die fehlende Zahl.\n3. Tippe die fehlende Zahl in das Eingabefeld.\n4. Bestätige die Eingabe durch Enter.";
         _gameControls = "Tippe die fehlende Zahl der Zahlenreihe in das Eingabefeld.";
 
         loadWordsFromFile();
@@ -162,7 +162,8 @@ namespace game {
     }
 
     RowsOfNumbers::~RowsOfNumbers() {
-
+        _input = 0;
+        _solvedCounter = 0;
     }
 
     int RowsOfNumbers::randomIndexGenerator(int size) {
