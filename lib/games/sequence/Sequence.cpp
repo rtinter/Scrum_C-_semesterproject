@@ -133,6 +133,7 @@ namespace sequence {
                     }
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
+                        //clicking is not supposed to have any effect in WATCH mode
                     }
 
                     ImGui::PopStyleColor(); //one time extra because of Hovered color
