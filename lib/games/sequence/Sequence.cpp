@@ -84,7 +84,7 @@ namespace sequence {
     }
 
     void Sequence::stop() {
-        _endBoxString = "Du hast eine maximale Abfolge von " + std::to_string(_longestReproducedSequence) +
+        _endBoxString = "Du hast eine Abfolge von " + std::to_string(_longestReproducedSequence) +
                         " Klicks richtig wiederholt!";
         _endBoxText = _endBoxString;
         _isGameRunning = false;
