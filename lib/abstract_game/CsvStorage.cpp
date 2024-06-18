@@ -42,7 +42,34 @@ namespace abstract_game {
         file.close();
     }
 
-    void CsvStorage::getUserData(int userID) {
+    std::vector<Session> CsvStorage::getUserData(int userID) {
+        std::vector<Session> sessions;
+        rapidcsv::Document doc(CSV_FILENAME);
+
+        // file << "GameSessionUID,UserID,GameID,StartTime,EndTime,DurationInSeconds,Ended\n";
+        std::vector<long> gameId = doc.GetColumn<long>("GameID");
+        std::vector<size_t> gameSessionId = doc.GetColumn<size_t>("GameSessionUID");
+        std::vector<int> userId = doc.GetColumn<int>("UserID");
+        // std::vector<long> startTime = doc.GetColumn<long>("StartTime");
+        // std::vector<long> endTime = doc.GetColumn<long>("EndTime");
+        // std::vector<unsigned long long> duration = doc.GetColumn<unsigned long long>("DurationInSeconds");
+        // std::vector<bool> ended = doc.GetColumn<bool>("Ended");
+
+        int count = doc.GetRowCount();
+
+        for(int row{0}; row < count; ++row){
+            if(userId[row] != userID){
+                continue;
+            }
+            Session session = {
+                    .gameId = static_cast<GameID>(gameId[row]),
+                    .userId = userId[row],
+                    .gameSessionId = gameSessionId[row],
+            };
+            sessions.emplace_back(session);
+        }
+
+        return sessions;
         // Implementation to read user data from the CSV file
     }
 

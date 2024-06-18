@@ -9,6 +9,7 @@
 #include <memory>
 #include <vector>
 #include "GameIDs.hpp"
+#include "Session.hpp"
 
 
 namespace abstract_game {
@@ -27,15 +28,7 @@ namespace abstract_game {
                                      long long startTime, long long endTime,
                                      unsigned long long duration, bool ended) = 0;
 
-        /**
-         * @brief Save the game session data to a CSV file.
-         *
-         * This method saves the game session data to a CSV file.
-         *
-         * @param filename The name of the CSV file.
-         */
-        virtual void getUserData(int UserID) = 0;
-
+        virtual std::vector<Session> getUserData(int UserID) = 0;
     };
 
 } // abstract_game

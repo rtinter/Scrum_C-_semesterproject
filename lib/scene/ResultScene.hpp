@@ -3,16 +3,17 @@
 #include "Header.hpp"
 #include "Results.h"
 #include <string>
+#include "Session.hpp"
 
 namespace scene {
-
-    class ResultsScene : public Scene {
+    class ResultScene : public Scene {
         views::Header _header;
         views::Results _results;
 
+        std::vector<Session> _sessions;
 
     public:
-        ResultsScene();
+        ResultScene();
 
         void render() override;
 

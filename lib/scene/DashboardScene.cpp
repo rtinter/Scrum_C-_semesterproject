@@ -1,5 +1,5 @@
 #include "DashboardScene.hpp"
-#include "ResultsScene.h"
+#include "ResultScene.hpp"
 #include "SceneManager.hpp"
 #include "GameScene.hpp"
 #include "Reaction.hpp"
@@ -15,7 +15,7 @@ scene::DashboardScene::DashboardScene() {
 
     _header = std::make_unique<views::Header>("Home", "Meine Werte", []() {
       // linking to user result site
-       SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
+       SceneManager::getInstance().switchTo(std::make_unique<ResultScene>());
     });
 
     _dashboard = std::make_unique<views::Dashboard>();

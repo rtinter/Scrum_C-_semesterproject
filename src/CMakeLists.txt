@@ -27,6 +27,7 @@ target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
         sfml-graphics
         box2d
         implot
+        rapidcsv
 )
 
 if (WIN32)

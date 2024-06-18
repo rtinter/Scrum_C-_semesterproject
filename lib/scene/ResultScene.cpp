@@ -1,13 +1,14 @@
 
-#include "ResultsScene.hpp"
+#include "ResultScene.hpp"
 #include "DashboardScene.hpp"
 #include "SceneManager.hpp"
 #include "Window.hpp"
 #include "implot.h"
+#include "CsvStorage.hpp"
 
 namespace scene {
 
-    ResultsScene::ResultsScene() : _header("Meine Werte", "Home", [](){
+    ResultScene::ResultScene() : _header("Meine Werte", "Home", [](){
         SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
     }){
         //TODO Testdaten -> Hier Spieldaten einbinden!
@@ -16,6 +17,7 @@ namespace scene {
         std::vector<std::string> stringvectordata {"Heute", "Tom", "300 pkt", "win"};
         map[0] = stringvectorHeaderline;
         map[1] = stringvectordata;
+
         ui_elements::StatisticsGameTable coolTable{map};
         _results.addGameTableContainer(ui_elements::TableContainer("hallo", coolTable));
         _results.addGameTableContainer(ui_elements::TableContainer("hallo1", coolTable));
@@ -24,6 +26,12 @@ namespace scene {
         _results.addGameTableContainer(ui_elements::TableContainer("hallo5", coolTable));
         _results.addGameTableContainer(ui_elements::TableContainer("hallo6", coolTable));
 
+        abstract_game::CsvStorage storage{};
+        this->_sessions = storage.getUserData(1);
+
+        for(const Session &session : _sessions){
+            std::cout << session.gameSessionId << std::endl;
+        }
     }
 
     void drawPieChartToday(){
@@ -52,7 +60,7 @@ namespace scene {
         ImPlot::DestroyContext();
     }
 
-    void ResultsScene::render() {
+    void ResultScene::render() {
         ui_elements::Window("Result").render([this] {
             _header.render();
             drawPieChartToday();
@@ -61,7 +69,7 @@ namespace scene {
         });
     }
 
-    std::string ResultsScene::getName() const {
-        return "ResultsScene";
+    std::string ResultScene::getName() const {
+        return "ResultScene";
     }
 } // scene
