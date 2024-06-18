@@ -145,7 +145,6 @@ namespace sequence {
                     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
-
                         isClickedInCorrectOrder(buttonID);
                     }
 
