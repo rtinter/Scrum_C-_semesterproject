@@ -171,7 +171,7 @@ namespace game {
         _solvedCounter = 0;
     }
 
-    int RowsOfNumbers::randomIndexGenerator(int size) {
+    int RowsOfNumbers::randomIndexGenerator(int size) const {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> dis(0, size - 1);

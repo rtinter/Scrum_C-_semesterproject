@@ -19,7 +19,7 @@ namespace game {
         std::string _currentExplanation;
         std::chrono::steady_clock::time_point _correctAnswerTime;
         bool _waitingForNextNumber;
-        bool _inputChanged {false};  // Flag zum Verfolgen von Änderungen
+        bool _inputChanged {false};
         static std::vector<game::Sequence> _sequences;
 
         static void loadWordsFromFile();
@@ -33,7 +33,7 @@ namespace game {
         void updateStatistics() override;
         void stop() override;
         std::string getName() const override;
-        int randomIndexGenerator(int size);
+        int randomIndexGenerator(int size) const;
         ~RowsOfNumbers() override;
     };
 
