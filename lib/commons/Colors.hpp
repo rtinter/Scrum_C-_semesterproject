@@ -23,8 +23,11 @@ namespace commons {
         static ImVec4 const INDIGO;
         static ImVec4 const SEAFOAM;
         static ImVec4 const YELLOW;
+        static ImVec4 const RICH_YELLOW;
         static ImVec4 const BROWN;
         static ImVec4 const PURPLE;
+        static ImVec4 const CORNFLOWER_BLUE;
+        static ImVec4 const LIGHT_CORNFLOWER_BLUE;
         static const ImVec4 BRIGHT_GREEN;
         static const ImVec4 BRIGHT_RED;
         static const ImVec4 VERY_LIGHT_GRAY;

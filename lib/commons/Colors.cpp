@@ -9,11 +9,14 @@ namespace commons {
     ImVec4 const Colors::SEAFOAM = {0.15, 0.65, 0.67, 1};
     ImVec4 const Colors::ORANGE = {0.9, 0.53, 0.1, 1};
     ImVec4 const Colors::BLUE = {0.05, 0.45, 0.9, 1};
+    ImVec4 const Colors::CORNFLOWER_BLUE = {0.39f, 0.58f, 0.93f, 1.0f};
+    ImVec4 const Colors::LIGHT_CORNFLOWER_BLUE = {0.67f, 0.80f, 0.94f, 1.0f};
     ImVec4 const Colors::RED = {0.79, 0.15, 0.18, 1};
     ImVec4 const Colors::BRIGHT_RED = {1, 0, 0, 1};
     ImVec4 const Colors::GREEN = {0, 0.63, 0., 1.};
     ImVec4 const Colors::BRIGHT_GREEN = {0, 1, 0, 1};
     ImVec4 const Colors::BROWN = {0.38, 0.18, 0, 1};
     ImVec4 const Colors::YELLOW = {0.98, 0.9, 0.03, 1};
+    ImVec4 const Colors::RICH_YELLOW = {0.96f, 0.82f, 0.1f, 1.0f};
     ImVec4 const Colors::PURPLE = {0.49, 0, 0.49, 1};
 }

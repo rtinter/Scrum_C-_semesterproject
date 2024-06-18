@@ -8,6 +8,7 @@
 #include "AimTrainer.hpp"
 #include "Remembering.hpp"
 #include "TypeRacer.hpp"
+#include "Memory.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -94,6 +95,17 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::Remembering>>()
+                        );
+                    }
+            )
+    );
+
+    rememberCategory.push_back(
+            std::make_unique<Tile>(
+                    "Memory",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<memory::Memory>>()
                         );
                     }
             )

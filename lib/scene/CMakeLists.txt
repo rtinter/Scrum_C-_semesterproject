@@ -23,6 +23,7 @@ set(CUSTOM_LIBS
         letter_salad
         aim_trainer
         typeracer
+        memory
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
