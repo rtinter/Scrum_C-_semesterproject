@@ -4,6 +4,8 @@
 #include "SFML/Audio/Music.hpp"
 #include "SFML/Audio/Sound.hpp"
 #include "unordered_map"
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations" // safe wrapped
+
 
 namespace commons {
     class SoundManager {
@@ -28,7 +30,7 @@ namespace commons {
          * @param sound The sound.
          * @param filename The filename.
          */
-        static void initSoundBuffer(commons::Sound sound, std::string const& filename);
+        static void initSoundBuffer(commons::Sound sound, std::string const &filename);
 
     public:
         SoundManager() = delete;
@@ -41,14 +43,18 @@ namespace commons {
         /**
          * Plays a sound.
          * @param sound The sound to play.
+         * @deprecated
          */
+        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound);
 
         /**
          * Plays a sound with a given volume.
          * @param sound The sound to play.
          * @param volumeInPercent The volume in percent with a default value of 100.
+         * @deprecated
          */
+        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound, int volumeInPercent);
 
         /**
@@ -56,7 +62,9 @@ namespace commons {
          * @param sound The sound to play.
          * @param volumeInPercent The volume in percent with a default value of 100.
          * @param pitch The pitch with a default value of 1.
+         * @deprecated
          */
+        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound, int volumeInPercent, float pitch);
     };
 }

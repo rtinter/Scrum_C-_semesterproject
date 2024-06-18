@@ -8,6 +8,7 @@
 #include "GameRunThrough.hpp"
 #include "DataManager.hpp"
 #include "GameIDs.hpp"
+#include "GameRunThroughCsvWriter.hpp"
 
 namespace abstract_game {
 
@@ -27,7 +28,6 @@ namespace abstract_game {
         std::chrono::steady_clock::time_point _startPoint;
         std::chrono::steady_clock::time_point _endPoint;
         bool _ended;
-        const std::string CSV_FILENAME = "game_session.csv";
         std::unique_ptr<DataManager> _dataManager;
 
 
@@ -80,6 +80,8 @@ namespace abstract_game {
          */
         void addNewGameRunThrough(std::string const &resultUnit, long const &result);
 
+
+
         GameID getGameID() const;
 
         int getUserID() const;
@@ -96,5 +98,6 @@ namespace abstract_game {
     };
 
 } // abstract_game
+
 
 #endif //ATHENA_GAMESESSION_HPP
