@@ -29,16 +29,20 @@ namespace game {
     std::vector<game::Sequence> RowsOfNumbers::_sequences;
 
     void RowsOfNumbers::loadWordsFromFile() {
-        std::fstream file("./config/games/rows_of_numbers.json");
-        if (!file) {
-            std::cerr << "Unable to open file letter_salad_words.json";
-            return;
+        try {
+            std::fstream file("./config/games/rows_of_numbers.json");
+            if (!file) {
+                std::cerr << "Unable to open file letter_salad_words.json";
+                return;
+            }
+
+            json data = json::parse(file);
+            _sequences = {data["sequences"].begin(), data["sequences"].end()};
+
+            file.close();
+        } catch (const std::exception &e) {
+            std::cerr << "Error while reading file: " << e.what() << std::endl;
         }
-
-        json data = json::parse(file);
-        _sequences = {data["sequences"].begin(), data["sequences"].end()};
-
-        file.close();
     }
 
     void RowsOfNumbers::render() {
