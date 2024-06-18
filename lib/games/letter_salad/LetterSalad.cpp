@@ -441,7 +441,7 @@ namespace game {
             int randomIndex{RandomPicker::randomInt(0, _wordList.size() - 1)};
             auto wordPair{*std::next(_wordList.begin(), randomIndex)};
             // check if the word can be placed
-            if (placeWord(wordPair.getWord())) {
+            if (_activeWordList.find(wordPair) == _activeWordList.end() && placeWord(wordPair.getWord())) {
                 // if yes add it to the active wordList
                 _activeWordList.insert(wordPair);
             }
