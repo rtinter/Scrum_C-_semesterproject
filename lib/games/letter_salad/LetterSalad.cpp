@@ -152,8 +152,16 @@ namespace game {
                     missingLetters += wordTarget.getWord().size();
                 }
             }
+
+            std::string missingWord;
+            if (missingWords == 1) {
+                missingWord = "Wort";
+            } else {
+                missingWord = "Wörter";
+            }
+
             static std::string missingWordsText = "Dir fehlen noch:\n" +
-                                                  std::to_string(missingWords) + " Wörter\nBzw. " +
+                                                  std::to_string(missingWords) + " " + missingWord + "\nBzw. " +
                                                   std::to_string(missingLetters) + " Buchstaben.";
             _endBoxText = missingWordsText;
             stop();
