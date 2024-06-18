@@ -57,7 +57,7 @@ namespace game {
     void LetterSalad::start() {
         init();
         fillGameFieldWithRandomWords();
-//        randomizeGameField();
+        randomizeGameField();
         _isGameRunning = true;
         _showStartBox = false;
         _showEndBox = false;
