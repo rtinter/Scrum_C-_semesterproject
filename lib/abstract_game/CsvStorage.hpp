@@ -18,7 +18,11 @@ namespace abstract_game {
                              long long startTime, long long endTime,
                              unsigned long long duration, bool ended) override;
 
+        void saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) override;
+
         void getUserData(int userID) override;
+
+
 
     };
 
