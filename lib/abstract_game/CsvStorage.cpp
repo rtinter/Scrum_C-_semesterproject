@@ -6,15 +6,25 @@
 #include <sstream>
 #include "CsvStorage.hpp"
 #include "GameRunThroughCsvWriter.hpp"
+#include "Session.hpp"
 
 
 namespace abstract_game {
     const std::string SESSION_CSV_FILENAME {"game_session.csv"};
     const std::string RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
 
-    void CsvStorage::saveGameSession(size_t sessionUID, int userID, GameID gameID,
-                                     long long startTime, long long endTime,
-                                     unsigned long long duration, bool ended) {
+    void CsvStorage::saveGameSession(
+            size_t sessionUID,
+            int userID,
+            GameID gameID,
+            long long startTime,
+            long long endTime,
+            time_t start,
+            time_t end,
+            unsigned long long duration,
+            bool ended
+        )
+    {
 
         bool isEmpty = false;
 
@@ -82,8 +92,29 @@ namespace abstract_game {
         writer.close();
     }
 
-    void CsvStorage::getUserData(int userID) {
+    std::vector<Session> CsvStorage::getUserData(int userID) {
+        std::vector<Session> sessions;
+        // GameSessionUID,UserID,GameID,StartTime,EndTime,StartTimestamp,EndTimestamp,DurationInSeconds,Ended
+        rapidcsv::Document document(SESSION_CSV_FILENAME);
+        std::vector<size_t> gameSessionUID {document.GetColumn<size_t>("GameSessionUID")};
+        std::vector<int> userId {document.GetColumn<int>("userId")};
+        std::vector<int> gameId {document.GetColumn<int>("GameID")};
+        std::vector<time_t> startTime {document.GetColumn<time_t>("StartTime")};
+        std::vector<time_t> endTime {document.GetColumn<time_t>("EndTime")};
+        std::vector<int64_t> duration {document.GetColumn<int64_t>("Duration")};
+
+        size_t rowCount {document.GetRowCount()};
+        for(size_t row{0}; row < rowCount; ++row){
+            if(userId[row] != userID)
+                continue;
+
+            sessions.emplace_back(Session{
+                .start = startTime[row],
+                .end = startTime[row],
+            });
+        }
         // Implementation to read user data from the CSV file
+        return sessions;
     }
 
 } // abstract_game

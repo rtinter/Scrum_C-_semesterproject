@@ -19,6 +19,7 @@ build:
     - apt update && apt -y install cmake
     - apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev clang-tidy zip
   script:
+    - git submodule update --init --recursive
     - chmod +x ./build.sh
     - ./build.sh Build-Only
 
@@ -44,6 +45,7 @@ build_windows:
   rules:
     - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event'
   script:
+    - git submodule update --init --recursive
     - mkdir build
     - cd build
     - cmake -G "MinGW Makefiles" ..
