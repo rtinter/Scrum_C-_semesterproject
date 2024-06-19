@@ -7,8 +7,7 @@
 
 SimpleMultiplicationTable::SimpleMultiplicationTable()
         : _leftOperand(0), _rightOperand(0), _answer(0), _running(false),
-          _completedSuccessfully(false), _difficultyLevel(1), _focusSet(false) {
-    // Seed the random number generator with a combination of random_device and current time
+          _completedSuccessfully(false), _difficultyLevel(1), _focusSet(false), _score(0), _streak(0) {
     std::random_device rd;
     auto now = std::chrono::system_clock::now();
     auto duration = now.time_since_epoch();
@@ -42,14 +41,20 @@ void SimpleMultiplicationTable::render() {
     if (_running) {
         ImGui::PushFont(commons::Fonts::_header1);
 
-        std::string taskText = std::to_string(_leftOperand) + " * " + std::to_string(_rightOperand) + "?";
+        std::string taskText = std::to_string(_leftOperand) + " * " + std::to_string(_rightOperand);
         ImVec2 windowSize = ImGui::GetWindowSize();
         ImVec2 textSize = ImGui::CalcTextSize(taskText.c_str());
 
-        // Center task text horizontally and vertically
         ImGui::SetCursorPos(ImVec2((windowSize.x - textSize.x) / 2.0f, (windowSize.y - textSize.y) / 3.0f));
         ImGui::Text("%s", taskText.c_str());
 
+        ImGui::PopFont();
+
+        ImGui::PushFont(commons::Fonts::_header3);
+        std::string instructionText = "Trage das Ergebnis hier ein und bestätige mit Enter:";
+        ImVec2 instructionTextSize = ImGui::CalcTextSize(instructionText.c_str());
+        ImGui::SetCursorPos(ImVec2((windowSize.x - instructionTextSize.x) / 2.0f, (windowSize.y / 2.0f) - instructionTextSize.y));
+        ImGui::Text("%s", instructionText.c_str());
         ImGui::PopFont();
 
         static char input[128] = "";
@@ -59,21 +64,27 @@ void SimpleMultiplicationTable::render() {
             _focusSet = true; // Focus set once per game session
         }
 
-        // Make input text field shorter and center it
-        float inputFieldWidth = 150.0f; // Set desired width
-        ImGui::SetCursorPos(ImVec2((windowSize.x - inputFieldWidth) / 2.0f, (windowSize.y / 2.0f) + textSize.y + 20.0f));
-        ImGui::SetNextItemWidth(inputFieldWidth); // Set the width of the input field
+        float inputFieldWidth = 150.0f;
+        ImGui::SetCursorPos(ImVec2((windowSize.x - inputFieldWidth) / 2.0f, (windowSize.y / 2.0f) + 20.0f));
+        ImGui::SetNextItemWidth(inputFieldWidth);
 
         if (ImGui::InputText("##input", input, sizeof(input), ImGuiInputTextFlags_EnterReturnsTrue)) {
             _answer = std::atoi(input);
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
-
             if (_completedSuccessfully) {
-                commons::SoundManager::playSound(commons::Sound::CORRECT, 100.f, 1.2);
+                commons::SoundManager::playSound(commons::Sound::COMPLETE);
+                _score += 10; // Add points
+                _streak++;
+            } else {
+                _streak = 0;
             }
             _running = false;
             std::fill(std::begin(input), std::end(input), 0);  // Clear input
         }
+
+        // Show current score and streak
+        ImGui::SetCursorPos(ImVec2((windowSize.x - textSize.x) / 2.0f, (windowSize.y - textSize.y) / 1.5f));
+        ImGui::Text("Punkte: %d | Streak: %d", _score, _streak);
     }
 }
 

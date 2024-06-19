@@ -18,7 +18,7 @@ public:
     void setDifficulty(int level) override;
 
 private:
-    bool _focusSet{true};
+    bool _focusSet{false};
     int _leftOperand;
     int _rightOperand;
     int _answer;
@@ -26,6 +26,9 @@ private:
     bool _completedSuccessfully;
     int _difficultyLevel;
     std::mt19937 _rng;
+
+    int _score;
+    int _streak;
 
     void generateTask();
 };
