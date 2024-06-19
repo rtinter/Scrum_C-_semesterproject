@@ -38,18 +38,6 @@ prepare:
       - athena-release-$CI_COMMIT_TAG-linux.zip
 
 # Windows Build Job
-build_windows:
-  stage: build
-  tags: [windows]
-  rules:
-    - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event'
-  script:
-    - mkdir build
-    - cd build
-    - cmake -G "MinGW Makefiles" ..
-    - mingw32-make --jobs=$NUM_CORES
-
-# Windows Build Job
 # build_windows:
 #   stage: build
 #   tags: [windows]
@@ -115,5 +103,6 @@ release_job:
       when: always
   needs:
     - job: publish_job
+
 
 
