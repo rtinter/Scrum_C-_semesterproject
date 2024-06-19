@@ -7,14 +7,11 @@
 #include "RandomPicker.hpp"
 #include "imgui_internal.h"
 
-bool Matrix::_isClicked = false;
-
 /**************************************
  * init() fills the matrix with values
  * @param nColoredCells
  **************************************/
 void Matrix::init(int nColoredCells) {
-    _isClicked = false;
     // check if nColoredCells is within a reasonable range
     if (nColoredCells < _SIZE || nColoredCells > _SIZE * _SIZE / 2) {
         throw std::invalid_argument("nColoredCells has to be between [_SIZE] and [_SIZE * _SIZE / 2]");
@@ -32,7 +29,7 @@ void Matrix::init(int nColoredCells) {
         while (!isFilled) {
             int x{commons::RandomPicker::randomInt(0, _SIZE - 1)};
             int y{commons::RandomPicker::randomInt(0, _SIZE - 1)};
-            if (_data[x][y] == 0) { // only add number < 1 when not already filled
+            if (_data[x][y] == 0) { // only add number != 0 when not already filled
                 // the numbers from 100 to 103 represent different color shades
                 if (n % 2 == 0) {
                     //  10, 20, 30, 40 represent "0" in different color shades
@@ -51,13 +48,13 @@ void Matrix::init(int nColoredCells) {
 
 void Matrix::renderBig() {
     ImGui::PushFont(commons::Fonts::_matrixFontBig);
-    render(50);
+    render(_CELL_SIZE_BIG);
     ImGui::PopFont();
 }
 
 void Matrix::renderSmall() {
     ImGui::PushFont(commons::Fonts::_matrixFontSmall);
-    render(30);
+    render(_CELL_SIZE_SMALL);
     ImGui::PopFont();
 }
 
@@ -80,12 +77,10 @@ void Matrix::render(float cellSize) {
             ImGui::PushID(i * _SIZE + j); // ensure unique ID
             ImVec4 buttonColor{commons::Colors::BLACK};
             ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
-            //ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);
-            //ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive, buttonColor);
             if (0 == _data[i][j]) { // 0 represents 'empty' cell
-                if (ImGui::Button("", ImVec2(cellSize, cellSize))) { ;
-                    _isClicked = true;
-                }
+                ImGui::Button("", ImVec2(cellSize, cellSize));
             } else {
                 char const *buttonText;
                 if (_data[i][j] % 10 == 0) {
@@ -106,13 +101,11 @@ void Matrix::render(float cellSize) {
                 }
 
                 ImGui::PushStyleColor(ImGuiCol_Text, textColor);
-                if (ImGui::Button(buttonText, ImVec2(cellSize, cellSize))) {
-                    _isClicked = true;
-                }
+                ImGui::Button(buttonText, ImVec2(cellSize, cellSize));
                 ImGui::PopStyleColor(); // pop ImGuiCol_text
             }
 
-            ImGui::PopStyleColor(1); // pop ImGuiCol_Button(Hovered/Active)
+            ImGui::PopStyleColor(3); // pop ImGuiCol_Button(Hovered/Active)
             ImGui::PopID();
             if (j < _SIZE - 1) ImGui::SameLine();
         }
@@ -168,5 +161,9 @@ Matrix Matrix::mirrorVertically() const {
 
 int Matrix::getSize() {
     return _SIZE;
+}
+
+int Matrix::getCellSizeSmall() {
+    return _CELL_SIZE_SMALL;
 }
 

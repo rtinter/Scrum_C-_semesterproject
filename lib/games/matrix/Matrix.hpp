@@ -9,8 +9,12 @@
 #include <array>
 
 class Matrix {
-    int static const _SIZE{5};
+    int static constexpr _SIZE{5};
+
+    float static constexpr _CELL_SIZE_BIG{50.};
+    float static constexpr _CELL_SIZE_SMALL{30.};
     int _data[_SIZE][_SIZE];
+
 
     Matrix rotate90DegreesRight(int nTimes) const;
 
@@ -23,8 +27,6 @@ class Matrix {
 
 public:
 
-    static bool _isClicked;
-
     void renderBig();
 
     void renderSmall();
@@ -35,9 +37,9 @@ public:
 
     void init(int nColoredCells);
 
-    int getSize();
+    static int getSize();
 
-
+    static int getCellSizeSmall();
 };
 
 #endif //ATHENA_MATRIX_HPP

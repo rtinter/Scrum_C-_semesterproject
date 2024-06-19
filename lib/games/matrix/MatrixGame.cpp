@@ -5,6 +5,7 @@
 #include "TextCentered.hpp"
 #include "RandomPicker.hpp"
 #include "Centered.hpp"
+#include "ColorTheme.hpp"
 
 namespace game {
 
@@ -14,8 +15,8 @@ namespace game {
                 "Das Spiel 'Matrix' trainiert das räumliche Vorstellungsvermögen";
         _gameRules = "Finde in der unteren Zeile die gedrehte/gespiegelte Version der oberen Matrix";
         _gameControls = "Linke Maustaste: Klicke auf die richtige Matrix in der unteren Zeile";
-        _nColoredCellsMax = _mainMatrix.getSize() * _mainMatrix.getSize() / 2;
-        _nColoredCellsMin = _mainMatrix.getSize();
+        _nColoredCellsMax = Matrix::getSize() * Matrix::getSize() / 2;
+        _nColoredCellsMin = Matrix::getSize();
     }
 
     void MatrixGame::render() {
@@ -46,8 +47,36 @@ namespace game {
                 ImGui::Text("GesPiEgelT?");
                 ImGui::PopStyleColor(); // pop ImGuiCol_Text
                 ImGui::PopFont();
-                for (Matrix matrix: _allRotatedVersions) {
-                    matrix.renderSmall();
+                float displayedSize = Matrix::getSize() * Matrix::getCellSizeSmall();
+                for (int i{0}; i < _allRotatedVersions.size(); i++) {
+                    ImGuiStyle &style{ImGui::GetStyle()};
+                    ImVec2 oldItemSpacing{style.ItemSpacing};
+                    style.ItemSpacing = ImVec2(0, 0);
+                    float oldFrameRounding{style.FrameRounding};
+                    style.FrameRounding = 0.f;
+
+                    // create transparent button
+                    ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::NONE);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::Colors::NONE);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::SUCCESS_COLOR);
+                    float const margin{4.f}; // button should overlap matrix a little bit
+                    std::string buttonId{"buttonForMatrix" + std::to_string(i)};
+                    if (ImGui::Button(buttonId.c_str(), ImVec2(displayedSize + margin, displayedSize + margin))) {
+                        std::cout << i;
+                        _nCorrectClicksInTotal++;
+                    }
+                    ImGui::PopStyleColor(3); // pop ImGuiCol_Button(Hovered/Active)
+
+                    // display matrix at same position (= covered by transparent button)
+                    ImVec2 cursorPosition = ImGui::GetCursorPos();
+                    cursorPosition.y -= displayedSize + margin / 2;
+                    cursorPosition.x += margin / 2;
+
+                    ImGui::SetCursorPos(cursorPosition);
+                    _allRotatedVersions[i].renderSmall();
+                    style.ItemSpacing = oldItemSpacing;
+                    style.FrameRounding = oldFrameRounding;
+
                     ImGui::NewLine();
                     ImGui::NewLine();
 
@@ -95,13 +124,6 @@ namespace game {
     }
 
     void MatrixGame::checkForCorrectClick() {
-        for (int i{0}; i < 3; i++) {
-            if (_matricesToChooseFrom[i]._isClicked) {
-                std::cout << "Click";
-                reset();
-            }
-
-        }
 
     }
 } // game
