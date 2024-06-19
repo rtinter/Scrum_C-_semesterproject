@@ -1,10 +1,10 @@
 #pragma once
 
-#include <Colors.hpp>
 #include <Game.hpp>
 #include <imgui.h>
 
 #include "SFML/System/Clock.hpp"
+#include "Colors.hpp"
 
 namespace reaction {
     /******************************************************
@@ -35,11 +35,13 @@ namespace reaction {
 
         void start() override;
 
-
         void stop() override;
 
         void reset() override;
 
         void updateStatistics() override;
+
+        std::string getName() const override ;
     };
+
 } // reaction
