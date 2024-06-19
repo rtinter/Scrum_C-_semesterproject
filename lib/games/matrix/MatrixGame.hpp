@@ -1,5 +1,4 @@
 #ifndef ATHENA_MATRIX_HPP
-#define ATHENA_MATRIX_H
 
 #include "Game.hpp"
 #include "Colors.hpp"
@@ -12,9 +11,9 @@ namespace game {
         ui_elements::Timer _timer{"Matrix Game", 120};
         int _nCorrectClicksInTotal;
         int _longestStreak;
-        int _nColoredCellsMin;
-        int _nColoredCellsMax;
-        int _nColoredCells;
+        int _nCellsWithNumbersMin;
+        int _nCellsWithNumbersMax;
+        int _nCellsWithNumbers;
         int _nCorrectClicksSinceLastError;
         int _idOfCorrectMatrix;
         Matrix _mainMatrix;

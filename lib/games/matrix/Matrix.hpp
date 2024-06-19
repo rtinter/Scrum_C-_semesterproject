@@ -1,7 +1,3 @@
-//
-// Created by reineke on 13.06.24.
-//
-
 #ifndef ATHENA_MATRIX_HPP
 #define ATHENA_MATRIX_HPP
 
@@ -26,19 +22,19 @@ class Matrix {
 
     std::array<Matrix, 3> getAllRotatedVersions() const;
 
+    bool isEqual(Matrix const &other) const;
+
 public:
 
     void renderBig();
 
     void renderSmall();
 
-    void init(int nColoredCells);
+    void init(int nCellsWithNumbers);
 
     static int getSize();
 
     static int getCellSizeSmall();
-
-    bool isEqual(Matrix const &other) const;
 
     bool isMirroredVersionOf(Matrix const &other) const;
 

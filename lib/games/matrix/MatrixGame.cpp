@@ -6,7 +6,6 @@
 #include "RandomPicker.hpp"
 #include "Centered.hpp"
 #include "ColorTheme.hpp"
-#include "SoundManager.hpp"
 #include "SoundPolice.hpp"
 
 namespace game {
@@ -14,16 +13,16 @@ namespace game {
     MatrixGame::MatrixGame() : Game(abstract_game::GameID::MATRIX) {
         _gameName = "Matrix";
         _gameDescription =
-                "Das Spiel 'Matrix' trainiert Konzentrationsfähigkeit und räumliches Vorstellungsvermögen."
-                "Für die Arbeit bei Feuerwehr und Polizei ist essentiell, Aufgaben fokussiert und genau zu lösen."
-                "Ein gutes räumliches Vorstellungsvermögen hilft dabei, sich schnell auf Stadt- und Gebäudeplänen zu orientieren,"
-                "Zugänge zu erkennen und effektive Strategien für Rettungs- oder Einsatzmaßnahmen zu entwickeln.";
-        _gameRules = "Finde jeweils die rotierte bzw. die gespiegelte Version der großen Matrix!"
+                "Das Spiel 'Matrix' trainiert Konzentrationsfähigkeit und räumliches Vorstellungsvermögen.\n"
+                "Für die Arbeit bei Feuerwehr und Polizei ist es essentiell, Aufgaben fokussiert und genau zu lösen.\n"
+                "Ein gutes räumliches Vorstellungsvermögen hilft dabei, sich schnell auf Stadt- und Gebäudeplänen \nzu orientieren, "
+                "Zugänge zu erkennen und effektive Strategien für Rettungs- oder Einsatzmaßnahmen\nzu entwickeln.\n";
+        _gameRules = "Finde jeweils die rotierte bzw. die gespiegelte Version der großen Matrix!\n"
                      "Du hast 2 Minuten Zeit."
-                     "Bei einer falschen Antwort werden 10 Sekunden von der Zeit abgezogen.";
+                     "Bei einer falschen Antwort werden 10 Sekunden von der Zeit abgezogen.\n";
         _gameControls = "Linke Maustaste: Klicke auf die richtige Matrix in der rechten Spalte.";
-        _nColoredCellsMax = Matrix::getSize() * Matrix::getSize() / 2;
-        _nColoredCellsMin = Matrix::getSize();
+        _nCellsWithNumbersMax = Matrix::getSize() * Matrix::getSize() / 2;
+        _nCellsWithNumbersMin = Matrix::getSize();
     }
 
     /******************************************************************
@@ -75,7 +74,6 @@ namespace game {
         ImGui::NewLine();
         _mainMatrix.renderBig();
         ImGui::EndGroup();
-
     }
 
     void MatrixGame::renderQuestionText() {
@@ -198,8 +196,8 @@ namespace game {
      * All matrices have the same number of non-empty cells.
      *************************************************************/
     void MatrixGame::generateNewMatrices() {
-        _nColoredCells = commons::RandomPicker::randomInt(_nColoredCellsMin, _nColoredCellsMax);
-        _mainMatrix.init(_nColoredCells);
+        _nCellsWithNumbers = commons::RandomPicker::randomInt(_nCellsWithNumbersMin, _nCellsWithNumbersMax);
+        _mainMatrix.init(_nCellsWithNumbers);
         initMatricesToChooseFrom();
     }
 
@@ -213,10 +211,10 @@ namespace game {
 
         // create matrices that are NOT correct
         for (Matrix &matrix: _matricesToChooseFrom) {
-            matrix.init(_nColoredCells);
+            matrix.init(_nCellsWithNumbers);
             while (_currentGameMode == GameMode::MIRROR && matrix.isMirroredVersionOf(_mainMatrix) ||
                    _currentGameMode == GameMode::ROTATE && matrix.isRotatedVersionOf(_mainMatrix)) {
-                matrix.init(_nColoredCells);
+                matrix.init(_nCellsWithNumbers);
             }
         }
 

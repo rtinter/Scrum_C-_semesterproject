@@ -9,11 +9,11 @@
 
 /**************************************
  * init() fills the matrix with values
- * @param nColoredCells
+ * @param nCellsWithNumbers
  **************************************/
-void Matrix::init(int nColoredCells) {
+void Matrix::init(int nCellsWithNumbers) {
     // check if nColoredCells is within a reasonable range
-    if (nColoredCells < _SIZE || nColoredCells > _SIZE * _SIZE / 2) {
+    if (nCellsWithNumbers < _SIZE || nCellsWithNumbers > _SIZE * _SIZE / 2) {
         throw std::invalid_argument("nColoredCells has to be between [_SIZE] and [_SIZE * _SIZE / 2]");
     }
     // set all cells to 0
@@ -24,7 +24,7 @@ void Matrix::init(int nColoredCells) {
     }
 
     // color some cells
-    for (int n{0}; n < nColoredCells; ++n) {
+    for (int n{0}; n < nCellsWithNumbers; ++n) {
         bool isFilled{false};
         while (!isFilled) {
             int x{commons::RandomPicker::randomInt(0, _SIZE - 1)};
