@@ -9,7 +9,7 @@
 #include "AimTrainer.hpp"
 #include "Remembering.hpp"
 #include "TypeRacer.hpp"
-
+#include "MatrixGame.hpp"
 
 using Tile = ui_elements::Tile;
 
@@ -98,6 +98,19 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<game::LetterSalad>>()
+                        );
+                    }
+            )
+    );
+
+    problemSolvingCategory.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Matrix",
+                    "Finde die gedrehte\nbzw. gespiegelte Matrix",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<game::MatrixGame>>()
                         );
                     }
             )
