@@ -9,7 +9,7 @@
  */
 class SimpleMultiplicationTable : public MathTask {
 public:
-    SimpleMultiplicationTable();
+    explicit SimpleMultiplicationTable(int difficultyLevel = 1);
 
     void start() override;
     bool isRunning() const override;
@@ -17,8 +17,10 @@ public:
     void render() override;
     void setDifficulty(int level) override;
 
+    ~SimpleMultiplicationTable() override = default;
+
 private:
-    bool _focusSet{false};
+    bool _focusSet;
     int _leftOperand;
     int _rightOperand;
     int _answer;
@@ -26,9 +28,6 @@ private:
     bool _completedSuccessfully;
     int _difficultyLevel;
     std::mt19937 _rng;
-
-    int _score;
-    int _streak;
 
     void generateTask();
 };

@@ -11,6 +11,7 @@
 #include <iostream>
 #include <sstream>
 #include <cmath>
+#include "MathTaskType.hpp"
 
 namespace games {
     Calc::Calc() : abstract_game::Game(abstract_game::GameID::CALC) {
@@ -32,11 +33,12 @@ namespace games {
         _showEndbox = false;
         _endTime.reset();
         _startTime = std::chrono::steady_clock::now();
-        nextLevel();
+        nextLevel(_difficulty_level);
     }
 
-    void Calc::nextLevel() {
-        _currentLevel = math_task_factory::createRandomMathTask();
+    void Calc::nextLevel(int difficulty_level) {
+        //_currentLevel = math_task_factory::createRandomMathTask(difficulty_level);
+        _currentLevel = math_task_factory::createMathTask(math_task_factory::MathTaskType::EQUATION_BUILDER, 1);
         _currentLevel->start();
     }
 
@@ -59,14 +61,22 @@ namespace games {
 
         if (!_currentLevel->isRunning()) {
             if (!_currentLevel->wasSuccessfullyCompleted()) {
+
+                // Make sure to only capture endtime once per game
                 if (!_endTime.has_value()) {
                     _endTime = std::chrono::steady_clock::now();
                     calculateEndScreenText();
                 }
                 _showEndbox = true;
             } else {
+
                 _completedLevels++;
-                nextLevel();
+
+                // Increase level difficulty by 1 every 8 completed games
+                if (_completedLevels % 8 == 0)
+                    _difficulty_level++;
+
+                nextLevel(_difficulty_level);
             }
         }
 

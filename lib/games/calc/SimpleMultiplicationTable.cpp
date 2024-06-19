@@ -5,9 +5,9 @@
 #include "Fonts.hpp"
 #include "SoundManager.hpp"
 
-SimpleMultiplicationTable::SimpleMultiplicationTable()
+SimpleMultiplicationTable::SimpleMultiplicationTable(int difficultyLevel)
         : _leftOperand(0), _rightOperand(0), _answer(0), _running(false),
-          _completedSuccessfully(false), _difficultyLevel(1), _focusSet(false), _score(0), _streak(0) {
+          _completedSuccessfully(false), _difficultyLevel(difficultyLevel), _focusSet(false) {
     std::random_device rd;
     auto now = std::chrono::system_clock::now();
     auto duration = now.time_since_epoch();
@@ -71,20 +71,21 @@ void SimpleMultiplicationTable::render() {
         if (ImGui::InputText("##input", input, sizeof(input), ImGuiInputTextFlags_EnterReturnsTrue)) {
             _answer = std::atoi(input);
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
+
             if (_completedSuccessfully) {
-                commons::SoundManager::playSound(commons::Sound::COMPLETE);
-                _score += 10; // Add points
-                _streak++;
+                commons::SoundManager::playSound(commons::Sound::CORRECT);
             } else {
-                _streak = 0;
+                commons::SoundManager::playSound(commons::Sound::ERROR);
             }
+
+            // When we enter input the game/level is finished
             _running = false;
+
             std::fill(std::begin(input), std::end(input), 0);  // Clear input
         }
 
         // Show current score and streak
         ImGui::SetCursorPos(ImVec2((windowSize.x - textSize.x) / 2.0f, (windowSize.y - textSize.y) / 1.5f));
-        ImGui::Text("Punkte: %d | Streak: %d", _score, _streak);
     }
 }
 

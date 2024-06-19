@@ -21,12 +21,13 @@ namespace games {
         std::string getName() const override;
 
     private:
-        void nextLevel();
+        void nextLevel(int difficulty_level);
         void renderGame() override;
         void showEndScreen();
         void calculateEndScreenText();
         double getElapsedTimeInSeconds() const;
 
+        int _difficulty_level{1};
         int _completedLevels{0};
         bool _showEndbox{false};
         bool _showInfobox{true};
