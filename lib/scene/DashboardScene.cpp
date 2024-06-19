@@ -5,6 +5,7 @@
 #include "Reaction.hpp"
 #include "LetterSalad.hpp"
 #include "ColorMatch.hpp"
+#include "Sequence.hpp"
 #include "AimTrainer.hpp"
 #include "Remembering.hpp"
 #include "TypeRacer.hpp"
@@ -53,7 +54,9 @@ scene::DashboardScene::DashboardScene() {
 
     reactionCategory.push_back(
             std::make_unique<Tile>(
+                    "Pictogram3",
                     "Aim Trainer",
+                    "Aim Trainer Beschreibung",
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::AimTrainer>>());
@@ -64,10 +67,25 @@ scene::DashboardScene::DashboardScene() {
     // Kategorie: Genauigkeit
     accuracyCategory.push_back(
             std::make_unique<Tile>(
+                    "Pictogram3",
                     "Type Racer",
+                    "Schnelles Tippen",
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<typeracer::TypeRacer>>()
+                        );
+                    }
+            )
+    );
+
+    accuracyCategory.push_back(
+            std::make_unique<Tile>(
+                    "Pictogram X",
+                    "Sequence",
+                    "Merke dir die Reihenfolge!",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<sequence::Sequence>>()
                         );
                     }
             )
