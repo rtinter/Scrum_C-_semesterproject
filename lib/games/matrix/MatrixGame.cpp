@@ -6,7 +6,7 @@
 #include "RandomPicker.hpp"
 #include "Centered.hpp"
 
-namespace games {
+namespace game {
 
     MatrixGame::MatrixGame() : Game(abstract_game::GameID::MATRIX) {
         _gameName = "Matrix";
@@ -104,4 +104,4 @@ namespace games {
         }
 
     }
-} // games
+} // game

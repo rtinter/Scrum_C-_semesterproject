@@ -6,7 +6,7 @@
 #include "Timer.hpp"
 #include "Matrix.hpp"
 
-namespace games {
+namespace game {
 
     class MatrixGame : public abstract_game::Game {
         ui_elements::Timer _timer{"Matrix Game", 10};
@@ -38,6 +38,6 @@ namespace games {
         void updateStatistics() override;
     };
 
-} // games
+} // game
 
 #endif //ATHENA_MATRIX_HPP
