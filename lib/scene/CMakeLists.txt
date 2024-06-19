@@ -24,6 +24,7 @@ set(CUSTOM_LIBS
         letter_salad
         aim_trainer
         typeracer
+        csv
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
