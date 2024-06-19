@@ -20,6 +20,7 @@ set(GAME_LIBS
         matrix
         typeracer
         remembering
+        rows_of_numbers
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
