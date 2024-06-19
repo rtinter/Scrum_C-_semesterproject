@@ -10,11 +10,9 @@
 
 class Matrix {
     int static constexpr _SIZE{5};
-
     float static constexpr _CELL_SIZE_BIG{50.};
-    float static constexpr _CELL_SIZE_SMALL{30.};
+    float static constexpr _CELL_SIZE_SMALL{29.};
     int _data[_SIZE][_SIZE];
-
 
     Matrix rotate90DegreesRight(int nTimes) const;
 
@@ -24,6 +22,9 @@ class Matrix {
 
     void render(float cellSize);
 
+    std::array<Matrix, 2> getAllMirroredVersions() const;
+
+    std::array<Matrix, 3> getAllRotatedVersions() const;
 
 public:
 
@@ -31,15 +32,21 @@ public:
 
     void renderSmall();
 
-    std::array<Matrix, 2> getAllMirroredVersions() const;
-
-    std::array<Matrix, 3> getAllRotatedVersions() const;
-
     void init(int nColoredCells);
 
     static int getSize();
 
     static int getCellSizeSmall();
+
+    bool isEqual(Matrix const &other) const;
+
+    bool isMirroredVersionOf(Matrix const &other) const;
+
+    bool isRotatedVersionOf(Matrix const &other) const;
+
+    Matrix getAMirroredVersion() const;
+
+    Matrix getARotatedVersion() const;
 };
 
 #endif //ATHENA_MATRIX_HPP

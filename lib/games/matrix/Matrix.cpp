@@ -46,18 +46,6 @@ void Matrix::init(int nColoredCells) {
     }
 }
 
-void Matrix::renderBig() {
-    ImGui::PushFont(commons::Fonts::_matrixFontBig);
-    render(_CELL_SIZE_BIG);
-    ImGui::PopFont();
-}
-
-void Matrix::renderSmall() {
-    ImGui::PushFont(commons::Fonts::_matrixFontSmall);
-    render(_CELL_SIZE_SMALL);
-    ImGui::PopFont();
-}
-
 /***************************************************
  * render() displays each matrix cell as a button
  * @param cellSize
@@ -114,6 +102,63 @@ void Matrix::render(float cellSize) {
     // reset style settings
     style.ItemSpacing = oldItemSpacing;
     style.FrameRounding = oldFrameRounding;
+}
+
+/*******************************************************************
+ * renderBig() renders this matrix with a large font and large cells
+ ********************************************************************/
+void Matrix::renderBig() {
+    ImGui::PushFont(commons::Fonts::_matrixFontBig);
+    render(_CELL_SIZE_BIG);
+    ImGui::PopFont();
+}
+
+/*******************************************************************
+ * renderSmall() renders this matrix with a small font and small cells
+ ********************************************************************/
+void Matrix::renderSmall() {
+    ImGui::PushFont(commons::Fonts::_matrixFontSmall);
+    render(_CELL_SIZE_SMALL);
+    ImGui::PopFont();
+}
+
+/******************************************************************
+ * isEqual(Matrix const &other) checks if the values of this matrix
+ * are identical to the values of another matrix
+ * @param other the second matrix that should be used for comparison
+ * @return boolean value: Are all matrix elements identical?
+ *************************************************************/
+bool Matrix::isEqual(Matrix const &other) const {
+    for (int i{0}; i < _SIZE; i++) {
+        for (int j{0}; j < _SIZE; j++) {
+            if (_data[i][j] != other._data[i][j]) return false;
+        }
+    }
+    return true;
+}
+
+bool Matrix::isMirroredVersionOf(Matrix const &other) const {
+    for (Matrix mirrored: other.getAllMirroredVersions()) {
+        if (isEqual(mirrored)) return true;
+    }
+    return false;
+}
+
+bool Matrix::isRotatedVersionOf(Matrix const &other) const {
+    for (Matrix rotated: other.getAllRotatedVersions()) {
+        if (isEqual(rotated)) return true;
+    }
+    return false;
+}
+
+Matrix Matrix::getAMirroredVersion() const {
+    int type{commons::RandomPicker::randomInt(0, 1)};
+    return (0 == type) ? mirrorHorizontally() : mirrorVertically();
+}
+
+Matrix Matrix::getARotatedVersion() const {
+    int times{commons::RandomPicker::randomInt(1, 3)};
+    return rotate90DegreesRight(times); // rotated by 90°, 180° or 270°
 
 }
 

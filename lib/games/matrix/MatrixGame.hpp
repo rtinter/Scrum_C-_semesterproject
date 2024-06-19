@@ -9,18 +9,34 @@
 namespace game {
 
     class MatrixGame : public abstract_game::Game {
-        ui_elements::Timer _timer{"Matrix Game", 10};
+        ui_elements::Timer _timer{"Matrix Game", 120};
         int _nCorrectClicksInTotal;
         int _longestStreak;
         int _nColoredCellsMin;
         int _nColoredCellsMax;
+        int _nColoredCells;
+        int _nCorrectClicksSinceLastError;
+        int _idOfCorrectMatrix;
         Matrix _mainMatrix;
-        std::array<Matrix, 2> _allMirroredVersions;
-        std::array<Matrix, 3> _allRotatedVersions;
+        enum class GameMode {
+            MIRROR,
+            ROTATE
+        };
+        GameMode _currentGameMode;
         std::array<Matrix, 3> _matricesToChooseFrom;
-        bool _isClicked;
 
-        void checkForCorrectClick();
+        void renderAnswerOptions();
+
+        void renderQuestion();
+
+        void renderQuestionText();
+
+        void generateNewMatrices();
+
+        void initMatricesToChooseFrom();
+
+        void onClick(bool isCorrect);
+
 
     public:
         MatrixGame();
@@ -36,6 +52,7 @@ namespace game {
         void reset() override;
 
         void updateStatistics() override;
+
     };
 
 } // game
