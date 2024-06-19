@@ -6,6 +6,8 @@
 #include "RandomPicker.hpp"
 #include "Centered.hpp"
 #include "ColorTheme.hpp"
+#include "SoundManager.hpp"
+#include "SoundPolice.hpp"
 
 namespace game {
 
@@ -144,11 +146,13 @@ namespace game {
      **********************************************************************/
     void MatrixGame::onClick(bool const isCorrect) {
         if (isCorrect) {
+            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             _nCorrectClicksInTotal++;
             _nCorrectClicksSinceLastError++;
             _longestStreak = std::max(_nCorrectClicksSinceLastError, _longestStreak);
             generateNewMatrices();
         } else {
+            commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
             _nCorrectClicksSinceLastError = 0;
             _timer.reduceTime(5);
         }
@@ -245,7 +249,8 @@ namespace game {
     }
 
     void MatrixGame::updateStatistics() {
-
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("",
+                                                                                     _nCorrectClicksInTotal);
     }
 
 } // game
