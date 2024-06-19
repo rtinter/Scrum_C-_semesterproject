@@ -3,6 +3,7 @@
 #include "DashboardScene.hpp"
 #include "SceneManager.hpp"
 #include "CsvParser.hpp"
+#include "GameIDs.hpp"
 
 namespace scene {
 
@@ -20,7 +21,12 @@ namespace scene {
         for (auto const &row : data) {
             std::cout << "Row: " << std::endl;
             for (auto const &field : row) {
-                std::cout << field << " " << std::endl;
+                // reihe per Spiel abspeichern und dann in die Tabelle einfügen
+                // GameID sollte gleich dem 0ten Feld sein
+                if (field == abstract_game::GameID) {
+
+                }
+
             }
             dataMap[dataMap.size()] = dataVector;
         }

@@ -43,14 +43,14 @@ namespace abstract_game {
 
         // Write the header if the file was empty
         if (isEmpty) {
-            file << "GameSessionUID,UserID,GameID,StartTime,EndTime,DurationInSeconds,Ended\n";
+            file << "GameID,GameSessionUID,UserID,StartTime,EndTime,DurationInSeconds,Ended\n";
         }
 
         // Write session data
         std::stringstream ss;
-        ss << sessionUID << ","
+        ss << static_cast<int>(gameID) << ","
+           << sessionUID << ","
            << userID << ","
-           << static_cast<int>(gameID) << ","
            << startTime << ","
            << endTime << ","
            << duration << ","
