@@ -30,7 +30,7 @@ namespace scene {
         this->_sessions = storage.getUserData(1);
 
         for(const Session &session : _sessions){
-            std::cout << session.gameSessionId << std::endl;
+            std::cout << session.userId << std::endl;
         }
     }
 
