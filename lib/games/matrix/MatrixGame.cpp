@@ -100,6 +100,7 @@ namespace game {
         ImGui::BeginGroup();
         for (int i{0}; i < _matricesToChooseFrom.size(); i++) {
             bool isCorrect{i == _idOfCorrectMatrix};
+
             // adjust frame style
             ImGuiStyle &style{ImGui::GetStyle()};
             ImVec2 oldItemSpacing{style.ItemSpacing};
@@ -161,6 +162,7 @@ namespace game {
      * It will stop the game loop and set the endbox visible.
      ***************************************************************/
     void MatrixGame::stop() {
+        updateStatistics();
         _endBoxText =
                 "Richtige: " + std::to_string(_nCorrectClicksInTotal) + "\nLängster Streak: " +
                 std::to_string(_longestStreak);
@@ -247,7 +249,7 @@ namespace game {
     }
 
     void MatrixGame::updateStatistics() {
-        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("",
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
                                                                                      _nCorrectClicksInTotal);
     }
 

@@ -13,12 +13,12 @@
  **************************************/
 void Matrix::init(int nCellsWithNumbers) {
     // check if nColoredCells is within a reasonable range
-    if (nCellsWithNumbers < _SIZE || nCellsWithNumbers > _SIZE * _SIZE / 2) {
+    if (nCellsWithNumbers < SIZE || nCellsWithNumbers > SIZE * SIZE / 2) {
         throw std::invalid_argument("nColoredCells has to be between [_SIZE] and [_SIZE * _SIZE / 2]");
     }
     // set all cells to 0
-    for (int i{0}; i < _SIZE; ++i) {
-        for (int j{0}; j < _SIZE; ++j) {
+    for (int i{0}; i < SIZE; ++i) {
+        for (int j{0}; j < SIZE; ++j) {
             _data[i][j] = 0; // O represents an 'empty' cell
         }
     }
@@ -27,8 +27,8 @@ void Matrix::init(int nCellsWithNumbers) {
     for (int n{0}; n < nCellsWithNumbers; ++n) {
         bool isFilled{false};
         while (!isFilled) {
-            int x{commons::RandomPicker::randomInt(0, _SIZE - 1)};
-            int y{commons::RandomPicker::randomInt(0, _SIZE - 1)};
+            int x{commons::RandomPicker::randomInt(0, SIZE - 1)};
+            int y{commons::RandomPicker::randomInt(0, SIZE - 1)};
             if (_data[x][y] == 0) { // only add number != 0 when not already filled
                 // the numbers from 100 to 103 represent different color shades
                 if (n % 2 == 0) {
@@ -60,9 +60,9 @@ void Matrix::render(float cellSize) {
 
     // create a button for each matrix cell
     ImGui::BeginGroup();
-    for (int i{0}; i < _SIZE; ++i) {
-        for (int j{0}; j < _SIZE; ++j) {
-            ImGui::PushID(i * _SIZE + j); // ensure unique ID
+    for (int i{0}; i < SIZE; ++i) {
+        for (int j{0}; j < SIZE; ++j) {
+            ImGui::PushID(i * SIZE + j); // ensure unique ID
             ImVec4 buttonColor{commons::Colors::BLACK};
             ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
             ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);
@@ -95,7 +95,7 @@ void Matrix::render(float cellSize) {
 
             ImGui::PopStyleColor(3); // pop ImGuiCol_Button(Hovered/Active)
             ImGui::PopID();
-            if (j < _SIZE - 1) ImGui::SameLine();
+            if (j < SIZE - 1) ImGui::SameLine();
         }
     }
     ImGui::EndGroup();
@@ -109,7 +109,7 @@ void Matrix::render(float cellSize) {
  ********************************************************************/
 void Matrix::renderBig() {
     ImGui::PushFont(commons::Fonts::_matrixFontBig);
-    render(_CELL_SIZE_BIG);
+    render(CELL_SIZE_BIG);
     ImGui::PopFont();
 }
 
@@ -118,7 +118,7 @@ void Matrix::renderBig() {
  ********************************************************************/
 void Matrix::renderSmall() {
     ImGui::PushFont(commons::Fonts::_matrixFontSmall);
-    render(_CELL_SIZE_SMALL);
+    render(CELL_SIZE_SMALL);
     ImGui::PopFont();
 }
 
@@ -129,8 +129,8 @@ void Matrix::renderSmall() {
  * @return boolean value: Are all matrix elements identical?
  *************************************************************/
 bool Matrix::isEqual(Matrix const &other) const {
-    for (int i{0}; i < _SIZE; i++) {
-        for (int j{0}; j < _SIZE; j++) {
+    for (int i{0}; i < SIZE; i++) {
+        for (int j{0}; j < SIZE; j++) {
             if (_data[i][j] != other._data[i][j]) return false;
         }
     }
@@ -174,9 +174,9 @@ Matrix Matrix::rotate90DegreesRight(int const nTimes) const {
     Matrix rotatedMatrix{*this}; // copy original matrix
     for (int t{0}; t < nTimes; t++) {
         Matrix tempMatrix;
-        for (int i{0}; i < _SIZE; ++i) {
-            for (int j{0}; j < _SIZE; ++j) {
-                tempMatrix._data[j][_SIZE - 1 - i] = rotatedMatrix._data[i][j];
+        for (int i{0}; i < SIZE; ++i) {
+            for (int j{0}; j < SIZE; ++j) {
+                tempMatrix._data[j][SIZE - 1 - i] = rotatedMatrix._data[i][j];
             }
         }
         rotatedMatrix = tempMatrix;
@@ -186,9 +186,9 @@ Matrix Matrix::rotate90DegreesRight(int const nTimes) const {
 
 Matrix Matrix::mirrorHorizontally() const {
     Matrix mirroredMatrix;
-    for (int i{0}; i < _SIZE; ++i) {
-        for (int j{0}; j < _SIZE; ++j) {
-            mirroredMatrix._data[i][j] = _data[_SIZE - 1 - i][j];
+    for (int i{0}; i < SIZE; ++i) {
+        for (int j{0}; j < SIZE; ++j) {
+            mirroredMatrix._data[i][j] = _data[SIZE - 1 - i][j];
         }
     }
     return mirroredMatrix;
@@ -196,19 +196,19 @@ Matrix Matrix::mirrorHorizontally() const {
 
 Matrix Matrix::mirrorVertically() const {
     Matrix mirroredMatrix;
-    for (int i{0}; i < _SIZE; ++i) {
-        for (int j{0}; j < _SIZE; ++j) {
-            mirroredMatrix._data[i][j] = _data[i][_SIZE - 1 - j];
+    for (int i{0}; i < SIZE; ++i) {
+        for (int j{0}; j < SIZE; ++j) {
+            mirroredMatrix._data[i][j] = _data[i][SIZE - 1 - j];
         }
     }
     return mirroredMatrix;
 }
 
 int Matrix::getSize() {
-    return _SIZE;
+    return SIZE;
 }
 
 int Matrix::getCellSizeSmall() {
-    return _CELL_SIZE_SMALL;
+    return CELL_SIZE_SMALL;
 }
 

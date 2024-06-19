@@ -5,10 +5,10 @@
 #include <array>
 
 class Matrix {
-    int static constexpr _SIZE{5};
-    float static constexpr _CELL_SIZE_BIG{50.};
-    float static constexpr _CELL_SIZE_SMALL{29.};
-    int _data[_SIZE][_SIZE];
+    int static constexpr SIZE{5};
+    float static constexpr CELL_SIZE_BIG{50.};
+    float static constexpr CELL_SIZE_SMALL{29.};
+    int _data[SIZE][SIZE];
 
     Matrix rotate90DegreesRight(int nTimes) const;
 

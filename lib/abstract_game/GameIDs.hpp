@@ -12,9 +12,9 @@ namespace abstract_game {
         AIM_TRAINER = 1003,
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
-        SEQUENCE = 1011,
         REMEMBERING = 1006,
-        MATRIX = 1007
+        MATRIX = 1007,
+        SEQUENCE = 1011
     };
 } // namespace abstract_game
 
