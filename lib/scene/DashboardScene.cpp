@@ -34,6 +34,7 @@ scene::DashboardScene::DashboardScene() {
                     "",
                     "Reaktionsspiel",
                     "Reaktionsspiel Beschreibung",
+                    commons::Colors::RED,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<reaction::Reaction> >()
@@ -47,6 +48,7 @@ scene::DashboardScene::DashboardScene() {
                     "",
                     "Farbe & Text",
                     "Farbe & Text Beschreibung",
+                    commons::Colors::BLUE,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::ColorMatch> >());
@@ -59,6 +61,7 @@ scene::DashboardScene::DashboardScene() {
                     "",
                     "Aim Trainer",
                     "Aim Trainer Beschreibung",
+                    commons::Colors::YELLOW,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::AimTrainer>>());
@@ -72,6 +75,7 @@ scene::DashboardScene::DashboardScene() {
                     "",
                     "Type Racer",
                     "Schnelles Tippen",
+                    commons::Colors::ORANGE,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<typeracer::TypeRacer>>()
@@ -80,18 +84,6 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
-    accuracyCategory.push_back(
-            std::make_unique<Tile>(
-                    "Pictogram X",
-                    "Sequence",
-                    "Merke dir die Reihenfolge!",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<sequence::Sequence>>()
-                        );
-                    }
-            )
-    );
 
     // Kategorie: Problemlösung
     problemSolvingCategory.push_back(
@@ -99,6 +91,7 @@ scene::DashboardScene::DashboardScene() {
                     "",
                     "Buchstabensalat",
                     "Finde alle Wörter in vorgegebener Zeit",
+                    commons::Colors::GREEN,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<game::LetterSalad>>()
@@ -110,12 +103,26 @@ scene::DashboardScene::DashboardScene() {
     // Kategorie: Merkfähigkeit
     rememberCategory.push_back(
             std::make_unique<Tile>(
-                    "",
+                    "",
                     "Fakten merken",
-                    "Merke dir so möglichst\nviele Fakten",
+                    "Merke dir möglichst viele Fakten",
+                    commons::Colors::PURPLE,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::Remembering>>()
+                        );
+                    }
+            )
+    );
+    rememberCategory.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Sequence",
+                    "Merke dir die Reihenfolge!",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<sequence::Sequence>>()
                         );
                     }
             )
