@@ -1,6 +1,7 @@
 add_subdirectory(calc)
 add_subdirectory(reaction)
 add_subdirectory(color_match)
+add_subdirectory(matrix)
 add_subdirectory(sequence)
 add_subdirectory(remembering)
 add_subdirectory(letter_salad)
