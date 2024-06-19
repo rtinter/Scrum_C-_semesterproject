@@ -12,31 +12,18 @@
 namespace abstract_game {
     class GameSessionManager {
     public:
-        static GameSessionManager &getInstance() {
-            static GameSessionManager instance;
-            return instance;
-        }
+        GameSessionManager() = delete;
 
-        void startSession(GameID gameID) {
-            int const userID{1}; // Default or constant userID
-            _currentSession = std::make_unique<GameSession>(gameID, userID);
-        }
+        static void startSession(GameID gameID);
 
-        void endSession() {
-            if (_currentSession) {
-                _currentSession->end();
-                _currentSession.reset();
-            }
-        }
+        static void endSession();
 
-        GameSession *getCurrentSession() const {
-            return _currentSession.get();
-        }
+        static std::shared_ptr<GameSession> getCurrentSession();
+
 
     private:
-        GameSessionManager() = default;
 
-        std::unique_ptr<GameSession> _currentSession;
+        static std::shared_ptr<GameSession> _currentSession;
     };
 } // namespace abstract_game
 
