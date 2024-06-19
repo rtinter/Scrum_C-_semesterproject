@@ -1,21 +1,21 @@
-#ifndef ATHENA_COLORS_H
-#define ATHENA_COLORS_H
+#pragma once
 
-#include "imgui.h"
+#include <imgui.h>
 
 namespace commons {
-/***********************************************
- * Colors provides colors as ImVec4 objects.
- * These colors are used by ColorTheme
- * (but can be accessed directly, too).
- **********************************************/
+    /***********************************************
+     * Colors provides colors as ImVec4 objects.
+     * These colors are used by ColorTheme
+     * (but can be accessed directly, too).
+     **********************************************/
     class Colors {
     public:
         Colors() = delete; // static class
 
-        static ImVec4 const NONE;
+        static ImVec4 const TRANSPARENT;
+        static ImVec4 const WHITE;
+        static ImVec4 const RAISIN_BLACK;
         static ImVec4 const LIGHT_GRAY;
-        static ImVec4 const DARK_GRAY;
         static ImVec4 const ORANGE;
         static ImVec4 const BLUE;
         static ImVec4 const RED;
@@ -28,8 +28,10 @@ namespace commons {
         static const ImVec4 BRIGHT_GREEN;
         static const ImVec4 BRIGHT_RED;
         static const ImVec4 VERY_LIGHT_GRAY;
+        static const ImVec4 LAUREL_GREEN;
+        static const ImVec4 GOLD;
+        static const ImVec4 EARTH_YELLOW;
     };
 }
-// commons
 
-#endif //ATHENA_COLORS_H
+// commons

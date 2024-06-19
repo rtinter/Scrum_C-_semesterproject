@@ -40,7 +40,7 @@ namespace ui_elements {
         ImGui::PushStyleVar(ImGuiStyleVar_ChildRounding, 7.0f);
 
         if (_isHovered) {
-            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = commons::ColorHelper::withOpacity(_buttonColor, 0.8f);
+            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = commons::ColorHelper::adjustBrightness(_buttonColor, 1.2);
         } else {
             ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = _buttonColor;
         }
@@ -56,7 +56,7 @@ namespace ui_elements {
         }
 
         Centered(true, true, [*this] {
-            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = commons::Colors::NONE;
+            ImGui::GetStyle().Colors[ImGuiCol_ChildBg] = commons::Colors::TRANSPARENT;
 
             ImGui::PushFont(commons::Fonts::_iconRegular);
             TextCentered(_pictogram.c_str());

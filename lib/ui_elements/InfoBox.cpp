@@ -7,6 +7,7 @@
 #include <Fonts.hpp>
 #include <TextCentered.hpp>
 #include <Centered.hpp>
+#include <ColorHelper.hpp>
 #include <SceneManager.hpp>
 #include <DashboardScene.hpp>
 
@@ -47,8 +48,6 @@ namespace ui_elements {
 
     void InfoBox::render() {
         Overlay(_overlayType.c_str(), _showOverlay).render([this]() {
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, sf::Color::Blue);
-
             //game name
             ImGui::PushFont(commons::Fonts::_header2);
 
@@ -78,6 +77,8 @@ namespace ui_elements {
                 ImGui::SameLine();
 
                 if (_overlayType == "Startbox") {
+                    ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorHelper::adjustBrightness(commons::ColorTheme::ACCENT_COLOR, 1.2));
                     if (ImGui::Button("Spiel starten!")) {
                         if (_callback) {
                             abstract_game::GameSessionManager::startSession(_gameID);
@@ -86,16 +87,13 @@ namespace ui_elements {
                         _showOverlay = false;
                         ImGui::CloseCurrentPopup();
                     }
+                    ImGui::PopStyleColor(2);
                 } else {
                     if (ImGui::Button("Versuch es nochmal")) {
                         _callback();
                     }
                 }
-
             });
-
-
-            ImGui::PopStyleColor();
         });
     }
 }
