@@ -1,4 +1,6 @@
 #include "Remembering.hpp"
+#include "SoundPolice.hpp"
+#include "Sound.hpp"
 
 namespace games {
 
@@ -125,6 +127,7 @@ namespace games {
             if (!_submitted && ImGui::Button("Submit All")) {
                 _submitted = true;
                 _showContinueButton = true;
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             }
 
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
@@ -140,6 +143,8 @@ namespace games {
                 _endBoxTitle = "Dein Ergebnis";
                 _endBoxText = displayEvaluation(_score, _currentQuestionSet.questions.size());
                 displayCenteredText(_endBoxText);
+
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             }
         });
     }

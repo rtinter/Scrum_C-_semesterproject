@@ -11,6 +11,7 @@
 #include <iomanip>
 #include "fireDepartmentAndPoliceTexts.hpp"
 #include "GameSessionManager.hpp"
+#include "SoundPolice.hpp"
 
 
 namespace typeracer {
@@ -164,6 +165,8 @@ namespace typeracer {
                     _isGameRunning = false;
                     _showEndBox = true;
                     _wpmHistory.emplace_back(_wpm);
+
+                    commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
                 }
             }
         });
