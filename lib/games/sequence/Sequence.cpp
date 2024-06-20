@@ -144,7 +144,7 @@ namespace sequence {
                 case GameMode::REPEAT:
 
                     ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
-                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::INFO_COLOR);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {

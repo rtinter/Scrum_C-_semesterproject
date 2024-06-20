@@ -2,13 +2,12 @@
 #include "ColorHelper.hpp"
 
 namespace commons {
-    ImVec4 const ColorTheme::PRIMARY_COLOR = Colors::SEAFOAM;
-    ImVec4 const ColorTheme::SECONDARY_COLOR = Colors::LIGHT_GRAY;
-    ImVec4 const ColorTheme::BACKGROUND_COLOR = Colors::LIGHT_GRAY;
-    ImVec4 const ColorTheme::TEXT_COLOR = Colors::DARK_GRAY;
+    ImVec4 const ColorTheme::BACKGROUND_COLOR = Colors::WHITE;
+    ImVec4 const ColorTheme::TEXT_COLOR = Colors::RAISIN_BLACK;
+    ImVec4 const ColorTheme::PRIMARY_COLOR = Colors::LAUREL_GREEN;
+    ImVec4 const ColorTheme::SECONDARY_COLOR = Colors::GOLD;
+    ImVec4 const ColorTheme::ACCENT_COLOR = Colors::EARTH_YELLOW;
     ImVec4 const ColorTheme::WARNING_COLOR = Colors::ORANGE;
-    ImVec4 const ColorTheme::ACCENT_COLOR = Colors::INDIGO;
-    ImVec4 const ColorTheme::INFO_COLOR = Colors::BLUE;
     ImVec4 const ColorTheme::SUCCESS_COLOR = Colors::BRIGHT_GREEN;
     ImVec4 const ColorTheme::ERROR_COLOR = Colors::BRIGHT_RED;
 
@@ -17,23 +16,22 @@ namespace commons {
 
         // Text Colors
         style.Colors[ImGuiCol_Text] = TEXT_COLOR;
-        style.Colors[ImGuiCol_TextDisabled] = ColorHelper::adjustBrightness(TEXT_COLOR, 1.1f);
+        style.Colors[ImGuiCol_TextDisabled] = ColorHelper::withOpacity(TEXT_COLOR, 0.8);
         style.Colors[ImGuiCol_TextSelectedBg] = ColorHelper::adjustBrightness(PRIMARY_COLOR, 0.75f);
 
         // Button Colors
         style.Colors[ImGuiCol_Button] = PRIMARY_COLOR;
-        style.Colors[ImGuiCol_ButtonHovered] = ColorHelper::adjustBrightness(PRIMARY_COLOR, 0.9f);
+        style.Colors[ImGuiCol_ButtonHovered] = ColorHelper::adjustBrightness(ImGui::GetStyle().Colors[ImGuiCol_Button], 1.2);
         style.Colors[ImGuiCol_ButtonActive] = ColorHelper::adjustBrightness(PRIMARY_COLOR, 0.4f);
 
         // Border Colors
-        style.Colors[ImGuiCol_Border] = ColorHelper::adjustBrightness(BACKGROUND_COLOR, 1.1f);
-        style.Colors[ImGuiCol_BorderShadow] = Colors::NONE;
+        style.Colors[ImGuiCol_Border] = Colors::TRANSPARENT;
+        style.Colors[ImGuiCol_BorderShadow] = Colors::RAISIN_BLACK;
 
         // Background Colors
         style.Colors[ImGuiCol_WindowBg] = BACKGROUND_COLOR;
-        style.Colors[ImGuiCol_ChildBg] = Colors::NONE;
-        style.Colors[ImGuiCol_PopupBg] = ColorHelper::adjustBrightness(INFO_COLOR,
-                                                                       1.1f); // applies also to tooltips
+        style.Colors[ImGuiCol_ChildBg] = Colors::TRANSPARENT;
+        style.Colors[ImGuiCol_PopupBg] = ColorHelper::adjustBrightness(SECONDARY_COLOR, 1.3);
         style.Colors[ImGuiCol_FrameBg] = ColorHelper::adjustBrightness(BACKGROUND_COLOR, 0.8f);
         style.Colors[ImGuiCol_FrameBgHovered] = ColorHelper::adjustBrightness(BACKGROUND_COLOR, 0.6f);
         style.Colors[ImGuiCol_FrameBgActive] = ColorHelper::adjustBrightness(BACKGROUND_COLOR, 0.4f);

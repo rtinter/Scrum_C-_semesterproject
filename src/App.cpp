@@ -7,6 +7,8 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
+
+
 const int App::WINDOW_WIDTH{1920};
 const int App::WINDOW_HEIGHT{1080};
 const std::string App::TILE{"Human Benchmark"};
@@ -38,7 +40,7 @@ void App::start() {
 
     while (window.isOpen()) {
         ImGui::SFML::Update(window, deltaClock.restart());
-        window.clear();
+        window.clear(sf::Color(245, 242, 247, 255));
 
         sf::Event event{};
         while (window.pollEvent(event)) {

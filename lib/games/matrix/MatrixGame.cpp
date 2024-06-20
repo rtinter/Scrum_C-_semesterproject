@@ -109,8 +109,8 @@ namespace game {
             style.FrameRounding = 0.f;
 
             // create transparent button
-            ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::NONE);
-            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::Colors::NONE);
+            ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::TRANSPARENT);
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::Colors::TRANSPARENT);
 
             ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                                   isCorrect ? commons::ColorTheme::SUCCESS_COLOR : commons::ColorTheme::ERROR_COLOR);

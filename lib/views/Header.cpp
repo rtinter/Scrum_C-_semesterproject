@@ -8,7 +8,7 @@ views::Header::Header(std::string const &left, std::string const &right, std::fu
     _centerText = "Athena";
 }
 
-void views::Header::render() {
+void views::Header::render() const {
     ui_elements::Window("Header").render([this]() {
         ImGui::SetWindowPos(ImVec2(0, 0), ImGuiCond_Always);
         ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, HEADER_HEIGHT + TOP_MARGIN),

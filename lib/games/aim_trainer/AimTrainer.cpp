@@ -1,5 +1,6 @@
 #include "AimTrainer.hpp"
 #include "Window.hpp"
+#include "SoundPolice.hpp"
 
 int randomPos(int n) {
     return rand() % n + 1;
@@ -9,6 +10,10 @@ void games::AimTrainer::spawnBlobs() {
     const auto size = ImGui::GetWindowSize();
     int windowWidth{static_cast<int>(size.x)};
     int windowHeight{static_cast<int>(size.y)};
+
+    if(_spawnAmount >= 1){
+        commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 30, 3.f);
+    }
 
     for (int i{0}; i < _spawnAmount; ++i) {
         int x{randomPos(windowWidth)};
@@ -103,7 +108,7 @@ void games::AimTrainer::render() {
 }
 
 void games::AimTrainer::renderGame() {
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, sf::Color(200, 200, 200, 255));
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::LIGHT_GRAY);
     ui_elements::Window("Aim Trainer").render([this] {
         _timer->render();
         if (_timer->isExpiredNow()) {
