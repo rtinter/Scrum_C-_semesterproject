@@ -1,11 +1,10 @@
 #include "Timer.hpp"
-#include "../commons/Fonts.hpp"
-#include "Window.hpp"
+
+#include <Fonts.hpp>
 #include <sstream>
 #include <iomanip>
-#include <iostream>
+#include <Window.hpp>
 
-#pragma once
 
 namespace ui_elements {
 
@@ -96,8 +95,8 @@ namespace ui_elements {
             ImVec2 pos = ImGui::GetItemRectMin();
             ImVec2 textSize = ImGui::CalcTextSize(text.c_str());
             ImVec2 textPos = ImVec2(
-                    pos.x + (this->_width - textSize.x) * 0.5f,
-                    pos.y + (this->_height - textSize.y) * 0.5f
+                    pos.x + ((this->_width - textSize.x) * 0.5f),
+                    pos.y + ((this->_height - textSize.y) * 0.5f)
             );
 
             ImDrawList *drawList = ImGui::GetWindowDrawList();

@@ -1,8 +1,7 @@
-
-#include "../commons/Fonts.hpp"
-#include "../commons/Colors.hpp"
-#include "Window.hpp"
 #include "StatisticsGameTable.hpp"
+
+#include <ColorTheme.hpp>
+#include <Fonts.hpp>
 #include <iomanip>
 #include <unordered_map>
 #include <ostream>
@@ -82,11 +81,11 @@ namespace ui_elements {
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
 
-            ImGui::PushStyleColor(ImGuiCol_TableHeaderBg, commons::Colors::SEAFOAM);
+            ImGui::PushStyleColor(ImGuiCol_TableHeaderBg, commons::ColorTheme::PRIMARY_COLOR);
             createTableHead();
 
             //TextColor
-            ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::DARK_GRAY);
+            ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::RAISIN_BLACK);
             createTableRows();
             ImGui::PopStyleColor(2);
             ImGui::EndTable();
@@ -95,7 +94,7 @@ namespace ui_elements {
 
     void StatisticsGameTable::render() {
             //backgroundColor
-            ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::Colors::LIGHT_GRAY);
+            ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::ColorTheme::PRIMARY_COLOR);
             if (_input.empty()) {
                 //If there are no values we need a default map
                 defaultTable();

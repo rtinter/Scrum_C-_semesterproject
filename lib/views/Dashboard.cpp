@@ -6,7 +6,6 @@
 #include "Fonts.hpp"
 #include "Window.hpp"
 #include <imgui.h>
-#include <TextCentered.hpp>
 
 
 namespace {

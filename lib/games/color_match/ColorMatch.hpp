@@ -1,12 +1,10 @@
-#ifndef ATHENA_COLORMATCH_H
-#define ATHENA_COLORMATCH_H
+#pragma once
 
+#include <Colors.hpp>
+#include <Game.hpp>
 #include <string>
 #include <random>
-#include <iostream>
-#include "Game.hpp"
-#include "Colors.hpp"
-#include "Timer.hpp"
+#include <Timer.hpp>
 
 namespace games {
 
@@ -59,5 +57,3 @@ namespace games {
     };
 
 }
-
-#endif //ATHENA_COLORMATCH_H
