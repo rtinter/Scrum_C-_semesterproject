@@ -20,6 +20,8 @@ namespace scene {
 
     void ResultsScene::loadSessionData() {
         // Laden der CSV-Daten
+
+        abstract_game::CsvStorage storage;
         csv::CsvParser gameSessionParser("game_session.csv");
         auto gameSessionData = gameSessionParser.parse();
 
@@ -48,6 +50,9 @@ namespace scene {
                 std::string endTimeStr = row[4];
                 std::string durationStr = row[5];
 
+                time_t converted = stringToTimeT(startTimeStr);
+                std::string dateString {storage.getDateString(converted)};
+
                 // Konvertiere Start- und Endzeit in time_t
                 std::time_t startTime = stringToTimeT(startTimeStr);
                 std::time_t endTime = stringToTimeT(endTimeStr);
@@ -57,7 +62,7 @@ namespace scene {
 
                 // Erstelle die Datenzeile
                 std::vector<std::string> sessionData = {
-                        std::to_string(startTime),
+                        dateString,
                         std::to_string(duration.count()) + " s",
                 };
 

@@ -1,16 +1,16 @@
 #include <fstream>
 #include <sstream>
-#include "CsvStorage.hpp"
 #include "GameRunThroughCsvWriter.hpp"
 #include "Session.hpp"
 #include "CsvParser.hpp"
+#include "CsvStorage.hpp"
 #include <iostream>
 
 namespace abstract_game {
     const std::string SESSION_CSV_FILENAME {"game_session.csv"};
     const std::string RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
 
-    std::string getDateString(time_t timestamp)
+    std::string CsvStorage::getDateString(time_t timestamp)
     {
         std::stringstream ss;
         ss << std::put_time(std::localtime(&timestamp), "%d.%m.%Y");

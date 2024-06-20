@@ -26,6 +26,7 @@ namespace abstract_game {
                 bool ended
         ) override;
 
+        std::string getDateString(time_t timestamp);
         void saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) override;
         std::vector<Session> getUserData(int userID) override;
     };
