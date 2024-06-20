@@ -13,7 +13,10 @@ namespace scene {
 
         views::Header _header;
         views::Results _results;
+        std::map<int, std::vector<std::pair<std::string, std::vector<std::string>>>> _sessionsMap;
 
+        void loadSessionData();
+        void displayResults();
 
     public:
         ResultsScene();
