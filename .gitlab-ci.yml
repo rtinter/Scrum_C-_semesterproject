@@ -38,49 +38,50 @@ prepare:
       - athena-release-$CI_COMMIT_TAG-linux.zip
 
 # Windows Build Job
-build_windows:
-  stage: build
-  tags: [windows]
-  rules:
-    - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event'
-  script:
-    - mkdir build
-    - cd build
-    - cmake -G "MinGW Makefiles" ..
-    - mingw32-make --jobs=$NUM_CORES
+# build_windows:
+#   stage: build
+#   tags: [windows]
+#   rules:
+#     - if: $CI_COMMIT_BRANCH == "dev" || $CI_COMMIT_BRANCH == "main" || $CI_PIPELINE_SOURCE == 'merge_request_event'
+#   script:
+#     - mkdir build
+#     - cd build
+#     - cmake -G "MinGW Makefiles" ..
+#     - mingw32-make --jobs=$NUM_CORES
 
 # Windows Prepare Job
-prepare_windows:
-  stage: prepare
-  tags: [windows]
-  rules:
-    - if: $CI_COMMIT_TAG
-  script:
-    - mkdir build
-    - cd build
-    - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
-    - mingw32-make --jobs=$NUM_CORES
-    - cd bin
-    - zip -r ../../athena-release-$CI_COMMIT_TAG-win64.zip ./*
-    - mv ../../athena-release-$CI_COMMIT_TAG-win64.zip $CI_PROJECT_DIR/
-  artifacts:
-    paths:
-      - $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-win64.zip
+# prepare_windows:
+#   stage: prepare
+#   tags: [windows]
+#   rules:
+#     - if: $CI_COMMIT_TAG
+#   script:
+#     - mkdir build
+#     - cd build
+#     - cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release ..
+#     - mingw32-make --jobs=$NUM_CORES
+#     - cd bin
+#     - zip -r ../../athena-release-$CI_COMMIT_TAG-win64.zip ./*
+#     - mv ../../athena-release-$CI_COMMIT_TAG-win64.zip $CI_PROJECT_DIR/
+#   artifacts:
+#     paths:
+#       - $CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-win64.zip
 
 publish_job:
   stage: publish
   image: curlimages/curl:latest
   script:
     - |
-      curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "$CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-win64.zip" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/win-x86_64/athena-release-$CI_COMMIT_TAG-win64.zip"
+      # Commenting out the Windows upload line
+      # curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "$CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-win64.zip" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/win-x86_64/athena-release-$CI_COMMIT_TAG-win64.zip"
       curl --header "JOB-TOKEN: ${CI_JOB_TOKEN}" --upload-file "$CI_PROJECT_DIR/athena-release-$CI_COMMIT_TAG-linux.zip" "${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/linux-x86_64/athena-release-$CI_COMMIT_TAG-linux.zip"
   rules:
     - if: '$CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^v[0-9]\.[0-9]\.[0-9](-rc.+)?/'
       when: always
-      needs: [prepare, prepare_windows]
+      needs: [prepare]
 
 release_job:
-  stage: release # alternative "release"
+  stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - echo "starting release"
@@ -90,9 +91,10 @@ release_job:
     description: 'Release created using the release-cli.'
     assets:
       links:
-        - name: deploy-win-${CI_COMMIT_TAG}
-          url: ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/win-x86_64/athena-release-${CI_COMMIT_TAG}-win64.zip
-          link_type: package
+        # Commenting out the Windows release link
+        # - name: deploy-win-${CI_COMMIT_TAG}
+        #   url: ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/win-x86_64/athena-release-${CI_COMMIT_TAG}-win64.zip
+        #   link_type: package
         - name: deploy-linux-${CI_COMMIT_TAG}
           url: ${PACKAGE_REGISTRY_URL}/${CI_COMMIT_TAG}/linux-x86_64/athena-release-${CI_COMMIT_TAG}-linux.zip
           link_type: package
@@ -101,4 +103,6 @@ release_job:
       when: always
   needs:
     - job: publish_job
+
+
 

@@ -1,7 +1,3 @@
-//
-// Created by Admin on 07.06.2024.
-//
-
 #ifndef GAMEIDS_HPP
 #define GAMEIDS_HPP
 
@@ -13,6 +9,9 @@ namespace abstract_game {
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
         REMEMBERING = 1006,
+        MATRIX = 1007,
+        ROWS_OF_NUMBERS = 1008,
+        SEQUENCE = 1011
     };
 } // namespace abstract_game
 
