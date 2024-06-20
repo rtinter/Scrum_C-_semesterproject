@@ -14,12 +14,13 @@
 #include "Orientation.hpp"
 #include "InfoBox.hpp"
 #include "Overlay.hpp"
-#include "Centered.hpp"
 #include "SceneManager.hpp"
-#include "DashboardScene.hpp"
 #include "RandomPicker.hpp"
-
+#include "SoundPolice.hpp"
 #include <nlohmann/json.hpp>
+
+#define DEBUG false
+
 using json = nlohmann::json;
 
 namespace game {
@@ -53,12 +54,15 @@ namespace game {
     void LetterSalad::stop() {
         _showEndBox = true;
         _isGameRunning = false;
+        updateStatistics();
     }
 
     void LetterSalad::start() {
         init();
         fillGameFieldWithRandomWords();
-        randomizeGameField();
+        if (!DEBUG) {
+            randomizeGameField();
+        }
         _isGameRunning = true;
         _showStartBox = false;
         _showEndBox = false;
@@ -83,7 +87,8 @@ namespace game {
     }
 
     void LetterSalad::updateStatistics() {
-
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Wörter pro Minute",
+                                                                                     _wordsPerMinute);
     }
 
     // the vector is read in from the file
@@ -142,36 +147,52 @@ namespace game {
         });
 
         if (_timer.isExpiredNow()) {
-            _endBoxTitle = "Die Zeit ist abgelaufen!";
-
-            int missingWords{0};
-            int missingLetters{0};
-            // get the number of words that are still missing
-            for (auto const &wordTarget: _activeWordList) {
-                if (!(*(wordTarget.isFound()))) {
-                    missingWords++;
-                    missingLetters += wordTarget.getWord().size();
-                }
-            }
-            static std::string missingWordsText = "Dir fehlen noch:\n" +
-                                                  std::to_string(missingWords) + " Wörter\nBzw. " +
-                                                  std::to_string(missingLetters) + " Buchstaben.";
-            _endBoxText = missingWordsText;
+            timerExpired();
             stop();
         }
     }
 
     void LetterSalad::renderTextList() {
         if (ImGui::BeginListBox("##textList", ImVec2(350, 900))) {
-            for (auto const &wordPair: _activeWordList) {
+            for (auto const &wordPair : _activeWordList) {
                 ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,  ImVec2(ImGui::GetStyle().FramePadding.x,8));
                 ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
+                ImGui::PopStyleVar();
                 ImGui::PopItemFlag();
             }
 
             ImGui::EndListBox(); // ##textList
         }
 
+    }
+
+    void LetterSalad::timerExpired() {
+        _endBoxTitle = "Die Zeit ist abgelaufen!";
+
+        int missingWords{0};
+        int missingLetters{0};
+        // get the number of words that are still missing
+        for (auto const &wordTarget : _activeWordList) {
+            if (!(*(wordTarget.isFound()))) {
+                missingWords++;
+                missingLetters += wordTarget.getWord().size();
+            }
+        }
+
+        std::string missingWord;
+        if (missingWords == 1) {
+            missingWord = "Wort";
+        } else {
+            missingWord = "Wörter";
+        }
+
+        _wordsPerMinute = (_activeWordList.size() - missingWords) / (TIME_LIMIT / 60.);
+
+        static std::string missingWordsText = "Dir fehlen noch:\n" +
+                                              std::to_string(missingWords) + " " + missingWord + "\nBzw. " +
+                                              std::to_string(missingLetters) + " Buchstaben.";
+        _endBoxText = missingWordsText;
     }
 
     void LetterSalad::renderGameField() {
@@ -260,7 +281,7 @@ namespace game {
                                 newlines.begin(),
                                 newlines.end(),
                                 std::back_inserter(difference));
-            for (auto &lineE: difference) {
+            for (auto &lineE : difference) {
                 deselectBox(lineE);
             }
 
@@ -268,7 +289,7 @@ namespace game {
             _selectedWord = "";
             _currentLine = getLine(_firstSelectedCell, coords);
 
-            for (auto &lineE: _currentLine) {
+            for (auto &lineE : _currentLine) {
                 selectBox(lineE);
                 _selectedWord += _gameField[lineE.y][lineE.x].getChar();
             }
@@ -278,6 +299,7 @@ namespace game {
     }
 
     void LetterSalad::clickCell(Coordinates const &coords) {
+        commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 70);
 
         // if the first has not been selected yet
         if (!_isFirstCellSelected) {
@@ -299,36 +321,32 @@ namespace game {
         _isFirstCellSelected = false;
         _isSecondCellSelected = false;
         if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
-            for (auto &lineE: _currentLine) {
+            for (auto &lineE : _currentLine) {
                 LetterSalad::deselectBox(lineE);
             }
         } else {
-            for (auto &lineE: _currentLine) {
+            for (auto &lineE : _currentLine) {
                 LetterSalad::finalize(lineE);
-                _activeWordList.find(WordTarget{_selectedWord})->setFound();
             }
-            bool allWordsFound{true};
+            auto foundWord{_activeWordList.find(WordTarget{_selectedWord})};
+
+            if (!(*foundWord->isFound())) {
+                foundWord->setFound();
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+            }
+
+            bool areAllWordsFound{true};
 
             // and check, if the game has ended
-            for (auto const &word: _activeWordList) {
+            for (auto const &word : _activeWordList) {
                 if (!(*word.isFound())) {
-                    allWordsFound = false;
+                    areAllWordsFound = false;
                     break;
                 }
             }
 
-            if (allWordsFound) {
-                _endBoxTitle = "Herzlichen Glückwunsch!";
-
-                int secondsLeft{_timer.getSecondsLeft()};
-                std::string minutes{std::to_string(secondsLeft / 60)};
-                std::string seconds{std::to_string(secondsLeft % 60)};
-
-                static std::string endboxString =
-                        "Du hast alle Wörter gefunden!\n"
-                        "Und sogar noch Zeit übrig gehabt!\n" + minutes +
-                        " Minuten und " + seconds + " Sekunden\n";
-                _endBoxText = endboxString;
+            if (areAllWordsFound) {
+                allWordsFound();
                 stop();
             }
         }
@@ -336,6 +354,23 @@ namespace game {
         _firstSelectedCell = {-1, -1};
         _selectedWord = "";
         _currentLine.clear();
+    }
+
+    void LetterSalad::allWordsFound(){
+        _endBoxTitle = "Herzlichen Glückwunsch!";
+
+        int secondsLeft{_timer.getSecondsLeft()};
+        std::string minutes{std::to_string(secondsLeft / 60)};
+        std::string seconds{std::to_string(secondsLeft % 60)};
+
+        _wordsPerMinute = (_activeWordList.size()) / ((TIME_LIMIT - secondsLeft) / 60.);
+
+        static std::string endboxString =
+                "Du hast alle Wörter gefunden!\n"
+                "Und sogar noch Zeit übrig gehabt!\n" + minutes +
+                " Minuten und " + seconds + " Sekunden\n";
+        _endBoxText = endboxString;
+
     }
 
     bool LetterSalad::isWordInList(
@@ -416,8 +451,8 @@ namespace game {
     }
 
     void LetterSalad::randomizeGameField() {
-        for (auto &row: _gameField) {
-            for (auto &box: row) {
+        for (auto &row : _gameField) {
+            for (auto &box : row) {
                 if (box.getLetter() == EMPTY_CELL) {
                     std::string letter{std::string(1, 'A' + rand() % 26)};
                     box.setLetter(letter);
@@ -435,7 +470,7 @@ namespace game {
             int randomIndex{RandomPicker::randomInt(0, _wordList.size() - 1)};
             auto wordPair{*std::next(_wordList.begin(), randomIndex)};
             // check if the word can be placed
-            if (placeWord(wordPair.getWord())) {
+            if (_activeWordList.find(wordPair) == _activeWordList.end() && placeWord(wordPair.getWord())) {
                 // if yes add it to the active wordList
                 _activeWordList.insert(wordPair);
             }
@@ -470,18 +505,21 @@ namespace game {
                     // place word vertically
                     row = RandomPicker::randomInt(0, height - 1);
                     col = RandomPicker::randomInt(0, width - word.length());
+                    if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::DIAGONAL_DOWN: {
                     // place word diagonally top left to bottom right
                     row = RandomPicker::randomInt(0, height - word.length());
                     col = RandomPicker::randomInt(0, width - word.length());
+                    if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::DIAGONAL_UP: {
                     // place word diagonally bottom left to top right
                     row = RandomPicker::randomInt(word.length() - 1, height - 1);
                     col = RandomPicker::randomInt(0, width - word.length());
+                    if (reverse) std::reverse(word.begin(), word.end());
                 }
             }
 
