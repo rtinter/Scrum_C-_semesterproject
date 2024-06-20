@@ -1,8 +1,6 @@
 #include "Reaction.hpp"
 
 #include <Colors.hpp>
-#include <DashboardScene.hpp>
-#include <Fonts.hpp>
 #include <InfoBox.hpp>
 #include <Overlay.hpp>
 #include <random>
@@ -11,6 +9,7 @@
 #include <Window.hpp>
 #include "GameSessionManager.hpp"
 #include <sstream>
+#include <SoundPolice.hpp>
 
 namespace reaction {
     Reaction::Reaction() : abstract_game::Game(abstract_game::GameID::REACTION) {
@@ -57,6 +56,8 @@ namespace reaction {
                     _isGameRunning = false;
                     _finishPoint = std::chrono::steady_clock::now();
 
+                    commons::SoundPolice::safePlaySound(commons::Sound::CLICK);
+
                     auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
                             _finishPoint - _startPoint).count();
 
@@ -78,6 +79,8 @@ namespace reaction {
                     _showEndBox = true;
                     _endBoxTitle = "Zu früh geklickt!";
                     _endBoxText = "Versuche es nochmal!";
+
+                    commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
                 }
             }
         });
