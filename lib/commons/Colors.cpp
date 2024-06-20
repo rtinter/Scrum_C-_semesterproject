@@ -2,6 +2,7 @@
 
 namespace commons {
     ImVec4 const Colors::TRANSPARENT = {0, 0, 0, 0};
+    ImVec4 const Colors::BLACK = {0, 0, 0, 1};
     ImVec4 const Colors::WHITE = {1, 1, 1, 1};
     ImVec4 const Colors::RAISIN_BLACK = {0.133, 0.133, 0.133, 1};
     ImVec4 const Colors::LIGHT_GRAY = {0.92, 0.92, 0.92, 1};
@@ -12,6 +13,10 @@ namespace commons {
     ImVec4 const Colors::BRIGHT_RED = {1, 0, 0, 1};
     ImVec4 const Colors::GREEN = {0.137, 0.808, 0.42, 1.};
     ImVec4 const Colors::BRIGHT_GREEN = {0, 1, 0, 1};
+    ImVec4 const Colors::BRIGHT_GREEN1 = {0, 1, 0, 0.7};
+    ImVec4 const Colors::BRIGHT_GREEN2 = {0, 1, 0.2, 0.8};
+    ImVec4 const Colors::BRIGHT_GREEN3 = {0, 1, 0.5, 0.9};
+    ImVec4 const Colors::BROWN = {0.38, 0.18, 0, 1};
     ImVec4 const Colors::YELLOW = {0.918, 0.769, 0.208, 1};
     ImVec4 const Colors::PURPLE = {0.306, 0.255, 0.529, 1};
     // ImVec4 const Colors::PURPLE = {0.49, 0, 0.49, 1};

@@ -1,11 +1,8 @@
 #include "TypeRacer.hpp"
 
-#include <Centered.hpp>
-#include <DashboardScene.hpp>
 #include <Fonts.hpp>
 #include <InfoBox.hpp>
 #include <Overlay.hpp>
-#include <SceneManager.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
 #include <random>

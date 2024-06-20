@@ -13,6 +13,7 @@ namespace commons {
         Colors() = delete; // static class
 
         static ImVec4 const TRANSPARENT;
+        static const ImVec4 BLACK;
         static ImVec4 const WHITE;
         static ImVec4 const RAISIN_BLACK;
         static ImVec4 const LIGHT_GRAY;
@@ -26,6 +27,9 @@ namespace commons {
         static ImVec4 const BROWN;
         static ImVec4 const PURPLE;
         static const ImVec4 BRIGHT_GREEN;
+        static const ImVec4 BRIGHT_GREEN1;
+        static const ImVec4 BRIGHT_GREEN2;
+        static const ImVec4 BRIGHT_GREEN3;
         static const ImVec4 BRIGHT_RED;
         static const ImVec4 VERY_LIGHT_GRAY;
         static const ImVec4 LAUREL_GREEN;

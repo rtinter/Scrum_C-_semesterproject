@@ -18,6 +18,8 @@ namespace commons {
         static ImFont *_iconRegular; // font for icons
         static ImFont *_iconSolid; // font for icons
 
+        static ImFont *_matrixFontBig; // font for 'code' (Matrix Game)
+        static ImFont *_matrixFontSmall; // font for 'code' (Matrix Game)
         /*******************************************************************
          * setup() loads fonts from .ttf files and assigns them to ImGuiIO
          *******************************************************************/
