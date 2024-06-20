@@ -75,6 +75,7 @@ namespace games {
                 if (!_endTime.has_value()) {
                     _endTime = std::chrono::steady_clock::now();
                     calculateEndScreenText();
+                    stop();
                 }
                 _showEndbox = true;
             } else {
@@ -100,30 +101,16 @@ namespace games {
 
     void Calc::showEndScreen() {
         _showEndbox = true;
-        ui_elements::Overlay("EndScreen", _showEndbox).render([this]() {
-            ImGui::PushFont(commons::Fonts::_header2);
-            ui_elements::TextCentered(_endScreenTitle.c_str());
-            ImGui::PopFont();
+        std::ostringstream endScreenTextStream;
+        endScreenTextStream << _endScreenStatisticText << "\n\n"
+                            << _averageTimeText;
+        std::string endScreenText = endScreenTextStream.str();
 
-            std::istringstream endScreenTextStream(_endScreenStatisticText);
-            std::string line;
-            while (std::getline(endScreenTextStream, line)) {
-                ui_elements::TextCentered(line.c_str());
-            }
-
-            // Render the average time text separately
-            ui_elements::TextCentered(_averageTimeText.c_str());
-
-            ui_elements::Centered(true, true, [this]() {
-                if (ImGui::Button("Versuch es nochmal")) {
-                    start();
-                }
-
-                if (ImGui::Button("Zurück zur Startseite")) {
-                    scene::SceneManager::getInstance().switchTo(std::make_unique<scene::DashboardScene>());
-                }
-            });
-        });
+        ui_elements::InfoBox(
+                _gameID, _showEndbox, "Endbox",
+                _endScreenTitle, endScreenText,
+                [this]() { start(); }
+        ).render();
     }
 
     void Calc::calculateEndScreenText() {
