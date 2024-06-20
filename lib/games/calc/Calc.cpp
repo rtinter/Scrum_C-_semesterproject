@@ -117,7 +117,7 @@ namespace games {
         _elapsedTimeCalculated = getElapsedTimeInSeconds();
 
         std::ostringstream endScreenTextStream;
-        endScreenTextStream << "Du hast insgesamt " << _completedLevels << " Aufgaben erfolgreich gelößt.";
+        endScreenTextStream << "Du hast insgesamt " << _completedLevels << " Aufgaben erfolgreich gelöst.";
         _endScreenStatisticText = endScreenTextStream.str();
 
         if (_completedLevels > 0) {
