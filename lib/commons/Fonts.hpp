@@ -15,7 +15,8 @@ namespace commons {
         static ImFont *_header2; // font for 'normal' titles
         static ImFont *_header3; // font for subtitles
         static ImFont *_body; // font for normal text
-
+        static ImFont *_matrixFontBig; // font for 'code' (Matrix Game)
+        static ImFont *_matrixFontSmall; // font for 'code' (Matrix Game)
         /*******************************************************************
          * setup() loads fonts from .ttf files and assigns them to ImGuiIO
          *******************************************************************/
