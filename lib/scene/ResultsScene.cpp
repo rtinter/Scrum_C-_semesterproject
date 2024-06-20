@@ -41,14 +41,27 @@ namespace scene {
 
         // Verarbeiten der Daten und Befüllen der Datenstruktur
         for (const auto &row : gameSessionData) {
-            if (row.size() >= 7) {
+            if (!row.empty()) {
                 int gameID = std::stoi(row[0]);
                 std::string sessionUID = row[1];
-                std::string startTime = row[3];
-                std::string endTime = row[4];
-                std::string duration = row[5];
+                std::string startTimeStr = row[3];
+                std::string endTimeStr = row[4];
+                std::string durationStr = row[5];
 
-                _sessionsMap[gameID].push_back({sessionUID, {startTime, endTime, duration}});
+                // Konvertiere Start- und Endzeit in time_t
+                std::time_t startTime = stringToTimeT(startTimeStr);
+                std::time_t endTime = stringToTimeT(endTimeStr);
+
+                // Berechne die Dauer in Sekunden
+                std::chrono::seconds duration = std::chrono::seconds(endTime - startTime);
+
+                // Erstelle die Datenzeile
+                std::vector<std::string> sessionData = {
+                        std::to_string(startTime),
+                        std::to_string(duration.count()) + " s",
+                };
+
+                _sessionsMap[gameID].push_back({sessionUID, sessionData});
             }
         }
 
@@ -76,12 +89,18 @@ namespace scene {
                 std::string result = row[2];
                 std::string resultUnit = row[3];
 
+                int totalSessions {0};
+                std::string totalSessionsString;
+
 
                 for (auto &pair : _sessionsMap) {
+                    totalSessions += pair.second.size();
+                    totalSessionsString = std::to_string(totalSessions);
                     for (auto &session : pair.second) {
                         std::cout << session.first << " " << sessionUID << std::endl;
                         if (session.first == sessionUID) {
                             std::cout << "Result " << result << " " << resultUnit << std::endl;
+                            session.second.push_back(totalSessionsString);
                             session.second.push_back(result + " " + resultUnit);
                         }
                     }
@@ -103,7 +122,7 @@ namespace scene {
 
     void ResultsScene::displayResults() {
 
-        std::vector<std::string> stringvectorHeaderline{"Datum", "Länge", "Sessions", "Werte"};
+        std::vector<std::string> stringvectorHeaderline{"Datum", "Dauer", "Anzahl der Sessions", "Ergebnis"};
         std::map<int, ui_elements::StatisticsGameTable> gameTables;
 
         // Daten in die Tabelle einfügen
@@ -114,6 +133,8 @@ namespace scene {
 
             int rowIndex = 1;
             for (const auto &session : pair.second) {
+                std::cout << "Session: " << session.first << std::endl;
+
                 std::vector<std::string> row = session.second;
                 gameDataMap[rowIndex++] = row;
             }

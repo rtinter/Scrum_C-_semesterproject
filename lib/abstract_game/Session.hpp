@@ -12,6 +12,8 @@ struct Session {
     time_t start;
     time_t end;
 
+    std::string date;
+
     int64_t duration;
     bool ended;
 };

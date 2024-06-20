@@ -8,10 +8,16 @@
 #include "GameRunThroughCsvWriter.hpp"
 #include "Session.hpp"
 
-
 namespace abstract_game {
     const std::string SESSION_CSV_FILENAME {"game_session.csv"};
     const std::string RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
+
+    std::string getDateString(time_t timestamp)
+    {
+        std::stringstream ss;
+        ss << std::put_time(std::localtime(&timestamp), "%Y-%m-%d %X");
+        return ss.str();
+    }
 
     void CsvStorage::saveGameSession(
             size_t sessionUID,
@@ -43,7 +49,7 @@ namespace abstract_game {
 
         // Write the header if the file was empty
         if (isEmpty) {
-            file << "GameID,GameSessionUID,UserID,StartTime,EndTime,DurationInSeconds,Ended\n";
+            file << "GameID,GameSessionUID,UserID,StartTimestamp,EndTimestamp,DurationInSeconds,Ended\n";
         }
 
         // Write session data
@@ -51,8 +57,8 @@ namespace abstract_game {
         ss << static_cast<int>(gameID) << ","
            << sessionUID << ","
            << userID << ","
-           << startTime << ","
-           << endTime << ","
+           << start << ","
+           << end << ","
            << duration << ","
            << ended << "\n";
         std::string data {ss.str()};
@@ -96,11 +102,14 @@ namespace abstract_game {
         std::vector<Session> sessions;
         // GameSessionUID,UserID,GameID,StartTime,EndTime,StartTimestamp,EndTimestamp,DurationInSeconds,Ended
         rapidcsv::Document document(SESSION_CSV_FILENAME);
+
         std::vector<size_t> gameSessionUID {document.GetColumn<size_t>("GameSessionUID")};
         std::vector<int> userId {document.GetColumn<int>("userId")};
         std::vector<int> gameId {document.GetColumn<int>("GameID")};
-        std::vector<time_t> startTime {document.GetColumn<time_t>("StartTime")};
-        std::vector<time_t> endTime {document.GetColumn<time_t>("EndTime")};
+
+        std::vector<time_t> startTime {document.GetColumn<time_t>("StartTimestamp")};
+        std::vector<time_t> endTime {document.GetColumn<time_t>("EndTimeStamp")};
+
         std::vector<int64_t> duration {document.GetColumn<int64_t>("Duration")};
 
         size_t rowCount {document.GetRowCount()};
@@ -108,9 +117,12 @@ namespace abstract_game {
             if(userId[row] != userID)
                 continue;
 
+            auto diff = std::chrono::seconds(endTime[row]) - std::chrono::seconds(startTime[row]);
+            std::string date = getDateString(endTime[row]);
             sessions.emplace_back(Session{
                 .start = startTime[row],
-                .end = startTime[row],
+                .end = endTime[row],
+                .date = date
             });
         }
         // Implementation to read user data from the CSV file
