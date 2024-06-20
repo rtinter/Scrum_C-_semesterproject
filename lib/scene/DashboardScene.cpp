@@ -162,9 +162,10 @@ scene::DashboardScene::DashboardScene() {
 
     logicalThinking.push_back(
             std::make_unique<Tile>(
-                    "",
+                    "\uF1EC",
                     "Schnelles Rechnen",
                     "Löse Rechenaufgaben",
+                    commons::Colors::SEAFOAM,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::Calc>>()
