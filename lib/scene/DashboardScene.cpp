@@ -5,9 +5,12 @@
 #include "Reaction.hpp"
 #include "LetterSalad.hpp"
 #include "ColorMatch.hpp"
+#include "Sequence.hpp"
 #include "AimTrainer.hpp"
 #include "Remembering.hpp"
 #include "TypeRacer.hpp"
+#include "MatrixGame.hpp"
+#include "RowsOfNumbers.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -26,6 +29,7 @@ scene::DashboardScene::DashboardScene() {
     std::vector<UniqueTile> accuracyCategory = {};
     std::vector<UniqueTile> problemSolvingCategory = {};
     std::vector<UniqueTile> rememberCategory = {};
+    std::vector<UniqueTile> logicalThinking = {};
 
     // Kategorie: Reaktion
     reactionCategory.push_back(
@@ -51,7 +55,9 @@ scene::DashboardScene::DashboardScene() {
 
     reactionCategory.push_back(
             std::make_unique<Tile>(
+                    "Pictogram3",
                     "Aim Trainer",
+                    "Aim Trainer Beschreibung",
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::AimTrainer>>());
@@ -62,10 +68,25 @@ scene::DashboardScene::DashboardScene() {
     // Kategorie: Genauigkeit
     accuracyCategory.push_back(
             std::make_unique<Tile>(
+                    "Pictogram3",
                     "Type Racer",
+                    "Schnelles Tippen",
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<typeracer::TypeRacer>>()
+                        );
+                    }
+            )
+    );
+
+    accuracyCategory.push_back(
+            std::make_unique<Tile>(
+                    "Pictogram X",
+                    "Sequence",
+                    "Merke dir die Reihenfolge!",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<sequence::Sequence>>()
                         );
                     }
             )
@@ -85,6 +106,19 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
+    problemSolvingCategory.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Matrix",
+                    "Finde die gedrehte\nbzw. gespiegelte Matrix",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<game::MatrixGame>>()
+                        );
+                    }
+            )
+    );
+
     // Kategorie: Merkfähigkeit
     rememberCategory.push_back(
             std::make_unique<Tile>(
@@ -99,9 +133,25 @@ scene::DashboardScene::DashboardScene() {
             )
     );
 
+    // Kategorie: Logisches Denken
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Zahlenreihen",
+                    "Finde die fehlende Zahl",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<game::RowsOfNumbers>>()
+                        );
+                    }
+            )
+    );
+
+
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
      * hier festgelegt.
     */
+    _dashboard->addTilesToCategory("Logisches Denken", logicalThinking);
     _dashboard->addTilesToCategory("Problemlösung", problemSolvingCategory);
     _dashboard->addTilesToCategory("Merkfähigkeit", rememberCategory);
     _dashboard->addTilesToCategory("Genauigkeit", accuracyCategory);

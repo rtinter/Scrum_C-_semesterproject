@@ -179,9 +179,10 @@ namespace games {
         _isGameRunning = false;
         _showEndBox = true;
         _endBoxTitle = "Zeit abgelaufen!";
+        updateStatistics();
     }
 
     void ColorMatch::updateStatistics() {
-        // add code here
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("", _numberOfCorrectClicksInTotal);
     }
 }

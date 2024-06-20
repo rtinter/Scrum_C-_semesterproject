@@ -69,7 +69,7 @@ QuestionBank::QuestionBank() {
                             {"Welche Farbe hatte die Jacke des Täters?", {"schwarz", "blau", "grün", "rot"}, 0},
                             {"Welche Art von Kopfbedeckung trug der Täter?", {"Hut", "Mütze", "Kappe", "Helm"}, 1},
                             {"Welches Auto fuhr der Täter?", {"BMW", "Mercedes", "Volkswagen", "Audi"}, 2},
-                            {"Welches Kennzeichen hatte das Auto?", {"B-AB 1234", "B-CX 6789", "B-XY 9876", "B-CD 4321"}, 1},
+                            {"Welches Kennzeichen hatte das Auto?", {"KI-AB 1234", "KI-CX 6789", "KI-XY 9876", "KI-CD 4321"}, 1},
                             {"In welche Richtung fuhr der Täter nach dem Diebstahl?", {"Stadtzentrum", "Bahnhof", "Autobahnauffahrt", "Park"}, 2},
                             {"Wie viel war die gestohlene Flasche Whisky wert?", {"100 Euro", "150 Euro", "200 Euro", "250 Euro"}, 2}
                     }

@@ -61,6 +61,8 @@ namespace reaction {
                             _finishPoint - _startPoint).count();
 
                     _showEndBox = true;
+                    _statisticResult = duration;
+                    updateStatistics();
 
                     // convert long long duration to string
                     std::stringstream durationStream;
@@ -130,11 +132,15 @@ namespace reaction {
 
 
     void Reaction::updateStatistics() {
-        // add code here
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("ms", _statisticResult);
     }
 
     bool Reaction::isGreen() const {
         return _windowColor.x == commons::Colors::GREEN.x && _windowColor.y == commons::Colors::GREEN.y
                && _windowColor.z == commons::Colors::GREEN.z && _windowColor.w == commons::Colors::GREEN.w;
+    }
+
+    std::string Reaction::getName() const {
+        return Game::getName();
     }
 } // reaction
