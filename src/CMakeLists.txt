@@ -19,6 +19,7 @@ set(GAME_LIBS
         letter_salad
         typeracer
         remembering
+        memory
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
@@ -43,6 +44,14 @@ add_custom_command(
         COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/Fonts
         COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/lib/commons/Fonts $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/Fonts
         COMMENT "Copying .ttf files to output directory"
+)
+
+# Custom command to copy images to the output directory
+add_custom_command(
+        TARGET ${CMAKE_PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/images
+        COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/lib/games/memory/images $<TARGET_FILE_DIR:${CMAKE_PROJECT_NAME}>/images
+        COMMENT "Copying image files to output directory"
 )
 
 # Commented out because openal32.dll is only required for audio stuff

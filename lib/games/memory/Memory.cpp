@@ -1,13 +1,10 @@
-//
-// Created by Admin on 15.06.2024.
-//
-
-#include <thread>
 #include "Memory.hpp"
 #include "GameSessionManager.hpp"
 #include "InfoBox.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
+#include <iostream>
+#include <thread>
 
 namespace memory {
 
@@ -32,20 +29,16 @@ namespace memory {
                 "2. Klicke auf 'Versuch es nochmal', um das Spiel zurückzusetzen und es erneut zu versuchen.\n"
                 "3. Klicke auf 'Zurück zur Startseite', um zum Hauptmenü zurückzukehren.";
 
-        loadImages();
-    }
-
-    void Memory::loadImages() {
-        _imagePaths = {
-                "1.png",
-
-        };
+        // Load images using ImageManager
+        _imageManager = ImageManager();
     }
 
     void Memory::initializeTiles() {
+        _tiles.clear(); // Clear existing tiles
         for (int i = 0; i < 30; ++i) {
             int imageIndex = i % 15; // Ensure pairs of images
-            auto tile = std::make_shared<memory::MemoryTile>(_imagePaths[imageIndex], [this, i]() { handleTileClick(i); }, _tileSize);
+            sf::Texture& texture = _imageManager.getTexture(imageIndex);
+            auto tile = std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize, imageIndex);
             _tiles.push_back(tile);
         }
     }
@@ -53,7 +46,6 @@ namespace memory {
     void Memory::arrangeTiles() {
         std::random_device rd;
         std::mt19937 g(rd());
-        std::shuffle(_tiles.begin(), _tiles.end(), g);
 
         const int columns = 10;
         const int rows[] = {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
@@ -67,11 +59,30 @@ namespace memory {
                 ++index;
             }
         }
+
+        std::shuffle(_coordinates.begin(), _coordinates.end(), g);
     }
 
     void Memory::handleTileClick(int tileID) {
-        // Handle tile click logic
-        // This is where you check for matches and manage the game state
+        if (_isCheckingMatch) {
+            return; // Ignore clicks while checking for a match
+        }
+
+        auto& tile = _tiles[tileID];
+
+        if (tile->isFlipped()) {
+            return; // Ignore if the tile is already flipped
+        }
+
+        tile->flip();
+
+        if (!_firstTile) {
+            _firstTile = tile;
+        } else if (!_secondTile) {
+            _secondTile = tile;
+            _isCheckingMatch = true;
+            checkForMatch();
+        }
     }
 
     void Memory::resetTiles() {
@@ -113,6 +124,31 @@ namespace memory {
         }
     }
 
+    void Memory::checkForMatch() {
+        std::thread([this] {
+            std::this_thread::sleep_for(std::chrono::seconds(2));
+            if (_firstTile->getIndex() == _secondTile->getIndex()) {
+                _pairsFound++;
+            } else {
+                _timer->reduceTime(10);
+                resetFlippedTiles();
+            }
+            _firstTile = nullptr;
+            _secondTile = nullptr;
+            _isCheckingMatch = false;
+
+            if (_pairsFound == 15) {
+                stop();
+            }
+        }).detach();
+    }
+
+    void Memory::resetFlippedTiles() {
+        if (_firstTile && _secondTile) {
+            _firstTile->flip();
+            _secondTile->flip();
+        }
+    }
 
     void Memory::render() {
         ui_elements::InfoBox(
@@ -175,7 +211,7 @@ namespace memory {
         _showStartBox = false;
         _showEndBox = false;
 
-        _timer = std::make_unique<ui_elements::Timer>(_gameName, 10);
+        _timer = std::make_unique<ui_elements::Timer>(_gameName, 120);
         _timer->start();
 
         resetTiles();
@@ -187,7 +223,6 @@ namespace memory {
             std::this_thread::sleep_for(std::chrono::seconds(3));
             flipTilesBack();
         }).detach();
-
     }
 
     void Memory::stop() {
@@ -199,6 +234,9 @@ namespace memory {
         _tiles.clear();
         _coordinates.clear();
         _timer.reset();
+        _firstTile = nullptr;
+        _secondTile = nullptr;
+        _pairsFound = 0;
     }
 
     void Memory::updateStatistics() {
@@ -208,6 +246,4 @@ namespace memory {
     std::string Memory::getName() const {
         return _gameName;
     }
-
-
 }

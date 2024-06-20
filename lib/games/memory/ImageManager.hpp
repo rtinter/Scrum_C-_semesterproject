@@ -1,7 +1,3 @@
-//
-// Created by Admin on 16.06.2024.
-//
-
 #ifndef ATHENA_IMAGEMANAGER_HPP
 #define ATHENA_IMAGEMANAGER_HPP
 
@@ -14,22 +10,21 @@ class ImageManager {
 public:
     ImageManager();
 
-    sf::Texture& getTexture(int index);
-    int getImageCount() const;
-    std::vector<sf::Texture>& getTextures();
+    sf::Texture &getTexture(int index);
 
-    void setBackgroundColor(ImVec4 color);
-    ImVec4 getBackgroundColor() const;
+    int getImageCount() const; // unused
+    std::vector<sf::Texture> &getTextures(); // unused
 
+    void setBackgroundColor(ImVec4 color); // unused
+    ImVec4 getBackgroundColor() const; // unused
 private:
-    std::vector<std::string> _imageUrls;
+    std::vector<std::string> _imagePaths;
     std::vector<sf::Texture> _textures;
     ImVec4 _backgroundColor;
 
     void loadImages();
-    void loadTextureFromURL(const std::string& url, sf::Texture& texture);
+
+    void loadTextureFromFile(const std::string &path, sf::Texture &texture);
 };
 
 #endif //ATHENA_IMAGEMANAGER_HPP
-
-

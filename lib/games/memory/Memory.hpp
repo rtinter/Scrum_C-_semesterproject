@@ -1,7 +1,3 @@
-//
-// Created by Admin on 15.06.2024.
-//
-
 #ifndef ATHENA_MEMORY_HPP
 #define ATHENA_MEMORY_HPP
 
@@ -11,11 +7,13 @@
 #include "Tile.hpp"
 #include "Coordinates.hpp"
 #include "RandomPicker.hpp"
+#include "MemoryTile.hpp"
+#include "ImageManager.hpp"
 #include <imgui.h>
 #include <vector>
 #include <memory>
 #include <unordered_map>
-#include "MemoryTile.hpp"
+#include <SFML/Graphics.hpp>
 
 namespace memory {
 
@@ -24,20 +22,27 @@ namespace memory {
         std::unique_ptr<ui_elements::Timer> _timer;
         std::vector<std::shared_ptr<MemoryTile>> _tiles;
         std::vector<Coordinates> _coordinates;
-        std::vector<std::string> _imagePaths;
+        ImageManager _imageManager; // Use ImageManager for managing images
 
-        bool _showAllTiles{false};
+        bool _showAllTiles{false}; //unused
 
         ImVec2 _tileSize{140, 140};
         float _padding{15.0f};
 
+        std::shared_ptr<MemoryTile> _firstTile{nullptr};
+        std::shared_ptr<MemoryTile> _secondTile{nullptr};
+        int _pairsFound{0};
+        bool _isCheckingMatch{false};
+
         void initializeTiles();
-        void loadImages();
         void arrangeTiles();
         void handleTileClick(int tileID);
         void resetTiles();
         void flipTilesBack();
         void centerTiles();
+
+        void checkForMatch();
+        void resetFlippedTiles();
 
     public:
         explicit Memory();
@@ -57,7 +62,6 @@ namespace memory {
         std::string getName() const override;
 
     };
-
 } // memory
 
 #endif //ATHENA_MEMORY_HPP

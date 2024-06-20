@@ -5,16 +5,13 @@
 
 namespace memory {
 
-    MemoryTile::MemoryTile(std::string const &frontImage, std::function<void()> const &onClick, ImVec2 const &size)
-            : Tile("", frontImage, "", onClick), _frontImage(frontImage), _onClick(onClick), _size(size) {}
+
+    MemoryTile::MemoryTile(sf::Texture const &frontTexture, std::function<void()> const &onClick, ImVec2 const &size, int index)
+            : Tile("", "", "", onClick), _frontTexture(frontTexture), _onClick(onClick), _size(size), _index(index) {}
 
     void MemoryTile::render() {
         if (_isFlipped) {
-            sf::Texture texture;
-            if (texture.loadFromFile(_frontImage)) {
-                sf::Sprite sprite(texture);
-                ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(texture.getNativeHandle())), _size);
-            }
+            ImGui::Image(reinterpret_cast<void*>(static_cast<intptr_t>(_frontTexture.getNativeHandle())), _size);
         } else {
             ImGui::PushStyleColor(ImGuiCol_Button, _backColor);
             ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 1)); // Black border
@@ -45,12 +42,15 @@ namespace memory {
         return _isFlipped;
     }
 
-    void MemoryTile::setBackColor(ImVec4 color) {
+    void MemoryTile::setBackColor(ImVec4 color) { //unused
         _backColor = color;
     }
 
-    ImVec4 MemoryTile::getBackColor() const {
+    ImVec4 MemoryTile::getBackColor() const { //unused
         return _backColor;
     }
 
+    int MemoryTile::getIndex() const {
+        return _index;
+    }
 } // namespace memory

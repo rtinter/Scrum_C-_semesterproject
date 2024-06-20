@@ -24,3 +24,10 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC
         sfml-graphics
         box2d
 )
+
+# Copy images to the build directory
+file(GLOB IMAGE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/images/*")
+
+foreach (FILE ${IMAGE_FILES})
+    file(COPY ${FILE} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/images)
+endforeach()
