@@ -1,4 +1,4 @@
-set(LIBRARY_NAME scene)
+set(LIBRARY_NAME rows_of_numbers)
 
 file(GLOB SOURCES *.cpp)
 
@@ -12,21 +12,10 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
+        abstract_game
         commons
         ui_elements
-        abstract_game
-        views
-        calc
-        reaction
-        color_match
-        sequence
-        remembering
-        letter_salad
-        aim_trainer
-        typeracer
-        matrix
-        rows_of_numbers
-        csv
+        scene
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
@@ -35,3 +24,5 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC
         sfml-graphics
         box2d
 )
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/rows_of_numbers.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config/games/rows_of_numbers.json COPYONLY)

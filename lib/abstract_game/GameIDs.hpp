@@ -1,7 +1,3 @@
-//
-// Created by Admin on 07.06.2024.
-//
-
 #ifndef GAMEIDS_HPP
 #define GAMEIDS_HPP
 #include <string>
@@ -15,6 +11,7 @@ namespace abstract_game {
         TYPERACER = 1005,
         REMEMBERING = 1006,
         MATRIX = 1007,
+        ROWS_OF_NUMBERS = 1008,
         SEQUENCE = 1011
     };
 
