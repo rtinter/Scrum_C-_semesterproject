@@ -11,6 +11,7 @@ namespace abstract_game {
         REMEMBERING = 1006,
         MATRIX = 1007,
         ROWS_OF_NUMBERS = 1008,
+        ANALOGY = 1009,
         SEQUENCE = 1011
     };
 } // namespace abstract_game

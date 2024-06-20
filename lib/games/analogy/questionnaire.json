@@ -1,0 +1,15 @@
+{
+  "questionnaire": [
+    {
+      "question": "Fußballer : Fußballplatz wie Schwimmer : ?",
+      "options": {
+        "a": "Schwimmbecken",
+        "b": "Wasser",
+        "c": "Halle",
+        "d": "Badehose"
+      },
+      "correct_answer": "a",
+      "explanation": "Fußballer praktizieren den Sport auf dem Fußballplatz und genauso praktizieren Schwimmer ihren Sport im Schwimmbecken."
+    }
+  ]
+}
