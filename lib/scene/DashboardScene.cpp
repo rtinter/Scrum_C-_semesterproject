@@ -148,9 +148,9 @@ scene::DashboardScene::DashboardScene() {
 
     rememberCategory.push_back(
             std::make_unique<Tile>(
-                    "",
+                    "\uF5FD",
                     "Memory",
-                    "",
+                    "Finde alle Paare",
                     commons::Colors::YELLOW,
                     []() {
                         SceneManager::getInstance().switchTo(

@@ -223,7 +223,7 @@ namespace memory {
         _showStartBox = false;
         _showEndBox = false;
 
-        _timer = std::make_unique<ui_elements::Timer>(_gameName, 30);
+        _timer = std::make_unique<ui_elements::Timer>(_gameName, 120);
         _timer->start();
 
         resetTiles();
