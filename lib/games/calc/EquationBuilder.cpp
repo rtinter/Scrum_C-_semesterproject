@@ -171,9 +171,9 @@ void EquationBuilder::render() {
         if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {
             _completedSuccessfully = evaluateUserInput();
             if (_completedSuccessfully) {
-                commons::SoundManager::playSound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             } else {
-                commons::SoundManager::playSound(commons::Sound::ERROR);
+                commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
             }
 
             // When we submit input the game/level is finished

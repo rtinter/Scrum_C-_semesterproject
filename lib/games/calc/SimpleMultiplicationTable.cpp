@@ -96,9 +96,9 @@ void SimpleMultiplicationTable::render() {
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
 
             if (_completedSuccessfully) {
-                commons::SoundManager::playSound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             } else {
-                commons::SoundManager::playSound(commons::Sound::ERROR);
+                commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
             }
 
             // When we enter input the game/level is finished

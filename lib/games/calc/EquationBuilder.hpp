@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <random>  // Include necessary for std::mt19937
+#include "SoundPolice.hpp"
 
 /**
  * @brief A class that generates and handles an equation building task.

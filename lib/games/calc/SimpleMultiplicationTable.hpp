@@ -3,6 +3,7 @@
 
 #include "MathTask.hpp"
 #include <random>
+#include "SoundPolice.hpp"
 
 /**
  * @brief A class that generates and handles a simple multiplication task.
