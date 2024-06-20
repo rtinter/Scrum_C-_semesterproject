@@ -156,7 +156,9 @@ namespace game {
         if (ImGui::BeginListBox("##textList", ImVec2(350, 900))) {
             for (auto const &wordPair : _activeWordList) {
                 ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,  ImVec2(ImGui::GetStyle().FramePadding.x,8));
                 ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
+                ImGui::PopStyleVar();
                 ImGui::PopItemFlag();
             }
 
