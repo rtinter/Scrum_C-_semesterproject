@@ -9,7 +9,6 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <random>
-#include <SoundPolice.hpp>
 
 using json = nlohmann::json;
 
@@ -94,11 +93,9 @@ namespace game {
                     _showEndBox = true;
                     if (_solvedCounter > (_sequences.size() / 2)){
                         _endBoxTitle = "Gut gemacht!";
-                        commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
                     }
                     else{
                         _endBoxTitle = "Probiere es nochmal!";
-                        commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
                     }
                     _endBoxText = "Du hast " + std::to_string(_solvedCounter) + " von " + std::to_string(_sequences.size()) + " Zahlenreihen gelöst.\n\n" +
                             + "Die Lösung der letzten Aufgabe: " + std::to_string(_currentSolution) + "\n" + _currentExplanation;
