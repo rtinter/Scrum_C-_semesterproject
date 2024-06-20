@@ -14,6 +14,7 @@ SimpleMultiplicationTable::SimpleMultiplicationTable(int difficultyLevel)
     auto timeSeed = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
     std::seed_seq seedSeq{rd(), static_cast<unsigned int>(timeSeed)};
     _rng.seed(seedSeq);
+    std::fill(std::begin(_input), std::end(_input), '\0');  // Initialize input
 }
 
 void SimpleMultiplicationTable::start() {
@@ -21,6 +22,7 @@ void SimpleMultiplicationTable::start() {
     _running = true;
     _completedSuccessfully = false;
     _focusSet = false; // Reset focus flag at the start of each game
+    std::fill(std::begin(_input), std::end(_input), '\0');  // Reset input
 }
 
 bool SimpleMultiplicationTable::isRunning() const {
@@ -41,43 +43,56 @@ void SimpleMultiplicationTable::render() {
     if (_running) {
         ImGui::PushFont(commons::Fonts::_header1);
 
-        std::string taskText = std::to_string(_leftOperand) + " * " + std::to_string(_rightOperand);
+        std::string taskText = std::to_string(_leftOperand) + " * " + std::to_string(_rightOperand) + " = ";
         ImVec2 windowSize = ImGui::GetWindowSize();
         ImVec2 textSize = ImGui::CalcTextSize(taskText.c_str());
+        float inputFieldWidth = 150.0f;  // Adjust width for multi-digit numbers
+        float spaceWidth = ImGui::CalcTextSize(" ").x;
+        float leftOffset = 20.0f;  // Adjust this value to move the task more to the left
 
-        ImGui::SetCursorPos(ImVec2((windowSize.x - textSize.x) / 2.0f, (windowSize.y - textSize.y) / 3.0f));
-        ImGui::Text("%s", taskText.c_str());
+        // Calculate total width of the equation to center it
+        float totalWidth = textSize.x + spaceWidth + inputFieldWidth;
 
-        ImGui::PopFont();
-
+        // Calculate width of the instructions
         ImGui::PushFont(commons::Fonts::_header3);
         std::string instructionText = "Trage das Ergebnis hier ein und bestätige mit Enter:";
         ImVec2 instructionTextSize = ImGui::CalcTextSize(instructionText.c_str());
-        ImGui::SetCursorPos(ImVec2((windowSize.x - instructionTextSize.x) / 2.0f, (windowSize.y / 2.0f) - instructionTextSize.y));
+        ImGui::PopFont();
+
+        // Calculate the total height for vertical centering
+        float textHeight = ImGui::GetTextLineHeight();
+        float totalHeight = textHeight * 2;  // Include space for instructions
+
+        // Position instructions above the task
+        ImGui::SetCursorPosY((ImGui::GetWindowHeight() - totalHeight) / 2.0f - textHeight);
+
+        ImGui::PushFont(commons::Fonts::_header3);
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - instructionTextSize.x) / 2.0f);
         ImGui::Text("%s", instructionText.c_str());
         ImGui::PopFont();
 
-        static char input[128] = "";
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + textHeight);
+
+        // Center the task horizontally with an offset to the left
+        ImGui::SetCursorPosX(((ImGui::GetWindowWidth() - totalWidth) / 2.0f) - leftOffset);
+
+        // Render the task
+        ImGui::AlignTextToFramePadding();
+        ImGui::Text("%s", taskText.c_str());
+        ImGui::SameLine();
 
         if (!_focusSet) {
-            ImGui::SetKeyboardFocusHere();
-            _focusSet = true; // Focus set once per game session
+            ImGui::SetKeyboardFocusHere(); // Set focus to the input field
+            _focusSet = true; // Ensure focus is set only once per game session
         }
 
-        // Calculate the height of the input field to match the font size
-        ImGui::PushFont(commons::Fonts::_header1);
-        float inputFieldHeight = ImGui::GetTextLineHeight() + ImGui::GetStyle().FramePadding.y * 2;
-        float inputFieldWidth = 150.0f;
+        ImGui::SetNextItemWidth(inputFieldWidth);
+        ImGui::InputText("##input", _input, sizeof(_input), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
+
         ImGui::PopFont();
 
-        ImGui::SetCursorPos(ImVec2((windowSize.x - inputFieldWidth) / 2.0f, (windowSize.y / 2.0f) + 20.0f));
-        ImGui::SetNextItemWidth(inputFieldWidth);
-
-        // Push font for the input text
-        ImGui::PushFont(commons::Fonts::_header1);
-
-        if (ImGui::InputText("##input", input, sizeof(input), ImGuiInputTextFlags_EnterReturnsTrue)) {
-            _answer = std::atoi(input);
+        if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {
+            _answer = std::atoi(_input);
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
 
             if (_completedSuccessfully) {
@@ -89,18 +104,14 @@ void SimpleMultiplicationTable::render() {
             // When we enter input the game/level is finished
             _running = false;
 
-            std::fill(std::begin(input), std::end(input), 0);  // Clear input
+            std::fill(std::begin(_input), std::end(_input), '\0');  // Clear input
         }
 
-        // Pop font after the input text
-        ImGui::PopFont();
-
-        // Show current score and streak
-        ImGui::SetCursorPos(ImVec2((windowSize.x - textSize.x) / 2.0f, (windowSize.y - textSize.y) / 1.5f));
+        // Show current score and streak (if needed)
+        // ImGui::SetCursorPos(ImVec2((windowSize.x - textSize.x) / 2.0f, (windowSize.y - textSize.y) / 1.5f));
     }
 }
 
 void SimpleMultiplicationTable::setDifficulty(int level) {
     _difficultyLevel = level;
 }
-

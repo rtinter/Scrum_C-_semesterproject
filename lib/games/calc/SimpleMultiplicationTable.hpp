@@ -28,6 +28,7 @@ private:
     bool _completedSuccessfully;
     int _difficultyLevel;
     std::mt19937 _rng;
+    char _input[128];  // Add this line
 
     void generateTask();
 };
