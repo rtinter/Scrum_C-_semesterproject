@@ -66,6 +66,7 @@ namespace games {
             _endTime = std::chrono::steady_clock::now();
             calculateEndScreenText();
             _showEndbox = true;
+            stop();
         }
 
         if (!_currentLevel->isRunning()) {
@@ -148,7 +149,9 @@ namespace games {
 
     void Calc::reset() {}
 
-    void Calc::stop() {}
+    void Calc::stop() {
+        updateStatistics();
+    }
 
     double Calc::getElapsedTimeInSeconds() const {
         if (!_endTime.has_value()) {
@@ -159,6 +162,7 @@ namespace games {
     }
 
     void Calc::updateStatistics() {
-        // Add logic for updating statistics here if needed
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
+                                                                                     _completedLevels);
     }
 }
