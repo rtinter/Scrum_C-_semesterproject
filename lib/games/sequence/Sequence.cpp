@@ -84,6 +84,7 @@ namespace sequence {
     }
 
     void Sequence::stop() {
+        updateStatistics();
         _endBoxString = "Du hast eine Abfolge von " + std::to_string(_longestReproducedSequence) +
                         " Klicks richtig wiederholt!";
         _endBoxText = _endBoxString;
@@ -93,7 +94,8 @@ namespace sequence {
     }
 
     void Sequence::updateStatistics() {
-
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten in Folge",
+                                                                                     _longestReproducedSequence);
     }
 
     void Sequence::displayButtons() {
