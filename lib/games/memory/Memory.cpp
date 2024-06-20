@@ -35,6 +35,17 @@ namespace memory {
 
     void Memory::initializeTiles() {
         _tiles.clear(); // Clear existing tiles
+
+        // Generate indices for the images
+        std::vector<int> indices(30);
+        for (int i = 0; i < 30; ++i) {
+            indices[i] = i % 15; // Create pairs of indices (0 to 14)
+        }
+
+        std::random_device rd;
+        std::mt19937 g(rd());
+        std::shuffle(indices.begin(), indices.end(), g); // Shuffle the image indices
+
         for (int i = 0; i < 30; ++i) {
             int imageIndex = i % 15; // Ensure pairs of images
             sf::Texture& texture = _imageManager.getTexture(imageIndex);
@@ -42,6 +53,7 @@ namespace memory {
             _tiles.push_back(tile);
         }
     }
+
 
     void Memory::arrangeTiles() {
         std::random_device rd;
@@ -211,7 +223,7 @@ namespace memory {
         _showStartBox = false;
         _showEndBox = false;
 
-        _timer = std::make_unique<ui_elements::Timer>(_gameName, 120);
+        _timer = std::make_unique<ui_elements::Timer>(_gameName, 30);
         _timer->start();
 
         resetTiles();
@@ -219,10 +231,7 @@ namespace memory {
             tile->flip();
         }
 
-        std::thread([this] {
-            std::this_thread::sleep_for(std::chrono::seconds(3));
-            flipTilesBack();
-        }).detach();
+
     }
 
     void Memory::stop() {

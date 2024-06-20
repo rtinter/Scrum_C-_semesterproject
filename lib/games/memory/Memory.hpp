@@ -14,6 +14,8 @@
 #include <memory>
 #include <unordered_map>
 #include <SFML/Graphics.hpp>
+#include <random>
+#include <algorithm>
 
 namespace memory {
 
