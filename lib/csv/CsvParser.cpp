@@ -5,7 +5,7 @@
 namespace csv {
 
     std::vector<std::vector<std::string>> CsvParser::parse() {
-            std::vector<std::vector<std::string>> data;
+        std::vector<std::vector<std::string>> data;
         try {
             std::ifstream file(_filename);
 

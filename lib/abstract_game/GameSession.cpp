@@ -44,13 +44,22 @@ namespace abstract_game {
         long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
         long long endTime = std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count();
         unsigned long long duration{getDurationInSeconds()};
+
+        // size_t sessionUID,
+        // int userID,
+        // GameID gameID,
+        // long long startTime,
+        // long long endTime,
+        // time_t start,
+        // time_t end,
+        // bool ended
+
         _dataManager->saveGameSession(
                 _gameSessionUID,
                 _userID,
                 _gameID,
                 startTime,
                 endTime,
-                duration,
                 _begin,
                 _end,
                 _ended

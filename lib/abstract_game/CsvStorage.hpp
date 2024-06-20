@@ -23,7 +23,6 @@ namespace abstract_game {
                 long long endTime,
                 time_t start,
                 time_t end,
-                unsigned long long duration,
                 bool ended
         ) override;
 
