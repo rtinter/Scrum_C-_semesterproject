@@ -167,4 +167,12 @@ namespace ui_elements {
         }
     }
 
+    void Timer::resetWithNewTime(int newTimeInSeconds) {
+        _currentTimerTimeInSeconds = newTimeInSeconds;
+        _running = false;
+        _expired = false;
+        _expiredNow = false;
+        _startPoint = std::chrono::steady_clock::now(); // Update the start point
+    }
+
 }

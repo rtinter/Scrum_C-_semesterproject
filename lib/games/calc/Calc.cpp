@@ -14,7 +14,7 @@
 #include "MathTaskType.hpp"
 
 namespace games {
-    Calc::Calc() : abstract_game::Game(abstract_game::GameID::CALC) {
+    Calc::Calc() : abstract_game::Game(abstract_game::GameID::CALC), _timer("Schnelles Rechnen", 10) { // Initialize the timer with 10 seconds and the window name
         _gameName = "Schnelles Rechnen";
         _gameDescription = "Unser Spiel 'Schnelles Rechnen' testet die Merkfähigkeit und Kopfrechenfähigkeit,\n"
                            "die für Polizei- und Feuerwehranwärter unerlässlich sind. Durch die schnelle Abfolge\n"
@@ -33,19 +33,21 @@ namespace games {
         _showEndbox = false;
         _endTime.reset();
         _startTime = std::chrono::steady_clock::now();
+        _timerSeconds = 7; // Reset the timer to 10 seconds at the start
         nextLevel(_difficulty_level);
     }
 
     void Calc::nextLevel(int difficulty_level) {
-        // DIFFICULTY LEVEL NOT WORKING PROPERLY THEREFORE ONLY 1
         _currentLevel = math_task_factory::createRandomMathTask(1);
-        //_currentLevel = math_task_factory::createMathTask(math_task_factory::MathTaskType::EQUATION_BUILDER, difficulty_level);
         _currentLevel->start();
+        _timer.resetWithNewTime(_timerSeconds);  // Reset the timer with current timerSeconds
+        _timer.start();  // Start the timer
     }
 
     void Calc::renderGame() {
         ui_elements::Window("Schnelles Rechnen").render([this] {
-            _currentLevel->render();
+            _timer.render(); // Render the timer
+            _currentLevel->render(); // Render the current level
         });
     }
 
@@ -60,9 +62,14 @@ namespace games {
             return;
         }
 
+        if (_timer.isExpiredNow()) {
+            _endTime = std::chrono::steady_clock::now();
+            calculateEndScreenText();
+            _showEndbox = true;
+        }
+
         if (!_currentLevel->isRunning()) {
             if (!_currentLevel->wasSuccessfullyCompleted()) {
-
                 // Make sure to only capture endtime once per game
                 if (!_endTime.has_value()) {
                     _endTime = std::chrono::steady_clock::now();
@@ -70,12 +77,13 @@ namespace games {
                 }
                 _showEndbox = true;
             } else {
-
                 _completedLevels++;
 
-                // Increase level difficulty by 1 every 8 completed games
-                if (_completedLevels % 8 == 0)
+                // Decrease timer by 1 second for each level increase, but not below 2 seconds
+                if (_completedLevels % 4 == 0) {
                     _difficulty_level++;
+                    _timerSeconds = std::max(2, _timerSeconds - 1);
+                }
 
                 nextLevel(_difficulty_level);
             }
@@ -86,12 +94,11 @@ namespace games {
             return;
         }
 
-        renderGame();
+        renderGame(); // Render the game and the timer
     }
 
     void Calc::showEndScreen() {
         _showEndbox = true;
-        // TODO: could be replaced with InfoBox if the InfoBox supports Content rendering in Lambda
         ui_elements::Overlay("EndScreen", _showEndbox).render([this]() {
             ImGui::PushFont(commons::Fonts::_header2);
             ui_elements::TextCentered(_endScreenTitle.c_str());
