@@ -62,7 +62,10 @@ namespace ui_elements {
             ImGui::TableNextRow();
             ImGui::PushFont(commons::Fonts::_header3);
             int i = 0;
+            int max = 4;
             for (auto &entry: keyvaluepair.second) {
+                if(i == max)
+                    continue;
                 //Datum
                 ImGui::TableSetColumnIndex(i);
                 //checks if vector has to few data sets
