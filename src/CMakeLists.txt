@@ -10,6 +10,7 @@ set(CUSTOM_LIBS
         ui_elements
         views
         scene
+        csv
 )
 
 set(GAME_LIBS

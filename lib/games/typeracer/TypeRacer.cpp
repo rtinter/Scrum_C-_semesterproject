@@ -157,13 +157,9 @@ namespace typeracer {
 
                 // Stop and save the WPM when the sentence is completed
                 if (strlen(_input) >= sentence.size() && mistypedIndices.empty()) {
-                    _endBoxTitle = "Geschafft!";
                     _endBoxText =
                             "Wörter pro Minute: " + wpmStream.str() + " WPM";
-                    _runTimer = false;
-                    _isGameRunning = false;
-                    _showEndBox = true;
-                    _wpmHistory.emplace_back(_wpm);
+                    stop();
                 }
             }
         });
@@ -178,6 +174,12 @@ namespace typeracer {
     }
 
     void TypeRacer::stop() {
+        _endBoxTitle = "Geschafft!";
+        _runTimer = false;
+        _isGameRunning = false;
+        _showEndBox = true;
+        _wpmHistory.emplace_back(_wpm);
+        updateStatistics();
         _isGameRunning = false;
     }
 
@@ -192,7 +194,8 @@ namespace typeracer {
     }
 
     void TypeRacer::updateStatistics() {
-
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Wörter pro Minute",
+                                                                                     _wpm);
     }
 
     std::string TypeRacer::getName() const {

@@ -12,6 +12,7 @@
 #include "MatrixGame.hpp"
 #include "RowsOfNumbers.hpp"
 #include "Memory.hpp"
+#include "Calc.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -174,7 +175,19 @@ scene::DashboardScene::DashboardScene() {
         )
     );
 
-
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "\uF1EC",
+                    "Schnelles Rechnen",
+                    "Löse Rechenaufgaben",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Calc>>()
+                        );
+                    }
+            )
+    );
 
 
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien

@@ -27,6 +27,7 @@ set(CUSTOM_LIBS
         matrix
         rows_of_numbers
         memory
+        csv
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
