@@ -4,6 +4,7 @@
 #include "SceneManager.hpp"
 #include "CsvParser.hpp"
 #include "GameIDs.hpp"
+#include "TextCentered.hpp"
 #include <map>
 #include <vector>
 #include <string>
@@ -24,6 +25,10 @@ namespace scene {
 
         csv::CsvParser gameRunThroughParser("game_runthroughs.csv");
         auto gameRunThroughData = gameRunThroughParser.parse();
+
+        if (gameSessionData.empty() || gameRunThroughData.empty()) {
+            return;
+        }
 
         // Kopfzeilen überspringen
         if (!gameSessionData.empty()) {
@@ -47,24 +52,57 @@ namespace scene {
             }
         }
 
+        for (const auto &pair : _sessionsMap) {
+            std::cout << "GameID: " << pair.first << " ";
+            for (const auto &session : pair.second) {
+                std::cout << "SessionUID: " << session.first << " ";
+                for (const auto &value : session.second) {
+                    std::cout << value << " ";
+                }
+            }
+            std::cout << std::endl;
+        }
+
         for (const auto &row : gameRunThroughData) {
-            if (row.size() >= 4) {
+                std::cout << "Row: ";
+                std::cout << row.size() << " ";
+                for (auto const &field : row) {
+                    std::cout << field << " ";
+                }
+                std::cout << std::endl;
+
+            if (!row.empty()) {
                 std::string sessionUID = row[1];
                 std::string result = row[2];
                 std::string resultUnit = row[3];
 
+
                 for (auto &pair : _sessionsMap) {
                     for (auto &session : pair.second) {
+                        std::cout << session.first << " " << sessionUID << std::endl;
                         if (session.first == sessionUID) {
+                            std::cout << "Result " << result << " " << resultUnit << std::endl;
                             session.second.push_back(result + " " + resultUnit);
                         }
                     }
                 }
             }
         }
+
+        for (const auto &pair : _sessionsMap) {
+            std::cout << "GameID: " << pair.first << " ";
+            for (const auto &session : pair.second) {
+                std::cout << "SessionUID: " << session.first << " ";
+                for (const auto &value : session.second) {
+                    std::cout << value << " ";
+                }
+            }
+            std::cout << std::endl;
+        }
     }
 
     void ResultsScene::displayResults() {
+
         std::vector<std::string> stringvectorHeaderline{"Datum", "Länge", "Sessions", "Werte"};
         std::map<int, ui_elements::StatisticsGameTable> gameTables;
 
