@@ -183,6 +183,6 @@ namespace games {
     }
 
     void ColorMatch::updateStatistics() {
-        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("", _numberOfCorrectClicksInTotal);
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Richtige(r)", _numberOfCorrectClicksInTotal);
     }
 }

@@ -6,13 +6,16 @@
 
 namespace abstract_game {
 
-    GameSession::GameSession(GameID gameID, int userID) : _gameSessionUID{calcGameSessionUID()}, _userID{userID},
-                                                          _gameID{gameID},
-                                                          _startPoint{std::chrono::steady_clock::now()}, _ended{false},
-                                                          _dataManager{DataManagerFactory::Create("CsvManager")} {}
+    GameSession::GameSession(GameID gameID, int userID) :
+    _gameSessionUID{calcGameSessionUID()},
+    _userID{userID},
+    _gameID{gameID},
+    _startPoint{std::chrono::steady_clock::now()},
+    _ended{false},
+    _dataManager{DataManagerFactory::Create("CsvManager")},
+    _begin{time(nullptr)}{}
 
     size_t GameSession::calcGameSessionUID() {
-
         // get current timeString as string
         std::string timeString = std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
 
@@ -41,7 +44,26 @@ namespace abstract_game {
         long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
         long long endTime = std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count();
         unsigned long long duration{getDurationInSeconds()};
-        _dataManager->saveGameSession(_gameSessionUID, _userID, _gameID, startTime, endTime, duration, _ended);
+
+        // size_t sessionUID,
+        // int userID,
+        // GameID gameID,
+        // long long startTime,
+        // long long endTime,
+        // time_t start,
+        // time_t end,
+        // bool ended
+
+        _dataManager->saveGameSession(
+                _gameSessionUID,
+                _userID,
+                _gameID,
+                startTime,
+                endTime,
+                _begin,
+                _end,
+                _ended
+        );
         _dataManager->saveRunThroughs(_gameRunThroughs);
     }
 
@@ -50,6 +72,7 @@ namespace abstract_game {
 
         // save the current time as the end time of the game session
         _endPoint = std::chrono::steady_clock::now();
+        _end = time(nullptr);
         writeToDataManager();
     }
 
@@ -60,7 +83,6 @@ namespace abstract_game {
                     std::chrono::steady_clock::now() - _startPoint).count();
         }             // game session has ended
         return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
-
     }
 
     void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
@@ -92,6 +114,4 @@ namespace abstract_game {
     bool GameSession::isEnded() const {
         return _ended;
     }
-
-
 } // abstract_game

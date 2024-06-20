@@ -38,6 +38,12 @@ FetchContent_Declare(json
 )
 FetchContent_MakeAvailable(json)
 
+FetchContent_Declare(rapidcsv
+        GIT_REPOSITORY https://github.com/d99kris/rapidcsv
+        GIT_TAG v8.82
+)
+FetchContent_MakeAvailable(rapidcsv)
+
 add_subdirectory(lib)
 add_subdirectory(src)
 
