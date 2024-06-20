@@ -4,6 +4,7 @@
 #include "GameRunThroughCsvWriter.hpp"
 #include "Session.hpp"
 #include "CsvParser.hpp"
+#include <iostream>
 
 namespace abstract_game {
     const std::string SESSION_CSV_FILENAME {"game_session.csv"};
@@ -12,7 +13,7 @@ namespace abstract_game {
     std::string getDateString(time_t timestamp)
     {
         std::stringstream ss;
-        ss << std::put_time(std::localtime(&timestamp), "%Y-%m-%d %X");
+        ss << std::put_time(std::localtime(&timestamp), "%d.%m.%Y");
         return ss.str();
     }
 
@@ -48,8 +49,6 @@ namespace abstract_game {
             file << "GameID,GameSessionUID,UserID,StartTimestamp,EndTimestamp,Ended\n";
         }
 
-        //
-
         // GameID,GameSessionUID,UserID,DurationInSeconds, StartTimestamp,EndTimestamp,Ended
         // 1001,10071369308003187873,1,4,1718880176,1718880180,1
         // Write session data
@@ -62,10 +61,10 @@ namespace abstract_game {
             << end << ","
             << ended << "\n";
 
+        std::cout << getDateString(end) << std::endl;
         std::string data {ss.str()};
         file << data;
         file.close();
-
     }
 
     void CsvStorage::saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) {
