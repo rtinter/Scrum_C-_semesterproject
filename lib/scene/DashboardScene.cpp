@@ -11,6 +11,7 @@
 #include "TypeRacer.hpp"
 #include "MatrixGame.hpp"
 #include "RowsOfNumbers.hpp"
+#include "Calc.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -157,6 +158,20 @@ scene::DashboardScene::DashboardScene() {
                 );
             }
         )
+    );
+
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "\uF1EC",
+                    "Schnelles Rechnen",
+                    "Löse Rechenaufgaben",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Calc>>()
+                        );
+                    }
+            )
     );
 
 

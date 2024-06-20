@@ -1,12 +1,46 @@
-#ifndef ATHENA_CALC_H
-#define ATHENA_CALC_H
+#ifndef CALC_HPP
+#define CALC_HPP
 
-namespace calc {
+#include <string>
+#include <chrono>
+#include <optional>
+#include "../abstract_game/Game.hpp"
+#include "../ui_elements/Timer.hpp"
+#include "MathTask.hpp"
 
-    class Calc {
+namespace games {
+    class Calc : public abstract_game::Game {
+    public:
+        Calc();
 
+        void render() override;
+        void start() override;
+        void reset() override;
+        void stop() override;
+        void updateStatistics() override;
+        std::string getName() const override;
+
+    private:
+        void nextLevel(int difficulty_level);
+        void renderGame() override;
+        void showEndScreen();
+        void calculateEndScreenText();
+        double getElapsedTimeInSeconds() const;
+
+        int _difficulty_level{1};
+        int _completedLevels{0};
+        bool _showEndbox{false};
+        bool _showInfobox{true};
+        std::optional<std::chrono::steady_clock::time_point> _startTime;
+        std::optional<std::chrono::steady_clock::time_point> _endTime;
+        double _elapsedTimeCalculated{0.0};
+        std::string _endScreenTitle;
+        std::string _endScreenStatisticText;
+        std::string _averageTimeText;
+        std::shared_ptr<MathTask> _currentLevel;
+        ui_elements::Timer _timer;
+        int _timerSeconds{7}; // Initialize with 10 seconds
     };
+}
 
-} // calc
-
-#endif //ATHENA_CALC_H
+#endif // CALC_HPP

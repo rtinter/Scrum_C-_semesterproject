@@ -111,6 +111,8 @@ namespace ui_elements {
          * @param seconds
          */
         void reduceTime(int seconds);
+
+        void resetWithNewTime(int newTimeInSeconds);
     };
 
 }
