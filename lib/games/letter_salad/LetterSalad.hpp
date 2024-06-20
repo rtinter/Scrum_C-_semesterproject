@@ -34,6 +34,7 @@ namespace game {
         bool _isFirstCellSelected{false};
         bool _isSecondCellSelected{false};
         std::string _selectedWord;
+        double _wordsPerMinute;
 
         static void loadWordsFromFile();
 
@@ -54,6 +55,10 @@ namespace game {
         void randomizeGameField();
 
         void renderTextList();
+
+        void timerExpired();
+
+        void allWordsFound();
 
         bool isWordInList(std::set<WordTarget> &wordlist, std::string const &word);
 

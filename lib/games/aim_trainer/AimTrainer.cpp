@@ -102,7 +102,7 @@ void games::AimTrainer::render() {
 }
 
 void games::AimTrainer::renderGame() {
-    ImGui::PushStyleColor(ImGuiCol_WindowBg, sf::Color(200, 200, 200, 255));
+    ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::LIGHT_GRAY);
     ui_elements::Window("Aim Trainer").render([this] {
         _timer->render();
         if(_timer->isExpiredNow()){

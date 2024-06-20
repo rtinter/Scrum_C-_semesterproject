@@ -17,8 +17,10 @@ set(GAME_LIBS
         reaction
         color_match
         letter_salad
+        matrix
         typeracer
         remembering
+        rows_of_numbers
         memory
 )
 

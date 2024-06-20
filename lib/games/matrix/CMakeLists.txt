@@ -1,4 +1,4 @@
-set(LIBRARY_NAME scene)
+set(LIBRARY_NAME matrix)
 
 file(GLOB SOURCES *.cpp)
 
@@ -12,21 +12,10 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
+        abstract_game
         commons
         ui_elements
-        abstract_game
-        views
-        calc
-        reaction
-        color_match
-        sequence
-        remembering
-        letter_salad
-        aim_trainer
-        typeracer
-        matrix
-        rows_of_numbers
-        memory
+        scene
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
