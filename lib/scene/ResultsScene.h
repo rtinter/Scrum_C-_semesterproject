@@ -6,6 +6,7 @@
 #include "Header.hpp"
 #include "Results.h"
 #include <string>
+#include <CsvStorage.hpp>
 
 namespace scene {
 
@@ -13,7 +14,13 @@ namespace scene {
 
         views::Header _header;
         views::Results _results;
+        std::map<int, std::vector<std::pair<std::string, std::vector<std::string>>>> _sessionsMap;
 
+        void loadSessionData();
+        void displayResults();
+        std::time_t stringToTimeT(const std::string &timeStr) {
+            return std::stoll(timeStr);
+        }
 
     public:
         ResultsScene();
