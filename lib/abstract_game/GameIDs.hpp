@@ -17,7 +17,6 @@ namespace abstract_game {
         CALC = 1006,
         MATRIX = 1007,
         ROWS_OF_NUMBERS = 1008,
-        SEQUENCE = 1011
     };
 } // namespace abstract_game
 

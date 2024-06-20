@@ -64,9 +64,17 @@ void SimpleMultiplicationTable::render() {
             _focusSet = true; // Focus set once per game session
         }
 
+        // Calculate the height of the input field to match the font size
+        ImGui::PushFont(commons::Fonts::_header1);
+        float inputFieldHeight = ImGui::GetTextLineHeight() + ImGui::GetStyle().FramePadding.y * 2;
         float inputFieldWidth = 150.0f;
+        ImGui::PopFont();
+
         ImGui::SetCursorPos(ImVec2((windowSize.x - inputFieldWidth) / 2.0f, (windowSize.y / 2.0f) + 20.0f));
         ImGui::SetNextItemWidth(inputFieldWidth);
+
+        // Push font for the input text
+        ImGui::PushFont(commons::Fonts::_header1);
 
         if (ImGui::InputText("##input", input, sizeof(input), ImGuiInputTextFlags_EnterReturnsTrue)) {
             _answer = std::atoi(input);
@@ -84,6 +92,9 @@ void SimpleMultiplicationTable::render() {
             std::fill(std::begin(input), std::end(input), 0);  // Clear input
         }
 
+        // Pop font after the input text
+        ImGui::PopFont();
+
         // Show current score and streak
         ImGui::SetCursorPos(ImVec2((windowSize.x - textSize.x) / 2.0f, (windowSize.y - textSize.y) / 1.5f));
     }
@@ -92,3 +103,4 @@ void SimpleMultiplicationTable::render() {
 void SimpleMultiplicationTable::setDifficulty(int level) {
     _difficultyLevel = level;
 }
+

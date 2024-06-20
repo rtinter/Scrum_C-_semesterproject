@@ -153,6 +153,12 @@ void EquationBuilder::render() {
             ImGui::Text(" %s ", _operators[i].c_str());
             ImGui::SameLine();
             ImGui::SetNextItemWidth(inputFieldWidth);
+
+            if (!_focusSet) {
+                ImGui::SetKeyboardFocusHere(); // Set focus to the first input field
+                _focusSet = true; // Ensure focus is set only once per game session
+            }
+
             ImGui::InputText((std::string("##input") + std::to_string(i)).c_str(), &_inputBuffers[i][0], _inputBuffers[i].size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
             ImGui::SameLine();
         }
@@ -161,11 +167,6 @@ void EquationBuilder::render() {
         ImGui::Text("= %d", _targetNumber);
 
         ImGui::PopFont();
-
-        if (!_focusSet) {
-            ImGui::SetKeyboardFocusHere();
-            _focusSet = true; // Focus set once per game session
-        }
 
         if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {
             _completedSuccessfully = evaluateUserInput();
@@ -180,6 +181,7 @@ void EquationBuilder::render() {
         }
     }
 }
+
 
 bool EquationBuilder::evaluateUserInput() {
     int result = _numbers[0];

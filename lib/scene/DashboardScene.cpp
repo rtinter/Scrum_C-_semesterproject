@@ -160,6 +160,19 @@ scene::DashboardScene::DashboardScene() {
         )
     );
 
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Schnelles Rechnen",
+                    "Löse Rechenaufgaben",
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Calc>>()
+                        );
+                    }
+            )
+    );
+
 
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
      * hier festgelegt.
