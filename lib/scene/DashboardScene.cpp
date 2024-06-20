@@ -145,6 +145,20 @@ scene::DashboardScene::DashboardScene() {
         )
     );
 
+    rememberCategory.push_back(
+            std::make_unique<Tile>(
+                    "",
+                    "Memory",
+                    "",
+                    commons::Colors::YELLOW,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<memory::Memory>>()
+                        );
+                    }
+            )
+    );
+
     // Kategorie: Logisches Denken
     logicalThinking.push_back(
         std::make_unique<Tile>(
@@ -161,16 +175,7 @@ scene::DashboardScene::DashboardScene() {
     );
 
 
-    rememberCategory.push_back(
-            std::make_unique<Tile>(
-                    "Memory",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<memory::Memory>>()
-                        );
-                    }
-            )
-    );
+
 
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
      * hier festgelegt.

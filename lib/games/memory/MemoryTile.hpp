@@ -12,7 +12,7 @@ namespace memory {
     private:
         bool _isFlipped{false};
         sf::Texture _frontTexture;
-        ImVec4 _backColor{commons::Colors::RICH_YELLOW};
+        ImVec4 _backColor{commons::ColorTheme::PRIMARY_COLOR};
         std::function<void()> _onClick;
         ImVec2 _size;
         int _index;

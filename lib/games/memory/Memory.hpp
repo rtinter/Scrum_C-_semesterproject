@@ -20,7 +20,7 @@
 namespace memory {
 
     class Memory : public abstract_game::Game {
-        ImVec4 _windowColor{commons::Colors::CORNFLOWER_BLUE};
+        ImVec4 _windowColor{commons::ColorTheme::BACKGROUND_COLOR};
         std::unique_ptr<ui_elements::Timer> _timer;
         std::vector<std::shared_ptr<MemoryTile>> _tiles;
         std::vector<Coordinates> _coordinates;
