@@ -16,7 +16,6 @@
 using Tile = ui_elements::Tile;
 
 scene::DashboardScene::DashboardScene() {
-
     _header = std::make_unique<views::Header>("Home", "Meine Werte", []() {
         // linking to user result site
         SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
@@ -33,118 +32,131 @@ scene::DashboardScene::DashboardScene() {
 
     // Kategorie: Reaktion
     reactionCategory.push_back(
-            std::make_unique<Tile>(
-                    "Reaktionsspiel",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<reaction::Reaction> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Reaktionsspiel",
+            "Reaktionsspiel Beschreibung",
+            commons::Colors::BLUE,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<reaction::Reaction> >()
+                );
+            }
+        )
     );
 
     reactionCategory.push_back(
-            std::make_unique<Tile>(
-                    "Farbe & Text",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::ColorMatch> >());
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Farbe & Text",
+            "Farbe & Text Beschreibung",
+            commons::Colors::BLUE,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::ColorMatch> >());
+            }
+        )
     );
 
     reactionCategory.push_back(
-            std::make_unique<Tile>(
-                    "Pictogram3",
-                    "Aim Trainer",
-                    "Aim Trainer Beschreibung",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::AimTrainer>>());
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Aim Trainer",
+            "Aim Trainer Beschreibung",
+            commons::Colors::BLUE,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::AimTrainer> >());
+            }
+        )
     );
 
     // Kategorie: Genauigkeit
     accuracyCategory.push_back(
-            std::make_unique<Tile>(
-                    "Pictogram3",
-                    "Type Racer",
-                    "Schnelles Tippen",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<typeracer::TypeRacer>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Type Racer",
+            "Schnelles Tippen",
+            commons::Colors::ORANGE,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<typeracer::TypeRacer> >()
+                );
+            }
+        )
     );
 
-    accuracyCategory.push_back(
-            std::make_unique<Tile>(
-                    "Pictogram X",
-                    "Sequence",
-                    "Merke dir die Reihenfolge!",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<sequence::Sequence>>()
-                        );
-                    }
-            )
-    );
 
     // Kategorie: Problemlösung
     problemSolvingCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Buchstabensalat",
-                    "Finde alle Wörter\nin vorgegebener Zeit",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::LetterSalad>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Buchstabensalat",
+            "Finde alle Wörter in vorgegebener Zeit",
+            commons::Colors::GREEN,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<game::LetterSalad> >()
+                );
+            }
+        )
     );
 
     problemSolvingCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Matrix",
-                    "Finde die gedrehte\nbzw. gespiegelte Matrix",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::MatrixGame>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Matrix",
+            "Finde die gedrehte\nbzw. gespiegelte Matrix",
+            commons::Colors::GREEN,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<game::MatrixGame> >()
+                );
+            }
+        )
     );
 
     // Kategorie: Merkfähigkeit
     rememberCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Fakten merken",
-                    "Merke dir so möglichst\nviele Fakten",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Remembering>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Fakten merken",
+            "Merke dir möglichst viele Fakten",
+            commons::Colors::YELLOW,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::Remembering> >()
+                );
+            }
+        )
+    );
+    rememberCategory.push_back(
+        std::make_unique<Tile>(
+            "",
+            "Sequence",
+            "Merke dir die Reihenfolge!",
+            commons::Colors::YELLOW,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<sequence::Sequence> >()
+                );
+            }
+        )
     );
 
     // Kategorie: Logisches Denken
     logicalThinking.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Zahlenreihen",
-                    "Finde die fehlende Zahl",
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::RowsOfNumbers>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "1235?",
+            "Zahlenreihen",
+            "Finde die fehlende Zahl",
+            commons::Colors::SEAFOAM,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<game::RowsOfNumbers> >()
+                );
+            }
+        )
     );
 
 

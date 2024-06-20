@@ -27,6 +27,10 @@ namespace commons {
         return adjusted;
     }
 
+    ImVec4 ColorHelper::withOpacity(const ImVec4 &color, float opacity) {
+        return ImVec4(color.x, color.y, color.z, opacity);
+    }
+
     /**********************************************************************
      * isEqual() compares whether two ImVec4 colors are the same
      * @param color1 ImVec4
@@ -40,5 +44,5 @@ namespace commons {
                std::abs(color1.z - color2.z) < epsilon &&
                std::abs(color1.w - color2.w) < epsilon;
     }
-    
+
 } // commons

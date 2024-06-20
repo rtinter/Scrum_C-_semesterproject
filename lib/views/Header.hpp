@@ -1,8 +1,8 @@
+#pragma once
+
 #include <string>
-#include <imgui.h>
 #include <functional>
 
-#pragma once
 
 /***********************************************************************************
  * The Header is displayed above the home page and the game pages.
@@ -17,15 +17,15 @@ namespace views {
         std::string _rightButtonText;
         std::function<void()> _buttonClickCallback;
 
-        static constexpr float HEADER_HEIGHT = 50.0f;
+        static constexpr float HEADER_HEIGHT = 55.0f;
         static constexpr float SIDE_MARGIN = 30.0f;
         static constexpr float TOP_MARGIN = 10.0f;
 
     public:
         // Konstruktor
-        Header(std::string const &left, std::string const &right, std::function<void()> const &callback);
+        explicit Header(std::string const &left, std::string const &right, std::function<void()> const &callback);
 
     // Render-Methode
-    void render();
+    void render() const;
 };
 }
