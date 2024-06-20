@@ -38,7 +38,7 @@ namespace games {
 
     void Calc::nextLevel(int difficulty_level) {
         //_currentLevel = math_task_factory::createRandomMathTask(difficulty_level);
-        _currentLevel = math_task_factory::createMathTask(math_task_factory::MathTaskType::EQUATION_BUILDER, 1);
+        _currentLevel = math_task_factory::createMathTask(math_task_factory::MathTaskType::EQUATION_BUILDER, difficulty_level);
         _currentLevel->start();
     }
 

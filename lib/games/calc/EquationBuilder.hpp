@@ -33,6 +33,7 @@ private:
     void generateTask();
     bool evaluateUserInput();
     bool isSolvable() const;
+    int evaluateExpression() const; // New method for expression evaluation
 };
 
 #endif //EQUATION_BUILDER_HPP
