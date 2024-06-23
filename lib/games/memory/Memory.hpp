@@ -35,6 +35,10 @@ namespace memory {
         std::shared_ptr<MemoryTile> _secondTile{nullptr};
         int _pairsFound{0};
         bool _isCheckingMatch{false};
+        int _totalGameTime{30};
+
+        std::chrono::steady_clock::time_point _matchCheckTime;
+        bool _delayActive{false};
 
         void initializeTiles();
         void arrangeTiles();
@@ -45,6 +49,10 @@ namespace memory {
 
         void checkForMatch();
         void resetFlippedTiles();
+        void checkForWin();
+        void handleMismatch();
+        void handleGameOver();
+
 
     public:
         explicit Memory();

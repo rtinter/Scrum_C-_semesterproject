@@ -3,8 +3,6 @@
 #include "InfoBox.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
-#include <iostream>
-#include <thread>
 
 namespace memory {
 
@@ -20,7 +18,7 @@ namespace memory {
                 "1. Du darfst alle Bildpaare einmal ansehen, anschließend werden sie gemischt und verdeckt umgedreht.\n"
                 "2. Pro Zug kannst du immer nur zwei Karten aufdecken.\n"
                 "3. Zeigen beide Karten das gleiche Bild, hast du ein Paar und die Karten bleiben aufgedeckt.\n"
-                "4. Passen die Karten nicht zusammen, werden sie wieder umgedreht und du verlierst 10 Sekunden.\n"
+                "4. Passen die Karten nicht zusammen, werden sie wieder umgedreht und du verlierst 1 Sekunden.\n"
                 "5. Du musst alle Paare in 120 Sekunden finden und möglichst wenige Züge dafür benötigen.\n";
 
         _gameControls =
@@ -76,7 +74,7 @@ namespace memory {
     }
 
     void Memory::handleTileClick(int tileID) {
-        if (_isCheckingMatch) {
+        if (_isCheckingMatch || _delayActive) {
             return; // Ignore clicks while checking for a match
         }
 
@@ -137,22 +135,66 @@ namespace memory {
     }
 
     void Memory::checkForMatch() {
-        std::thread([this] {
-            std::this_thread::sleep_for(std::chrono::seconds(2));
-            if (_firstTile->getIndex() == _secondTile->getIndex()) {
-                _pairsFound++;
-            } else {
-                _timer->reduceTime(10);
-                resetFlippedTiles();
-            }
+        if (_firstTile->getIndex() == _secondTile->getIndex()) {
+            _pairsFound++;
             _firstTile = nullptr;
             _secondTile = nullptr;
             _isCheckingMatch = false;
-
             if (_pairsFound == 15) {
-                stop();
+                checkForWin(); // Check for win immediately when all pairs are found
             }
-        }).detach();
+        } else {
+            _matchCheckTime = std::chrono::steady_clock::now();
+            _delayActive = true;
+        }
+    }
+
+    void Memory::handleMismatch() {
+        auto now = std::chrono::steady_clock::now();
+        if (std::chrono::duration_cast<std::chrono::seconds>(now - _matchCheckTime).count() >= 2) {
+            _timer->reduceTime(1);
+            resetFlippedTiles();
+            _firstTile = nullptr;
+            _secondTile = nullptr;
+            _isCheckingMatch = false;
+            _delayActive = false;
+        }
+    }
+
+    void Memory::checkForWin() {
+        // Calculate time taken
+        int timeTaken = _totalGameTime - _timer->getSecondsLeft();
+        int minutes = timeTaken / 60;
+        int seconds = timeTaken % 60;
+
+        // Format time as <minutes:seconds>
+        std::string timeTakenStr = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
+
+        // Update end box message
+        _endBoxTitle = "Gut gemacht!";
+        _endBoxText = "Du hast " + std::to_string(_pairsFound) + " Paare gefunden.\n"
+                                                                 "Dafür hast du " + timeTakenStr + " Minuten gebraucht.";
+
+        stop();
+    }
+
+
+    void Memory::handleGameOver() {
+        // Calculate time taken
+        int timeTaken = _totalGameTime - _timer->getSecondsLeft();
+        int minutes = timeTaken / 60;
+        int seconds = timeTaken % 60;
+
+        // Format time as <minutes:seconds>
+        std::string timeTakenStr = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
+
+        // Update end box message
+        std::string pairString = _pairsFound == 1 ? "Paar" : "Paare";
+        _endBoxTitle = "Spiel vorbei!";
+        _endBoxText = "Zeit abgelaufen.\n"
+                      "Du hast " + std::to_string(_pairsFound) + " " + pairString + " gefunden.";
+
+        stop();
     }
 
     void Memory::resetFlippedTiles() {
@@ -202,7 +244,11 @@ namespace memory {
 
             _timer->render();
             if (_timer->isExpiredNow()) {
-                stop();
+                handleGameOver();
+            }
+
+            if (_delayActive) {
+                handleMismatch();
             }
 
             for (int i = 0; i < _tiles.size(); ++i) {
@@ -212,8 +258,6 @@ namespace memory {
                 tile->render();
             }
 
-            _endBoxTitle = "Spiel vorbei";
-            _endBoxText = "Du hast int Paare gefunden!";
         });
         ImGui::PopStyleColor();
     }
@@ -223,7 +267,7 @@ namespace memory {
         _showStartBox = false;
         _showEndBox = false;
 
-        _timer = std::make_unique<ui_elements::Timer>(_gameName, 120);
+        _timer = std::make_unique<ui_elements::Timer>(_gameName, _totalGameTime);
         _timer->start();
 
         resetTiles();
