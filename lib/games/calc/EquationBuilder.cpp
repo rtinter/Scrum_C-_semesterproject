@@ -91,9 +91,12 @@ void EquationBuilder::render() {
 
         ImVec2 windowSize{ImGui::GetWindowSize()};
         float centerX{(windowSize.x - totalWidth) / 2.0f};
+        // Calculate the total height for vertical centering
+        float textHeight{ImGui::GetTextLineHeight()};
+        float totalHeight{textHeight * 2};  // Include space for instructions
 
         // Position instructions above the task
-        ImGui::SetCursorPosY((ImGui::GetWindowHeight() - ImGui::GetTextLineHeightWithSpacing() * 2) / 2.0f - ImGui::GetTextLineHeightWithSpacing());
+        ImGui::SetCursorPosY((ImGui::GetWindowHeight() - totalHeight) / 2.0f - textHeight);
 
         ImGui::PushFont(commons::Fonts::_header3);
         ImGui::SetCursorPosX((ImGui::GetWindowWidth() - instructionTextSize.x) / 2.0f);
@@ -103,7 +106,7 @@ void EquationBuilder::render() {
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ImGui::GetTextLineHeight());
 
         // Center the task horizontally with an offset to the left
-        ImGui::SetCursorPosX(centerX);
+        ImGui::SetCursorPosX(centerX - 10);
 
         // Render the task
         ImGui::AlignTextToFramePadding();
