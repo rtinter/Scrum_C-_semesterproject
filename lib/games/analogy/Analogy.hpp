@@ -14,9 +14,14 @@
 #include "SFML/System/Clock.hpp"
 
 namespace game {
-
+    /**
+     * @brief The Analogy game class, which represents the logic and rendering of the game.
+     */
     class Analogy : public abstract_game::Game {
 
+        /**
+          * @brief A structure representing a question in the analogy game.
+          */
         struct Question {
             std::string questionText;
             std::map<char, std::string> options;
@@ -24,9 +29,7 @@ namespace game {
             std::string explanation;
         };
 
-        ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
         sf::Clock _colorClock;
-
         std::vector<Question> _questions;
         bool _showCorrectMessage;
         std::chrono::steady_clock::time_point _correctMessageStartTime;
@@ -34,35 +37,81 @@ namespace game {
         std::string _solvedText;
         Question _currentQuestion;
 
-    public:
-
-        explicit Analogy();
-
-        void render() override;
-
-        void renderGame() override;
-
-        void start() override;
-
-        void stop() override;
-
-        void reset() override;
-
-        void updateStatistics() override;
-
-        virtual std::string getName() const override;
-
-    private:
+        /**
+        * @brief Loads the list of questions.
+        */
         void loadQuestions();
 
+        /**
+        * @brief Generates a random question from the loaded list.
+        */
         void generateRandomQuestion();
 
-        void checkAnswer(char selectedOption);
+        /**
+        * @brief Checks if the selected answer is correct.
+        * @param selectedOption The selected answer option.
+         */
+        void checkAnswer(char const &selectedOption);
 
+        /**
+        * @brief Renders the current question and answer options.
+        */
         void renderQuestion();
 
+        /**
+        * @brief Renders the message for a correct answer.
+        */
         void renderCorrectMessage();
 
+        /**
+         * @brief Renders the endbox texts.
+         */
         void renderGameOver();
+
+    public:
+
+
+        /**
+         * @brief Constructor for the Analogy game.
+         */
+        explicit Analogy();
+
+        /**
+         * @brief Renders the game.
+         */
+        void render() override;
+
+        /**
+         * @brief Renders the game logic.
+         */
+        void renderGame() override;
+
+        /**
+         * @brief Starts the game.
+         */
+        void start() override;
+
+        /**
+         * @brief Stops the game.
+         */
+        void stop() override;
+
+        /**
+         * @brief Resets the game state.
+         */
+        void reset() override;
+
+        /**
+         * @brief Updates the game statistics.
+         */
+        void updateStatistics() override;
+
+        /**
+         * @brief Returns the name of the game.
+         * @return The name of the game.
+         */
+        virtual std::string getName() const override;
+
+
     };
 }

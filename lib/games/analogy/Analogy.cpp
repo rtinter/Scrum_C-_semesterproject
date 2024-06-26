@@ -5,6 +5,7 @@ using json = nlohmann::json;
 
 namespace game {
 
+    // Constructor: Initializes the game with name, description, rules, controls, and loads questions
     Analogy::Analogy() : abstract_game::Game(abstract_game::GameID::ANALOGY) {
         _gameName = "Analogien";
         _gameDescription = "Finde das passende Wort.";
@@ -15,6 +16,7 @@ namespace game {
         loadQuestions();
     }
 
+    // Renders the game, including start box, end box, and the game itself
     void Analogy::render() {
         ui_elements::InfoBox(
                 _gameID,
@@ -24,7 +26,9 @@ namespace game {
                 _gameDescription,
                 _gameRules,
                 _gameControls,
-                [this] { start(); }
+                [this] {
+                    start();
+                }
         ).render();
 
         ui_elements::InfoBox(
@@ -33,7 +37,9 @@ namespace game {
                 "Endbox",
                 _endBoxTitle,
                 _endBoxText,
-                [this] { reset(); }
+                [this] {
+                    reset();
+                }
         ).render();
 
         if (_isGameRunning) {
@@ -41,6 +47,7 @@ namespace game {
         }
     }
 
+    // Renders the main game content
     void Analogy::renderGame() {
         ui_elements::Window("Analogien").render([this]() {
             if (_questions.empty()) {
@@ -56,7 +63,14 @@ namespace game {
         });
     }
 
+    // Renders the current question and answer options
     void Analogy::renderQuestion() {
+
+        float const buttonWidth {100.0f};
+        float const buttonOffsetX {(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
+        float const itemWidth {100.0f};
+        float const itemOffsetX {(ImGui::GetWindowWidth() - itemWidth) / 2.0f};
+
         ImGui::PushFont(commons::Fonts::_header2);
         ui_elements::TextCentered(_currentQuestion.questionText.c_str());
         ImGui::PopFont();
@@ -64,12 +78,9 @@ namespace game {
         ImGui::Spacing();
         ImGui::Spacing();
 
-        static char selectedOption = '\0';
+        static char selectedOption {'\0'};
 
-        float itemWidth = 100.0f; // Set a fixed width for the button
-        float itemOffsetX = (ImGui::GetWindowWidth() - itemWidth) / 2.0f;
-
-        for (const auto &option : _currentQuestion.options) {
+        for (auto const &option : _currentQuestion.options) {
             ImGui::SetCursorPosX(itemOffsetX);
             std::string label = "  " + option.second;
             if (ImGui::RadioButton(label.c_str(), selectedOption == option.first)) {
@@ -79,8 +90,6 @@ namespace game {
 
         ImGui::Spacing();
 
-        float buttonWidth = 100.0f;
-        float buttonOffsetX = (ImGui::GetWindowWidth() - buttonWidth) / 2.0f;
         ImGui::SetCursorPosX(buttonOffsetX);
 
         if (ImGui::Button("Bestätigen")) {
@@ -88,11 +97,12 @@ namespace game {
         }
     }
 
-    void Analogy::renderCorrectMessage() {
+    // Renders a message and current score when the correct answer is given
+    void Analogy::renderCorrectMessage(){
         auto now = std::chrono::steady_clock::now();
         auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count();
 
-        if (duration < 3) {
+        if (duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);
             ImGui::Spacing();
             ImGui::Spacing();
@@ -108,6 +118,7 @@ namespace game {
         }
     }
 
+    // Renders the game over message in the endBox when an incorrect answer is given
     void Analogy::renderGameOver() {
         stop();
 
@@ -117,6 +128,7 @@ namespace game {
                 + "Die Lösung der letzten Aufgabe lautet:\n\n" + _currentQuestion.explanation;
     }
 
+    // Loads questions/answers from the questionnaire JSON file
     void Analogy::loadQuestions() {
         std::fstream file;
         try {
@@ -143,13 +155,15 @@ namespace game {
         }
     }
 
-    void Analogy::generateRandomQuestion() {
+    // Generates a random question from the loaded questions
+    void Analogy::generateRandomQuestion(){
         if (!_questions.empty()) {
             _currentQuestion = commons::RandomPicker::pickRandomElement(_questions);
         }
     }
 
-    void Analogy::checkAnswer(char selectedOption) {
+    // Checks the selected answer and updates the game state
+    void Analogy::checkAnswer(char const &selectedOption){
         if (selectedOption == _currentQuestion.correctAnswer) {
             _solved++;
             _showCorrectMessage = true;
@@ -159,6 +173,7 @@ namespace game {
         }
     }
 
+    // Starts the game by resetting counters and generating the first question
     void Analogy::start() {
         _solved = 0;
         generateRandomQuestion();
@@ -177,6 +192,7 @@ namespace game {
         start();
     }
 
+    // Updates game statistics with the number of correct answers
     void Analogy::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten", _solved);
     }
