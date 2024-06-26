@@ -12,29 +12,25 @@
  */
 class EquationBuilder : public MathTask {
 public:
-    explicit EquationBuilder(int difficultyLevel);
+    EquationBuilder();
 
     void start() override;
     bool isRunning() const override;
     bool wasSuccessfullyCompleted() const override;
     void render() override;
-    void setDifficulty(int level) override;
 
 private:
-    bool _focusSet{false};
+
+    enum class Operator { ADD, SUBTRACT, MULTIPLY, DIVIDE };
+
     int _targetNumber;
-    std::vector<std::string> _operators;
-    std::vector<int> _numbers;
-    std::vector<std::string> _inputBuffers;  // For user inputs
-    bool _running;
-    bool _completedSuccessfully;
-    int _difficultyLevel;
-    std::mt19937 _rng;
+    std::string _operator;
+    int _number;
+    char _input[128];
 
     void generateTask();
     bool evaluateUserInput();
-    bool isSolvable() const;
-    int evaluateExpression() const; // New method for expression evaluation
+    int evaluateExpression() const;
 };
 
 #endif //EQUATION_BUILDER_HPP
