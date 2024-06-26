@@ -30,9 +30,6 @@ namespace game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
         sf::Clock _colorClock;
 
-        static std::string _endBoxTitleString;
-        static std::string _endBoxTextString;
-
         std::vector<Question> _questions;
         bool _showCorrectMessage;
         std::chrono::steady_clock::time_point _correctMessageStartTime;

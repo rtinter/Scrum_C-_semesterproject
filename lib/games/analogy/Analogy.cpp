@@ -97,6 +97,9 @@ namespace game {
                     ImGui::Text("Falsche Antwort! %s", _currentQuestion.explanation.c_str());
                     stop();
 
+                    _endBoxTitle = "Das war leider nicht korrekt";
+                    _endBoxText = "Du hast diesmal " + std::to_string(_solved) + " in Folge lösen können \n" +
+                            "Die Lösung der letzten Aufgabe lautet:" + _currentQuestion.explanation;
                 }
             }
         });
@@ -141,17 +144,18 @@ namespace game {
         _solved = 0;
         generateRandomQuestion();
         _isGameRunning = true;
+        _showEndBox = false;
         _showStartBox = false;
     }
 
     void Analogy::stop() {
         updateStatistics();
         _isGameRunning = false;
-        _showStartBox = true;
+        _showEndBox = true;
     }
 
     void Analogy::reset() {
-
+        start();
     }
 
     void Analogy::updateStatistics() {
