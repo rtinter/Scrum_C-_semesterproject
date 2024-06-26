@@ -103,6 +103,3 @@ release_job:
       when: always
   needs:
     - job: publish_job
-
-
-

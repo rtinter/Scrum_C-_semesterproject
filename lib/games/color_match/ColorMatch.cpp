@@ -133,7 +133,7 @@ namespace games {
                     buttonID = "##" + _AVAILABLE_COLORS_STRING.at(i);
                     ImGui::PushStyleColor(ImGuiCol_Button, _AVAILABLE_COLORS_IMVEC4.at(i)); // Normal state
                     ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
-                                          _AVAILABLE_COLORS_IMVEC4.at(i)); // Hover state equals normal state
+                                          commons::ColorHelper::adjustBrightness(_AVAILABLE_COLORS_IMVEC4.at(i), 1.2)); // Hover state equals normal state
                     break;
                 case GameMode::MATCH_IMVEC4:
                     isCurrentColor = commons::ColorHelper::isEqual(_AVAILABLE_COLORS_IMVEC4.at(i),
@@ -183,6 +183,7 @@ namespace games {
     }
 
     void ColorMatch::updateStatistics() {
-        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("", _numberOfCorrectClicksInTotal);
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
+                                                                                     _numberOfCorrectClicksInTotal);
     }
 }

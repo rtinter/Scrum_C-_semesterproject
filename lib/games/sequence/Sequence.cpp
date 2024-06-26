@@ -84,6 +84,7 @@ namespace sequence {
     }
 
     void Sequence::stop() {
+        updateStatistics();
         _endBoxString = "Du hast eine Abfolge von " + std::to_string(_longestReproducedSequence) +
                         " Klicks richtig wiederholt!";
         _endBoxText = _endBoxString;
@@ -93,7 +94,8 @@ namespace sequence {
     }
 
     void Sequence::updateStatistics() {
-
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten in Folge",
+                                                                                     _longestReproducedSequence);
     }
 
     void Sequence::displayButtons() {
@@ -142,7 +144,7 @@ namespace sequence {
                 case GameMode::REPEAT:
 
                     ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
-                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::INFO_COLOR);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {

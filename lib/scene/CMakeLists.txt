@@ -27,6 +27,7 @@ set(CUSTOM_LIBS
         typeracer
         matrix
         rows_of_numbers
+        csv
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
