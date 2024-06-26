@@ -38,6 +38,8 @@ namespace abstract_game {
                 return "Sequence";
             case GameID::ANALOGY:
                 return "Analogie";
+            case GameID::MEMORY:
+                return "Memory";
             default:
                 return "Unknown";
         }
