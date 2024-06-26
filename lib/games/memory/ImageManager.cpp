@@ -12,7 +12,7 @@ ImageManager::ImageManager() : _backgroundColor(commons::Colors::LIGHT_GRAY) {
 }
 
 void ImageManager::loadImages() {
-    for (int i = 0; i < 15; ++i) {
+    for (int i {0}; i < 15; ++i) {
         _imagePaths.push_back("images/image" + std::to_string(i) + ".png");
     }
 }

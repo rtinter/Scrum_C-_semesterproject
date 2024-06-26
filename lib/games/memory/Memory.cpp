@@ -36,7 +36,7 @@ namespace memory {
 
         // Generate indices for the images
         std::vector<int> indices(30);
-        for (int i = 0; i < 30; ++i) {
+        for (int i {0}; i < 30; ++i) {
             indices[i] = i % 15; // Create pairs of indices (0 to 14)
         }
 
@@ -44,10 +44,10 @@ namespace memory {
         std::mt19937 g(rd());
         std::shuffle(indices.begin(), indices.end(), g); // Shuffle the image indices
 
-        for (int i = 0; i < 30; ++i) {
-            int imageIndex = indices[i];
-            sf::Texture& texture = _imageManager.getTexture(imageIndex);
-            auto tile = std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize, imageIndex);
+        for (int i {0}; i < 30; ++i) {
+            int imageIndex {indices[i]};
+            sf::Texture& texture {_imageManager.getTexture(imageIndex)};
+            auto tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize, imageIndex)};
             _tiles.push_back(tile);
         }
     }
@@ -57,14 +57,14 @@ namespace memory {
         std::random_device rd;
         std::mt19937 g(rd());
 
-        const int columns = 10;
-        const int rows[] = {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
+        int const columns {10};
+        int const rows[] {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
         _coordinates.clear(); // Ensure coordinates are cleared before arranging
 
-        int index = 0;
-        for (int col = 0; col < columns; ++col) {
-            for (int row = 0; row < rows[col]; ++row) {
+        int index {0};
+        for (int col {0}; col < columns; ++col) {
+            for (int row {0}; row < rows[col]; ++row) {
                 _coordinates.emplace_back(row * (_tileSize.y + _padding), col * (_tileSize.x + _padding));
                 ++index;
             }
@@ -78,7 +78,7 @@ namespace memory {
             return; // Ignore clicks while checking for a match
         }
 
-        auto& tile = _tiles[tileID];
+        auto& tile {_tiles[tileID]};
 
         if (tile->isFlipped()) {
             return; // Ignore if the tile is already flipped
@@ -110,22 +110,22 @@ namespace memory {
     }
 
     void Memory::centerTiles() {
-        const int columns = 10;
-        const int rows[] = {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
+        int const columns {10};
+        int const rows[] {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
-        const float totalWidth = columns * (_tileSize.x + _padding) - _padding;
-        const float totalHeight = 5 * (_tileSize.y + _padding) - _padding;
+        float const totalWidth {columns * (_tileSize.x + _padding) - _padding};
+        float const totalHeight {5 * (_tileSize.y + _padding) - _padding};
 
         ImVec2 windowSize = ImGui::GetWindowSize();
-        float startX = (windowSize.x - totalWidth) / 2;
-        float startY = (windowSize.y - totalHeight) / 2;
+        float startX {(windowSize.x - totalWidth) / 2};
+        float startY {(windowSize.y - totalHeight) / 2};
 
-        int index = 0;
-        for (int col = 0; col < columns; ++col) {
+        int index {0};
+        for (int col {0}; col < columns; ++col) {
             int yOffset = startY + (5 - rows[col]) * (_tileSize.y + _padding) / 2; // Center each column vertically
-            for (int row = 0; row < rows[col]; ++row) {
-                float x = startX + col * (_tileSize.x + _padding);
-                float y = yOffset + row * (_tileSize.y + _padding);
+            for (int row {0}; row < rows[col]; ++row) {
+                float x {startX + col * (_tileSize.x + _padding)};
+                float y {yOffset + row * (_tileSize.y + _padding)};
                 if (index < _tiles.size()) {
                     _coordinates[index] = Coordinates(y, x);
                     ++index;
@@ -150,7 +150,7 @@ namespace memory {
     }
 
     void Memory::handleMismatch() {
-        auto now = std::chrono::steady_clock::now();
+        auto now {std::chrono::steady_clock::now()};
         if (std::chrono::duration_cast<std::chrono::seconds>(now - _matchCheckTime).count() >= 2) {
             _timer->reduceTime(1);
             resetFlippedTiles();
@@ -163,12 +163,12 @@ namespace memory {
 
     void Memory::checkForWin() {
         // Calculate time taken
-        int timeTaken = _totalGameTime - _timer->getSecondsLeft();
-        int minutes = timeTaken / 60;
-        int seconds = timeTaken % 60;
+        int timeTaken {_totalGameTime - _timer->getSecondsLeft()};
+        int minutes = {timeTaken / 60};
+        int seconds = {timeTaken % 60};
 
         // Format time as <minutes:seconds>
-        std::string timeTakenStr = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
+        std::string timeTakenStr {std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
 
         // Update end box message
         _endBoxTitle = "Gut gemacht!";
@@ -181,15 +181,15 @@ namespace memory {
 
     void Memory::handleGameOver() {
         // Calculate time taken
-        int timeTaken = _totalGameTime - _timer->getSecondsLeft();
-        int minutes = timeTaken / 60;
-        int seconds = timeTaken % 60;
+        int timeTaken {_totalGameTime - _timer->getSecondsLeft()};
+        int minutes {timeTaken / 60};
+        int seconds {timeTaken % 60};
 
         // Format time as <minutes:seconds>
-        std::string timeTakenStr = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
+        std::string timeTakenStr {std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
 
         // Update end box message
-        std::string pairString = _pairsFound == 1 ? "Paar" : "Paare";
+        std::string pairString {_pairsFound == 1 ? "Paar" : "Paare"};
         _endBoxTitle = "Spiel vorbei!";
         _endBoxText = "Zeit abgelaufen.\n"
                       "Du hast " + std::to_string(_pairsFound) + " " + pairString + " gefunden.";
@@ -251,9 +251,9 @@ namespace memory {
                 handleMismatch();
             }
 
-            for (int i = 0; i < _tiles.size(); ++i) {
-                auto& tile = _tiles[i];
-                auto coords = _coordinates[i];
+            for (int i {0}; i < _tiles.size(); ++i) {
+                auto& tile {_tiles[i]};
+                auto coords {_coordinates[i]};
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
                 tile->render();
             }
