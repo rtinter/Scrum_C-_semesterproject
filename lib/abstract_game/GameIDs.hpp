@@ -35,6 +35,8 @@ namespace abstract_game {
                 return "Matrix";
             case GameID::SEQUENCE:
                 return "Sequence";
+            case GameID::ANALOGY:
+                return "Analogie";
             default:
                 return "Unknown";
         }

@@ -3,7 +3,6 @@
 
 using json = nlohmann::json;
 
-
 namespace game {
 
     Analogy::Analogy() : abstract_game::Game(abstract_game::GameID::ANALOGY) {
@@ -46,6 +45,8 @@ namespace game {
 
     void Analogy::renderGame() {
         ui_elements::Window("Analogien").render([this]() {
+            float const buttonWidth {100.0f};
+            float const buttonOffsetX {(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
 
             if (_questions.empty()) {
                 std::cout << "No questions loaded." << std::endl;
@@ -74,19 +75,29 @@ namespace game {
                 }
             }
 
-
-            ImGui::Text("%s", _currentQuestion.questionText.c_str());
+            ImGui::PushFont(commons::Fonts::_header2);
+            ui_elements::TextCentered(_currentQuestion.questionText.c_str());
+            ImGui::PopFont();
 
             ImGui::Spacing();
             ImGui::Spacing();
 
             static char selectedOption = '\0';
-            for (const auto &option : _currentQuestion.options) {
-                std::string label = std::string(1, option.first) + " : " + option.second;
+
+            float itemWidth = 100.0f; // Set a fixed width for the button
+            float itemOffsetX = (ImGui::GetWindowWidth() - itemWidth) / 2.0f;
+
+            for (const auto &option: _currentQuestion.options) {
+                ImGui::SetCursorPosX(itemOffsetX);
+                std::string label = "  " + option.second;
                 if (ImGui::RadioButton(label.c_str(), selectedOption == option.first)) {
                     selectedOption = option.first;
                 }
             }
+
+            ImGui::Spacing();
+
+            ImGui::SetCursorPosX(buttonOffsetX);
 
             if (ImGui::Button("Bestätigen")) {
                 if (selectedOption == _currentQuestion.correctAnswer) {
@@ -94,25 +105,22 @@ namespace game {
                     _showCorrectMessage = true;
                     _correctMessageStartTime = std::chrono::steady_clock::now();
                 } else {
-                    ImGui::Text("Falsche Antwort! %s", _currentQuestion.explanation.c_str());
                     stop();
 
                     _endBoxTitle = "Das war leider nicht korrekt";
-                    _endBoxText = "Du hast diesmal " + std::to_string(_solved) + " in Folge lösen können \n" +
-                            "Die Lösung der letzten Aufgabe lautet:" + _currentQuestion.explanation;
+                    _endBoxText = "Du hast diesmal " + std::to_string(_solved) + " in Folge lösen können \n\n" +
+                            "Die Lösung der letzten Aufgabe lautet: \n\n" + _currentQuestion.explanation;
                 }
             }
         });
     }
 
+
     void Analogy::loadQuestions() {
-        std::fstream file("./config/games/analogy/questionnaire.json");
+        std::fstream file("./config/games/questionnaire.json");
         if (file) {
             json data;
             file >> data;
-
-            // Debugging output to check the parsed JSON data
-            std::cout << "Parsed JSON data: " << data.dump(4) << std::endl;
 
             for (const auto &elem: data["questionnaire"]) {
                 Question q;
@@ -125,8 +133,6 @@ namespace game {
                 q.explanation = elem["explanation"];
                 _questions.emplace_back(q);
 
-                // Debugging output to check each loaded question
-                std::cout << "Loaded question: " << q.questionText << std::endl;
             }
         } else {
             std::cerr << "Unable to open file questionnaire.json" << std::endl;
@@ -159,7 +165,8 @@ namespace game {
     }
 
     void Analogy::updateStatistics() {
-
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
+                                                                                     _solved);
     }
 
     std::string Analogy::getName() const {

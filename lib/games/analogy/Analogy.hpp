@@ -59,5 +59,10 @@ namespace game {
 
         void generateRandomQuestion();
 
+        void TextCentered(const char* text);
+
+        void RadioButtonCentered(const char* label, bool active);
+
+        void ButtonCentered(const char* label);
     };
 }
