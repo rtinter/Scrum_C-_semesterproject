@@ -99,8 +99,8 @@ namespace game {
 
     // Renders a message and current score when the correct answer is given
     void Analogy::renderCorrectMessage(){
-        auto now = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count();
+        auto now {std::chrono::steady_clock::now()};
+        auto duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
         if (duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);
