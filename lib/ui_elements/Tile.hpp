@@ -9,12 +9,11 @@
 
 
 namespace ui_elements {
-    /**************************************************************
-     * On the _dashboard, there is a tile for each game.
-     * A Tile contains an icon for the game, the name of the game
-     * and a short description. By clicking on the tile, the game
-     * can be started.
-     **************************************************************/
+    /**
+     * @brief Represents a tile on the dashboard for each game.
+     * A Tile contains an icon for the game, the name of the game,
+     * and a short description. By clicking on the tile, the game can be started.
+     */
     class Tile : public UiElement {
         float _height{300};
         float _width{400};
@@ -27,15 +26,33 @@ namespace ui_elements {
 
         std::function<void()> _onClick;
 
+        /**
+         * @brief Sets the text of the button based on the game name.
+         */
         void setButtonText();
 
     public:
         // Constructors
         Tile() = delete;
 
+          /**
+         * @brief Constructs a Tile with specified icon, name, description, and click function.
+         * @param pic Icon for the game.
+         * @param name Name of the game.
+         * @param desc Description of the game.
+         * @param onClick Function to call when the tile is clicked.
+         */
         explicit Tile(std::string const &pic, std::string const &name, std::string const &desc,
                       std::function<void()> const &onClick);
 
+           /**
+         * @brief Constructs a Tile with specified icon, name, description, color, and click function.
+         * @param pic Icon for the game.
+         * @param name Name of the game.
+         * @param desc Description of the game.
+         * @param color Color of the button.
+         * @param onClick Function to call when the tile is clicked.
+         */
         explicit Tile(std::string const &pic, std::string const &name, std::string const &desc,
                       ImVec4 const &color, std::function<void()> const &onClick);
 

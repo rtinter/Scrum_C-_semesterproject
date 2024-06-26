@@ -10,6 +10,10 @@
 #include "ColorMatch.hpp"
 
 namespace scene {
+    /**
+ * @brief A template class for representing a game scene.
+ * @tparam T The type of the game.
+ */
     template<typename T>
     class GameScene : public Scene {
         std::unique_ptr<views::Header> _header;
@@ -22,19 +26,29 @@ namespace scene {
         std::string getName() const override;
     };
 
-// Implementation of the GameScene template methods
+    // Implementation of the GameScene template methods
+
+    /**
+     * @brief Constructor: Initializes the game and the header.
+     * @tparam T The type of the game eg. GameScene<games::Calc>.
+     */
     template<typename T>
     GameScene<T>::GameScene() : _game{std::make_unique<T>()} {
-        // Header initialisieren, nachdem _game initialisiert wurde
+        // Initialize the header after the game is initialized
         _header = std::make_unique<views::Header>(_game->getName(), "Zurück", []() {
-            abstract_game::GameSessionManager::endSession(); // End the session when going back
+            // End the session when going back
+            abstract_game::GameSessionManager::endSession();
             SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
         });
     }
 
+    /**
+     * @brief Renders the game scene, including the header and the game.
+     * @tparam T The type of the game.
+     */
     template<typename T>
     void GameScene<T>::render() {
-        // Header muss vor dem Game rendern, da es die Größe für das Game setzt
+        // Render the header before the game, as it sets the size for the game
         if (_header) {
             _header->render();
         }
@@ -43,15 +57,21 @@ namespace scene {
         }
     }
 
+    /**
+     * @brief Gets the name of the scene.
+     * @tparam T The type of the game.
+     * @return The name of the game as a string.
+     */
     template<typename T>
     std::string GameScene<T>::getName() const {
         return _game->getName();
     }
 
-// Explicit instantiation of GameScene for games::Reaction
+    // Explicit instantiation of GameScene for reaction::Reaction
     template
     class GameScene<reaction::Reaction>;
 
+    // Explicit instantiation of GameScene for games::ColorMatch
     template
     class GameScene<games::ColorMatch>;
 }
