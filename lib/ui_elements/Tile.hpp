@@ -35,16 +35,6 @@ namespace ui_elements {
         // Constructors
         Tile() = delete;
 
-          /**
-         * @brief Constructs a Tile with specified icon, name, description, and click function.
-         * @param pic Icon for the game.
-         * @param name Name of the game.
-         * @param desc Description of the game.
-         * @param onClick Function to call when the tile is clicked.
-         */
-        explicit Tile(std::string const &pic, std::string const &name, std::string const &desc,
-                      std::function<void()> const &onClick);
-
            /**
          * @brief Constructs a Tile with specified icon, name, description, color, and click function.
          * @param pic Icon for the game.
@@ -57,7 +47,9 @@ namespace ui_elements {
                       ImVec4 const &color, std::function<void()> const &onClick);
 
 
-        // Render method
+        /**
+         * @brief Renders the tile.
+         */
         void render() override;
     };
 }
