@@ -4,8 +4,8 @@
 #include <string>
 #include <chrono>
 #include <optional>
-#include "../abstract_game/Game.hpp"
-#include "../ui_elements/Timer.hpp"
+#include "Game.hpp"
+#include "Timer.hpp"
 #include "MathTask.hpp"
 
 namespace games {

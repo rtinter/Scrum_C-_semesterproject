@@ -1,17 +1,11 @@
 #include "Calc.hpp"
-#include "Overlay.hpp"
-#include "../commons/Fonts.hpp"
 #include "TextCentered.hpp"
 #include "InfoBox.hpp"
-#include "Centered.hpp"
-#include "SceneManager.hpp"
-#include "DashboardScene.hpp"
 #include "MathTaskFactory.hpp"
 #include "Window.hpp"
 #include <iostream>
 #include <sstream>
 #include <cmath>
-#include "MathTaskType.hpp"
 
 namespace games {
     Calc::Calc() :
