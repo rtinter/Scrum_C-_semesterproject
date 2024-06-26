@@ -1,28 +1,26 @@
 #include "EquationBuilder.hpp"
 #include <imgui.h>
-#include <chrono>
 #include <string>
 #include <algorithm>
 #include "Fonts.hpp"
 #include "SoundManager.hpp"
 
-EquationBuilder::EquationBuilder(int difficultyLevel)
-        : _targetNumber(0), _running(false),
-          _completedSuccessfully(false), _difficultyLevel(difficultyLevel), _focusSet(false) {
-    std::random_device rd;
-    auto now = std::chrono::system_clock::now();
-    auto duration = now.time_since_epoch();
-    auto timeSeed = std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
-    std::seed_seq seedSeq{rd(), static_cast<unsigned int>(timeSeed)};
-    _rng.seed(seedSeq);
+EquationBuilder::EquationBuilder() :
+    MathTask(),
+    _targetNumber{0},
+    _operator{"+"},
+    _number{0},
+    _input(5, '\0')
+{
+    initializeRNG();
 }
 
 void EquationBuilder::start() {
     generateTask();
     _running = true;
     _completedSuccessfully = false;
-    _focusSet = false; // Reset focus flag at the start of each game
-    _inputBuffers = std::vector<std::string>(_difficultyLevel, std::string(10, '\0')); // Reset input buffers
+    _focusSet = false;
+    std::fill(_input.begin(), _input.end(), '\0');
 }
 
 bool EquationBuilder::isRunning() const {
@@ -34,101 +32,85 @@ bool EquationBuilder::wasSuccessfullyCompleted() const {
 }
 
 void EquationBuilder::generateTask() {
-    std::uniform_int_distribution<int> numberDist(1, 10 * _difficultyLevel);
-    std::uniform_int_distribution<int> operatorDist(0, 3); // 0: +, 1: -, 2: *, 3: /
+    std::uniform_int_distribution<int> numberDist{1, 10};
+    std::uniform_int_distribution<int> operatorDist{0, 3};
 
-    do {
-        _numbers.clear();
-        _operators.clear();
+    int operand1{numberDist(_rng)};
+    int operand2{numberDist(_rng)};
+    _number = operand1;
 
-        for (int i = 0; i < _difficultyLevel + 1; ++i) {
-            _numbers.push_back(numberDist(_rng));
-            if (i < _difficultyLevel) {
-                switch (operatorDist(_rng)) {
-                    case 0: _operators.push_back("+"); break;
-                    case 1: _operators.push_back("-"); break;
-                    case 2: _operators.push_back("*"); break;
-                    case 3: _operators.push_back("/"); break;
+    Operator op{static_cast<Operator>(operatorDist(_rng))};
+
+    switch (op) {
+        case Operator::ADD:
+            _operator = "+";
+            _targetNumber = operand1 + operand2;
+            break;
+        case Operator::SUBTRACT:
+            if (operand1 < operand2) std::swap(operand1, operand2);
+            _operator = "-";
+            _targetNumber = operand1 - operand2;
+            break;
+        case Operator::MULTIPLY:
+            _operator = "*";
+            _targetNumber = operand1 * operand2;
+            break;
+        case Operator::DIVIDE:
+        {
+            bool validDivision = false;
+            while (!validDivision) {
+
+                operand1 = numberDist(_rng);
+                operand2 = numberDist(_rng);
+
+                // Ensure operand1 is not 1 and avoid operand2 being 0, 1, or causing invalid division
+                if (operand1 != 1 && operand2 != 0 && operand2 != 1 && operand1 % operand2 == 0 && operand1 != operand2) {
+                    validDivision = true;
                 }
             }
+
+            _operator = "/";
+            _number = operand1;
+            _targetNumber = operand1 / operand2;
         }
-
-        _targetNumber = evaluateExpression();
-
-    } while (!isSolvable());
-}
-
-bool EquationBuilder::isSolvable() const {
-    // Ensure that the expression is valid and the result is non-zero for division
-    if (_targetNumber == 0) return false;
-    for (int i = 0; i < _difficultyLevel; ++i) {
-        if (_operators[i] == "/" && (_numbers[i + 1] == 0 || _numbers[i] % _numbers[i + 1] != 0)) {
-            return false;
-        }
+            break;
     }
-    return true;
 }
 
 int EquationBuilder::evaluateExpression() const {
-    // Evaluate the expression while considering operator precedence
-    std::vector<int> values = _numbers;
-    std::vector<std::string> ops = _operators;
-
-    // First pass for * and /
-    for (size_t i = 0; i < ops.size(); ++i) {
-        if (ops[i] == "*" || ops[i] == "/") {
-            int left = values[i];
-            int right = values[i + 1];
-            int result = (ops[i] == "*") ? left * right : left / right;
-            values[i] = result;
-            values.erase(values.begin() + i + 1);
-            ops.erase(ops.begin() + i);
-            --i;
-        }
+    switch (_operator[0]) {
+        case '+': return _targetNumber - _number;
+        case '-': return _number - _targetNumber;
+        case '*': return _targetNumber / _number;
+        case '/': return _number / _targetNumber;
+        default: return 0;
     }
-
-    // Second pass for + and -
-    int result = values[0];
-    for (size_t i = 0; i < ops.size(); ++i) {
-        if (ops[i] == "+") {
-            result += values[i + 1];
-        } else if (ops[i] == "-") {
-            result -= values[i + 1];
-        }
-    }
-    return result;
 }
 
 void EquationBuilder::render() {
     if (_running) {
         ImGui::PushFont(commons::Fonts::_header1);
 
-        float inputFieldWidth = 100.0f;  // Adjust width for multi-digit numbers
-        float textHeight = ImGui::GetTextLineHeight();
-        float spaceWidth = ImGui::CalcTextSize(" ").x;
-        float leftOffset = 20.0f;  // Adjust this value to move the task more to the left
-
-        // Calculate total width of the equation to center it
-        float totalWidth = 0.0f;
-        totalWidth += ImGui::CalcTextSize(std::to_string(_numbers[0]).c_str()).x;
-        for (int i = 0; i < _difficultyLevel; ++i) {
-            totalWidth += spaceWidth;
-            totalWidth += ImGui::CalcTextSize(_operators[i].c_str()).x;
-            totalWidth += spaceWidth;
-            totalWidth += inputFieldWidth;
-        }
-        totalWidth += spaceWidth;
-        totalWidth += ImGui::CalcTextSize("= ").x;
-        totalWidth += ImGui::CalcTextSize(std::to_string(_targetNumber).c_str()).x;
-
-        // Calculate width of the instructions
+        // Instructions text
         ImGui::PushFont(commons::Fonts::_header3);
-        std::string instructionText = "Füllen Sie die Lücken aus und drücken Sie Enter:";
-        ImVec2 instructionTextSize = ImGui::CalcTextSize(instructionText.c_str());
+        std::string instructionText {"Trage das Ergebnis hier ein und bestätige mit Enter:"};
+        ImVec2 instructionTextSize {ImGui::CalcTextSize(instructionText.c_str())};
         ImGui::PopFont();
 
+        // Calculate dimensions for centering the task
+        float inputFieldWidth{100.0f};
+        float spaceWidth{ImGui::CalcTextSize(" ").x};
+        float numberWidth{ImGui::CalcTextSize(std::to_string(_number).c_str()).x};
+        float operatorWidth{ImGui::CalcTextSize(_operator.c_str()).x};
+        float targetNumberWidth{ImGui::CalcTextSize(std::to_string(_targetNumber).c_str()).x};
+        float equalWidth{ImGui::CalcTextSize("= ").x};
+        float totalWidth{numberWidth + spaceWidth + operatorWidth + spaceWidth + inputFieldWidth + spaceWidth + equalWidth + targetNumberWidth};
+
+        ImVec2 windowSize{ImGui::GetWindowSize()};
+        float centerX{(windowSize.x - totalWidth) / 2.0f};
         // Calculate the total height for vertical centering
-        float totalHeight = textHeight * 2;  // Include space for instructions
+        float textHeight{ImGui::GetTextLineHeight()};
+        float totalHeight{textHeight * 2};  // Include space for instructions
 
         // Position instructions above the task
         ImGui::SetCursorPosY((ImGui::GetWindowHeight() - totalHeight) / 2.0f - textHeight);
@@ -138,35 +120,25 @@ void EquationBuilder::render() {
         ImGui::Text("%s", instructionText.c_str());
         ImGui::PopFont();
 
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + textHeight);
+        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ImGui::GetTextLineHeight());
 
         // Center the task horizontally with an offset to the left
-        ImGui::SetCursorPosX(((ImGui::GetWindowWidth() - totalWidth) / 2.0f) - leftOffset);
+        ImGui::SetCursorPosX(centerX - 25);
 
         // Render the task
         ImGui::AlignTextToFramePadding();
-        ImGui::Text("%s", std::to_string(_numbers[0]).c_str());
+        ImGui::Text("%d", _number);
         ImGui::SameLine();
+        ImGui::Text(" %s ", _operator.c_str());
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(inputFieldWidth);
 
-        for (int i = 0; i < _difficultyLevel; ++i) {
-            ImGui::AlignTextToFramePadding();
-            ImGui::Text(" %s ", _operators[i].c_str());
-            ImGui::SameLine();
-            ImGui::SetNextItemWidth(inputFieldWidth);
-
-            if (!_focusSet) {
-                ImGui::SetKeyboardFocusHere(); // Set focus to the first input field
-                _focusSet = true; // Ensure focus is set only once per game session
-            }
-
-            ImGui::InputText((std::string("##input") + std::to_string(i)).c_str(), &_inputBuffers[i][0], _inputBuffers[i].size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
-            ImGui::SameLine();
+        if (!_focusSet) {
+            ImGui::SetKeyboardFocusHere();
+            _focusSet = true;
         }
 
-        ImGui::AlignTextToFramePadding();
-        ImGui::Text("= %d", _targetNumber);
-
-        ImGui::PopFont();
+        ImGui::InputText("##input", _input.data(), _input.size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
 
         if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {
             _completedSuccessfully = evaluateUserInput();
@@ -175,30 +147,18 @@ void EquationBuilder::render() {
             } else {
                 commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
             }
-
-            // When we submit input the game/level is finished
             _running = false;
         }
+
+        ImGui::SameLine();
+        ImGui::Text("= %d", _targetNumber);
+
+        ImGui::PopFont();
     }
 }
-
 
 bool EquationBuilder::evaluateUserInput() {
-    int result = _numbers[0];
-    for (int i = 0; i < _difficultyLevel; ++i) {
-        int nextNumber = std::atoi(&_inputBuffers[i][0]);
-        if (_operators[i] == "+") result += nextNumber;
-        else if (_operators[i] == "-") result -= nextNumber;
-        else if (_operators[i] == "*") result *= nextNumber;
-        else if (_operators[i] == "/") {
-            if (nextNumber != 0) {
-                result /= nextNumber;
-            }
-        }
-    }
-    return result == _targetNumber;
-}
-
-void EquationBuilder::setDifficulty(int level) {
-    _difficultyLevel = level;
+    int input{std::atoi(_input.data())};
+    if (_operator == "/" && input == 0) return false; // Avoid division by zero
+    return input == evaluateExpression();
 }

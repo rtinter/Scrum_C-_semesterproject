@@ -2,6 +2,8 @@
 #define MATH_TASK_HPP
 
 #include <string>
+#include <random>
+#include <chrono>
 
 /**
  * @brief Abstract base class representing a mathematical task.
@@ -12,6 +14,12 @@
  */
 class MathTask {
 public:
+
+    // Helper vars for internal state handling of games
+    bool _focusSet;
+    bool _running;
+    bool _completedSuccessfully;
+    std::mt19937 _rng;
     /**
      * @brief Destructor for MathTask.
      */
@@ -39,11 +47,7 @@ public:
      */
     virtual bool wasSuccessfullyCompleted() const = 0;
 
-    /**
-    * @brief Sets the difficulty level for the MathTask.
-    * @param level The difficulty level to set.
-    */
-    virtual void setDifficulty(int level) = 0;
+    void initializeRNG();
 };
 
 #endif // MATH_TASK_HPP

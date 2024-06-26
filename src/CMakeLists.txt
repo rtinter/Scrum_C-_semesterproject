@@ -23,6 +23,7 @@ set(GAME_LIBS
         remembering
         rows_of_numbers
         memory
+        analogy
 )
 
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
