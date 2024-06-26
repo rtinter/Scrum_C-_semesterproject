@@ -5,6 +5,8 @@
 #include <imgui.h>
 #include "UiElement.hpp"
 #include "InfoBox.hpp"
+#include "Window.hpp"
+#include "Fonts.hpp"
 
 #include "SFML/System/Clock.hpp"
 
@@ -29,8 +31,6 @@ namespace game {
         static std::string _endBoxTextString;
 
         std::vector<Question> questions;
-        int currentQuestion = 0;
-        char selectedOption = '\0';
 
     public:
 
