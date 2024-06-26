@@ -21,7 +21,7 @@ private:
     int _leftOperand;
     int _rightOperand;
     int _answer;
-    char _input[128];
+    std::vector<char> _input;
 
     void generateTask();
 };

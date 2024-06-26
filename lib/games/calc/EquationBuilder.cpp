@@ -5,9 +5,14 @@
 #include "Fonts.hpp"
 #include "SoundManager.hpp"
 
-EquationBuilder::EquationBuilder() : MathTask(), _targetNumber{0}, _operator{"+"}, _number{0} {
+EquationBuilder::EquationBuilder() :
+    MathTask(),
+    _targetNumber{0},
+    _operator{"+"},
+    _number{0},
+    _input(5, '\0')
+{
     initializeRNG();
-    std::fill(std::begin(_input), std::end(_input), '\0');
 }
 
 void EquationBuilder::start() {
@@ -15,7 +20,7 @@ void EquationBuilder::start() {
     _running = true;
     _completedSuccessfully = false;
     _focusSet = false;
-    std::fill(std::begin(_input), std::end(_input), '\0');
+    std::fill(_input.begin(), _input.end(), '\0');
 }
 
 bool EquationBuilder::isRunning() const {
@@ -106,7 +111,7 @@ void EquationBuilder::render() {
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ImGui::GetTextLineHeight());
 
         // Center the task horizontally with an offset to the left
-        ImGui::SetCursorPosX(centerX - 10);
+        ImGui::SetCursorPosX(centerX - 30);
 
         // Render the task
         ImGui::AlignTextToFramePadding();
@@ -121,7 +126,7 @@ void EquationBuilder::render() {
             _focusSet = true;
         }
 
-        if (ImGui::InputText("##input", _input, IM_ARRAYSIZE(_input), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+        if (ImGui::InputText("##input", _input.data(), _input.size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
             _completedSuccessfully = evaluateUserInput();
             if (_completedSuccessfully) {
                 commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
@@ -139,7 +144,7 @@ void EquationBuilder::render() {
 }
 
 bool EquationBuilder::evaluateUserInput() {
-    int input{std::atoi(_input)};
+    int input{std::atoi(_input.data())};
     if (_operator == "/" && input == 0) return false; // Avoid division by zero
     return input == evaluateExpression();
 }

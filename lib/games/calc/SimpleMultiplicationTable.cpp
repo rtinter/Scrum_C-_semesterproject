@@ -4,9 +4,8 @@
 #include "SoundManager.hpp"
 
 SimpleMultiplicationTable::SimpleMultiplicationTable()
-        : MathTask(), _leftOperand{0}, _rightOperand{0}, _answer{0} {
+        : MathTask(), _leftOperand{0}, _rightOperand{0}, _answer{0}, _input(5, '\0') {
     initializeRNG();
-    std::fill(std::begin(_input), std::end(_input), '\0');
 }
 
 void SimpleMultiplicationTable::start() {
@@ -14,7 +13,7 @@ void SimpleMultiplicationTable::start() {
     _running = true;
     _completedSuccessfully = false;
     _focusSet = false; // Reset focus flag at the start of each game
-    std::fill(std::begin(_input), std::end(_input), '\0'); // Reset input
+    std::fill(_input.begin(), _input.end(), '\0');
 }
 
 bool SimpleMultiplicationTable::isRunning() const {
@@ -78,12 +77,11 @@ void SimpleMultiplicationTable::render() {
         }
 
         ImGui::SetNextItemWidth(inputFieldWidth);
-        ImGui::InputText("##input", _input, sizeof(_input), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
-
+        ImGui::InputText("##input", _input.data(), _input.size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
         ImGui::PopFont();
 
         if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {
-            _answer = std::atoi(_input);
+            _answer = std::atoi(_input.data());
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
 
             if (_completedSuccessfully) {

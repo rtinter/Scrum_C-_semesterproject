@@ -26,7 +26,7 @@ private:
     int _targetNumber;
     std::string _operator;
     int _number;
-    char _input[128];
+    std::vector<char> _input;
 
     void generateTask();
     bool evaluateUserInput();
