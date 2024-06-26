@@ -118,10 +118,14 @@ namespace game {
     }
 
     void Analogy::loadQuestions() {
-        std::fstream file("./config/games/questionnaire.json");
-        if (file) {
+        std::fstream file;
+        try {
+            file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+            file.open("./config/games/questionnaire.json");
+
             json data;
             file >> data;
+            file.close();
 
             for (const auto &elem : data["questionnaire"]) {
                 Question q;
@@ -134,8 +138,8 @@ namespace game {
                 q.explanation = elem["explanation"];
                 _questions.emplace_back(q);
             }
-        } else {
-            std::cerr << "Unable to open file questionnaire.json" << std::endl;
+        } catch (const std::exception &e) {
+            std::cerr << "Error opening or reading the file questionnaire.json: " << e.what() << std::endl;
         }
     }
 
