@@ -45,56 +45,66 @@ namespace game {
     }
 
     void Analogy::renderGame() {
-        // Ensure there is at least one question to render
-        if (questions.empty()) {
-            std::cout << "No questions loaded." << std::endl;
-            return;
-        }
-
         ui_elements::Window("Analogien").render([this]() {
-            // For simplicity, we will just display the first question in the list
-            const Question &currentQuestion = questions.front();
 
-            // Display the question text
-            ImGui::Text("%s", currentQuestion.questionText.c_str());
+            if (_questions.empty()) {
+                std::cout << "No questions loaded." << std::endl;
+                return;
+            }
 
-            // Add some spacing
+            if (_showCorrectMessage) {
+                auto now = std::chrono::steady_clock::now();
+                auto duration = std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count();
+
+                if (duration < 3) {
+                    ImGui::PushFont(commons::Fonts::_header2);
+                    ImGui::Spacing();
+                    ImGui::Spacing();
+                    ui_elements::TextCentered("Richtige Antwort!");
+                    ImGui::PopFont();
+                    _solvedText = "Du hast bisher " + std::to_string(_solved) + " Fragen richtig beantwortet";
+                    ui_elements::TextCentered(_solvedText.c_str());
+                    ImGui::Spacing();
+                    ui_elements::TextCentered(" Weiter so!");
+
+                    return;
+                } else {
+                    _showCorrectMessage = false;
+                    generateRandomQuestion();
+                }
+            }
+
+
+            ImGui::Text("%s", _currentQuestion.questionText.c_str());
+
             ImGui::Spacing();
             ImGui::Spacing();
 
-            // Display the answer options as radio buttons
             static char selectedOption = '\0';
-            for (const auto &option: currentQuestion.options) {
-                std::string label = std::string(1, option.first) + ": " + option.second;
+            for (const auto &option : _currentQuestion.options) {
+                std::string label = std::string(1, option.first) + " : " + option.second;
                 if (ImGui::RadioButton(label.c_str(), selectedOption == option.first)) {
                     selectedOption = option.first;
                 }
             }
 
-            // Add a confirm button
             if (ImGui::Button("Bestätigen")) {
-                // Check if the selected option is correct
-                if (selectedOption == currentQuestion.correctAnswer) {
-                    // Correct answer logic
-                    // You can update the game state, show a message, etc.
-                    ImGui::Text("Richtige Antwort!");
+                if (selectedOption == _currentQuestion.correctAnswer) {
+                    _solved++;
+                    _showCorrectMessage = true;
+                    _correctMessageStartTime = std::chrono::steady_clock::now();
                 } else {
-                    // Incorrect answer logic
-                    // You can show the correct answer, explanation, etc.
-                    ImGui::Text("Falsche Antwort! %s", currentQuestion.explanation.c_str());
+                    ImGui::Text("Falsche Antwort! %s", _currentQuestion.explanation.c_str());
+                    stop();
+
                 }
-
-                // Reset the selected option for the next question
-                selectedOption = '\0';
             }
-
         });
     }
 
     void Analogy::loadQuestions() {
         std::fstream file("./config/games/analogy/questionnaire.json");
         if (file) {
-            std::cout << "Hat geklappt" << std::endl;
             json data;
             file >> data;
 
@@ -110,7 +120,7 @@ namespace game {
                 q.options['d'] = elem["options"]["d"];
                 q.correctAnswer = elem["correct_answer"].get<std::string>()[0];
                 q.explanation = elem["explanation"];
-                questions.emplace_back(q);
+                _questions.emplace_back(q);
 
                 // Debugging output to check each loaded question
                 std::cout << "Loaded question: " << q.questionText << std::endl;
@@ -120,13 +130,24 @@ namespace game {
         }
     }
 
+    void Analogy::generateRandomQuestion() {
+        if (!_questions.empty()) {
+            _currentQuestion = commons::RandomPicker::pickRandomElement(_questions);
+        }
+    }
+
+
     void Analogy::start() {
+        _solved = 0;
+        generateRandomQuestion();
         _isGameRunning = true;
         _showStartBox = false;
     }
 
     void Analogy::stop() {
-        Game::stop();
+        updateStatistics();
+        _isGameRunning = false;
+        _showStartBox = true;
     }
 
     void Analogy::reset() {

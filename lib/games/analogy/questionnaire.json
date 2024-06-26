@@ -10,6 +10,50 @@
       },
       "correct_answer": "a",
       "explanation": "Fußballer praktizieren den Sport auf dem Fußballplatz und genauso praktizieren Schwimmer ihren Sport im Schwimmbecken."
+    },
+    {
+      "question": "Vogel : Nest wie Mensch : ?",
+      "options": {
+        "a": "Höhle",
+        "b": "Haus",
+        "c": "Wald",
+        "d": "Nest"
+      },
+      "correct_answer": "b",
+      "explanation": "Ein Vogel lebt in einem Nest, genauso wie ein Mensch in einem Haus lebt."
+    },
+    {
+      "question": "Auto : Straße wie Zug : ?",
+      "options": {
+        "a": "Schienen",
+        "b": "Flughafen",
+        "c": "Gleise",
+        "d": "Meer"
+      },
+      "correct_answer": "c",
+      "explanation": "Ein Auto fährt auf der Straße, genauso wie ein Zug auf den Gleisen fährt."
+    },
+    {
+      "question": "Lehrer : Schule wie Arzt : ?",
+      "options": {
+        "a": "Krankenhaus",
+        "b": "Büro",
+        "c": "Praxis",
+        "d": "Klinik"
+      },
+      "correct_answer": "a",
+      "explanation": "Ein Lehrer arbeitet in einer Schule, genauso wie ein Arzt in einem Krankenhaus arbeitet."
+    },
+    {
+      "question": "Hund : bellen wie Katze : ?",
+      "options": {
+        "a": "miauen",
+        "b": "quaken",
+        "c": "brüllen",
+        "d": "zwitschern"
+      },
+      "correct_answer": "a",
+      "explanation": "Ein Hund bellt, genauso wie eine Katze miaut."
     }
   ]
 }

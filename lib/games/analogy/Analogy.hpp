@@ -7,7 +7,10 @@
 #include "InfoBox.hpp"
 #include "Window.hpp"
 #include "Fonts.hpp"
-
+#include "TextCentered.hpp"
+#include "Centered.hpp"
+#include "RandomPicker.hpp"
+#include "chrono"
 #include "SFML/System/Clock.hpp"
 
 namespace game {
@@ -19,7 +22,7 @@ namespace game {
 
         struct Question {
             std::string questionText;
-            std::unordered_map<char, std::string> options;
+            std::map<char, std::string> options;
             char correctAnswer;
             std::string explanation;
         };
@@ -30,7 +33,12 @@ namespace game {
         static std::string _endBoxTitleString;
         static std::string _endBoxTextString;
 
-        std::vector<Question> questions;
+        std::vector<Question> _questions;
+        bool _showCorrectMessage;
+        std::chrono::steady_clock::time_point _correctMessageStartTime;
+        int _solved {0};
+        std::string _solvedText;
+        Question _currentQuestion;
 
     public:
 
@@ -51,6 +59,8 @@ namespace game {
         virtual std::string getName() const override;
 
         void loadQuestions();
+
+        void generateRandomQuestion();
 
     };
 }
