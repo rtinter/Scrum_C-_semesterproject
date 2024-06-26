@@ -40,7 +40,7 @@ namespace games {
         std::string _endScreenTitle;
         std::string _endScreenStatisticText;
         std::string _averageTimeText;
-        std::shared_ptr<MathTask> _currentLevel;
+        std::unique_ptr<MathTask> _currentLevel;
         ui_elements::Timer _timer;
         int _timerSeconds; // Initialize with 10 seconds
     };

@@ -56,11 +56,23 @@ void EquationBuilder::generateTask() {
             _targetNumber = operand1 * operand2;
             break;
         case Operator::DIVIDE:
-            while (operand2 == 0 || operand1 % operand2 != 0 || operand2 == 1) {
+        {
+            bool validDivision = false;
+            while (!validDivision) {
+
+                operand1 = numberDist(_rng);
                 operand2 = numberDist(_rng);
+
+                // Ensure operand1 is not 1 and avoid operand2 being 0, 1, or causing invalid division
+                if (operand1 != 1 && operand2 != 0 && operand2 != 1 && operand1 % operand2 == 0 && operand1 != operand2) {
+                    validDivision = true;
+                }
             }
+
             _operator = "/";
+            _number = operand1;
             _targetNumber = operand1 / operand2;
+        }
             break;
     }
 }
@@ -81,8 +93,8 @@ void EquationBuilder::render() {
 
         // Instructions text
         ImGui::PushFont(commons::Fonts::_header3);
-        std::string instructionText = "Trage das Ergebnis hier ein und bestätige mit Enter:";
-        ImVec2 instructionTextSize = ImGui::CalcTextSize(instructionText.c_str());
+        std::string instructionText {"Trage das Ergebnis hier ein und bestätige mit Enter:"};
+        ImVec2 instructionTextSize {ImGui::CalcTextSize(instructionText.c_str())};
         ImGui::PopFont();
 
         // Calculate dimensions for centering the task
@@ -126,7 +138,9 @@ void EquationBuilder::render() {
             _focusSet = true;
         }
 
-        if (ImGui::InputText("##input", _input.data(), _input.size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue)) {
+        ImGui::InputText("##input", _input.data(), _input.size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
+
+        if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {
             _completedSuccessfully = evaluateUserInput();
             if (_completedSuccessfully) {
                 commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);

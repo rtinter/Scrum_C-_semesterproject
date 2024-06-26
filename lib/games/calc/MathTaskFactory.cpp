@@ -11,7 +11,7 @@ namespace math_task_factory {
     std::unique_ptr<MathTask> createMathTask(MathTaskType type) {
         switch (type) {
             case MathTaskType::SIMPLE_MULTIPLICATION_TABLE:
-                return std::make_unique<SimpleMultiplicationTable>();
+                return std::make_unique<EquationBuilder>();
             case MathTaskType::EQUATION_BUILDER:
                 return std::make_unique<EquationBuilder>();
             default:
