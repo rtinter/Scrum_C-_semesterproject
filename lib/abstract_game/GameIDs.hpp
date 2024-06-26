@@ -1,7 +1,3 @@
-//
-// Created by Admin on 07.06.2024.
-//
-
 #ifndef GAMEIDS_HPP
 #define GAMEIDS_HPP
 #include <string>
@@ -14,10 +10,11 @@ namespace abstract_game {
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
         SEQUENCE = 1011,
-        REMEMBERING = 1006,
+        REMEMBERING = 1009,
         CALC = 1006,
         MATRIX = 1007,
         ROWS_OF_NUMBERS = 1008,
+        ANALOGY = 1010
     };
 
     static std::string getGameName(GameID gameID) {
@@ -38,6 +35,8 @@ namespace abstract_game {
                 return "Matrix";
             case GameID::SEQUENCE:
                 return "Sequence";
+            case GameID::ANALOGY:
+                return "Analogie";
             default:
                 return "Unknown";
         }
