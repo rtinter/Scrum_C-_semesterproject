@@ -123,7 +123,7 @@ void EquationBuilder::render() {
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ImGui::GetTextLineHeight());
 
         // Center the task horizontally with an offset to the left
-        ImGui::SetCursorPosX(centerX - 30);
+        ImGui::SetCursorPosX(centerX - 25);
 
         // Render the task
         ImGui::AlignTextToFramePadding();
