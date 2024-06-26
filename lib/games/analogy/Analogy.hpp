@@ -14,9 +14,6 @@
 #include "SFML/System/Clock.hpp"
 
 namespace game {
-    /******************************************************
-    KOMMENTAR
-    **************************************************+***/
 
     class Analogy : public abstract_game::Game {
 
@@ -55,14 +52,17 @@ namespace game {
 
         virtual std::string getName() const override;
 
+    private:
         void loadQuestions();
 
         void generateRandomQuestion();
 
-        void TextCentered(const char* text);
+        void checkAnswer(char selectedOption);
 
-        void RadioButtonCentered(const char* label, bool active);
+        void renderQuestion();
 
-        void ButtonCentered(const char* label);
+        void renderCorrectMessage();
+
+        void renderGameOver();
     };
 }
