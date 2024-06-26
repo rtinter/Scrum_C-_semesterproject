@@ -179,9 +179,10 @@ scene::DashboardScene::DashboardScene() {
     // Kategorie: Logisches Denken
     logicalThinking.push_back(
             std::make_unique<Tile>(
-                    "",
+                    "\uE13A",
                     "Analogien",
                     "Finde das passende Wort",
+                    commons::Colors::SEAFOAM,
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<game::Analogy>>()

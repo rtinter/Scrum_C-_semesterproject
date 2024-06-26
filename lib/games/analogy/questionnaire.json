@@ -1,59 +1,202 @@
 {
   "questionnaire": [
     {
-      "question": "Fußballer : Fußballplatz wie Schwimmer : ?",
+      "question": "Tag : Dämmerung wie Nacht : ?",
       "options": {
-        "a": "Schwimmbecken",
-        "b": "Wasser",
-        "c": "Halle",
-        "d": "Badehose"
+        "a": "Morgengrauen",
+        "b": "Dunkelheit",
+        "c": "Sonnenaufgang",
+        "d": "Mondlicht"
       },
       "correct_answer": "a",
-      "explanation": "Fußballer praktizieren den Sport auf dem Fußballplatz und genauso wie \nSchwimmer ihren Sport im Schwimmbecken."
+      "explanation": "Tag endet mit der Dämmerung, und die Nacht endet mit dem Morgengrauen."
     },
     {
-      "question": "Vogel : Nest wie Mensch : ?",
+      "question": "Architekt : Gebäude wie Autor : ?",
       "options": {
-        "a": "Höhle",
-        "b": "Haus",
-        "c": "Wald",
-        "d": "Nest"
+        "a": "Schrift",
+        "b": "Buch",
+        "c": "Organisation",
+        "d": "Verlag"
       },
       "correct_answer": "b",
-      "explanation": "Ein Vogel lebt in einem Nest, genauso wie ein Mensch in einem Haus lebt."
+      "explanation": "Ein Architekt entwirft Gebäude, so wie ein Autor Bücher schreibt."
     },
     {
-      "question": "Auto : Straße wie Zug : ?",
+      "question": "Pinsel : Malen wie Stift : ?",
       "options": {
-        "a": "Schienen",
-        "b": "Flughafen",
-        "c": "Gleise",
-        "d": "Meer"
+        "a": "Zettel",
+        "b": "Papier",
+        "c": "Schreiben",
+        "d": "Notiz"
       },
       "correct_answer": "c",
-      "explanation": "Ein Auto fährt auf der Straße, genauso wie ein Zug auf den Gleisen fährt."
+      "explanation": "Ein Pinsel wird zum Malen verwendet, so wie ein Stift zum Schreiben."
     },
     {
-      "question": "Lehrer : Schule wie Arzt : ?",
+      "question": "Kapitel : Buch wie Akt : ?",
       "options": {
-        "a": "Krankenhaus",
-        "b": "Büro",
-        "c": "Praxis",
-        "d": "Klinik"
+        "a": "Film",
+        "b": "Serie",
+        "c": "Theaterstück",
+        "d": "Roman"
       },
-      "correct_answer": "a",
-      "explanation": "Ein Lehrer arbeitet in einer Schule, genauso wie ein Arzt in einem Krankenhaus arbeitet."
+      "correct_answer": "c",
+      "explanation": "Ein Buch ist in Kapitel unterteilt, ein Theaterstück in Akte."
     },
     {
-      "question": "Hund : bellen wie Katze : ?",
+      "question": "Sauerstoff : Atmung wie Benzin : ?",
       "options": {
-        "a": "miauen",
-        "b": "quaken",
-        "c": "brüllen",
-        "d": "zwitschern"
+        "a": "Motor",
+        "b": "Auto",
+        "c": "Verbrennung",
+        "d": "Tanken"
+      },
+      "correct_answer": "b",
+      "explanation": "Sauerstoff ist notwendig für die Atmung, Benzin für das Fahren eines Autos."
+    },
+    {
+      "question": "Schlüssel : Schloss wie Passwort : ?",
+      "options": {
+        "a": "Code",
+        "b": "Konto",
+        "c": "Sicherheit",
+        "d": "Schutz"
+      },
+      "correct_answer": "b",
+      "explanation": "Ein Schlüssel öffnet ein Schloss, ein Passwort sichert den Zugang zu einem Konto."
+    },
+    {
+      "question": "Pilz : Wald wie Koralle : ?",
+      "options": {
+        "a": "Fisch",
+        "b": "Boden",
+        "c": "Meer",
+        "d": "Qualle"
+      },
+      "correct_answer": "c",
+      "explanation": "Pilze wachsen im Wald, Korallen im Meer."
+    },
+    {
+      "question": "Chirurg : Operation wie Jurist : ?",
+      "options": {
+        "a": "Buch",
+        "b": "Vertrag",
+        "c": "Gesetz",
+        "d": "verteidigen"
       },
       "correct_answer": "a",
-      "explanation": "Ein Hund bellt, genauso wie eine Katze miaut."
+      "explanation": "Ein Chirurg führt Operationen durch, ein Jurist verteidigt in Prozessen."
+    },
+    {
+      "question": "Thermometer : Temperatur wie Lineal : ?",
+      "options": {
+        "a": "Länge",
+        "b": "Gewicht",
+        "c": "Volumen",
+        "d": "Lang"
+      },
+      "correct_answer": "a",
+      "explanation": "Ein Thermometer misst die Temperatur, ein Lineal die Länge."
+    },
+    {
+      "question": "Zelle : Organismus wie Ziegel : ?",
+      "options": {
+        "a": "Haus",
+        "b": "Gebäude",
+        "c": "Mauer",
+        "d": "Stein"
+      },
+      "correct_answer": "b",
+      "explanation": "Eine Zelle ist ein Baustein des Organismus, ein Ziegel ein Baustein des Gebäudes."
+    },
+    {
+      "question": "Verkehrsschild : Verkehr wie Regelheft : ?",
+      "options": {
+        "a": "Spiel",
+        "b": "Gesetz",
+        "c": "Verrat",
+        "d": "Strafe"
+      },
+      "correct_answer": "a",
+      "explanation": "Ein Schild erklärt den Verkehr, das Regelft ein Spiel."
+    },
+    {
+      "question": "Kompass : Navigation wie Uhr : ?",
+      "options": {
+        "a": "Zeit",
+        "b": "Sekunden",
+        "c": "Minute",
+        "d": "Stunde"
+      },
+      "correct_answer": "a",
+      "explanation": "Ein Kompass dient zur Navigation, eine Uhr zur Zeitanzeige."
+    },
+    {
+      "question": "Landkarte : Gebiet wie Blaupause : ?",
+      "options": {
+        "a": "Plan",
+        "b": "Erde",
+        "c": "Bauprojekt",
+        "d": "Richtung"
+      },
+      "correct_answer": "c",
+      "explanation": "Eine Landkarte zeigt ein Gebiet, eine Blaupause zeigt ein Bauprojekt."
+    },
+    {
+      "question": "Mikroskop : Zellen wie Teleskop : ?",
+      "options": {
+        "a": "Planeten",
+        "b": "Sonne",
+        "c": "Mond",
+        "d": "Himmel"
+      },
+      "correct_answer": "c",
+      "explanation": "Ein Mikroskop zeigt Zellen, ein Teleskop zeigt Planeten."
+    },
+    {
+      "question": "Bank : Geld wie Bibliothek : ?",
+      "options": {
+        "a": "Bücher",
+        "b": "Regale",
+        "c": "Schreiben",
+        "d": "Lesen"
+      },
+      "correct_answer": "a",
+      "explanation": "Eine Bank bewahrt Geld auf, eine Bibliothek bewahrt Bücher auf."
+    },
+    {
+      "question": "Linsen : Brille wie Filter : ?",
+      "options": {
+        "a": "Staubsauger",
+        "b": "Foto",
+        "c": "Wischmob",
+        "d": "Bild"
+      },
+      "correct_answer": "a",
+      "explanation": "Linsen sind Bestandteil einer Brille, Filter ist Bestandteil eines Staubsaugers."
+    },
+    {
+      "question": "Geschichte : Historiker wie Fossil : ?",
+      "options": {
+        "a": "Geologe",
+        "b": "Biologe",
+        "c": "Onkologe",
+        "d": "Paläontologe"
+      },
+      "correct_answer": "d",
+      "explanation": "Ein Historiker studiert Geschichte, ein Paläontologe studiert Fossilien."
+    },
+    {
+      "question": "Student : Universität wie Soldat : ?",
+      "options": {
+        "a": "Krieg",
+        "b": "Kaserne",
+        "c": "Waffe",
+        "d": "Training"
+      },
+      "correct_answer": "b",
+      "explanation": "Ein Student lernt an der Universität, ein Soldat dient in der Kaserne."
     }
   ]
 }
