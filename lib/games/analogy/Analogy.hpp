@@ -31,9 +31,9 @@ namespace game {
 
         sf::Clock _colorClock;
         std::vector<Question> _questions;
-        bool _showCorrectMessage;
+        bool _showCorrectMessage{false};
         std::chrono::steady_clock::time_point _correctMessageStartTime;
-        int _solved {0};
+        int _solved{0};
         std::string _solvedText;
         Question _currentQuestion;
 
