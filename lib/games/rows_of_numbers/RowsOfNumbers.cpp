@@ -88,17 +88,17 @@ namespace game {
             if (_inputChanged && _input == _currentSolution) {
                 _correctAnswerTime = std::chrono::steady_clock::now();
                 _waitingForNextNumber = true;
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             } else if (_inputChanged && _input != _currentSolution) {
                 ui_elements::TextCentered("Falsch!");
                 _showEndBox = true;
+                commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
                 stop();
                 if (_solvedCounter > (_sequences.size() / 2)){
                     _endBoxTitle = "Gut gemacht!";
-                    commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
                 }
                 else{
                     _endBoxTitle = "Probiere es nochmal!";
-                    commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
                 }
                 _endBoxText =
                         "Du hast " + std::to_string(_solvedCounter) + " von " + std::to_string(_sequences.size()) +
