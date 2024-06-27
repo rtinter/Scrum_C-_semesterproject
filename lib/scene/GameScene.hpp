@@ -12,7 +12,7 @@
 namespace scene {
     /**
  * @brief A template class for representing a game scene.
- * @tparam T The type of the game.
+ * @tparam T The type (name) of the game.
  */
     template<typename T>
     class GameScene : public Scene {
@@ -30,7 +30,7 @@ namespace scene {
 
     /**
      * @brief Constructor: Initializes the game and the header.
-     * @tparam T The type of the game eg. GameScene<games::Calc>.
+     * @tparam T The type (name) of the game eg. GameScene<games::Calc>.
      */
     template<typename T>
     GameScene<T>::GameScene() : _game{std::make_unique<T>()} {
@@ -44,7 +44,7 @@ namespace scene {
 
     /**
      * @brief Renders the game scene, including the header and the game.
-     * @tparam T The type of the game.
+     * @tparam T The type (name) of the game.
      */
     template<typename T>
     void GameScene<T>::render() {
@@ -59,7 +59,7 @@ namespace scene {
 
     /**
      * @brief Gets the name of the scene.
-     * @tparam T The type of the game.
+     * @tparam T The type (name) of the game.
      * @return The name of the game as a string.
      */
     template<typename T>
