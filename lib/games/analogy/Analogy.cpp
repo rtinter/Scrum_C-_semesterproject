@@ -94,6 +94,7 @@ namespace game {
 
         if (ImGui::Button("Bestätigen")) {
             checkAnswer(selectedOption);
+            selectedOption = '\0';
         }
     }
 
