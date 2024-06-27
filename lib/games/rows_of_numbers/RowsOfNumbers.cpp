@@ -94,48 +94,47 @@ namespace game {
                 _showEndBox = true;
                 commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
                 stop();
-                if (_solvedCounter > (_sequences.size() / 2)){
+                if (_solvedCounter > (_sequences.size() / 2))
                     _endBoxTitle = "Gut gemacht!";
-                }
-                else{
+                else
                     _endBoxTitle = "Probiere es nochmal!";
-                }
                 _endBoxText =
                         "Du hast " + std::to_string(_solvedCounter) + " von " + std::to_string(_sequences.size()) +
                         " Zahlenreihen gelöst.\n\n" +
-                        + "Die Lösung der letzten Aufgabe: " + std::to_string(_currentSolution) + "\n" +
+                        +"Die Lösung der letzten Aufgabe: " + std::to_string(_currentSolution) + "\n" +
                         _currentExplanation;
             }
 
-                if (_waitingForNextNumber && timeSinceCorrectAnswer >= 1) { // Warten Sie 5 Sekunden, bevor Sie die nächste Zahl generieren
-                    _randomSequence = randomIndexGenerator(_sequences.size());
-                    _currentSequence = _sequences[_randomSequence].sequence;
-                    _currentSolution = _sequences[_randomSequence].solution;
-                    _currentExplanation = _sequences[_randomSequence].explanation;
-                    _waitingForNextNumber = false;
-                    _solvedCounter++;
-                    _inputChanged = false;
-                    _input = 0;
-                }
+            if (_waitingForNextNumber &&
+                timeSinceCorrectAnswer >= 1) { // Warten Sie 5 Sekunden, bevor Sie die nächste Zahl generieren
+                _randomSequence = randomIndexGenerator(_sequences.size());
+                _currentSequence = _sequences[_randomSequence].sequence;
+                _currentSolution = _sequences[_randomSequence].solution;
+                _currentExplanation = _sequences[_randomSequence].explanation;
+                _waitingForNextNumber = false;
+                _solvedCounter++;
+                _inputChanged = false;
+                _input = 0;
+            }
 
-                if (!_waitingForNextNumber && timeSinceCorrectAnswer < 1) { // Display "Richtig!" for 5 seconds
-                    ui_elements::TextCentered("Richtig!");
-                }
+            if (!_waitingForNextNumber && timeSinceCorrectAnswer < 1) { // Display "Richtig!" for 5 seconds
+                ui_elements::TextCentered("Richtig!");
+            }
 
-                ui_elements::TextCentered(_currentSequence.c_str());
-                ImGui::PopFont();
+            ui_elements::TextCentered(_currentSequence.c_str());
+            ImGui::PopFont();
 
-                ImGui::Spacing();
+            ImGui::Spacing();
 
-                ImGui::PushFont(commons::Fonts::_header2);
-                ui_elements::TextCentered("Füge die fehlende Zahl ein:");
-                ImGui::SameLine();
-                ImGui::PushItemWidth(100);
-                if (ImGui::InputInt("##input", &_input, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue)) {
-                    _inputChanged = true;
-                }
-                ImGui::PopItemWidth();
-                ImGui::PopFont();
+            ImGui::PushFont(commons::Fonts::_header2);
+            ui_elements::TextCentered("Füge die fehlende Zahl ein:");
+            ImGui::SameLine();
+            ImGui::PushItemWidth(100);
+            if (ImGui::InputInt("##input", &_input, 0, 0, ImGuiInputTextFlags_EnterReturnsTrue)) {
+                _inputChanged = true;
+            }
+            ImGui::PopItemWidth();
+            ImGui::PopFont();
         });
 
         ImGui::PopStyleColor();
