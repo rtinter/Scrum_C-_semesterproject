@@ -11,6 +11,8 @@
 #include "TypeRacer.hpp"
 #include "MatrixGame.hpp"
 #include "RowsOfNumbers.hpp"
+#include "Analogy.hpp"
+#include "Calc.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -157,6 +159,36 @@ scene::DashboardScene::DashboardScene() {
                 );
             }
         )
+    );
+
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "\uF1EC",
+                    "Schnelles Rechnen",
+                    "Löse Rechenaufgaben",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::Calc>>()
+                        );
+                    }
+            )
+    );
+
+
+    // Kategorie: Logisches Denken
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "\uE13A",
+                    "Analogien",
+                    "Finde das passende Wort",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<game::Analogy>>()
+                        );
+                    }
+            )
     );
 
 

@@ -186,6 +186,7 @@ namespace games {
     }
 
     void ColorMatch::updateStatistics() {
-        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("", _numberOfCorrectClicksInTotal);
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
+                                                                                     _numberOfCorrectClicksInTotal);
     }
 }

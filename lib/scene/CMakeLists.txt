@@ -23,9 +23,11 @@ set(CUSTOM_LIBS
         remembering
         letter_salad
         aim_trainer
+        analogy
         typeracer
         matrix
         rows_of_numbers
+        csv
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC

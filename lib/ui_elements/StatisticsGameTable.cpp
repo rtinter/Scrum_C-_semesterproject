@@ -3,6 +3,9 @@
 #include <ColorTheme.hpp>
 #include <Fonts.hpp>
 #include <iomanip>
+#include <unordered_map>
+#include <ostream>
+#include <iostream>
 
 namespace ui_elements {
     StatisticsGameTable::StatisticsGameTable(
@@ -15,8 +18,6 @@ namespace ui_elements {
             _column_size = _input.begin()->second.size();
         }
     }
-
-
 
     std::string timePointToString(const std::chrono::system_clock::time_point &tp) {
         std::time_t t = std::chrono::system_clock::to_time_t(tp);

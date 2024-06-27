@@ -25,14 +25,17 @@ namespace abstract_game {
 
         // Session information
         size_t _gameSessionUID;
+
+        time_t _begin;
+        time_t _end;
+
         std::chrono::steady_clock::time_point _startPoint;
         std::chrono::steady_clock::time_point _endPoint;
+
         bool _ended;
         std::unique_ptr<DataManager> _dataManager;
 
-
         int _runThroughCount{0};
-
         /**
          * @brief Calculates the game session UID.
          *

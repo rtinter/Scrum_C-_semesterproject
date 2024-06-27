@@ -7,8 +7,6 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
-
-
 const int App::WINDOW_WIDTH{1920};
 const int App::WINDOW_HEIGHT{1080};
 const std::string App::TILE{"Human Benchmark"};

@@ -198,6 +198,7 @@ namespace games {
     }
 
     void Remembering::stop() {
+        updateStatistics();
         _isGameRunning = false;
         _showEndBox = true;
     }
@@ -212,6 +213,8 @@ namespace games {
     }
 
     void Remembering::updateStatistics() {
-        // add code here
+        double percentageOfCorrectAnswers{static_cast<double>(_score) / _currentQuestionSet.questions.size() * 100.};
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("% korrekte Antworten",
+                                                                                     percentageOfCorrectAnswers);
     }
 }
