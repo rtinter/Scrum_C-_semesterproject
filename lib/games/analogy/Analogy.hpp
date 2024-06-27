@@ -36,6 +36,7 @@ namespace game {
         int _solved {0};
         std::string _solvedText;
         Question _currentQuestion;
+        char _selectedOption;
 
         /**
         * @brief Loads the list of questions.
