@@ -11,6 +11,7 @@
 #include "TypeRacer.hpp"
 #include "MatrixGame.hpp"
 #include "RowsOfNumbers.hpp"
+#include "Analogy.hpp"
 #include "Calc.hpp"
 
 
@@ -169,6 +170,22 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::Calc>>()
+                        );
+                    }
+            )
+    );
+
+
+    // Kategorie: Logisches Denken
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "\uE13A",
+                    "Analogien",
+                    "Finde das passende Wort",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<game::Analogy>>()
                         );
                     }
             )
