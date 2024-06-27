@@ -143,8 +143,6 @@ namespace games {
                 _endBoxTitle = "Dein Ergebnis";
                 _endBoxText = displayEvaluation(_score, _currentQuestionSet.questions.size());
                 displayCenteredText(_endBoxText);
-
-                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             }
         });
     }
