@@ -144,6 +144,7 @@ QuestionBank::QuestionBank() {
     };
 }
 
+// get a random question
 const QuestionBank::QuestionSet &QuestionBank::getRandomQuestionSet() const {
     static std::random_device rd;
     static std::mt19937 gen(rd());
