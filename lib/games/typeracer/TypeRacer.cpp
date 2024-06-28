@@ -2,15 +2,13 @@
 
 #include <Fonts.hpp>
 #include <InfoBox.hpp>
-#include <Overlay.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
-#include <random>
-#include <set>
 #include <sstream>
 #include <iomanip>
 #include "fireDepartmentAndPoliceTexts.hpp"
 #include "GameSessionManager.hpp"
+#include "RandomPicker.hpp"
 
 
 namespace typeracer {
@@ -40,15 +38,6 @@ namespace typeracer {
                 "5. Klicke auf 'Zurück zur Startseite', um zum Hauptmenü zurückzukehren.";
     }
 
-    int getRandomIndex(int arraySize) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distr(0, arraySize - 1);
-
-        int randomIndex{distr(gen)};
-        return randomIndex;
-    }
-
     void TypeRacer::render() {
         ui_elements::InfoBox(
                 _gameID,
@@ -60,8 +49,7 @@ namespace typeracer {
                 _gameControls,
                 [this]() {
                     reset();
-                    _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
-                    _startGameSession = std::chrono::steady_clock::now();
+                    _randomIndex = commons::RandomPicker::randomInt(0,FireDepartmentAndPoliceTexts::_mixedTexts.size());
                 }).render();
 
         ui_elements::InfoBox(
@@ -81,46 +69,59 @@ namespace typeracer {
 
     void TypeRacer::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-        ui_elements::Window("Type Racer").render([this]() {
-            std::set<int> mistypedIndices;
-            std::string sentence{FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex]};
-            // for testing purposes
-            // std::string sentence = "Dies ist ein Test.";
-            float windowWidth{ImGui::GetWindowWidth()};
-            float textWidth{ImGui::CalcTextSize(sentence.c_str()).x};
+        ui_elements::Window(_gameName).render([this]() {
+            _windowWidth = ImGui::GetWindowWidth();
+            _textWidth = ImGui::CalcTextSize(_sentence.c_str()).x;
 
+            // For testing purposes comment out the desired _sentence and uncomment the other _sentence
+            // Get a random sentence from the list
+            _sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            //_sentence= "Dies ist ein Test.";
+
+            // for spacing to the top of the window
             ImGui::NewLine();
             ImGui::NewLine();
             ImGui::NewLine();
             ImGui::NewLine();
 
-            // Start time when typing begins
+            /*********************************
+            *  start Timer for calculating WPM
+            ***********************************/
             if (!_runTimer && strlen(_input) > 0) {
                 _startPoint = std::chrono::steady_clock::now();
                 _runTimer = true;
             }
-            ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
-            // Render the sentence with character matching
-            for (int i{0}; i < sentence.size(); ++i) {
-                if (i < strlen(_input) && _input[i] == sentence[i]) {
-                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::GREEN); // Green
-                    mistypedIndices.erase(i);
+
+            ImGui::SetCursorPosX((_windowWidth - _textWidth) / 2);
+
+            /*********************************
+            *  Display the sentence
+             *  Highlight correct and incorrect characters
+             *  in green and red respectively
+             *  and display the _input field beneath the sentence
+            ***********************************/
+            for (int i{0}; i < _sentence.size(); ++i) {
+                if (i < strlen(_input) && _input[i] == _sentence[i]) {
+                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::GREEN); // correct character in green
+                    // erase the index from the set if the character is typed correctly
+                    _mistypedIndices.erase(i);
                 } else if (i < strlen(_input)) {
-                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::RED); // Red
-                    mistypedIndices.insert(i);
+                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::RED); // incorrect character in red
+                    // add the index to the set if the character is typed incorrectly
+                    _mistypedIndices.insert(i);
                 } else {
                     ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_Text)); // Default
                 }
 
                 ImGui::PushFont(commons::Fonts::_header2);
-                ImGui::TextUnformatted(std::string(1, sentence[i]).c_str());
+                ImGui::TextUnformatted(std::string(1, _sentence[i]).c_str());
                 ImGui::PopFont();
                 ImGui::PopStyleColor();
 
-                if (sentence[i] == '.') {
-                    ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+                if (_sentence[i] == '.') {
+                    ImGui::SetCursorPosX((_windowWidth - _textWidth) / 2);
                     ImGui::NewLine();
-                    ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+                    ImGui::SetCursorPosX((_windowWidth - _textWidth) / 2);
                     i++;
                 }
                 ImGui::SameLine(0.0f, 0.0f);
@@ -131,19 +132,22 @@ namespace typeracer {
             // Render the _input field beneath the sentence
             ImGui::NewLine();
 
-            ImGui::SetCursorPosX((windowWidth - textWidth) / 2);
+            ImGui::SetCursorPosX((_windowWidth - _textWidth) / 2);
 
-            ImGui::PushItemWidth(windowWidth / 2);
+            ImGui::PushItemWidth(_windowWidth / 2);
             ImGui::PushFont(commons::Fonts::_header2);
             ImGui::InputText("##hidden_label", _input, IM_ARRAYSIZE(_input));
             ImGui::PopFont();
             ImGui::PopItemWidth();
 
             ImGui::SameLine();
-            // Display WPM
+
             ImGui::Text("%.2f wpm", _wpm);
 
-            // Calculate WPM in real-time
+            /*********************************
+            *  calculate WPM in real time
+             *  stop the timer when the sentence is completed and save the WPM
+            ***********************************/
             if (_runTimer && strlen(_input) > 0) {
                 auto currentTime{std::chrono::steady_clock::now()};
                 std::chrono::duration<float> elapsedSeconds{currentTime - _startPoint};
@@ -154,9 +158,7 @@ namespace typeracer {
                 std::stringstream wpmStream;
                 wpmStream << std::setprecision(4) << _wpm;
 
-
-                // Stop and save the WPM when the sentence is completed
-                if (strlen(_input) >= sentence.size() && mistypedIndices.empty()) {
+                if (strlen(_input) >= _sentence.size() && _mistypedIndices.empty()) {
                     _endBoxText =
                             "Wörter pro Minute: " + wpmStream.str() + " WPM";
                     stop();
@@ -176,20 +178,25 @@ namespace typeracer {
     void TypeRacer::stop() {
         _endBoxTitle = "Geschafft!";
         _runTimer = false;
-        _isGameRunning = false;
         _showEndBox = true;
-        _wpmHistory.emplace_back(_wpm);
         updateStatistics();
         _isGameRunning = false;
     }
 
     void TypeRacer::reset() {
-        _mistakes = 0;
         _wpm = 0.0f;
         _endBoxText = "";
-        for (char &i: _input) {
+
+        for (char &i : _input) {
             i = '\0';
         }
+
+        _randomIndex = 0;
+        _sentence.clear();
+        _mistypedIndices.clear();
+        _runTimer = false;
+        _startPoint = std::chrono::steady_clock::time_point();
+
         start();
     }
 
@@ -203,11 +210,13 @@ namespace typeracer {
     }
 
     TypeRacer::~TypeRacer() {
-        _mistakes = 0;
         _wpm = 0.0f;
         _runTimer = false;
-        for (char &i: _input) {
+        for (char &i : _input) {
             i = '\0';
         }
+        _randomIndex = 0;
+        _sentence.clear();
+        _mistypedIndices.clear();
     }
 } // typeracer

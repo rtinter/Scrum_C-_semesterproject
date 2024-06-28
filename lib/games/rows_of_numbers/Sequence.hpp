@@ -9,6 +9,10 @@ using json = nlohmann::json;
 
 namespace game {
 
+    /*********************************
+    * The Sequence class represents a sequence of numbers, its solution,
+    * and an explanation for the sequence.
+    ***********************************/
     class Sequence {
     public:
         std::string sequence;
