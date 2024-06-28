@@ -7,10 +7,10 @@
 #include "RandomPicker.hpp"
 #include "imgui_internal.h"
 
-/**************************************
+/*************************************************************************************
  * init() fills the matrix with values
- * @param nCellsWithNumbers
- **************************************/
+ * @param nCellsWithNumbers is the number of Cells that should be filled with a number
+ *************************************************************************************/
 void Matrix::init(int nCellsWithNumbers) {
     // check if nColoredCells is within a reasonable range
     if (nCellsWithNumbers < SIZE || nCellsWithNumbers > SIZE * SIZE / 2) {
@@ -23,7 +23,7 @@ void Matrix::init(int nCellsWithNumbers) {
         }
     }
 
-    // color some cells
+    // fill some cells
     for (int n{0}; n < nCellsWithNumbers; ++n) {
         bool isFilled{false};
         while (!isFilled) {
