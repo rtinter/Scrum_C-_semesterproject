@@ -11,6 +11,7 @@ set(CUSTOM_LIBS
         views
         scene
         csv
+        logger
 )
 
 set(GAME_LIBS

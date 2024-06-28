@@ -3,6 +3,7 @@
 #include <memory>
 #include <string>
 #include "Scene.hpp"
+#include "Logger.hpp"
 
 namespace scene {
     /**
