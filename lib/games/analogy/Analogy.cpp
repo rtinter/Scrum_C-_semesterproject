@@ -6,7 +6,7 @@ using json = nlohmann::json;
 namespace game {
 
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
-    Analogy::Analogy() : abstract_game::Game(abstract_game::GameID::ANALOGY) {
+    Analogy::Analogy() : abstract_game::Game(abstract_game::GameID::ANALOGY), _selectedOption{'\0'} {
         _gameName = "Analogien";
         _gameDescription = "Finde das passende Wort.";
         _gameRules = "1. Analysiere die angezeigte Wortverbindung.\n2. Finde das dazu passende Wort.\n"
@@ -78,13 +78,11 @@ namespace game {
         ImGui::Spacing();
         ImGui::Spacing();
 
-        static char selectedOption {'\0'};
-
         for (auto const &option : _currentQuestion.options) {
             ImGui::SetCursorPosX(itemOffsetX);
             std::string label {"  " + option.second};
-            if (ImGui::RadioButton(label.c_str(), selectedOption == option.first)) {
-                selectedOption = option.first;
+            if (ImGui::RadioButton(label.c_str(), _selectedOption == option.first)) {
+                _selectedOption = option.first;
             }
         }
 
@@ -93,8 +91,7 @@ namespace game {
         ImGui::SetCursorPosX(buttonOffsetX);
 
         if (ImGui::Button("Bestätigen")) {
-            checkAnswer(selectedOption);
-            selectedOption = '\0';
+            checkAnswer(_selectedOption);
         }
     }
 
@@ -169,6 +166,7 @@ namespace game {
             _solved++;
             _showCorrectMessage = true;
             _correctMessageStartTime = std::chrono::steady_clock::now();
+            _selectedOption = '\0';
         } else {
             renderGameOver();
         }
@@ -181,6 +179,7 @@ namespace game {
         _isGameRunning = true;
         _showEndBox = false;
         _showStartBox = false;
+        _selectedOption = '\0';
     }
 
     void Analogy::stop() {
