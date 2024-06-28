@@ -5,6 +5,7 @@
 #include <Window.hpp>
 #include <Fonts.hpp>
 #include <TextCentered.hpp>
+#include <RandomPicker.hpp>
 
 #include <nlohmann/json.hpp>
 #include <fstream>
@@ -26,6 +27,9 @@ namespace game {
     // the vector is read in from the file
     std::vector<game::Sequence> RowsOfNumbers::_sequences;
 
+    /*********************************
+    *  Loads the words from the configuration file and stores them in _sequences.
+    ***********************************/
     void RowsOfNumbers::loadWordsFromFile() {
         try {
             std::fstream file("./config/games/rows_of_numbers.json");
@@ -75,25 +79,24 @@ namespace game {
     void RowsOfNumbers::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
 
-        ui_elements::Window("Zahlenreihen").render([this]() {
+        ui_elements::Window(_gameName).render([this]() {
             ImGui::Spacing();
 
             ImGui::PushFont(commons::Fonts::_header1);
 
-            auto now{std::chrono::steady_clock::now()};
-            auto timeSinceCorrectAnswer{
-                    std::chrono::duration_cast<std::chrono::seconds>(now - _correctAnswerTime).count()};
+            _now = std::chrono::steady_clock::now();
+            _timeSinceCorrectAnswer =
+                    std::chrono::duration_cast<std::chrono::seconds>(_now - _correctAnswerTime).count();
 
-
+            // if the input is changed as well as correct we wait for the next row of numbers
+            // if the input is changed and not correct we show the end box with the explanation
             if (_inputChanged && _input == _currentSolution) {
                 _correctAnswerTime = std::chrono::steady_clock::now();
                 _waitingForNextNumber = true;
                 commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             } else if (_inputChanged && _input != _currentSolution) {
                 ui_elements::TextCentered("Falsch!");
-                _showEndBox = true;
                 commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
-                stop();
                 if (_solvedCounter > (_sequences.size() / 2))
                     _endBoxTitle = "Gut gemacht!";
                 else
@@ -103,11 +106,13 @@ namespace game {
                         " Zahlenreihen gelöst.\n\n" +
                         +"Die Lösung der letzten Aufgabe: " + std::to_string(_currentSolution) + "\n" +
                         _currentExplanation;
+                stop();
             }
 
+            // Wait 5 seconds before showing the next number
             if (_waitingForNextNumber &&
-                timeSinceCorrectAnswer >= 1) { // Warten Sie 5 Sekunden, bevor Sie die nächste Zahl generieren
-                _randomSequence = randomIndexGenerator(_sequences.size());
+                _timeSinceCorrectAnswer >= 1) {
+                _randomSequence = commons::RandomPicker::randomInt(0,_sequences.size());
                 _currentSequence = _sequences[_randomSequence].sequence;
                 _currentSolution = _sequences[_randomSequence].solution;
                 _currentExplanation = _sequences[_randomSequence].explanation;
@@ -117,7 +122,8 @@ namespace game {
                 _input = 0;
             }
 
-            if (!_waitingForNextNumber && timeSinceCorrectAnswer < 1) { // Display "Richtig!" for 5 seconds
+            // Display "Richtig!" for 5 seconds
+            if (!_waitingForNextNumber && _timeSinceCorrectAnswer < 1) {
                 ui_elements::TextCentered("Richtig!");
             }
 
@@ -144,10 +150,11 @@ namespace game {
         _inputChanged = false;
         _input = 0;
         _solvedCounter = 0;
-        _randomSequence = randomIndexGenerator(_sequences.size());
+        _randomSequence = commons::RandomPicker::randomInt(0,_sequences.size());
         _currentSequence = _sequences[_randomSequence].sequence;
         _currentSolution = _sequences[_randomSequence].solution;
         _currentExplanation = _sequences[_randomSequence].explanation;
+
         _isGameRunning = true;
         _showEndBox = false;
 
@@ -155,34 +162,33 @@ namespace game {
     }
 
     void RowsOfNumbers::reset() {
+        // reset the game
+        _currentSequence.clear();
+        _currentExplanation.clear();
         start();
     }
 
     void RowsOfNumbers::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
                                                                                      _solvedCounter);
-
     }
 
     void RowsOfNumbers::stop() {
         updateStatistics();
         _isGameRunning = false;
+        _showEndBox = true;
+
+        _waitingForNextNumber = false;
+        _inputChanged = false;
     }
 
     std::string RowsOfNumbers::getName() const {
-        return Game::getName();
+        return _gameName;
     }
 
     RowsOfNumbers::~RowsOfNumbers() {
         _input = 0;
         _solvedCounter = 0;
-    }
-
-    int RowsOfNumbers::randomIndexGenerator(int size) const {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> dis(0, size - 1);
-        return dis(gen);
     }
 
 
