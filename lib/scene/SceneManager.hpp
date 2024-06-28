@@ -3,10 +3,10 @@
 #include <memory>
 #include <string>
 #include "Scene.hpp"
+#include "Logger.hpp"
 
 namespace scene {
 class SceneManager {
-  std::map<std::string, std::unique_ptr<Scene>> _scenes;
   std::unique_ptr<Scene> _currentScene;
   std::unique_ptr<Scene> _toBeDestroyedScene;
 
