@@ -5,22 +5,22 @@
 #include <random>
 
 namespace commons {
-    /*****************************************************
-    * RandomPicker provides methods to pick random
-    * elements from a vector or generate random integers
-    *****************************************************/
+    /**
+     * @brief provides methods to pick random integers or
+     * random vector elements
+     */
     class RandomPicker {
-        static std::random_device _rd;      // initialize random number generator
+        static std::random_device _rd;  // initialize random number generator
 
     public:
         RandomPicker() = delete; // static class
 
-        /**********************************************************
-         * pickRandomElement picks a random element from a vector
+        /**
+         * @brief Picks a random element from a given vector
          * @tparam T data type of vector elements
-         * @param v vector
+         * @param v a vector to pick an element from
          * @return a random element from v
-         *********************************************************/
+         */
         template<typename T>
         static T pickRandomElement(std::vector<T> const &v) {
             std::mt19937 gen(_rd()); // seed Mersenne Twister

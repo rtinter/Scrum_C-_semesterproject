@@ -3,11 +3,10 @@
 #include <imgui.h>
 
 namespace commons {
-    /***********************************************
-     * Colors provides colors as ImVec4 objects.
-     * These colors are used by ColorTheme
-     * (but can be accessed directly, too).
-     **********************************************/
+    /**
+     * @brief Provides colors as ImVec4 objects({red, green, blue, alpha transparency}).
+     * These colors are used by ColorTheme (but can be accessed directly, too).
+     */
     class Colors {
     public:
         Colors() = delete; // static class
@@ -32,7 +31,6 @@ namespace commons {
         static ImVec4 const VERY_LIGHT_GRAY;
         static ImVec4 const LAUREL_GREEN;
         static ImVec4 const GOLD;
-        static ImVec4 const EARTH_YELLOW;
     };
 }
 

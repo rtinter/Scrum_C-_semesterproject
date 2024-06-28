@@ -2,13 +2,13 @@
 #include "ColorHelper.hpp"
 
 namespace commons {
-    /********************************************************************************
-     * adjustBrightness returns a darker or brighter shade of a given ImVec4 color
+    /**
+     * @brief Returns a darker or brighter shade of a given ImVec4 color
      * @param color ImVec4 color that should be made brighter or darker
-     * @param factor should be > 1.0 to make color brighter
-     * and between 0.0 and 1.0 to make color darker
+     * @param factor should be > 1.0f to make color brighter
+     * and between 0.0f and 1.0f to make color darker
      * @return modified ImVec4 color
-     ********************************************************************************/
+     */
     ImVec4 ColorHelper::adjustBrightness(ImVec4 const &color, float const &factor) {
         ImVec4 adjusted = color;
         if (factor > 1.0f) { // make color brighter
@@ -28,12 +28,12 @@ namespace commons {
     }
 
     /**
-     * withOpacity returns a color with the same RGB values as the input color
+     * @brief Returns a color with the same RGB values as the input color
      * but with an adjusted opacity
      * @param color ImVec4 color that should be modified
-     * @param opacity new opacity value
+     * @param opacity new opacity value, should be between 0.0f (no transparency) and 1.0f (full transparency)
      * @return modified ImVec4 color
-     **/
+     */
     ImVec4 ColorHelper::withOpacity(ImVec4 const &color, float const &opacity) {
         return ImVec4(color.x, // red
                       color.y, // green
@@ -43,11 +43,11 @@ namespace commons {
     }
 
     /**
-     * isEqual compares whether two ImVec4 colors are the same
-     * @param color1 a ImVec4 color
+     * @brief: compares whether two ImVec4 colors are the same
+     * @param color1 an ImVec4 color
      * @param color2 another ImVec4 color
      * @return boolean value: Are color1 and color2 the same color?
-     **/
+     */
     bool ColorHelper::isEqual(ImVec4 const &color1, ImVec4 const &color2) {
         float const epsilon{0.005f}; // max. difference that is allowed for "same" colors
         return std::abs(color1.x - color2.x) < epsilon &&

@@ -4,10 +4,10 @@
 #include "imgui.h"
 
 namespace commons {
-/**************************************************************************
- * ColorHelper provides methods to compare and to modify color objects,
+/**
+ * @brief provides methods to compare and to modify color objects,
  * e.g. adjust color brightness
- **************************************************************************/
+ */
     class ColorHelper {
     public:
         ColorHelper() = delete; // static class
