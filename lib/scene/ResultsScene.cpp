@@ -1,10 +1,9 @@
 #include <iostream>
-#include "ResultsScene.h"
+#include "ResultsScene.hpp"
 #include "DashboardScene.hpp"
 #include "SceneManager.hpp"
 #include "CsvParser.hpp"
 #include "GameIDs.hpp"
-#include "TextCentered.hpp"
 #include <map>
 #include <vector>
 #include <string>
@@ -18,15 +17,23 @@ namespace scene {
         displayResults();
     }
 
+    /*********************************
+    * Loads session data from CSV files and processes it.
+    * - Reads "game_session.csv" and "game_runthroughs.csv".
+    * - Skips header rows.
+    * - Converts start and end times to duration.
+    * - Populates _sessionsMap with the session data.
+    * - Prints the processed data for debugging.
+    ***********************************/
     void ResultsScene::loadSessionData() {
         // Laden der CSV-Daten
 
         abstract_game::CsvStorage storage;
         csv::CsvParser gameSessionParser("game_session.csv");
-        auto gameSessionData = gameSessionParser.parse();
+        auto gameSessionData{gameSessionParser.parse()};
 
         csv::CsvParser gameRunThroughParser("game_runthroughs.csv");
-        auto gameRunThroughData = gameRunThroughParser.parse();
+        auto gameRunThroughData{gameRunThroughParser.parse()};
 
         if (gameSessionData.empty() || gameRunThroughData.empty()) {
             return;
@@ -42,26 +49,26 @@ namespace scene {
         }
 
         // Verarbeiten der Daten und Befüllen der Datenstruktur
-        for (const auto &row : gameSessionData) {
+        for (auto const &row : gameSessionData) {
             if (!row.empty()) {
-                int gameID = std::stoi(row[0]);
-                std::string sessionUID = row[1];
-                std::string startTimeStr = row[3];
-                std::string endTimeStr = row[4];
-                std::string durationStr = row[5];
+                int gameID{std::stoi(row[0])};
+                std::string sessionUID {row[1]};
+                std::string startTimeStr {row[3]};
+                std::string endTimeStr {row[4]};
+                std::string durationStr{row[5]};
 
-                time_t converted = stringToTimeT(startTimeStr);
+                time_t converted {stringToTimeT(startTimeStr)};
                 std::string dateString {storage.getDateString(converted)};
 
                 // Konvertiere Start- und Endzeit in time_t
-                std::time_t startTime = stringToTimeT(startTimeStr);
-                std::time_t endTime = stringToTimeT(endTimeStr);
+                std::time_t startTime {stringToTimeT(startTimeStr)};
+                std::time_t endTime {stringToTimeT(endTimeStr)};
 
                 // Berechne die Dauer in Sekunden
-                std::chrono::seconds duration = std::chrono::seconds(endTime - startTime);
+                std::chrono::seconds duration {std::chrono::seconds(endTime - startTime)};
 
                 // Erstelle die Datenzeile
-                std::vector<std::string> sessionData = {
+                std::vector<std::string> sessionData {
                         dateString,
                         std::to_string(duration.count()) + " s",
                 };
@@ -70,18 +77,18 @@ namespace scene {
             }
         }
 
-        for (const auto &pair : _sessionsMap) {
+        for (auto const &pair : _sessionsMap) {
             std::cout << "GameID: " << pair.first << " ";
-            for (const auto &session : pair.second) {
+            for (auto const &session : pair.second) {
                 std::cout << "SessionUID: " << session.first << " ";
-                for (const auto &value : session.second) {
+                for (auto const &value : session.second) {
                     std::cout << value << " ";
                 }
             }
             std::cout << std::endl;
         }
 
-        for (const auto &row : gameRunThroughData) {
+        for (auto const &row : gameRunThroughData) {
                 std::cout << "Row: ";
                 std::cout << row.size() << " ";
                 for (auto const &field : row) {
@@ -90,13 +97,17 @@ namespace scene {
                 std::cout << std::endl;
 
             if (!row.empty()) {
-                std::string sessionUID = row[1];
-                std::string result = row[2];
-                std::string resultUnit = row[3];
+                std::string sessionUID {row[1]};
+                std::string result {row[2]};
+                std::string resultUnit {row[3]};
 
                 int totalSessions {0};
                 std::string totalSessionsString;
 
+                // Skip this session if there is no result
+                if (result.empty()) {
+                    continue;
+                }
 
                 for (auto &pair : _sessionsMap) {
                     totalSessions += pair.second.size();
@@ -105,19 +116,22 @@ namespace scene {
                         std::cout << session.first << " " << sessionUID << std::endl;
                         if (session.first == sessionUID) {
                             std::cout << "Result " << result << " " << resultUnit << std::endl;
+                            std::string combinedResult {result};
+                            combinedResult.append(" ").append(resultUnit);
                             session.second.push_back(totalSessionsString);
-                            session.second.push_back(result + " " + resultUnit);
+                            session.second.push_back(combinedResult);
                         }
                     }
                 }
             }
         }
 
-        for (const auto &pair : _sessionsMap) {
+        // Debug print of _sessionsMap content -> kept for logging and debugging purposes
+        for (auto const &pair : _sessionsMap) {
             std::cout << "GameID: " << pair.first << " ";
-            for (const auto &session : pair.second) {
+            for (auto const &session : pair.second) {
                 std::cout << "SessionUID: " << session.first << " ";
-                for (const auto &value : session.second) {
+                for (auto const &value : session.second) {
                     std::cout << value << " ";
                 }
             }
@@ -125,22 +139,28 @@ namespace scene {
         }
     }
 
+    /*********************************
+    * Displays the results by populating game tables with session data.
+    * - Creates header line for tables.
+    * - Maps session data to game tables.
+    * - Adds game tables to the _results object for rendering.
+    ***********************************/
     void ResultsScene::displayResults() {
 
         std::vector<std::string> stringvectorHeaderline{"Datum", "Dauer", "Anzahl der Sessions", "Ergebnis"};
         std::map<int, ui_elements::StatisticsGameTable> gameTables;
 
-        // Daten in die Tabelle einfügen
-        for (const auto &pair : _sessionsMap) {
-            std::string getGameName = abstract_game::getGameName(static_cast<abstract_game::GameID>(pair.first));
+        // add data to gameTables
+        for (auto const &pair : _sessionsMap) {
+            std::string getGameName {abstract_game::getGameName(static_cast<abstract_game::GameID>(pair.first))};
             std::map<int, std::vector<std::string>> gameDataMap;
             gameDataMap[0] = stringvectorHeaderline;
 
-            int rowIndex = 1;
-            for (const auto &session : pair.second) {
+            int rowIndex {1};
+            for (auto const &session : pair.second) {
                 std::cout << "Session: " << session.first << std::endl;
 
-                std::vector<std::string> row = session.second;
+                std::vector<std::string> row {session.second};
                 gameDataMap[rowIndex++] = row;
             }
 
