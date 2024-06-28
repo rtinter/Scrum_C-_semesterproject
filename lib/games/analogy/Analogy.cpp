@@ -67,10 +67,10 @@ namespace game {
     // Renders the current question and answer options
     void Analogy::renderQuestion() {
 
-        float const buttonWidth {100.0f};
-        float const buttonOffsetX {(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
-        float const itemWidth {100.0f};
-        float const itemOffsetX {(ImGui::GetWindowWidth() - itemWidth) / 2.0f};
+        float const buttonWidth{100.0f};
+        float const buttonOffsetX{(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
+        float const itemWidth{100.0f};
+        float const itemOffsetX{(ImGui::GetWindowWidth() - itemWidth) / 2.0f};
 
         ImGui::PushFont(commons::Fonts::_header2);
         ui_elements::TextCentered(_currentQuestion.questionText.c_str());
@@ -79,9 +79,9 @@ namespace game {
         ImGui::Spacing();
         ImGui::Spacing();
 
-        for (auto const &option : _currentQuestion.options) {
+        for (auto const &option: _currentQuestion.options) {
             ImGui::SetCursorPosX(itemOffsetX);
-            std::string label {"  " + option.second};
+            std::string label{"  " + option.second};
             if (ImGui::RadioButton(label.c_str(), _selectedOption == option.first)) {
                 _selectedOption = option.first;
             }
@@ -97,9 +97,9 @@ namespace game {
     }
 
     // Renders a message and current score when the correct answer is given
-    void Analogy::renderCorrectMessage(){
-        auto now {std::chrono::steady_clock::now()};
-        auto duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
+    void Analogy::renderCorrectMessage() {
+        auto const now{std::chrono::steady_clock::now()};
+        auto const duration{std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
         if (duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);
@@ -123,8 +123,8 @@ namespace game {
 
         _endBoxTitle = "Das war leider nicht korrekt";
         _endBoxText = "Du hast diesmal " +
-                std::to_string(_solved) + " in Folge lösen können\n\n"
-                + "Die Lösung der letzten Aufgabe lautet:\n\n" + _currentQuestion.explanation;
+                      std::to_string(_solved) + " in Folge lösen können\n\n"
+                      + "Die Lösung der letzten Aufgabe lautet:\n\n" + _currentQuestion.explanation;
     }
 
     // Loads questions/answers from the questionnaire JSON file
@@ -141,7 +141,7 @@ namespace game {
             file >> data;
             file.close();
 
-            for (const auto &elem : data["questionnaire"]) {
+            for (auto const &elem: data["questionnaire"]) {
                 Question q;
                 q.questionText = elem["question"];
                 q.options['a'] = elem["options"]["a"];
@@ -161,14 +161,14 @@ namespace game {
     }
 
     // Generates a random question from the loaded questions
-    void Analogy::generateRandomQuestion(){
+    void Analogy::generateRandomQuestion() {
         if (!_questions.empty()) {
             _currentQuestion = commons::RandomPicker::pickRandomElement(_questions);
         }
     }
 
     // Checks the selected answer and updates the game state
-    void Analogy::checkAnswer(char const &selectedOption){
+    void Analogy::checkAnswer(char const &selectedOption) {
         if (selectedOption == _currentQuestion.correctAnswer) {
             _solved++;
             _showCorrectMessage = true;
@@ -202,9 +202,5 @@ namespace game {
     // Updates game statistics with the number of correct answers
     void Analogy::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten", _solved);
-    }
-
-    std::string Analogy::getName() const {
-        return Game::getName();
     }
 }

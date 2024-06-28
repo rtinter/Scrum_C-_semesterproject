@@ -108,12 +108,5 @@ namespace game {
          */
         void updateStatistics() override;
 
-        /**
-         * @brief Returns the name of the game.
-         * @return The name of the game.
-         */
-        virtual std::string getName() const override;
-
-
     };
 }
