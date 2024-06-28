@@ -5,6 +5,9 @@
 
 namespace logger {
     void Logger::flush() {
+        std::queue<QueueEntry> empty;
+        // https://stackoverflow.com/questions/709146/how-do-i-clear-the-stdqueue-efficiently
+        this->_sink.swap(empty);
     }
 
     void Logger::log(const QueueEntry& entry) {
