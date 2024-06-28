@@ -9,12 +9,12 @@ namespace abstract_game {
         AIM_TRAINER = 1003,
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
-        SEQUENCE = 1011,
-        REMEMBERING = 1009,
         CALC = 1006,
         MATRIX = 1007,
         ROWS_OF_NUMBERS = 1008,
-        ANALOGY = 1010
+        REMEMBERING = 1009,
+        ANALOGY = 1010,
+        SEQUENCE = 1011,
     };
 
     static std::string getGameName(GameID gameID) {
@@ -29,14 +29,18 @@ namespace abstract_game {
                 return "Buchstabensalat";
             case GameID::TYPERACER:
                 return "TypeRacer";
-            case GameID::REMEMBERING:
-                return "Fakten merken";
+            case GameID::CALC:
+                return "Schnelles Rechnen";
             case GameID::MATRIX:
                 return "Matrix";
-            case GameID::SEQUENCE:
-                return "Sequence";
+            case GameID::ROWS_OF_NUMBERS:
+                return "Zahlenreihen";
+            case GameID::REMEMBERING:
+                return "Fakten merken";
             case GameID::ANALOGY:
                 return "Analogie";
+            case GameID::SEQUENCE:
+                return "Sequence";
             default:
                 return "Unknown";
         }
