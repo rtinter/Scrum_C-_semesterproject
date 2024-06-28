@@ -7,7 +7,7 @@
 
 namespace memory {
 
-    Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY) {
+    Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY), _imageManager(ImageManager::getInstance()) {
         _gameName = "Memory";
         _gameDescription =
                 "Memory ist ein Spiel, welches deine Konzentration und Merkfähigkeit auf die Probe stellt.\n"
@@ -28,8 +28,6 @@ namespace memory {
                 "2. Klicke auf 'Versuch es nochmal', um das Spiel zurückzusetzen und es erneut zu versuchen.\n"
                 "3. Klicke auf 'Zurück zur Startseite', um zum Hauptmenü zurückzukehren.";
 
-        // Load images using ImageManager
-        _imageManager = ImageManager();
     }
 
     void Memory::initializeTiles() {

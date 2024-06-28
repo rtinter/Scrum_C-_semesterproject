@@ -24,7 +24,7 @@ namespace memory {
         std::unique_ptr<ui_elements::Timer> _timer;
         std::vector<std::shared_ptr<MemoryTile>> _tiles;
         std::vector<Coordinates> _coordinates;
-        ImageManager _imageManager; // Use ImageManager for managing images
+        ImageManager& _imageManager; // Use ImageManager for managing images
 
         bool _showAllTiles{false}; //unused
 
