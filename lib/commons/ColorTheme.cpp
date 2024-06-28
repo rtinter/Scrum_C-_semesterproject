@@ -8,6 +8,7 @@ namespace commons {
     ImVec4 const ColorTheme::SECONDARY_COLOR = Colors::GOLD;
     ImVec4 const ColorTheme::WARNING_COLOR = Colors::ORANGE;
     ImVec4 const ColorTheme::SUCCESS_COLOR = Colors::BRIGHT_GREEN;
+    ImVec4 const ColorTheme::ACCENT_COLOR = Colors::EARTH_YELLOW;
     ImVec4 const ColorTheme::ERROR_COLOR = Colors::BRIGHT_RED;
 
     /**

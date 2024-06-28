@@ -22,4 +22,5 @@ namespace commons {
     ImVec4 const Colors::GOLD = {0.851f, 0.788f, 0.592f, 1.f};
     ImVec4 const Colors::PURPLE = {0.36f, 0.255f, 0.529f, 1.f};
     ImVec4 const Colors::SEAFOAM = {0.341f, 0.635f, 0.702f, 1.f};
+    ImVec4 const Colors::EARTH_YELLOW = {0.843, 0.694, 0.384, 1};
 }

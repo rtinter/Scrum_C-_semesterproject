@@ -42,7 +42,7 @@ namespace commons {
 
         // Build & Update
         io.Fonts->Build();
-        if (ImGui::SFML::UpdateFontTexture()) {
+        if (!ImGui::SFML::UpdateFontTexture()) {
             std::cerr << "UpdateFontTexture failed." << std::endl;
         }
     }

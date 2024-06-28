@@ -11,9 +11,9 @@ namespace game {
         ui_elements::Timer _timer{"Matrix Game", 120};
         int _nCorrectClicksInTotal;
         int _longestStreak;
-        int _nCellsWithNumbersMin;
-        int _nCellsWithNumbersMax;
-        int _nCellsWithNumbers;
+        int _nMarkedCellsMin;
+        int _nMarkedCellsMax;
+        int _nMarkedCells;
         int _nCorrectClicksSinceLastError;
         int _idOfCorrectMatrix;
         Matrix _mainMatrix;
@@ -34,7 +34,7 @@ namespace game {
 
         void initMatricesToChooseFrom();
 
-        void onClick(bool isCorrect);
+        void onClick(bool const &isCorrect);
 
 
     public:

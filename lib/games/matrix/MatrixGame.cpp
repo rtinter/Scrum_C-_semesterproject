@@ -21,14 +21,14 @@ namespace game {
                      "Du hast 2 Minuten Zeit."
                      "Bei einer falschen Antwort werden 10 Sekunden von der Zeit abgezogen.\n";
         _gameControls = "Linke Maustaste: Klicke auf die richtige Matrix in der rechten Spalte.";
-        _nCellsWithNumbersMax = Matrix::getSize() * Matrix::getSize() / 2;
-        _nCellsWithNumbersMin = Matrix::getSize();
+        _nMarkedCellsMax = Matrix::getSize() * Matrix::getSize() / 2;
+        _nMarkedCellsMin = Matrix::getSize();
     }
 
-    /******************************************************************
-     * render() displays the startbox, the endbox or the game itself,
+    /**
+     * @brief displays the startbox, the endbox or the game itself,
      * depending on the game state
-     ******************************************************************/
+     */
     void MatrixGame::render() {
         ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,
                              [this] {
@@ -44,10 +44,10 @@ namespace game {
         }
     }
 
-    /*************************************************************
-     * renderGame() displays all UI Elements of the running game
+    /**
+     * @brief displays all UI Elements of the running game
      * (timer, matrices, text)
-     *************************************************************/
+     */
     void MatrixGame::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::Colors::BLACK);
         ui_elements::Window("Matrix Game").render([this] {
@@ -63,10 +63,10 @@ namespace game {
         ImGui::PopStyleColor(); // pop ImGuiCol_WindowBg
     }
 
-    /****************************************************************************
-     * renderQuestion() displays the question text ("rotiert?" or "gespiegelt?")
+    /**
+     * @brief displays the question text ("rotiert?" or "gespiegelt?")
      * and the main matrix
-     ****************************************************************************/
+     */
     void MatrixGame::renderQuestion() {
         ImGui::SameLine(0.f, 600);
         ImGui::BeginGroup();
@@ -91,10 +91,10 @@ namespace game {
         ImGui::PopFont();
     }
 
-    /***********************************************
-     * renderAnswerOptions displays smaller matrices
+    /**
+     * @brief displays smaller matrices
      * that serve as answer buttons
-     ***********************************************/
+     */
     void MatrixGame::renderAnswerOptions() {
         float displayedSize = Matrix::getSize() * Matrix::getCellSizeSmall();
         ImGui::BeginGroup();
@@ -137,13 +137,13 @@ namespace game {
         ImGui::EndGroup();
     }
 
-    /**********************************************************************
-     * onClick defines the actions that take place
+    /**
+     * @brief defines the actions that take place
      * when one of the smaller matrices (= answer options) was clicked -
      * depending on whether the answer was correct
      * @param isCorrect
-     **********************************************************************/
-    void MatrixGame::onClick(bool const isCorrect) {
+     */
+    void MatrixGame::onClick(bool const &isCorrect) {
         if (isCorrect) {
             commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             _nCorrectClicksInTotal++;
@@ -157,10 +157,10 @@ namespace game {
         }
     }
 
-    /**************************************************************
-     * stop() will be called when the timer expires.
+    /**
+     * @brief will be called when the timer expires.
      * It will stop the game loop and set the endbox visible.
-     ***************************************************************/
+     */
     void MatrixGame::stop() {
         updateStatistics();
         _endBoxText =
@@ -171,10 +171,10 @@ namespace game {
         _endBoxTitle = "Zeit abgelaufen!";
     }
 
-    /*************************************************************
-     * start() resets the game state, makes the endbox invisible
+    /**
+     * @brief resets the game state, makes the endbox invisible
      * and (re-)starts the timer
-     *************************************************************/
+     */
     void MatrixGame::start() {
         reset();
         _isGameRunning = true;
@@ -182,9 +182,9 @@ namespace game {
         _timer.start();
     }
 
-    /****************************************************************
-     * reset() deletes all click records and generates new matrices
-     ****************************************************************/
+    /**
+     * @brief deletes all click records and generates new matrices
+     */
     void MatrixGame::reset() {
         _nCorrectClicksSinceLastError = 0;
         _nCorrectClicksInTotal = 0;
@@ -192,31 +192,31 @@ namespace game {
         generateNewMatrices();
     }
 
-    /***********************************************************
-     * generateNewMatrices() creates a new main matrix
+    /**
+     * @brief creates a new main matrix
      * as well as several matrices that serve as answer options.
      * All matrices have the same number of non-empty cells.
-     *************************************************************/
+     */
     void MatrixGame::generateNewMatrices() {
-        _nCellsWithNumbers = commons::RandomPicker::randomInt(_nCellsWithNumbersMin, _nCellsWithNumbersMax);
-        _mainMatrix.init(_nCellsWithNumbers);
+        _nMarkedCells = commons::RandomPicker::randomInt(_nMarkedCellsMin, _nMarkedCellsMax);
+        _mainMatrix.init(_nMarkedCells);
         initMatricesToChooseFrom();
     }
 
-    /******************************************************
-     * initMatricesToChooseFrom() creates several incorrect
+    /**
+     * @brief creates several incorrect
      * and one correct matrix as answer options
-     ******************************************************/
+     */
     void MatrixGame::initMatricesToChooseFrom() {
         _currentGameMode = commons::RandomPicker::pickRandomElement(
                 std::vector<GameMode>{GameMode::MIRROR, GameMode::ROTATE});
 
         // create matrices that are NOT correct
         for (Matrix &matrix: _matricesToChooseFrom) {
-            matrix.init(_nCellsWithNumbers);
+            matrix.init(_nMarkedCells);
             while (_currentGameMode == GameMode::MIRROR && matrix.isMirroredVersionOf(_mainMatrix) ||
                    _currentGameMode == GameMode::ROTATE && matrix.isRotatedVersionOf(_mainMatrix)) {
-                matrix.init(_nCellsWithNumbers);
+                matrix.init(_nMarkedCells);
             }
         }
 
@@ -244,8 +244,6 @@ namespace game {
                 _matricesToChooseFrom[_idOfCorrectMatrix] = _mainMatrix.getAMirroredVersion();
                 break;
         }
-
-
     }
 
     void MatrixGame::updateStatistics() {

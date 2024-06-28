@@ -31,6 +31,7 @@ namespace commons {
         static ImVec4 const VERY_LIGHT_GRAY;
         static ImVec4 const LAUREL_GREEN;
         static ImVec4 const GOLD;
+        static ImVec4 const EARTH_YELLOW;
     };
 }
 

@@ -19,8 +19,10 @@ namespace commons {
         static ImVec4 const WARNING_COLOR;
         static ImVec4 const SUCCESS_COLOR;
         static ImVec4 const ERROR_COLOR;
+        static ImVec4 const ACCENT_COLOR;
 
         static void setup();
+
     };
 
 } // commons

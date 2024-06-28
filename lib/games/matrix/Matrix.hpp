@@ -8,6 +8,7 @@ class Matrix {
     int static constexpr SIZE{5};
     float static constexpr CELL_SIZE_BIG{50.};
     float static constexpr CELL_SIZE_SMALL{29.};
+    int _unmarked{-9999};
     int _data[SIZE][SIZE];
 
     Matrix rotate90DegreesRight(int nTimes) const;
@@ -30,7 +31,7 @@ public:
 
     void renderSmall();
 
-    void init(int nCellsWithNumbers);
+    void init(int nMarkedCells);
 
     static int getSize();
 
