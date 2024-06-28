@@ -24,15 +24,15 @@ namespace logger {
 
         QueueEntryType _type {QueueEntryType::DEBUG};
         std::future<void> _sinkBackgroundTask {};
+        void log(const QueueEntry& entry);
 
     public:
         static Logger &getInstance();
 
         virtual ~Logger();
 
-
         void flush();
-        void log(const QueueEntry& entry);
+        void log(const std::string &content, QueueEntryType type);
         static void sinkTask(Logger &logger);
 
         static std::string getDateString(time_t timestamp)

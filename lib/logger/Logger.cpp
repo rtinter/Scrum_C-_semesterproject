@@ -34,6 +34,7 @@ namespace logger {
             std::string path {"session_"};
             path.append(std::to_string(time(nullptr)));
             path.append(".txt");
+
             logger._initialized = true;
             logger._outputStream.open(path);
             logger._sinkBackgroundTask = std::async(std::launch::async, [&](){
@@ -48,5 +49,15 @@ namespace logger {
         this->_stop = true;
         this->flush();
         this->_outputStream.close();
+    }
+
+    void Logger::log(const std::string &content, QueueEntryType type) {
+        QueueEntry entry {
+            .timestamp = time(nullptr),
+            .content = content,
+            .entryType = type
+        };
+
+        this->_sink.emplace(entry);
     }
 }

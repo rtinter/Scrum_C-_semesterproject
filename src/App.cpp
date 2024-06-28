@@ -23,7 +23,6 @@ void App::start() {
 
     sf::VideoMode videoMode(WINDOW_WIDTH, WINDOW_HEIGHT);
     sf::RenderWindow window(videoMode, TILE, sf::Style::Close);
-    window.setFramerateLimit(FRAME_RATE);
 
     //init singleton and start Dashboard
     scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
