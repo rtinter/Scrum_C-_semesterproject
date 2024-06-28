@@ -3,6 +3,11 @@
 #include <string>
 
 namespace abstract_game {
+
+    /*********************************
+    * Enumeration for different Game IDs.
+    * Each game is assigned a unique integer identifier.
+    ***********************************/
     enum class GameID {
         REACTION = 1001,
         COLOR_MATCH = 1002,
@@ -17,6 +22,11 @@ namespace abstract_game {
         SEQUENCE = 1011,
     };
 
+    /*********************************
+    * Retrieves the name of the game corresponding to the given GameID.
+    * @param gameID The unique identifier of the game.
+    * @return The name of the game as a string. Returns "Unknown" if the GameID is not recognized.
+    ***********************************/
     static std::string getGameName(GameID gameID) {
         switch (gameID) {
             case GameID::REACTION:
