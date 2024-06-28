@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Logger.hpp"
 #include <Colors.hpp>
 #include <Game.hpp>
 #include <imgui.h>
@@ -106,13 +107,6 @@ namespace game {
          * @brief Updates the game statistics.
          */
         void updateStatistics() override;
-
-        /**
-         * @brief Returns the name of the game.
-         * @return The name of the game.
-         */
-        virtual std::string getName() const override;
-
 
     };
 }

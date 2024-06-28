@@ -3,21 +3,31 @@
 #include <string>
 
 namespace abstract_game {
+
+    /*********************************
+    * Enumeration for different Game IDs.
+    * Each game is assigned a unique integer identifier.
+    ***********************************/
     enum class GameID {
         REACTION = 1001,
         COLOR_MATCH = 1002,
         AIM_TRAINER = 1003,
         LETTER_SALAD = 1004,
         TYPERACER = 1005,
-        SEQUENCE = 1011,
-        REMEMBERING = 1009,
         CALC = 1006,
         MATRIX = 1007,
         ROWS_OF_NUMBERS = 1008,
+        REMEMBERING = 1009,
         ANALOGY = 1010,
+        SEQUENCE = 1011,
         MEMORY = 1012
     };
 
+    /*********************************
+    * Retrieves the name of the game corresponding to the given GameID.
+    * @param gameID The unique identifier of the game.
+    * @return The name of the game as a string. Returns "Unknown" if the GameID is not recognized.
+    ***********************************/
     static std::string getGameName(GameID gameID) {
         switch (gameID) {
             case GameID::REACTION:
@@ -30,14 +40,18 @@ namespace abstract_game {
                 return "Buchstabensalat";
             case GameID::TYPERACER:
                 return "TypeRacer";
-            case GameID::REMEMBERING:
-                return "Fakten merken";
+            case GameID::CALC:
+                return "Schnelles Rechnen";
             case GameID::MATRIX:
                 return "Matrix";
-            case GameID::SEQUENCE:
-                return "Sequence";
+            case GameID::ROWS_OF_NUMBERS:
+                return "Zahlenreihen";
+            case GameID::REMEMBERING:
+                return "Fakten merken";
             case GameID::ANALOGY:
                 return "Analogie";
+            case GameID::SEQUENCE:
+                return "Sequence";
             case GameID::MEMORY:
                 return "Memory";
             default:

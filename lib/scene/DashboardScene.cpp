@@ -1,5 +1,5 @@
 #include "DashboardScene.hpp"
-#include "ResultsScene.h"
+#include "ResultsScene.hpp"
 #include "SceneManager.hpp"
 #include "GameScene.hpp"
 #include "Reaction.hpp"

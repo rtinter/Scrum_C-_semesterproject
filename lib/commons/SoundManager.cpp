@@ -1,5 +1,6 @@
 #include <iostream>
 #include "SoundManager.hpp"
+#include "../logger/Logger.hpp"
 #include <SFML/Audio.hpp>
 
 namespace commons {
@@ -12,6 +13,7 @@ namespace commons {
 
     void SoundManager::loadSounds() {
 
+        logger::Logger& instance {logger::Logger::getInstance()};
         // load sound buffers, add new sounds here
         initSoundBuffer(Sound::CLICK, "click.mp3");
         initSoundBuffer(Sound::LASER_GUN, "laser-gun.mp3");
@@ -22,6 +24,8 @@ namespace commons {
         initSoundBuffer(Sound::BEEP, "beep.mp3");
         initSoundBuffer(Sound::BEEP_FAIL, "beep-fail.mp3");
         initSoundBuffer(Sound::CARD_FLIP, "card-flip.mp3");
+
+        instance << "Sound Manager loaded";
     }
 
     void SoundManager::initSoundBuffer(commons::Sound sound, std::string const &filename) {
@@ -41,6 +45,8 @@ namespace commons {
 
     void SoundManager::playSound(commons::Sound sound, int volumeInPercent) {
         playSound(sound, volumeInPercent, 1.0f);
+        logger::Logger& instance {logger::Logger::getInstance()};
+        instance << "Playing Sound";
     }
 
     void SoundManager::playSound(commons::Sound sound, int volumeInPercent, float pitch) {
@@ -68,5 +74,7 @@ namespace commons {
         _activeSound.setPitch(pitch);
         _activeSound.play();
 
+        logger::Logger& instance {logger::Logger::getInstance()};
+        instance << "Playing Sound";
     }
 }
