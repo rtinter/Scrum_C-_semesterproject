@@ -78,7 +78,7 @@ namespace game {
     void RowsOfNumbers::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
 
-        ui_elements::Window("Zahlenreihen").render([this]() {
+        ui_elements::Window(_gameName).render([this]() {
             ImGui::Spacing();
 
             ImGui::PushFont(commons::Fonts::_header1);
@@ -180,7 +180,7 @@ namespace game {
     }
 
     std::string RowsOfNumbers::getName() const {
-        return Game::getName();
+        return _gameName;
     }
 
     RowsOfNumbers::~RowsOfNumbers() {
