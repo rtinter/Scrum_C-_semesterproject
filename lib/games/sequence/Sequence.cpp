@@ -7,7 +7,6 @@
 #include "Centered.hpp"
 #include "SoundPolice.hpp"
 #include <algorithm>
-#include <iostream>
 #include <random>
 #include <thread>
 
