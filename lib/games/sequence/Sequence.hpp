@@ -155,7 +155,7 @@ namespace sequence {
         static void playButtonSound(int const &buttonID);
 
     public:
-        Sequence();
+        explicit Sequence();
 
         void render() override;
 
