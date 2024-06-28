@@ -104,6 +104,8 @@ namespace game {
 
     void RowsOfSymbols::reset() {
         _timer.reset();
+        _correctSymbols = 0;
+        _wrongSymbols = 0;
         start();
     }
 
