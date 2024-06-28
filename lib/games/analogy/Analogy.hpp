@@ -1,6 +1,6 @@
 #pragma once
 
-#include "logger.hpp"
+#include "Logger.hpp"
 #include <Colors.hpp>
 #include <Game.hpp>
 #include <imgui.h>
