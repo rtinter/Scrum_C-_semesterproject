@@ -152,7 +152,7 @@ namespace game {
                 q.explanation = elem["explanation"];
                 _questions.emplace_back(q);
             }
-        } catch (const std::exception &e) {
+        } catch (std::exception const &e) {
             std::stringstream error;
             error << "Error opening or reading the file questionnaire.json: " << e.what();
             std::cerr << error.str() << std::endl;
