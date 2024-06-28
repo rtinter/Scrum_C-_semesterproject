@@ -66,7 +66,7 @@ namespace game {
 
     void Symbol::renderOuterCircle(ImDrawList &drawList) {
 
-        ImU32 colorCircle {IM_COL32(255, 0, 0, 255)};
+        ImU32 colorCircle {IM_COL32(205, 0, 0, 255)};
         float radius {SYMBOL_SIZE * 0.5f};
 
         ImVec2 circleCenter {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN)};
@@ -76,7 +76,7 @@ namespace game {
 
     void Symbol::renderInnerRect(ImDrawList &drawList) {
 
-        ImU32 colorSquare {IM_COL32(255, 0, 0, 255)};
+        ImU32 colorSquare {IM_COL32(205, 0, 0, 255)};
         float innerGap {SYMBOL_SIZE * INNER_GAP};
 
         ImVec2 topLeft {ImVec2(ImGui::GetCursorScreenPos().x + innerGap + MARGIN, ImGui::GetCursorScreenPos().y + innerGap + MARGIN)};
@@ -87,7 +87,7 @@ namespace game {
 
     void Symbol::renderInnerCircle(ImDrawList &drawList) {
 
-        ImU32 colorCircle {IM_COL32(255, 0, 0, 255)};
+        ImU32 colorCircle {IM_COL32(205, 0, 0, 255)};
         float radius {SYMBOL_SIZE * 0.5f};
         float innerGap {SYMBOL_SIZE * INNER_GAP};
 
@@ -108,7 +108,7 @@ namespace game {
 
     void Symbol::renderPoint(RelativePointPosition relativePointPosition, ImDrawList &drawList) {
 
-        ImU32 color {IM_COL32(255, 0, 0, 255)};
+        ImU32 color {IM_COL32(238, 0, 0, 255)};
         float x {ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN};
         float y {ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN};
 
