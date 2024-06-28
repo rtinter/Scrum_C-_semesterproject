@@ -178,7 +178,6 @@ namespace typeracer {
     void TypeRacer::stop() {
         _endBoxTitle = "Geschafft!";
         _runTimer = false;
-        _isGameRunning = false;
         _showEndBox = true;
         updateStatistics();
         _isGameRunning = false;

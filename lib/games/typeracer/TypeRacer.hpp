@@ -9,11 +9,11 @@
 namespace typeracer {
 
     /******************************************************
-     *<b>Type Racer Game</b><br>
-     *
-     * Type Racer ist gibt dem User zwei Sätze und misst die Geschwindigkeit der Tastenanschläge, sowie zeigt richtige
-     * und falsche Buchstaben.
-    **************************************************+***/
+     *Type Racer Game
+         * Type Racer gives the user two sentences and measures the typing speed,
+         * as well as showing correct and incorrect letters.
+    *******************************************************/
+
 
     class TypeRacer : public abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};

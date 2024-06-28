@@ -9,6 +9,10 @@
 
 namespace game {
 
+    /*********************************
+    * The RowsOfNumbers class manages the game,
+    * where the user has to find the missing number in a sequence of numbers.
+    ***********************************/
     class RowsOfNumbers : abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
         int _input {0};
@@ -17,6 +21,8 @@ namespace game {
         std::string _currentSequence;
         int _currentSolution;
         std::string _currentExplanation;
+        std::chrono::time_point<std::chrono::steady_clock> _now;
+        long _timeSinceCorrectAnswer;
         std::chrono::steady_clock::time_point _correctAnswerTime;
         bool _waitingForNextNumber;
         bool _inputChanged {false};
@@ -33,7 +39,6 @@ namespace game {
         void updateStatistics() override;
         void stop() override;
         std::string getName() const override;
-        int randomIndexGenerator(int size) const;
         ~RowsOfNumbers() override;
     };
 
