@@ -96,6 +96,10 @@ namespace scene {
                 int totalSessions {0};
                 std::string totalSessionsString;
 
+                // Skip this session if there is no result
+                if (result.empty()) {
+                    continue;
+                }
 
                 for (auto &pair : _sessionsMap) {
                     totalSessions += pair.second.size();
