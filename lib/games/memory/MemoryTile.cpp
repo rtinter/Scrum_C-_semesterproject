@@ -7,7 +7,7 @@
 
 
         MemoryTile::MemoryTile(sf::Texture const &frontTexture, std::function<void()> const &onClick, ImVec2 const &size, int index)
-                : Tile("", "", "", onClick), _frontTexture(frontTexture), _onClick(onClick), _size(size), _index(index) {}
+                : Tile("", "", "", commons::ColorTheme::PRIMARY_COLOR, onClick), _frontTexture(frontTexture), _onClick(onClick), _size(size), _index(index) {}
 
         void MemoryTile::render() {
             if (_isFlipped) {
