@@ -28,6 +28,7 @@ set(CUSTOM_LIBS
         matrix
         rows_of_numbers
         csv
+        logger
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
