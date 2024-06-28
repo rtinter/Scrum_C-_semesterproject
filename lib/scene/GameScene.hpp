@@ -11,9 +11,9 @@
 
 namespace scene {
     /**
- * @brief A template class for representing a game scene.
- * @tparam T The type (name) of the game.
- */
+    * @brief A template class for representing a game scene.
+    * @tparam T The type (name) of the game.
+    */
     template<typename T>
     class GameScene : public Scene {
         std::unique_ptr<views::Header> _header;
