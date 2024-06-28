@@ -1,10 +1,10 @@
 
-#ifndef ATHENA_RESULTSSCENE_H
-#define ATHENA_RESULTSSCENE_H
+#ifndef ATHENA_RESULTSSCENE_HPP
+#define ATHENA_RESULTSSCENE_HPP
 
 #include "Scene.hpp"
 #include "Header.hpp"
-#include "Results.h"
+#include "Results.hpp"
 #include <string>
 #include <CsvStorage.hpp>
 
@@ -18,7 +18,7 @@ namespace scene {
 
         void loadSessionData();
         void displayResults();
-        std::time_t stringToTimeT(const std::string &timeStr) {
+        std::time_t stringToTimeT(std::string const &timeStr) {
             return std::stoll(timeStr);
         }
 
@@ -32,4 +32,4 @@ namespace scene {
 
 } // scene
 
-#endif //ATHENA_RESULTSSCENE_H
+#endif //ATHENA_RESULTSSCENE_HPP
