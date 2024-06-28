@@ -74,8 +74,8 @@ namespace memory {
     }
 
     void Memory::handleTileClick(int tileID) {
-        if (_isCheckingMatch || _delayActive) {
-            return; // Ignore clicks while checking for a match
+        if (_isCheckingMatch) {
+            handleMismatch(); // Immediately handle mismatch if a new tile is clicked
         }
 
         auto& tile {_tiles[tileID]};
@@ -150,8 +150,7 @@ namespace memory {
     }
 
     void Memory::handleMismatch() {
-        auto now {std::chrono::steady_clock::now()};
-        if (std::chrono::duration_cast<std::chrono::seconds>(now - _matchCheckTime).count() >= 2) {
+        if (_isCheckingMatch) {
             _timer->reduceTime(1);
             resetFlippedTiles();
             _firstTile = nullptr;
@@ -248,7 +247,10 @@ namespace memory {
             }
 
             if (_delayActive) {
-                handleMismatch();
+                auto now = std::chrono::steady_clock::now();
+                if (std::chrono::duration_cast<std::chrono::seconds>(now - _matchCheckTime).count() >= 2) {
+                    handleMismatch();
+                }
             }
 
             for (int i {0}; i < _tiles.size(); ++i) {
