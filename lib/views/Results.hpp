@@ -1,5 +1,5 @@
-#ifndef ATHENA_RESULTS_H
-#define ATHENA_RESULTS_H
+#ifndef ATHENA_RESULTS_HPP
+#define ATHENA_RESULTS_HPP
 
 #include <string>
 #include <vector>
@@ -9,9 +9,14 @@
 
 namespace views {
 
+    /***
+     * The results page displays the results of all games played.
+     * It contains a table for each game, that holds the user data.
+     */
+
     class Results {
 
-        std::vector<ui_elements::TableContainer> _gameTableContainers; //vector von Table+Überschrift(GameName)
+        std::vector<ui_elements::TableContainer> _gameTableContainers;
         std::map<int, std::vector<std::string>> _tableNamesAndOrder;
         std::vector<ui_elements::StatisticsGameTable> _gameTables {ui_elements::StatisticsGameTable{_tableNamesAndOrder}};
 
@@ -26,4 +31,4 @@ namespace views {
 
 } // views
 
-#endif //ATHENA_RESULTS_H
+#endif //ATHENA_RESULTS_HPP

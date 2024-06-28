@@ -16,6 +16,7 @@ set(CUSTOM_LIBS
         commons
         ui_elements
         scene
+        logger
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
