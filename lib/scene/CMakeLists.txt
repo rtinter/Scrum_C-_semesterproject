@@ -29,6 +29,7 @@ set(CUSTOM_LIBS
         rows_of_numbers
         rows_of_symbols
         csv
+        logger
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
