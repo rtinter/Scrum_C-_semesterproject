@@ -10,6 +10,7 @@
 #include <iomanip>
 #include "fireDepartmentAndPoliceTexts.hpp"
 #include "GameSessionManager.hpp"
+#include "RandomPicker.hpp"
 
 
 namespace typeracer {
@@ -39,15 +40,6 @@ namespace typeracer {
                 "5. Klicke auf 'Zurück zur Startseite', um zum Hauptmenü zurückzukehren.";
     }
 
-    int getRandomIndex(int arraySize) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distr(0, arraySize - 1);
-
-        int randomIndex{distr(gen)};
-        return randomIndex;
-    }
-
     void TypeRacer::render() {
         ui_elements::InfoBox(
                 _gameID,
@@ -59,7 +51,7 @@ namespace typeracer {
                 _gameControls,
                 [this]() {
                     reset();
-                    _randomIndex = getRandomIndex(FireDepartmentAndPoliceTexts::_mixedTexts.size());
+                    _randomIndex = commons::RandomPicker::randomInt(0,FireDepartmentAndPoliceTexts::_mixedTexts.size());
                 }).render();
 
         ui_elements::InfoBox(
@@ -82,10 +74,10 @@ namespace typeracer {
         ui_elements::Window("Type Racer").render([this]() {
             _windowWidth = ImGui::GetWindowWidth();
             _textWidth = ImGui::CalcTextSize(_sentence.c_str()).x;
+
             // for testing purposes
             // _sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
             _sentence= "Dies ist ein Test.";
-
 
             ImGui::NewLine();
             ImGui::NewLine();
