@@ -69,7 +69,7 @@ namespace typeracer {
 
     void TypeRacer::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-        ui_elements::Window("Type Racer").render([this]() {
+        ui_elements::Window(_gameName).render([this]() {
             _windowWidth = ImGui::GetWindowWidth();
             _textWidth = ImGui::CalcTextSize(_sentence.c_str()).x;
 
