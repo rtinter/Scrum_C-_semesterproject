@@ -17,7 +17,7 @@ namespace logger {
      * Writes content to file
      * @param entry a QueueEntry
      */
-    void Logger::log(const QueueEntry& entry) {
+    void Logger::log(QueueEntry const &entry) {
         if(entry.entryType == QueueEntryType::DEBUG){
             _outputStream << "[DEBUG]: " << getDateString(entry.timestamp) << " " << entry.content << std::endl;
         }

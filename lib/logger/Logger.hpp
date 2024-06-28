@@ -24,7 +24,7 @@ namespace logger {
 
         QueueEntryType _type {QueueEntryType::DEBUG};
         std::future<void> _sinkBackgroundTask {};
-        void log(const QueueEntry& entry);
+        void log(QueueEntry const &entry);
 
     public:
         static Logger &getInstance();
