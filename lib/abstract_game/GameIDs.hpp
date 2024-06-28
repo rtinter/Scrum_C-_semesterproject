@@ -20,7 +20,8 @@ namespace abstract_game {
         REMEMBERING = 1009,
         ANALOGY = 1010,
         SEQUENCE = 1011,
-        ROWS_OF_SYMBOLS = 1012
+        ROWS_OF_SYMBOLS = 1012,
+        ABSURD_QUESTIONS = 1013
     };
 
     /*********************************

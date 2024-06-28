@@ -75,46 +75,23 @@ namespace game {
         void renderGameOver();
 
     public:
-        /**
-         * @brief Constructor for the AbsurdQuestions game.
-         */
+
         AbsurdQuestions();
 
-        /**
-         * @brief Renders the game.
-         */
         void render() override;
 
-        /**
-         * @brief Renders the game logic.
-         */
         void renderGame() override;
 
-        /**
-         * @brief Starts the game.
-         */
         void start() override;
 
-        /**
-         * @brief Stops the game.
-         */
         void stop() override;
 
-        /**
-         * @brief Resets the game state.
-         */
         void reset() override;
 
-        /**
-         * @brief Updates the game statistics.
-         */
         void updateStatistics() override;
 
-        /**
-         * @brief Returns the name of the game.
-         * @return The name of the game.
-         */
         std::string getName() const override;
     };
+}
 
 #endif // ATHENA_ABSURD_QUESTIONS_HPP
