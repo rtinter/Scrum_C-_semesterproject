@@ -1,5 +1,6 @@
 #include "Analogy.hpp"
 #include "nlohmann/json.hpp"
+#include "logger.hpp"
 
 using json = nlohmann::json;
 
@@ -128,10 +129,13 @@ namespace game {
 
     // Loads questions/answers from the questionnaire JSON file
     void Analogy::loadQuestions() {
+        logger::Logger& logger { logger::Logger::getInstance()};
+
         std::fstream file;
         try {
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
             file.open("./config/games/questionnaire.json");
+            logger.log("Loading files for Analogy-Game", QueueEntryType::INFORMATION);
 
             json data;
             file >> data;
@@ -149,7 +153,10 @@ namespace game {
                 _questions.emplace_back(q);
             }
         } catch (const std::exception &e) {
-            std::cerr << "Error opening or reading the file questionnaire.json: " << e.what() << std::endl;
+            std::stringstream error;
+            error << "Error opening or reading the file questionnaire.json: " << e.what();
+            std::cerr << error.str() << std::endl;
+            logger.log(error.str(), QueueEntryType::SEVERE);
         }
     }
 
