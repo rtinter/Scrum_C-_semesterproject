@@ -3,6 +3,7 @@
 #include "InfoBox.hpp"
 #include "Window.hpp"
 #include "Centered.hpp"
+#include "SoundPolice.hpp"
 
 namespace memory {
 
@@ -83,6 +84,9 @@ namespace memory {
         if (tile->isFlipped()) {
             return; // Ignore if the tile is already flipped
         }
+
+        // Play sound when a tile is flipped open
+        commons::SoundPolice::safePlaySound(commons::Sound::CARD_FLIP, 60, 2.5f);
 
         tile->flip();
 

@@ -9,6 +9,7 @@ namespace commons {
         COMPLETE,
         CORRECT,
         BEEP,
-        BEEP_FAIL
+        BEEP_FAIL,
+        CARD_FLIP
     };
 }

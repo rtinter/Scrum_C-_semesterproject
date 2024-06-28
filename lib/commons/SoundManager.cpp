@@ -21,7 +21,7 @@ namespace commons {
         initSoundBuffer(Sound::CORRECT, "correct.mp3");
         initSoundBuffer(Sound::BEEP, "beep.mp3");
         initSoundBuffer(Sound::BEEP_FAIL, "beep-fail.mp3");
-
+        initSoundBuffer(Sound::CARD_FLIP, "card-flip.mp3");
     }
 
     void SoundManager::initSoundBuffer(commons::Sound sound, std::string const &filename) {
