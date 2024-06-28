@@ -71,7 +71,7 @@ namespace sequence {
         _levelCounter = 0;
         _buttonsClickedSequence.clear();
         //Set all button states to false/0 (not lighting up)
-        _buttonStatess.fill(0);
+        _buttonStates.fill(0);
 
         chooseNextRandomButton();
         nextLevel();        //first level
@@ -117,12 +117,12 @@ namespace sequence {
 
                     checkWaitTimeExpired();
                     checkLitUpExpired(
-                            _buttonStatess[buttonID]);       //check, if Button is currently already lit up and then should be turned off
+                            _buttonStates[buttonID]);       //check, if Button is currently already lit up and then should be turned off
                     if (_wasLastButtonOfSequence) {
                         switchGameMode();
                     }
 
-                    if (_buttonStatess[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
+                    if (_buttonStates[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::ACCENT_COLOR);
@@ -181,9 +181,6 @@ namespace sequence {
 
     }
 
-    /**
-     * Generates a random number in the range of 1 to 9 to choose a next button to light up for the random sequence.
-     */
     void Sequence::chooseNextRandomButton() {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -193,13 +190,13 @@ namespace sequence {
     }
 
     void Sequence::showSequence() {
-        int buttonForLoopIteration{0};
+        int buttonForLoopIteration{0};  //to keep iterator of button in sequence in sync with the sequence displayed
         for (int button: _buttonsClickedSequence) {
-            if ((_buttonStatess[button] == 0) &&
+            if ((_buttonStates[button] == 0) &&
                 _canShowNextButtonInSequence && (_sequenceButtonIterator ==
                                                  buttonForLoopIteration) &&
-                !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
-                lightUp(_buttonStatess[button], button);    //light up button X by setting state of button X to 1/true
+                !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up AND wait time between light ups is over, light it up!
+                lightUp(_buttonStates[button], button);    //light up button X by setting state of button X to 1/true
             }
             buttonForLoopIteration++;
 
@@ -258,7 +255,7 @@ namespace sequence {
     }
 
     void Sequence::moveOnToNextButton() {
-        _sequenceButtonIterator++;      //increase iterator that runs through button sequence to check/light up next button
+        _sequenceButtonIterator++;
     }
 
     void Sequence::waitInBetweenButtons() {
