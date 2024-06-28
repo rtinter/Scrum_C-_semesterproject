@@ -10,10 +10,10 @@
 #include "Logger.hpp"
 #include "QueueEntryType.hpp"
 
-const int App::WINDOW_WIDTH{1920};
-const int App::WINDOW_HEIGHT{1080};
-const std::string App::TILE{"Human Benchmark"};
-const int App::FRAME_RATE{60};
+int const App::FRAME_RATE{60};
+int const App::WINDOW_HEIGHT{1080};
+int const App::WINDOW_WIDTH{1920};
+std::string const App::TILE{"Human Benchmark"};
 
 void App::start() {
 
