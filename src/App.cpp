@@ -7,12 +7,20 @@
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
 
+#include "Logger.hpp"
+#include "QueueEntryType.hpp"
+
 const int App::WINDOW_WIDTH{1920};
 const int App::WINDOW_HEIGHT{1080};
 const std::string App::TILE{"Human Benchmark"};
 const int App::FRAME_RATE{60};
 
 void App::start() {
+
+    logger::Logger& logger {logger::Logger::getInstance()};
+    logger << QueueEntryType::INFORMATION;
+    logger << "App Start";
+
     sf::VideoMode videoMode(WINDOW_WIDTH, WINDOW_HEIGHT);
     sf::RenderWindow window(videoMode, TILE, sf::Style::Close);
     window.setFramerateLimit(FRAME_RATE);
@@ -31,7 +39,6 @@ void App::start() {
     commons::SoundManager::loadSounds();
 #endif
 
-
     // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();
     sf::Clock deltaClock;
@@ -45,6 +52,7 @@ void App::start() {
             ImGui::SFML::ProcessEvent(window, event);
 
             if (event.type == sf::Event::Closed) {
+                logger << "App close initialized";
                 window.close();
             }
         }
@@ -56,4 +64,5 @@ void App::start() {
     }
 
     ImGui::SFML::Shutdown();
+    logger << "App Shutdown";
 }

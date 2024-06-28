@@ -18,7 +18,7 @@ namespace scene {
 
         void loadSessionData();
         void displayResults();
-        std::time_t stringToTimeT(const std::string &timeStr) {
+        static std::time_t stringToTimeT(const std::string &timeStr) {
             return std::stoll(timeStr);
         }
 
