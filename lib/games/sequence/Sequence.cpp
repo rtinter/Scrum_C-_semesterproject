@@ -125,12 +125,12 @@ namespace sequence {
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::ACCENT_COLOR);
-                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
+                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::TRANSPARENT);
                     } else {                            //button is not supposed to light up -> normal render color
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::PRIMARY_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::PRIMARY_COLOR);
-                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
+                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::TRANSPARENT);
                     }
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
@@ -143,7 +143,7 @@ namespace sequence {
                 case GameMode::REPEAT:
 
                     ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
-                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::SECONDARY_COLOR);
                     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
