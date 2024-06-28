@@ -14,7 +14,8 @@ namespace abstract_game {
         CALC = 1006,
         MATRIX = 1007,
         ROWS_OF_NUMBERS = 1008,
-        ANALOGY = 1010
+        ANALOGY = 1010,
+        ROWS_OF_SYMBOLS = 1012
     };
 
     static std::string getGameName(GameID gameID) {
@@ -37,6 +38,8 @@ namespace abstract_game {
                 return "Sequence";
             case GameID::ANALOGY:
                 return "Analogie";
+            case GameID::ROWS_OF_SYMBOLS:
+                return "Symbolreihen";
             default:
                 return "Unknown";
         }
