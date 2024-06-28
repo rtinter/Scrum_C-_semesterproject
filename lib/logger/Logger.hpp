@@ -32,7 +32,8 @@ namespace logger {
         virtual ~Logger();
 
         void flush();
-        void log(const std::string &content, QueueEntryType type);
+
+        void log(std::string const &content, QueueEntryType type);
         static void sinkTask(Logger &logger);
 
         static std::string getDateString(time_t timestamp)
@@ -42,7 +43,7 @@ namespace logger {
             return ss.str();
         }
 
-        Logger &operator<<(const std::string &content) {
+        Logger &operator<<(std::string const &content) {
             this->_sink.emplace(QueueEntry{
                 .timestamp = time(nullptr),
                 .content = content,
@@ -75,3 +76,4 @@ namespace logger {
         }
     };
 }
+

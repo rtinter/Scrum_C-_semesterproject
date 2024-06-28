@@ -54,7 +54,7 @@ namespace logger {
         this->_outputStream.close();
     }
 
-    void Logger::log(const std::string &content, QueueEntryType type) {
+    void Logger::log(std::string const &content, QueueEntryType type) {
         QueueEntry entry {
             .timestamp = time(nullptr),
             .content = content,
