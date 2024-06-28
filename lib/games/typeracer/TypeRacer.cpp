@@ -73,28 +73,41 @@ namespace typeracer {
             _windowWidth = ImGui::GetWindowWidth();
             _textWidth = ImGui::CalcTextSize(_sentence.c_str()).x;
 
-            // for testing purposes
-            // _sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
-            _sentence= "Dies ist ein Test.";
+            // For testing purposes comment out the desired _sentence and uncomment the other _sentence
+            // Get a random sentence from the list
+            _sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            //_sentence= "Dies ist ein Test.";
 
+            // for spacing to the top of the window
             ImGui::NewLine();
             ImGui::NewLine();
             ImGui::NewLine();
             ImGui::NewLine();
 
-            // Start time when typing begins
+            /*********************************
+            *  start Timer for calculating WPM
+            ***********************************/
             if (!_runTimer && strlen(_input) > 0) {
                 _startPoint = std::chrono::steady_clock::now();
                 _runTimer = true;
             }
+
             ImGui::SetCursorPosX((_windowWidth - _textWidth) / 2);
-            // Render the sentence with character matching
+
+            /*********************************
+            *  Display the sentence
+             *  Highlight correct and incorrect characters
+             *  in green and red respectively
+             *  and display the _input field beneath the sentence
+            ***********************************/
             for (int i{0}; i < _sentence.size(); ++i) {
                 if (i < strlen(_input) && _input[i] == _sentence[i]) {
-                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::GREEN); // Green
+                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::GREEN); // correct character in green
+                    // erase the index from the set if the character is typed correctly
                     _mistypedIndices.erase(i);
                 } else if (i < strlen(_input)) {
-                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::RED); // Red
+                    ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::RED); // incorrect character in red
+                    // add the index to the set if the character is typed incorrectly
                     _mistypedIndices.insert(i);
                 } else {
                     ImGui::PushStyleColor(ImGuiCol_Text, ImGui::GetStyleColorVec4(ImGuiCol_Text)); // Default
@@ -128,10 +141,13 @@ namespace typeracer {
             ImGui::PopItemWidth();
 
             ImGui::SameLine();
-            // Display WPM
+
             ImGui::Text("%.2f wpm", _wpm);
 
-            // Calculate WPM in real-time
+            /*********************************
+            *  calculate WPM in real time
+             *  stop the timer when the sentence is completed and save the WPM
+            ***********************************/
             if (_runTimer && strlen(_input) > 0) {
                 auto currentTime{std::chrono::steady_clock::now()};
                 std::chrono::duration<float> elapsedSeconds{currentTime - _startPoint};
@@ -142,8 +158,6 @@ namespace typeracer {
                 std::stringstream wpmStream;
                 wpmStream << std::setprecision(4) << _wpm;
 
-
-                // Stop and save the WPM when the sentence is completed
                 if (strlen(_input) >= _sentence.size() && _mistypedIndices.empty()) {
                     _endBoxText =
                             "Wörter pro Minute: " + wpmStream.str() + " WPM";
@@ -182,7 +196,7 @@ namespace typeracer {
         _sentence.clear();
         _mistypedIndices.clear();
         _runTimer = false;
-        _startPoint = std::chrono::steady_clock::time_point();  // Reset the start point
+        _startPoint = std::chrono::steady_clock::time_point();
 
         start();
     }
