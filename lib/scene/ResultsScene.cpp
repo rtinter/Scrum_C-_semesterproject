@@ -30,10 +30,10 @@ namespace scene {
 
         abstract_game::CsvStorage storage;
         csv::CsvParser gameSessionParser("game_session.csv");
-        auto gameSessionData = gameSessionParser.parse();
+        auto gameSessionData{gameSessionParser.parse()};
 
         csv::CsvParser gameRunThroughParser("game_runthroughs.csv");
-        auto gameRunThroughData = gameRunThroughParser.parse();
+        auto gameRunThroughData{gameRunThroughParser.parse()};
 
         if (gameSessionData.empty() || gameRunThroughData.empty()) {
             return;
@@ -116,7 +116,7 @@ namespace scene {
                         std::cout << session.first << " " << sessionUID << std::endl;
                         if (session.first == sessionUID) {
                             std::cout << "Result " << result << " " << resultUnit << std::endl;
-                            std::string combinedResult = result;
+                            std::string combinedResult {result};
                             combinedResult.append(" ").append(resultUnit);
                             session.second.push_back(totalSessionsString);
                             session.second.push_back(combinedResult);
@@ -156,11 +156,11 @@ namespace scene {
             std::map<int, std::vector<std::string>> gameDataMap;
             gameDataMap[0] = stringvectorHeaderline;
 
-            int rowIndex = 1;
+            int rowIndex {1};
             for (auto const &session : pair.second) {
                 std::cout << "Session: " << session.first << std::endl;
 
-                std::vector<std::string> row = session.second;
+                std::vector<std::string> row {session.second};
                 gameDataMap[rowIndex++] = row;
             }
 

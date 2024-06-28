@@ -10,6 +10,10 @@
 
 namespace scene {
 
+    /*********************************
+    * The ResultsScene class handles the loading, processing,
+    * and displaying of session results.
+    ***********************************/
     class ResultsScene : public Scene {
 
         views::Header _header;
