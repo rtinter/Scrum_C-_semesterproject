@@ -87,3 +87,4 @@ namespace logger {
         this->_sink.emplace(entry);
     }
 }
+
