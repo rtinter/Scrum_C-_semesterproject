@@ -13,18 +13,20 @@ namespace games {
                 "Unser Merkspiel bewertet die Fähigkeit, sich schnell und präzise Fakten zu merken,\n"
                 "was für Polizei- und Feuerwehrarbeit unerlässlich ist.\n"
                 "In diesen Berufen ist es entscheidend, rasch und genau auf Informationen zu reagieren,\n"
-                "daher ist das Spiel ein zuverlässiger Indikator für das persönliche können und hilft \n"
+                "daher ist das Spiel ein zuverlässiger Indikator für das persönliche Können und hilft, \n"
                 "sich in dieser Domäne zu verbessern.";
-        _gameRules = "Ein Text wird angezeigt, der eine Zeugenaussage \n"
-                     "oder andere detaillierte Informationen enthält.\n"
-                     "Der User hat 30 Sekunden Zeit, sich den Text durchzulesen und so \n"
-                     "viele Details wie möglich zu merken.\n"
-                     "Nach Ablauf der Zeit verschwindet der Text und es werden \n"
-                     "Detailfragen zum jeweiligen Text gestellt.\n"
-                     "Versuche, so viele Fragen wie möglich richtig zu beantworten!\n"
-                     "Beachte die Rechtschreibung und schreibe zahlen aus ";
-        _gameControls = "Linke Maustaste um das Feld in das du schreiben möchtest auszuwählen\n"
-                        "Tastatur um deine Antwort einzugeben.";
+
+        _gameRules =
+                "Ein Text wird angezeigt, der eine Zeugenaussage \n"
+                "oder andere detaillierte Informationen enthält.\n"
+                "Der User hat 30 Sekunden Zeit, sich den Text durchzulesen und sich so \n"
+                "viele Details wie möglich zu merken.\n"
+                "Nach Ablauf der Zeit verschwindet der Text und es werden \n"
+                "Detailfragen zum jeweiligen Text gestellt.\n"
+                "Versuche, so viele Fragen wie möglich richtig zu beantworten!\n";
+
+        _gameControls = "Linke Maustaste auf das Antwortfeld, um die Antwortmöglichkeiten zu sehen. \n"
+                        "Linke Maustaste, um die passende Antwort auszuwählen.";
 
         selectRandomQuestionSet();
         _selectedAnswers.resize(_currentQuestionSet.questions.size(), -1);
@@ -66,7 +68,7 @@ namespace games {
                 setStyles(); // Apply custom styles for questions
 
                 // Render each question and its options
-                for (int i = 0; i < _currentQuestionSet.questions.size(); ++i) {
+                for (int i{0}; i < _currentQuestionSet.questions.size(); ++i) {
                     renderQuestion(i, _currentQuestionSet.questions[i], _selectedAnswers[i]);
                 }
 
@@ -78,13 +80,13 @@ namespace games {
     }
 
     // Renders a question and its possible answers
-    void Remembering::renderQuestion(int index, const QuestionBank::Question &q, int &selectedAnswer) const {
+    void Remembering::renderQuestion(int const &index, QuestionBank::Question const &q, int &selectedAnswer) const {
         // Calculate text width for centering
-        ImVec2 textSize = ImGui::CalcTextSize(q.question.c_str());
-        float textOffsetX = (ImGui::GetWindowWidth() - textSize.x) / 2.0f;
+        ImVec2 textSize{ImGui::CalcTextSize(q.question.c_str())};
+        float textOffsetX{(ImGui::GetWindowWidth() - textSize.x) / 2.0F};
 
-        float comboWidth = ImGui::GetWindowWidth() * 0.3f;
-        float comboOffsetX = (ImGui::GetWindowWidth() - comboWidth) / 2.0f;
+        float comboWidth{ImGui::GetWindowWidth() * 0.3F};
+        float comboOffsetX{(ImGui::GetWindowWidth() - comboWidth) / 2.0F};
 
         ImGui::SetCursorPosX(textOffsetX);
         ImGui::Text("%s", q.question.c_str());
@@ -92,7 +94,7 @@ namespace games {
         // Store the answers
         std::vector<const char *> answers;
         answers.reserve(q.answers.size());
-        for (const auto &answer: q.answers) {
+        for (auto const &answer: q.answers) {
             answers.emplace_back(answer.c_str());
         }
 
@@ -120,7 +122,7 @@ namespace games {
     }
 
     void Remembering::setStyles() {
-        ImGuiStyle &style = ImGui::GetStyle();
+        ImGuiStyle &style{ImGui::GetStyle()};
         style.ItemSpacing = ImVec2{12, 4};
         style.FramePadding = ImVec2{4, 2};
 

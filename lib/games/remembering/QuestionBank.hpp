@@ -35,7 +35,7 @@ struct QuestionBank {
     * @brief Retrieves a random question set from the bank.
     * @return const QuestionSet& A reference to the randomly selected question set.
     */
-    const QuestionSet &getRandomQuestionSet() const;
+    QuestionSet const &getRandomQuestionSet() const;
 
 private:
     /**

@@ -67,8 +67,6 @@ namespace games {
         bool _showContinueButton{false};
         bool _submitted{false};
         int _score{0};
-        static std::string _endBoxTitleString;
-        static std::string _endBoxTextString;
         ui_elements::Timer _timer{"Remembering Game", 40};
         static std::vector<int> _selectedAnswers;
 
@@ -100,7 +98,7 @@ namespace games {
          * @param q The question to be rendered.
          * @param selectedAnswer The index of the selected answer.
          */
-        void renderQuestion(int index, const QuestionBank::Question &q, int &selectedAnswer) const;
+        void renderQuestion(int const &index, QuestionBank::Question const &q, int &selectedAnswer) const;
 
         /**
          * @brief Sets the styles for the UI elements.
