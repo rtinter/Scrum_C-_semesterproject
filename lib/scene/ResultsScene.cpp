@@ -17,6 +17,14 @@ namespace scene {
         displayResults();
     }
 
+    /*********************************
+    * Loads session data from CSV files and processes it.
+    * - Reads "game_session.csv" and "game_runthroughs.csv".
+    * - Skips header rows.
+    * - Converts start and end times to duration.
+    * - Populates _sessionsMap with the session data.
+    * - Prints the processed data for debugging.
+    ***********************************/
     void ResultsScene::loadSessionData() {
         // Laden der CSV-Daten
 
@@ -118,6 +126,7 @@ namespace scene {
             }
         }
 
+        // Debug print of _sessionsMap content -> kept for logging and debugging purposes
         for (auto const &pair : _sessionsMap) {
             std::cout << "GameID: " << pair.first << " ";
             for (auto const &session : pair.second) {
@@ -130,6 +139,12 @@ namespace scene {
         }
     }
 
+    /*********************************
+    * Displays the results by populating game tables with session data.
+    * - Creates header line for tables.
+    * - Maps session data to game tables.
+    * - Adds game tables to the _results object for rendering.
+    ***********************************/
     void ResultsScene::displayResults() {
 
         std::vector<std::string> stringvectorHeaderline{"Datum", "Dauer", "Anzahl der Sessions", "Ergebnis"};
