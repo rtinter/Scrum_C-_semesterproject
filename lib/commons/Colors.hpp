@@ -18,12 +18,10 @@ namespace commons {
         static ImVec4 const LIGHT_GRAY;
         static ImVec4 const ORANGE;
         static ImVec4 const BLUE;
-        static ImVec4 const CORNFLOWER_BLUE;
         static ImVec4 const RED;
         static ImVec4 const GREEN;
         static ImVec4 const SEAFOAM;
         static ImVec4 const YELLOW;
-        static ImVec4 const RICH_YELLOW;
         static ImVec4 const PURPLE;
         static ImVec4 const BRIGHT_GREEN;
         static ImVec4 const BRIGHT_GREEN1;
