@@ -99,16 +99,16 @@ namespace ui_elements {
                     pos.y + ((this->_height - textSize.y) * 0.5f)
             );
 
-            ImDrawList *drawList = ImGui::GetWindowDrawList();
+            ImDrawList &drawList = (*ImGui::GetWindowDrawList());
 
             ImU32 rectangle = IM_COL32(255, 0, 0, 255);
             ImU32 textColor = IM_COL32(255, 255, 255, 255);
             float rounding = 25.f;
 
-            drawList->AddRectFilled(pos, ImVec2(pos.x + this->_width, pos.y + this->_height), rectangle, rounding);
+            drawList.AddRectFilled(pos, ImVec2(pos.x + this->_width, pos.y + this->_height), rectangle, rounding);
 
             // Draw the text over the rectangle
-            drawList->AddText(textPos, textColor, text.c_str());
+            drawList.AddText(textPos, textColor, text.c_str());
 
             ImGui::PopFont();
         });
