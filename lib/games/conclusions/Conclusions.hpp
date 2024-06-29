@@ -36,13 +36,12 @@ namespace game {
 
         sf::Clock _colorClock;
         std::vector<Question> _questions;
-        bool _isAnswerCorrect{false};
-        bool _showCorrectMessage{false};
+        bool _showCorrectMessage;
         std::chrono::steady_clock::time_point _correctMessageStartTime;
-        int _solved{0};
+        int _solved;
         std::string _solvedText;
         Question _currentQuestion;
-        bool _selectedOption;
+        std::optional<bool> _selectedOption;
 
         /**
          * @brief Loads the list of questions.
@@ -58,7 +57,7 @@ namespace game {
          * @brief Checks if the selected answer is correct.
          * @param selectedOption The selected answer option.
          */
-        void checkAnswer(bool selectedOption);
+        void checkAnswer(std::optional<bool> &selectedOption);
 
         /**
          * @brief Renders the current question and answer options.
@@ -76,45 +75,21 @@ namespace game {
         void renderGameOver();
 
     public:
-        /**
-         * @brief Constructor for the Conclusions game.
-         */
+
         Conclusions();
 
-        /**
-         * @brief Renders the game.
-         */
         void render() override;
 
-        /**
-         * @brief Renders the game logic.
-         */
         void renderGame() override;
 
-        /**
-         * @brief Starts the game.
-         */
         void start() override;
 
-        /**
-         * @brief Stops the game.
-         */
         void stop() override;
 
-        /**
-         * @brief Resets the game state.
-         */
         void reset() override;
 
-        /**
-         * @brief Updates the game statistics.
-         */
         void updateStatistics() override;
 
-        /**
-         * @brief Returns the name of the game.
-         * @return The name of the game.
-         */
         std::string getName() const override;
     };
 

@@ -9,11 +9,16 @@ using json = nlohmann::json;
 namespace game {
 
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
-    Conclusions::Conclusions() : abstract_game::Game(abstract_game::GameID::ABSURD_QUESTIONS), _selectedOption{false} {
+    Conclusions::Conclusions() :
+    abstract_game::Game(abstract_game::GameID::ABSURD_QUESTIONS),
+    _selectedOption{std::nullopt},
+    _showCorrectMessage{false},
+    _solved{0}
+    {
         _gameName = "Absurde Fragen";
         _gameDescription = "Beantworte die absurden Fragen.";
-        _gameRules = "1. Lies die angezeigte Frage.\n2. Entscheide, ob die Aussage richtig oder falsch ist.\n"
-                     "3. Bestätige deine Auswahl mit dem Button.\n";
+        _gameRules = "1. Lies die angezeigte Frage.\n2. Entscheide, ob die Schlussfolgerung richtig oder falsch ist.\n"
+                     "3. Bestätige deine Auswahl mit dem Bestätigen Button.\n";
         _gameControls = "Linke Maustaste zur Auswahl der Antwort und ebenfalls zum Bestätigen des Buttons";
 
         loadQuestions();
@@ -68,35 +73,46 @@ namespace game {
 
     // Renders the current question and answer options
     void Conclusions::renderQuestion() {
-
         float const buttonWidth {100.0f};
         float const buttonOffsetX {(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
         float const itemWidth {100.0f};
         float const itemOffsetX {(ImGui::GetWindowWidth() - itemWidth) / 2.0f};
+        float const textWrapWidth {1350.0f}; // Set a fixed wrap width for the question text
 
         ImGui::PushFont(commons::Fonts::_header2);
-        ui_elements::TextCentered(_currentQuestion.questionText.c_str());
+
+        // Calculate the position to center the text within textWrapWidth
+        float textStartPosX {(ImGui::GetWindowWidth() - textWrapWidth) / 2.0f};
+        ImGui::SetCursorPosX(textStartPosX);
+
+        // Wrap the text within the specified width and center it
+        ImGui::PushTextWrapPos(textStartPosX + textWrapWidth);
+        ImGui::TextWrapped(_currentQuestion.questionText.c_str());
+        ImGui::PopTextWrapPos();
+
         ImGui::PopFont();
 
         ImGui::Spacing();
         ImGui::Spacing();
 
+        // Centering and rendering the radio buttons
         ImGui::SetCursorPosX(itemOffsetX);
-        if (ImGui::RadioButton("Stimmt", _selectedOption)) {
+        if (ImGui::RadioButton("Stimmt", _selectedOption.has_value() && _selectedOption.value())) {
             _selectedOption = true;
         }
 
         ImGui::SetCursorPosX(itemOffsetX);
-        if (ImGui::RadioButton("Stimmt nicht", !_selectedOption)) {
+        if (ImGui::RadioButton("Stimmt nicht", _selectedOption.has_value() && !_selectedOption.value())) {
             _selectedOption = false;
         }
 
         ImGui::Spacing();
 
+        // Centering and rendering the confirmation button
         ImGui::SetCursorPosX(buttonOffsetX);
-
         if (ImGui::Button("Bestätigen")) {
             checkAnswer(_selectedOption);
+            _selectedOption = std::nullopt;
         }
     }
 
@@ -171,17 +187,18 @@ namespace game {
         }
     }
 
+
     // Checks the selected answer and updates the game state
-    void Conclusions::checkAnswer(bool selectedOption){
-        if (selectedOption == _currentQuestion.isCorrectAnswer) {
+    void Conclusions::checkAnswer(std::optional<bool> &selectedOption){
+        if (selectedOption.has_value() && selectedOption.value() == _currentQuestion.isCorrectAnswer) {
             _solved++;
             _showCorrectMessage = true;
             _correctMessageStartTime = std::chrono::steady_clock::now();
-            _selectedOption = false;
         } else {
             renderGameOver();
         }
     }
+
 
     // Starts the game by resetting counters and generating the first question
     void Conclusions::start() {
@@ -190,7 +207,7 @@ namespace game {
         _isGameRunning = true;
         _showEndBox = false;
         _showStartBox = false;
-        _selectedOption = false;
+        _selectedOption = std::nullopt;
     }
 
     void Conclusions::stop() {
