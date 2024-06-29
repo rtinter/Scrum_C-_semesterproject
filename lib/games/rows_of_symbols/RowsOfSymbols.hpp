@@ -21,16 +21,16 @@ namespace game {
         std::deque<SymbolType> _symbols;
 
         // number of correct symbols clicked
-        int _correctSymbols {0};
+        int _correctSymbols;
 
         // number of wrong symbols clicked
-        int _wrongSymbols {0};
+        int _wrongSymbols;
 
         // list of recently used symbols
         std::deque<SymbolType> _lastAddedSymbols;
 
         // timer for the game to end the run-through after a certain time
-        ui_elements::Timer _timer {"Symbolreihen", TOTAL_TIME_SEC};
+        ui_elements::Timer _timer;
 
         // time of the last symbol change, to skip the current symbol if the user is too slow to decide
         std::chrono::steady_clock::time_point _lastSymbolChange;

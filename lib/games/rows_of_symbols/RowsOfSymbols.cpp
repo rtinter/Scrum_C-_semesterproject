@@ -12,7 +12,8 @@
 
 namespace game {
 
-    RowsOfSymbols::RowsOfSymbols() : abstract_game::Game(abstract_game::GameID::ROWS_OF_SYMBOLS){
+    RowsOfSymbols::RowsOfSymbols() : abstract_game::Game(abstract_game::GameID::ROWS_OF_SYMBOLS),
+                                    _correctSymbols(0), _wrongSymbols(0), _timer {"Symbolreihen", TOTAL_TIME_SEC} {
 
         _gameName = "Symbolreihen";
 
@@ -193,10 +194,10 @@ namespace game {
         int totalGapBetweenSymbols {20 * (NR_OF_SHOWN_SYMBOLS - 1)};
 
         // calculate the top left and bottom right corner of the rectangle
-        ImVec2 topLeft = ImGui::GetCursorScreenPos();
-        ImVec2 bottomRight =
-                ImVec2(ImGui::GetCursorScreenPos().x + totalWidthOfSymbols + totalGapBetweenSymbols,
-                       ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2);
+        ImVec2 topLeft {ImGui::GetCursorScreenPos()};
+        ImVec2 bottomRight
+                {ImVec2(ImGui::GetCursorScreenPos().x + totalWidthOfSymbols + totalGapBetweenSymbols,
+                       ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2)};
 
         // draw the gradient background
         drawList.AddRectFilledMultiColor(topLeft, bottomRight,
@@ -224,7 +225,7 @@ namespace game {
     }
 
     void RowsOfSymbols::clickButton0() {
-        SymbolType symbol = _symbols.front();
+        SymbolType symbol {_symbols.front()};
         bool correct {false};
 
         // check if this button 0 is correct for the current symbol
@@ -295,7 +296,7 @@ namespace game {
     bool RowsOfSymbols::isTimeUpForCurrentSymbol() const {
 
         // check if the time for the current symbol is up
-        auto timeForSymbolsInMs = std::chrono::milliseconds(static_cast<int>(SYMBOL_TIME_SEC * 1000));
+        auto timeForSymbolsInMs {std::chrono::milliseconds(static_cast<int>(SYMBOL_TIME_SEC * 1000))};
         return std::chrono::steady_clock::now() - _lastSymbolChange > timeForSymbolsInMs;
     }
 }
