@@ -5,12 +5,13 @@
 
 namespace commons {
 /**
- * @brief provides methods to compare and to modify color objects,
- * e.g. adjust color brightness
+ * @brief Static class that provides methods to compare and to modify color objects,
+ * e.g. adjust color brightness.
  */
     class ColorHelper {
     public:
-        ColorHelper() = delete; // static class
+        ColorHelper() = delete;
+
         static ImVec4 adjustBrightness(ImVec4 const &color, float const &factor);
 
         static ImVec4 withOpacity(ImVec4 const &color, float const &opacity);

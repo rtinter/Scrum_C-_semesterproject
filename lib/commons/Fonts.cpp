@@ -3,14 +3,14 @@
 #include <iostream>
 
 namespace commons {
-    [[maybe_unused]] ImFont *Fonts::_body = nullptr;
-    ImFont *Fonts::_header1 = nullptr;
-    ImFont *Fonts::_header2 = nullptr;
-    ImFont *Fonts::_header3 = nullptr;
-    ImFont *Fonts::_matrixFontBig = nullptr;
-    ImFont *Fonts::_matrixFontSmall = nullptr;
-    ImFont *Fonts::_iconRegular = nullptr;
-    [[maybe_unused]] ImFont *Fonts::_iconSolid = nullptr;
+    [[maybe_unused]] ImFont *Fonts::_body{nullptr};
+    ImFont *Fonts::_header1{nullptr};
+    ImFont *Fonts::_header2{nullptr};
+    ImFont *Fonts::_header3{nullptr};
+    ImFont *Fonts::_matrixFontBig{nullptr};
+    ImFont *Fonts::_matrixFontSmall{nullptr};
+    ImFont *Fonts::_iconRegular{nullptr};
+    [[maybe_unused]] ImFont *Fonts::_iconSolid{nullptr};
 
 
     /**

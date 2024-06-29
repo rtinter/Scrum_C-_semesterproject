@@ -2,14 +2,14 @@
 #include "ColorHelper.hpp"
 
 namespace commons {
-    ImVec4 const ColorTheme::BACKGROUND_COLOR = Colors::WHITE;
-    ImVec4 const ColorTheme::TEXT_COLOR = Colors::RAISIN_BLACK;
-    ImVec4 const ColorTheme::PRIMARY_COLOR = Colors::LAUREL_GREEN;
-    ImVec4 const ColorTheme::SECONDARY_COLOR = Colors::GOLD;
-    ImVec4 const ColorTheme::WARNING_COLOR = Colors::ORANGE;
-    ImVec4 const ColorTheme::SUCCESS_COLOR = Colors::BRIGHT_GREEN;
-    ImVec4 const ColorTheme::ACCENT_COLOR = Colors::EARTH_YELLOW;
-    ImVec4 const ColorTheme::ERROR_COLOR = Colors::BRIGHT_RED;
+    ImVec4 const ColorTheme::BACKGROUND_COLOR{Colors::WHITE};
+    ImVec4 const ColorTheme::TEXT_COLOR{Colors::RAISIN_BLACK};
+    ImVec4 const ColorTheme::PRIMARY_COLOR{Colors::LAUREL_GREEN};
+    ImVec4 const ColorTheme::SECONDARY_COLOR{Colors::GOLD};
+    ImVec4 const ColorTheme::WARNING_COLOR{Colors::ORANGE};
+    ImVec4 const ColorTheme::SUCCESS_COLOR{Colors::BRIGHT_GREEN};
+    ImVec4 const ColorTheme::ACCENT_COLOR{Colors::EARTH_YELLOW};
+    ImVec4 const ColorTheme::ERROR_COLOR{Colors::BRIGHT_RED};
 
     /**
     * @brief assigns chosen colors to respective ImGuiStyle,

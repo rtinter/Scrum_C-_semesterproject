@@ -6,12 +6,12 @@
 namespace commons {
 
     /**
-     * @brief provides different fonts and icons
+     * @brief Static class that provides different fonts and icons.
      */
     class Fonts {
     public:
-        Fonts() = delete; // static class
-        
+        Fonts() = delete;
+
         [[maybe_unused]] static ImFont *_body; // font for normal text
 
         static ImFont *_header1; // font for main title

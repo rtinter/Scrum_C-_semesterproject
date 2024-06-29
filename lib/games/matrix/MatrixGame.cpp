@@ -96,7 +96,7 @@ namespace game {
      * that serve as answer buttons
      */
     void MatrixGame::renderAnswerOptions() {
-        float displayedSize = Matrix::getSize() * Matrix::getCellSizeSmall();
+        float const displayedSize{static_cast<float>(Matrix::getSize() * Matrix::getCellSizeSmall())};
         ImGui::BeginGroup();
         for (int i{0}; i < _matricesToChooseFrom.size(); i++) {
             bool isCorrect{i == _idOfCorrectMatrix};
@@ -123,7 +123,7 @@ namespace game {
             ImGui::PopStyleColor(3); // pop ImGuiCol_Button(Hovered/Active)
 
             // display matrix at same position (= covered by transparent button)
-            ImVec2 cursorPosition = ImGui::GetCursorPos();
+            ImVec2 cursorPosition{ImGui::GetCursorPos().x, ImGui::GetCursorPos().y};
             cursorPosition.y -= displayedSize + margin / 2;
             cursorPosition.x += margin / 2;
             ImGui::SetCursorPos(cursorPosition);

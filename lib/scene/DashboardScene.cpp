@@ -26,11 +26,11 @@ scene::DashboardScene::DashboardScene() {
     _dashboard = std::make_unique<views::Dashboard>();
 
     // initialize Categories
-    std::vector<UniqueTile> reactionCategory = {};
-    std::vector<UniqueTile> accuracyCategory = {};
-    std::vector<UniqueTile> problemSolvingCategory = {};
-    std::vector<UniqueTile> rememberCategory = {};
-    std::vector<UniqueTile> logicalThinking = {};
+    std::vector<UniqueTile> reactionCategory{};
+    std::vector<UniqueTile> accuracyCategory{};
+    std::vector<UniqueTile> problemSolvingCategory{};
+    std::vector<UniqueTile> rememberCategory{};
+    std::vector<UniqueTile> logicalThinking{};
 
     // Kategorie: Reaktion
     reactionCategory.push_back(

@@ -4,12 +4,12 @@
 
 namespace commons {
     /**
-     * @brief Provides colors as ImVec4 objects({red, green, blue, alpha transparency}).
+     * @brief Static class that provides colors as ImVec4 objects({red, green, blue, alpha transparency}).
      * These colors are used by ColorTheme (but can be accessed directly, too).
      */
     class Colors {
     public:
-        Colors() = delete; // static class
+        Colors() = delete;
 
         static ImVec4 const TRANSPARENT;
         static ImVec4 const BLACK;

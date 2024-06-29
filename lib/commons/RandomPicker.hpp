@@ -6,14 +6,14 @@
 
 namespace commons {
     /**
-     * @brief provides methods to pick random integers or
-     * random vector elements
+     * @brief Static class that provides methods to pick random integers or
+     * random vector elements.
      */
     class RandomPicker {
         static std::random_device _rd;  // initialize random number generator
 
     public:
-        RandomPicker() = delete; // static class
+        RandomPicker() = delete;
 
         /**
          * @brief Picks a random element from a given vector

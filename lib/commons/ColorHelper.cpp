@@ -10,7 +10,7 @@ namespace commons {
      * @return modified ImVec4 color
      */
     ImVec4 ColorHelper::adjustBrightness(ImVec4 const &color, float const &factor) {
-        ImVec4 adjusted = color;
+        ImVec4 adjusted{color};
         if (factor > 1.0f) { // make color brighter
             adjusted.x += (1.0f - color.x) * (factor - 1.0f); // red
             adjusted.y += (1.0f - color.y) * (factor - 1.0f); // green
