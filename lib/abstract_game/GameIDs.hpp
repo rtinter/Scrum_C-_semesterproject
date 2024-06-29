@@ -55,6 +55,8 @@ namespace abstract_game {
                 return "Sequence";
             case GameID::ROWS_OF_SYMBOLS:
                 return "Symbolreihen";
+            case GameID::ABSURD_QUESTIONS:
+                return "Schlussfolgerungen";
             default:
                 return "Unknown";
         }

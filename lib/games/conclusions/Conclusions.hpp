@@ -22,9 +22,9 @@
 namespace game {
 
     /**
-     * @brief The AbsurdQuestions game class, which represents the logic and rendering of the game.
+     * @brief The Conclusions game class, which represents the logic and rendering of the game.
      */
-    class AbsurdQuestions : public abstract_game::Game {
+    class Conclusions : public abstract_game::Game {
 
         /**
          * @brief A structure representing a question in the absurd questions game.
@@ -77,9 +77,9 @@ namespace game {
 
     public:
         /**
-         * @brief Constructor for the AbsurdQuestions game.
+         * @brief Constructor for the Conclusions game.
          */
-        AbsurdQuestions();
+        Conclusions();
 
         /**
          * @brief Renders the game.

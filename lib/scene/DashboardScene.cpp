@@ -15,6 +15,7 @@
 #include "Calc.hpp"
 #include "RowsOfSymbols.hpp"
 #include "AbsurdQuestions.hpp"
+#include "Conclusions.hpp"
 
 
 using Tile = ui_elements::Tile;
@@ -210,12 +211,12 @@ scene::DashboardScene::DashboardScene() {
     logicalThinking.push_back(
             std::make_unique<Tile>(
                     "🤔",
-                    "Absurde Fragen",
-                    "Beantworte die absurden Fragen",
+                    "Schlussfolgerungen",
+                    "Erschließe die logische Schlussfolgerung",
                     commons::Colors::SEAFOAM,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::AbsurdQuestions>>()
+                                std::make_unique<GameScene<game::Conclusions>>()
                         );
                     }
             )

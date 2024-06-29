@@ -1,4 +1,4 @@
-#include "AbsurdQuestions.hpp"
+#include "Conclusions.hpp"
 #include "nlohmann/json.hpp"
 #include "Logger.hpp"
 #include <fstream>
@@ -9,7 +9,7 @@ using json = nlohmann::json;
 namespace game {
 
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
-    AbsurdQuestions::AbsurdQuestions() : abstract_game::Game(abstract_game::GameID::ABSURD_QUESTIONS), _selectedOption{false} {
+    Conclusions::Conclusions() : abstract_game::Game(abstract_game::GameID::ABSURD_QUESTIONS), _selectedOption{false} {
         _gameName = "Absurde Fragen";
         _gameDescription = "Beantworte die absurden Fragen.";
         _gameRules = "1. Lies die angezeigte Frage.\n2. Entscheide, ob die Aussage richtig oder falsch ist.\n"
@@ -20,7 +20,7 @@ namespace game {
     }
 
     // Renders the game, including start box, end box, and the game itself
-    void AbsurdQuestions::render() {
+    void Conclusions::render() {
         ui_elements::InfoBox(
                 _gameID,
                 _showStartBox,
@@ -51,7 +51,7 @@ namespace game {
     }
 
     // Renders the main game content
-    void AbsurdQuestions::renderGame() {
+    void Conclusions::renderGame() {
         ui_elements::Window("Absurde Fragen").render([this]() {
             if (_questions.empty()) {
                 std::cout << "No questions loaded." << std::endl;
@@ -67,7 +67,7 @@ namespace game {
     }
 
     // Renders the current question and answer options
-    void AbsurdQuestions::renderQuestion() {
+    void Conclusions::renderQuestion() {
 
         float const buttonWidth {100.0f};
         float const buttonOffsetX {(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
@@ -101,7 +101,7 @@ namespace game {
     }
 
     // Renders a message and current score when the correct answer is given
-    void AbsurdQuestions::renderCorrectMessage(){
+    void Conclusions::renderCorrectMessage(){
         auto now {std::chrono::steady_clock::now()};
         auto duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
@@ -122,7 +122,7 @@ namespace game {
     }
 
     // Renders the game over message in the endBox when an incorrect answer is given
-    void AbsurdQuestions::renderGameOver() {
+    void Conclusions::renderGameOver() {
         stop();
 
         _endBoxTitle = "Das war leider nicht korrekt";
@@ -130,15 +130,15 @@ namespace game {
                       std::to_string(_solved) + " in Folge lösen können";
     }
 
-    // Loads questions/answers from the questionnaire JSON file
-    void AbsurdQuestions::loadQuestions() {
+    // Loads questions/answers from the conclusions JSON file relative to bin dir
+    void Conclusions::loadQuestions() {
         logger::Logger& logger { logger::Logger::getInstance()};
 
         std::fstream file;
         try {
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-            file.open("./config/games/absurd_questions.json");
-            logger.log("Loading files for AbsurdQuestions-Game", QueueEntryType::INFORMATION);
+            file.open("./config/games/conclusions.json");
+            logger.log("Loading files for Conclusions-Game", QueueEntryType::INFORMATION);
 
             json data;
             file >> data;
@@ -147,7 +147,7 @@ namespace game {
             for (const auto &elem : data) {
                 Question q;
                 q.questionText = elem["frage"];
-                q.isCorrectAnswer = elem["antwort"].get<int>() == 1; // Convert the answer to boolean
+                q.isCorrectAnswer = elem["antwort"].get<int>() == 1;
                 _questions.emplace_back(q);
             }
 
@@ -158,21 +158,21 @@ namespace game {
 
         } catch (std::exception const &e) {
             std::stringstream error;
-            error << "Error opening or reading the file absurd_questions.json: " << e.what();
+            error << "Error opening or reading the file conclusions.json: " << e.what();
             std::cerr << error.str() << std::endl;
             logger.log(error.str(), QueueEntryType::SEVERE);
         }
     }
 
     // Generates a random question from the loaded questions
-    void AbsurdQuestions::generateRandomQuestion(){
+    void Conclusions::generateRandomQuestion(){
         if (!_questions.empty()) {
             _currentQuestion = commons::RandomPicker::pickRandomElement(_questions);
         }
     }
 
     // Checks the selected answer and updates the game state
-    void AbsurdQuestions::checkAnswer(bool selectedOption){
+    void Conclusions::checkAnswer(bool selectedOption){
         if (selectedOption == _currentQuestion.isCorrectAnswer) {
             _solved++;
             _showCorrectMessage = true;
@@ -184,7 +184,7 @@ namespace game {
     }
 
     // Starts the game by resetting counters and generating the first question
-    void AbsurdQuestions::start() {
+    void Conclusions::start() {
         _solved = 0;
         generateRandomQuestion();
         _isGameRunning = true;
@@ -193,22 +193,22 @@ namespace game {
         _selectedOption = false;
     }
 
-    void AbsurdQuestions::stop() {
+    void Conclusions::stop() {
         updateStatistics();
         _isGameRunning = false;
         _showEndBox = true;
     }
 
-    void AbsurdQuestions::reset() {
+    void Conclusions::reset() {
         start();
     }
 
     // Updates game statistics with the number of correct answers
-    void AbsurdQuestions::updateStatistics() {
+    void Conclusions::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten", _solved);
     }
 
-    std::string AbsurdQuestions::getName() const {
+    std::string Conclusions::getName() const {
         return Game::getName();
     }
 } // namespace game
