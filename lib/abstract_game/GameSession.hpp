@@ -63,16 +63,6 @@ namespace abstract_game {
         void end();
 
         /**
-         * @brief Get the duration of the game session in seconds.
-         *
-         * This method calculates the duration of the game session in seconds.
-         * If the game session is still running, the current time is used as the end time.
-         *
-         * @return The duration of the game session in seconds.
-         */
-        unsigned long long getDurationInSeconds() const;
-
-        /**
          * @brief Adds a new RunThrough of a game to the vector of Runthroughs of the current session.
          *
          * This method creates a new GameRunThrough that happened during the current Gamesession and adds it to the vector of Runthroughs.
@@ -82,21 +72,6 @@ namespace abstract_game {
          * @param result the result of the specific GameRunThrough
          */
         void addNewGameRunThrough(std::string const &resultUnit, long const &result);
-
-
-
-        GameID getGameID() const;
-
-        int getUserID() const;
-
-        size_t getGameSessionUID() const;
-
-        std::chrono::steady_clock::time_point getStartPoint() const;
-
-        std::chrono::steady_clock::time_point getEndPoint() const;
-
-        bool isEnded() const;
-
 
     };
 
