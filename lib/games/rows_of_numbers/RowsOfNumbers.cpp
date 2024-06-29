@@ -10,6 +10,7 @@
 #include <nlohmann/json.hpp>
 #include <fstream>
 #include <random>
+#include <SoundPolice.hpp>
 
 using json = nlohmann::json;
 
@@ -92,8 +93,10 @@ namespace game {
             if (_inputChanged && _input == _currentSolution) {
                 _correctAnswerTime = std::chrono::steady_clock::now();
                 _waitingForNextNumber = true;
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             } else if (_inputChanged && _input != _currentSolution) {
                 ui_elements::TextCentered("Falsch!");
+                commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
                 if (_solvedCounter > (_sequences.size() / 2))
                     _endBoxTitle = "Gut gemacht!";
                 else
