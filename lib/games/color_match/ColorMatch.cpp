@@ -5,8 +5,6 @@
 #include "Overlay.hpp"
 #include "TextCentered.hpp"
 #include "Centered.hpp"
-#include "SceneManager.hpp"
-#include "DashboardScene.hpp"
 #include "Window.hpp"
 #include "RandomPicker.hpp"
 #include "ColorHelper.hpp"
@@ -14,9 +12,9 @@
 
 namespace games {
     ColorMatch::ColorMatch() : Game(abstract_game::GameID::COLOR_MATCH) {
-        _gameName = "Farb-Wort-Spiel";
+        _gameName = "Farbe & Wort";
         _gameDescription =
-                "Unser Spiel 'Farb Wort Test' zielt darauf ab, die kognitive Flexibilität zu testen,\n"
+                "Unser Spiel 'Farbe & Wort' zielt darauf ab, die kognitive Flexibilität zu testen,\n"
                 "eine Schlüsselkompetenz für Polizei- und Feuerwehranwärter. Dabei werden Farben als Wörter angezeigt,\n"
                 "wobei die Schriftfarbe von der Bedeutung des Wortes abweicht. Der User muss schnell erkennen,\n"
                 "wenn das Wort und die Farbe übereinstimmen, und daraufhin klicken.\n"
@@ -55,22 +53,24 @@ namespace games {
                 stop();
             }
             if (_isTimeForNewRandomColors) {
-                pickRandomColorsText();
+                pickRandomColorsString();
                 pickRandomColorsImVec4();
                 _isTimeForNewRandomColors = false;
             }
             ui_elements::Centered(true, false, [this] {
                 switch (_currentGameMode) {
                     case GameMode::MATCH_STRING:
-                        ImGui::Text("Finde die Übereinstimmung mit dem Farbwort:");
+                        ImGui::Text("Finde die Übereinstimmung mit dem FarbWORT:");
                         break;
                     case GameMode::MATCH_IMVEC4:
-                        ImGui::Text("Finde die Übereinstimmung mit der Schriftfarbe:");
+                        ImGui::Text("Finde die Übereinstimmung mit der SchriftFARBE:");
                         break;
                 }
                 ImGui::NewLine();
+                ImGui::NewLine();
                 displayRandomColors();
-                displayColorButtons();
+                ImGui::NewLine();
+                displayAnswerButtons();
             });
         });
     }
@@ -92,23 +92,34 @@ namespace games {
         _longestStreak = 0;
     }
 
-    void ColorMatch::pickRandomColorsText() {
+    /**
+     * @brief Picks random elements from _availableColorsString
+     */
+    void ColorMatch::pickRandomColorsString() {
         _randomColorsString.clear();
-        for (int i{0}; i < _numberOfRandomColors; i++) {
-            _randomColorsString.emplace_back(commons::RandomPicker::pickRandomElement(_AVAILABLE_COLORS_STRING));
+        for (int i{0}; i < NUMBER_OF_RANDOM_COLORS; i++) {
+            _randomColorsString.emplace_back(commons::RandomPicker::pickRandomElement(_availableColorsString));
         }
     }
 
+    /**
+     * @brief Picks random elements from _availableColorsImVec4
+     */
     void ColorMatch::pickRandomColorsImVec4() {
         _randomColorsImVec4.clear();
-        for (int i{0}; i < _numberOfRandomColors; i++) {
-            _randomColorsImVec4.emplace_back(commons::RandomPicker::pickRandomElement(_AVAILABLE_COLORS_IMVEC4));
+        for (int i{0}; i < NUMBER_OF_RANDOM_COLORS; i++) {
+            _randomColorsImVec4.emplace_back(commons::RandomPicker::pickRandomElement(_availableColorsImVec4));
         }
     }
 
+
+    /**
+     * @brief Displays color words from _randomColorsString (e.g. "rot"), using
+     * the respective element from _randomColorImVec4 as font color.
+     */
     void ColorMatch::displayRandomColors() {
-        // TODO@Noah: use bigger font and center
         for (int i{0}; i < _randomColorsString.size(); i++) {
+            ImGui::SameLine(0.f, 70); // some spacing
             // current color has bigger font
             ImGui::PushFont(_indexOfCurrentColor == i ? commons::Fonts::_header2 : commons::Fonts::_header3);
             ImGui::PushStyleColor(ImGuiCol_Text, _randomColorsImVec4.at(i));
@@ -119,10 +130,15 @@ namespace games {
         }
     }
 
-    void ColorMatch::displayColorButtons() {
+    /**
+     * @brief: Displays clickable answer buttons
+     */
+    void ColorMatch::displayAnswerButtons() {
         ImGui::NewLine();
-        for (int i{0}; i < _AVAILABLE_COLORS_STRING.size(); i++) {
-            if (_indexOfCurrentColor >= _numberOfRandomColors) {
+        for (int i{0}; i < _availableColorsString.size(); i++) {
+            // if _indexOfCurrentColor is out of range, generate new random colors and
+            // start once again from index 0
+            if (_indexOfCurrentColor >= NUMBER_OF_RANDOM_COLORS) {
                 _isTimeForNewRandomColors = true;
                 _indexOfCurrentColor = 0;
             }
@@ -130,28 +146,32 @@ namespace games {
             std::string buttonID;
             switch (_currentGameMode) {
                 case GameMode::MATCH_STRING:
-                    isCurrentColor = _AVAILABLE_COLORS_STRING.at(i) == _randomColorsString.at(_indexOfCurrentColor);
-                    buttonID = "##" + _AVAILABLE_COLORS_STRING.at(i);
-                    ImGui::PushStyleColor(ImGuiCol_Button, _AVAILABLE_COLORS_IMVEC4.at(i)); // Normal state
+                    // create colored buttons with no label
+                    isCurrentColor = _availableColorsString.at(i) == _randomColorsString.at(_indexOfCurrentColor);
+                    buttonID = "##" + _availableColorsString.at(i);
+                    ImGui::PushStyleColor(ImGuiCol_Button, _availableColorsImVec4.at(i)); // Normal state
                     ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
-                                          commons::ColorHelper::adjustBrightness(_AVAILABLE_COLORS_IMVEC4.at(i), 1.2)); // Hover state equals normal state
+                                          commons::ColorHelper::adjustBrightness(_availableColorsImVec4.at(i),
+                                                                                 1.2f)); // Hover state equals normal state
                     break;
                 case GameMode::MATCH_IMVEC4:
-                    isCurrentColor = commons::ColorHelper::isEqual(_AVAILABLE_COLORS_IMVEC4.at(i),
+                    // create gray buttons with color names (e.g. "rot") as button labels
+                    isCurrentColor = commons::ColorHelper::isEqual(_availableColorsImVec4.at(i),
                                                                    _randomColorsImVec4.at(_indexOfCurrentColor));
-                    buttonID = _AVAILABLE_COLORS_STRING.at(i);
+                    buttonID = _availableColorsString.at(i);
                     ImGui::PushStyleColor(ImGuiCol_Button, commons::Colors::VERY_LIGHT_GRAY); // Normal state
                     ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
                                           commons::Colors::VERY_LIGHT_GRAY); // Hover state equals normal state
                     break;
             }
 
-            ImGui::PushStyleColor(ImGuiCol_ButtonActive, // show whether click was correct via quick color change
+            // show whether click was correct via quick color change
+            ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                                   isCurrentColor
                                   ? commons::ColorTheme::SUCCESS_COLOR
                                   : commons::ColorTheme::ERROR_COLOR);
 
-            if (ImGui::Button(buttonID.c_str(), ImVec2(80, 40))) {
+            if (ImGui::Button(buttonID.c_str(), ImVec2(80.f, 40.f))) {
                 onClick(isCurrentColor);
             }
             ImGui::PopStyleColor(3);
@@ -159,7 +179,12 @@ namespace games {
         }
     }
 
-    void ColorMatch::onClick(bool isCurrentColor) {
+    /**
+     * @brief Actions that take place when an answer button was clicked -
+     * depending on whether it is the correct one
+     * @param isCurrentColor Was the correct button clicked?
+     */
+    void ColorMatch::onClick(bool const &isCurrentColor) {
         if (isCurrentColor) {
             // when correct button was clicked
             _indexOfCurrentColor++;
