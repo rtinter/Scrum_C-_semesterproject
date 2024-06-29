@@ -1,4 +1,5 @@
 #include "Remembering.hpp"
+#include "SoundPolice.hpp"
 
 namespace games {
 
@@ -139,6 +140,7 @@ namespace games {
             if (!_submitted && ImGui::Button("Submit All")) {
                 _submitted = true;
                 _showContinueButton = true;
+                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             }
 
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
