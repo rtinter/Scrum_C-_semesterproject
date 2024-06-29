@@ -5,6 +5,7 @@
 
 namespace commons {
     void StyleManager::loadStyle() {
+        // Set up fonts and color theme
         Fonts::setup();
         ColorTheme::setup();
 

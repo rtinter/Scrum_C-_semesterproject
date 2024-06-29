@@ -20,7 +20,8 @@ namespace abstract_game {
         REMEMBERING = 1009,
         ANALOGY = 1010,
         SEQUENCE = 1011,
-        MEMORY = 1012
+        ROWS_OF_SYMBOLS = 1012,
+        MEMORY = 1013
     };
 
     /*********************************
@@ -52,6 +53,8 @@ namespace abstract_game {
                 return "Analogie";
             case GameID::SEQUENCE:
                 return "Sequence";
+            case GameID::ROWS_OF_SYMBOLS:
+                return "Symbolreihen";
             case GameID::MEMORY:
                 return "Memory";
             default:
