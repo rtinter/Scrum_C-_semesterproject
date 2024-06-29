@@ -4,7 +4,6 @@
 #include <StyleManager.hpp>
 #include <SoundManager.hpp>
 #include "MemoryGameImageManager.hpp"
-#include <thread>
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
@@ -19,13 +18,10 @@ std::string const App::TILE{"Human Benchmark"};
 
 void App::start() {
 
-    // Initialize MemoryGameImageManager singleton in a separate thread
-    std::thread imageManagerThread([] {
-        MemoryGameImageManager::getInstance().initialize();
-    });
-    imageManagerThread.detach();
+    // Initialize ImageManager singleton
+    memory::MemoryGameImageManager::getInstance().initialize();
 
-    logger::Logger& logger {logger::Logger::getInstance()};
+    logger::Logger &logger{logger::Logger::getInstance()};
     logger << QueueEntryType::INFORMATION;
     logger << "App Start";
 
@@ -37,6 +33,7 @@ void App::start() {
     scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
 
+
     if (!ImGui::SFML::Init(window)) {
         // Initialisierung fehlgeschlagen
         return;
@@ -46,7 +43,6 @@ void App::start() {
     // load the sounds
     commons::SoundManager::loadSounds();
 #endif
-
 
     // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();
@@ -62,6 +58,7 @@ void App::start() {
 
             if (event.type == sf::Event::Closed) {
                 logger << "App close initialized";
+                //MemoryGameImageManager::getInstance().releaseResources(); // Release resources before closing the window
                 window.close();
             }
         }
@@ -71,6 +68,9 @@ void App::start() {
         ImGui::SFML::Render(window);
         window.display();
     }
+
+    // Release texture resources before shutting down ImGui
+    memory::MemoryGameImageManager::getInstance().releaseResources();
 
     ImGui::SFML::Shutdown();
     logger << "App Shutdown";

@@ -72,6 +72,7 @@ namespace memory {
         std::string getName() const override;
 
     };
+
 } // memory
 
 #endif //ATHENA_MEMORY_HPP

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef MEMORYTILE_HPP
+#define MEMORYTILE_HPP
+
 #include "Tile.hpp"
 #include <string>
 #include <functional>
@@ -34,4 +36,7 @@ namespace memory {
 
         int getIndex() const; // Add getter for index
     };
+
 } // namespace memory
+
+#endif //MEMORYTILE_HPP
