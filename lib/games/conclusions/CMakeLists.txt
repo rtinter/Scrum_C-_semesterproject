@@ -1,4 +1,4 @@
-set(LIBRARY_NAME scene)
+set(LIBRARY_NAME absurd_questions)
 
 file(GLOB SOURCES *.cpp)
 
@@ -12,25 +12,10 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
+        abstract_game
         commons
         ui_elements
-        abstract_game
-        views
-        calc
-        reaction
-        color_match
-        sequence
-        remembering
-        letter_salad
-        aim_trainer
-        analogy
-        typeracer
-        matrix
-        rows_of_numbers
-        rows_of_symbols
-        csv
-        logger
-        absurd_questions
+        scene
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
@@ -39,3 +24,5 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC
         sfml-graphics
         box2d
 )
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/conclusions.json ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/config/games/conclusions.json COPYONLY)

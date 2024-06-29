@@ -14,6 +14,8 @@
 #include "Analogy.hpp"
 #include "Calc.hpp"
 #include "RowsOfSymbols.hpp"
+#include "Conclusions.hpp"
+
 
 using Tile = ui_elements::Tile;
 
@@ -200,6 +202,20 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<game::Analogy>>()
+                        );
+                    }
+            )
+    );
+
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    " ",
+                    "Schlussfolgerungen",
+                    "Erschließe die logische Schlussfolgerung",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<game::Conclusions>>()
                         );
                     }
             )
