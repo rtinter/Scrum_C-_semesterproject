@@ -53,11 +53,11 @@ Gruppe: AEM-1
 
 - Kognitive Leistungsmessung und -verbesserung durch Tests
 - Spiele in den Kategorien 
-  - Reaktionsschnelligkeit
-  - Erinnerungsvermögen
-  - Mustererkennung
-  - Resilienz
-  - Moral
+  - Reaktion
+  - Genauigkeit
+  - Merkfähigkeit
+  - Problemlösung
+  - Logisches Denken
 - Detaillierte Statistiken und Vergleiche
 - Wettbewerbscharakter
 - Vorbereitung auf Assessment-Center für Polizei und Feuerwehr
