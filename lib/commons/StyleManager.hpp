@@ -4,14 +4,14 @@
 
 namespace commons {
 
-    /*************************************************************
-     * StyleManager::loadStyle() loads font and color styles
+    /**
+     * @brief Static class that loads font and color styles
      * and sets some more style settings, e. g. window rounding.
      * These settings are applied to the entire project.
-     *************************************************************/
+     */
     class StyleManager {
     public:
-        StyleManager() = delete; // static class
+        StyleManager() = delete;
 
         static void loadStyle();
     };
