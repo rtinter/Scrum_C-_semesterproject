@@ -8,7 +8,7 @@
 
 namespace games {
     /**
-     * @brief: provides logic and visuals for the game 'Farbe & Text'
+     * @brief: provides logic and visuals for the game 'Farbe & Wort'
      */
     class ColorMatch : public abstract_game::Game {
         static int const NUMBER_OF_RANDOM_COLORS{3};

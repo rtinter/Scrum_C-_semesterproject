@@ -6,7 +6,9 @@
 #include "Matrix.hpp"
 
 namespace game {
-
+    /**
+     * @brief: provides logic and visuals for the game 'Matrix'
+     */
     class MatrixGame : public abstract_game::Game {
         ui_elements::Timer _timer{"Matrix Game", 120};
         int _nCorrectClicksInTotal;
