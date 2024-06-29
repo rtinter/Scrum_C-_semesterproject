@@ -12,11 +12,11 @@
 
 namespace abstract_game {
 
-/**
- * @brief Class for holding game session information.
- *
- * This class holds information about a game session.
- */
+    /**
+     * @brief Class for holding game session information.
+     *
+     * This class holds information about a game session.
+     */
     class GameSession {
 
         // General information
@@ -35,7 +35,10 @@ namespace abstract_game {
         bool _ended;
         std::unique_ptr<DataManager> _dataManager;
 
+        // Run through information
         int _runThroughCount{0};
+        std::vector<GameRunThrough> _gameRunThroughs;
+
         /**
          * @brief Calculates the game session UID.
          *
@@ -45,13 +48,21 @@ namespace abstract_game {
          */
         static size_t calcGameSessionUID();
 
+        /**
+         * @brief Increases the run through count.
+         *
+         * This method increases the run through count by one.
+         */
         void increaseRunThroughCount();
 
+        /**
+         * @brief Writes the game session information to the data manager.
+         *
+         * This method hand over all game session information with all run-throughs to data manager which saves it.
+         */
         void writeToDataManager() const;
 
     public:
-
-        std::vector<GameRunThrough> _gameRunThroughs;
 
         GameSession(GameID gameID, int userID);
 
