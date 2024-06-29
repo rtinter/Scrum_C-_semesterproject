@@ -27,7 +27,7 @@ namespace sequence {
         std::string _endBoxString;
 
 
-        static int constexpr _NUMBER_OF_BUTTONS{9};
+        static int constexpr K_NUMBER_OF_BUTTONS{9};
 
         // chrono timepoints to program the lighting up of the different buttons with appropriate wait times without having to use threads
         // that would stop the entire gameloop
@@ -60,7 +60,7 @@ namespace sequence {
         /**
          * Array keeping track of the states (lit or not lit up) of all nine buttons
          */
-        std::array<int, _NUMBER_OF_BUTTONS> _buttonStates;
+        std::array<int, K_NUMBER_OF_BUTTONS> _buttonStates;
 
 
         /**

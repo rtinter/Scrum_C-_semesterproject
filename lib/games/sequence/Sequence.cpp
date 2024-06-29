@@ -99,11 +99,9 @@ namespace sequence {
 
     void Sequence::displayButtons() {
 
-
         ImGui::NewLine();
 
-
-        for (int i{1}; i <= _NUMBER_OF_BUTTONS; i++) {
+        for (int i{1}; i <= K_NUMBER_OF_BUTTONS; i++) {
             int buttonID{i - 1};
 
             if ((i - 1) % 3) {
@@ -183,7 +181,7 @@ namespace sequence {
     void Sequence::chooseNextRandomButton() {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distribution(0, _NUMBER_OF_BUTTONS - 1);
+        std::uniform_int_distribution<> distribution(0, K_NUMBER_OF_BUTTONS - 1);
 
         _buttonsClickedSequence.emplace_back(distribution(gen));
     }
