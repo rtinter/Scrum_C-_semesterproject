@@ -7,13 +7,13 @@
 namespace abstract_game {
 
     GameSession::GameSession(GameID gameID, int userID) :
-    _gameSessionUID{calcGameSessionUID()},
-    _userID{userID},
-    _gameID{gameID},
-    _startPoint{std::chrono::steady_clock::now()},
-    _ended{false},
-    _dataManager{DataManagerFactory::Create("CsvManager")},
-    _begin{time(nullptr)}{}
+            _gameSessionUID{calcGameSessionUID()},
+            _userID{userID},
+            _gameID{gameID},
+            _startPoint{std::chrono::steady_clock::now()},
+            _ended{false},
+            _dataManager{DataManagerFactory::Create("CsvManager")},
+            _begin{time(nullptr)} {}
 
     size_t GameSession::calcGameSessionUID() {
         // get current timeString as string
@@ -85,7 +85,7 @@ namespace abstract_game {
         return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
     }
 
-    void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
+    void GameSession::addNewGameRunThrough(std::string const &resultUnit, double const &result) {
 
         increaseRunThroughCount();
         _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);

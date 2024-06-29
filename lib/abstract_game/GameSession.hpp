@@ -36,6 +36,7 @@ namespace abstract_game {
         std::unique_ptr<DataManager> _dataManager;
 
         int _runThroughCount{0};
+
         /**
          * @brief Calculates the game session UID.
          *
@@ -81,8 +82,7 @@ namespace abstract_game {
          * @param resultUnit the unit in which the result of the game is saved
          * @param result the result of the specific GameRunThrough
          */
-        void addNewGameRunThrough(std::string const &resultUnit, long const &result);
-
+        void addNewGameRunThrough(std::string const &resultUnit, double const &result);
 
 
         GameID getGameID() const;
