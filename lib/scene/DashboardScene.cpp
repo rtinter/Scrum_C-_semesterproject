@@ -209,7 +209,7 @@ scene::DashboardScene::DashboardScene() {
 
     logicalThinking.push_back(
             std::make_unique<Tile>(
-                    "🤔",
+                    " ",
                     "Schlussfolgerungen",
                     "Erschließe die logische Schlussfolgerung",
                     commons::Colors::SEAFOAM,
