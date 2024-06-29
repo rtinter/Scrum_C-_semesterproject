@@ -76,31 +76,33 @@ namespace scene {
             }
         }
 
-        for (std::vector<std::string> const &row: gameRunThroughData) {
-            if (!row.empty()) {
-                std::string sessionUID{row[1]};
-                std::string result{row[2]};
-                std::string resultUnit{row[3]};
-
-                int totalSessions{0};
-                std::string totalSessionsString;
-
-                // Skip this session if there is no result
-                if (result.empty()) {
-                    continue;
-                }
-
-                for (auto &pair: _sessionsMap) {
-                    totalSessions += pair.second.size();
-                    totalSessionsString = std::to_string(totalSessions);
-                    for (auto &session: pair.second) {
-                        if (session.first == sessionUID) {
-                            std::string combinedResult{result};
-                            combinedResult.append(" ").append(resultUnit);
-                            session.second.push_back(totalSessionsString);
-                            session.second.push_back(combinedResult);
+        for (auto &pair: _sessionsMap) {
+            // Calculate number of runthroughs and mean result for entire session
+            for (auto &session: pair.second) {
+                std::string sessionUID{session.first};
+                std::string resultUnit;
+                int nRunthroughs{0};
+                double resultSum{0.0};
+                for (std::vector<std::string> const &runthrough: gameRunThroughData) {
+                    if (!runthrough.empty()) {
+                        if (sessionUID == runthrough[1]) {
+                            nRunthroughs++;
+                            resultSum += std::stod(runthrough[2]);
+                            resultUnit = runthrough[3];
                         }
                     }
+                }
+                session.second.push_back(std::to_string(nRunthroughs));
+                if (nRunthroughs > 0) {
+                    double meanResult{resultSum / nRunthroughs};
+                    std::ostringstream streamObj;
+                    streamObj << std::fixed << std::setprecision(2) << meanResult;
+                    std::string strMeanResult = streamObj.str();
+                    std::string combinedResult{strMeanResult};
+                    combinedResult.append(" ").append(resultUnit);
+                    session.second.push_back(combinedResult);
+                } else {
+                    session.second.emplace_back(" - ");
                 }
             }
         }
@@ -114,7 +116,8 @@ namespace scene {
     */
     void ResultsScene::displayResults() {
 
-        std::vector<std::string> stringvectorHeaderline{"Datum", "Dauer", "Anzahl der Sessions", "Ergebnis"};
+        std::vector<std::string> stringvectorHeaderline{"Datum", "Dauer", "Versuche",
+                                                        "Durchschnittliches Ergebnis"};
         std::map<int, ui_elements::StatisticsGameTable> gameTables;
 
         // add data to gameTables
@@ -125,8 +128,6 @@ namespace scene {
 
             int rowIndex{1};
             for (auto const &session: pair.second) {
-                std::cout << "Session: " << session.first << std::endl;
-
                 std::vector<std::string> row{session.second};
                 gameDataMap[rowIndex++] = row;
             }
