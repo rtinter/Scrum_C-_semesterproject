@@ -42,6 +42,7 @@ namespace game {
         std::string _solvedText;
         Question _currentQuestion;
         std::optional<bool> _selectedOption;
+        std::optional<Question> _lastQuestion;
 
         /**
          * @brief Loads the list of questions.

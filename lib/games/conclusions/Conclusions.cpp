@@ -17,7 +17,8 @@ namespace game {
     {
         _gameName = "Absurde Fragen";
         _gameDescription = "Beantworte die absurden Fragen.";
-        _gameRules = "1. Lies die angezeigte Frage.\n2. Entscheide, ob die Schlussfolgerung richtig oder falsch ist.\n"
+        _gameRules = "1. Lies die angezeigte Frage.\n"
+                     "2. Entscheide, ob die Schlussfolgerung richtig oder falsch ist.\n"
                      "3. Bestätige deine Auswahl mit dem Bestätigen Button.\n";
         _gameControls = "Linke Maustaste zur Auswahl der Antwort und ebenfalls zum Bestätigen des Buttons";
 
@@ -181,10 +182,18 @@ namespace game {
     }
 
     // Generates a random question from the loaded questions
-    void Conclusions::generateRandomQuestion(){
-        if (!_questions.empty()) {
-            _currentQuestion = commons::RandomPicker::pickRandomElement(_questions);
+    void Conclusions::generateRandomQuestion() {
+        if (_questions.empty()) {
+            return;
         }
+
+        Question newQuestion;
+        do {
+            newQuestion = commons::RandomPicker::pickRandomElement(_questions);
+        } while (_lastQuestion.has_value() && newQuestion.questionText == _lastQuestion->questionText);
+
+        _currentQuestion = newQuestion;
+        _lastQuestion = _currentQuestion;
     }
 
 
