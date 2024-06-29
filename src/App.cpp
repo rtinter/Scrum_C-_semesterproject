@@ -3,6 +3,8 @@
 #include <SceneManager.hpp>
 #include <StyleManager.hpp>
 #include <SoundManager.hpp>
+#include "MemoryGameImageManager.hpp"
+#include <thread>
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
@@ -16,6 +18,12 @@ int const App::WINDOW_WIDTH{1920};
 std::string const App::TILE{"Human Benchmark"};
 
 void App::start() {
+
+    // Initialize MemoryGameImageManager singleton in a separate thread
+    std::thread imageManagerThread([] {
+        MemoryGameImageManager::getInstance().initialize();
+    });
+    imageManagerThread.detach();
 
     logger::Logger& logger {logger::Logger::getInstance()};
     logger << QueueEntryType::INFORMATION;
@@ -38,6 +46,7 @@ void App::start() {
     // load the sounds
     commons::SoundManager::loadSounds();
 #endif
+
 
     // load the styleManager to adjust Colors etc.
     commons::StyleManager::loadStyle();

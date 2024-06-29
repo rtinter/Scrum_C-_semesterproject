@@ -7,7 +7,7 @@
 
 namespace memory {
 
-    Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY), _imageManager(ImageManager::getInstance()) {
+    Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY), _imageManager(MemoryGameImageManager::getInstance()) {
         _gameName = "Memory";
         _gameDescription =
                 "Memory ist ein Spiel, welches deine Konzentration und Merkfähigkeit auf die Probe stellt.\n"

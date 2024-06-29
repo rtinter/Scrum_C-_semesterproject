@@ -8,7 +8,7 @@
 #include "Coordinates.hpp"
 #include "RandomPicker.hpp"
 #include "MemoryTile.hpp"
-#include "ImageManager.hpp"
+#include "MemoryGameImageManager.hpp"
 #include <imgui.h>
 #include <vector>
 #include <memory>
@@ -24,7 +24,7 @@ namespace memory {
         std::unique_ptr<ui_elements::Timer> _timer;
         std::vector<std::shared_ptr<MemoryTile>> _tiles;
         std::vector<Coordinates> _coordinates;
-        ImageManager& _imageManager; // Use ImageManager for managing images
+        MemoryGameImageManager& _imageManager; // Use MemoryGameImageManager for managing images
 
         bool _showAllTiles{false}; //unused
 

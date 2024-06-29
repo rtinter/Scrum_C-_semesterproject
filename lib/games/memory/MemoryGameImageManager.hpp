@@ -1,15 +1,17 @@
-#ifndef ATHENA_IMAGEMANAGER_HPP
-#define ATHENA_IMAGEMANAGER_HPP
+#ifndef ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
+#define ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
 
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <imgui.h>
+#include <mutex>
 
-class ImageManager {
+class MemoryGameImageManager {
 public:
-    static ImageManager& getInstance(); // Singleton instance accessor
+    static MemoryGameImageManager& getInstance(); // Singleton instance accessor
 
+    void initialize(); // Initialization method to load textures
     sf::Texture &getTexture(int index);
 
     int getImageCount() const; // unused
@@ -18,40 +20,41 @@ public:
     void setBackgroundColor(ImVec4 color); // unused
     ImVec4 getBackgroundColor() const; // unused
 
-    ImageManager(const ImageManager&) = delete; // Delete copy constructor
-    ImageManager& operator=(const ImageManager&) = delete; // Delete copy assignment
-    ImageManager(ImageManager&&) = delete; // Delete move constructor
-    ImageManager& operator=(ImageManager&&) = delete; // Delete move assignment
+    MemoryGameImageManager(const MemoryGameImageManager&) = delete; // Delete copy constructor
+    MemoryGameImageManager& operator=(const MemoryGameImageManager&) = delete; // Delete copy assignment
+    MemoryGameImageManager(MemoryGameImageManager&&) = delete; // Delete move constructor
+    MemoryGameImageManager& operator=(MemoryGameImageManager&&) = delete; // Delete move assignment
 
 private:
-    ImageManager(); // Private constructor
-    ~ImageManager(); // Private destructor
+    MemoryGameImageManager(); // Private constructor
+    ~MemoryGameImageManager(); // Private destructor
 
     std::vector<std::string> _imagePaths;
     std::vector<sf::Texture> _textures;
     ImVec4 _backgroundColor;
+    std::mutex _mutex;
 
     void loadImages();
     static void loadTextureFromFile(const std::string &path, sf::Texture &texture);
 };
 
-#endif //ATHENA_IMAGEMANAGER_HPP
+#endif //ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
 
 
 
 
 /*
-#ifndef ATHENA_IMAGEMANAGER_HPP
-#define ATHENA_IMAGEMANAGER_HPP
+#ifndef ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
+#define ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
 
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include <imgui.h>
 
-class ImageManager {
+class MemoryGameImageManager {
 public:
-    ImageManager();
+    MemoryGameImageManager();
 
     sf::Texture &getTexture(int index);
 
@@ -70,4 +73,4 @@ private:
     void loadTextureFromFile(const std::string &path, sf::Texture &texture);
 };
 
-#endif //ATHENA_IMAGEMANAGER_HPP*/
+#endif //ATHENA_MEMORYGAMEIMAGEMANAGER_HPP*/
