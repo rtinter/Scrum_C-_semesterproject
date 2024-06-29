@@ -1,6 +1,7 @@
 #include "Conclusions.hpp"
 #include "nlohmann/json.hpp"
 #include "Logger.hpp"
+#include "SoundPolice.hpp"
 #include <fstream>
 #include <iostream>
 
@@ -200,11 +201,13 @@ namespace game {
     // Checks the selected answer and updates the game state
     void Conclusions::checkAnswer(std::optional<bool> &selectedOption){
         if (selectedOption.has_value() && selectedOption.value() == _currentQuestion.isCorrectAnswer) {
+            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             _solved++;
             _showCorrectMessage = true;
             _correctMessageStartTime = std::chrono::steady_clock::now();
         } else {
             renderGameOver();
+            commons::SoundPolice::safePlaySound(commons::Sound::BEEP_FAIL);
         }
     }
 
