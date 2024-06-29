@@ -13,7 +13,7 @@
 #include "RowsOfNumbers.hpp"
 #include "Analogy.hpp"
 #include "Calc.hpp"
-
+#include "RowsOfSymbols.hpp"
 
 using Tile = ui_elements::Tile;
 
@@ -72,6 +72,19 @@ scene::DashboardScene::DashboardScene() {
                                 std::make_unique<GameScene<games::AimTrainer> >());
                     }
             )
+    );
+
+    reactionCategory.push_back(
+        std::make_unique<Tile>(
+            "\uF61F",
+            "Symbolreihen",
+            "Symbole erkennen und einordnen",
+            commons::Colors::BLUE,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<game::RowsOfSymbols> >());
+            }
+        )
     );
 
     // Kategorie: Genauigkeit
