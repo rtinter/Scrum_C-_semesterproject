@@ -45,7 +45,9 @@ Gruppe: AEM-1
   - [Projektstruktur](#projektstruktur)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Dependencies für Linux](#dependencies-für-linux)
   - [Building the Project](#building-the-project)
+  - [Terminal Installation](#terminal-installation)
 
 ## Features
 
