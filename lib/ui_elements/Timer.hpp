@@ -112,6 +112,10 @@ namespace ui_elements {
          */
         void reduceTime(int seconds);
 
+        /**
+         * @brief Resets the timer with a new time.
+         * @param newTimeInSeconds
+         */
         void resetWithNewTime(int newTimeInSeconds);
     };
 
