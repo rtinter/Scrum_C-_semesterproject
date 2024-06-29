@@ -1,13 +1,18 @@
 #ifndef ATHENA_MATRIX_HPP
 #define ATHENA_MATRIX_HPP
 
-
 #include <array>
 
+/**
+ * @brief Models a square matrix and provides functionalities to
+ * initialize, render, rotate and mirror it, as well as to compare it
+ * to another Matrix object
+ */
 class Matrix {
     int static constexpr SIZE{5};
-    float static constexpr CELL_SIZE_BIG{50.};
-    float static constexpr CELL_SIZE_SMALL{29.};
+    float static constexpr CELL_SIZE_BIG{50.f};
+    float static constexpr CELL_SIZE_SMALL{29.f};
+    int _unmarked{-9999};
     int _data[SIZE][SIZE];
 
     Matrix rotate90DegreesRight(int nTimes) const;
@@ -30,7 +35,7 @@ public:
 
     void renderSmall();
 
-    void init(int nCellsWithNumbers);
+    void init(int nMarkedCells);
 
     static int getSize();
 
