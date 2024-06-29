@@ -30,6 +30,7 @@ set(CUSTOM_LIBS
         rows_of_symbols
         csv
         logger
+        absurd_questions
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
