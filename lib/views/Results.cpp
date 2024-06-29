@@ -10,7 +10,7 @@ namespace views {
             ImGui::SetWindowPos(ImVec2(0,100));
             ImGui::SetWindowSize(ImVec2(ImGui::GetIO().DisplaySize.x, ImGui::GetIO().DisplaySize.y - 50));
 
-            int count = 0;
+            int count {0};
             for (ui_elements::TableContainer &tableContainer : _gameTableContainers)
             {
                 if (count > 0 && count % 2 == 0) {
@@ -27,12 +27,13 @@ namespace views {
         });
     }
 
-    void Results::addGameTableContainer(const ui_elements::TableContainer &tableContainer) {
+    void Results::addGameTableContainer(ui_elements::TableContainer const &tableContainer) {
         _gameTableContainers.emplace_back(tableContainer);
     }
 
-    void Results::addGameTableContainers(const std::vector<ui_elements::TableContainer> &tableContainers) {
-        for (const auto &tableContainer : tableContainers) {
+    // wird nicht verwendet -> löschen?
+    void Results::addGameTableContainers(std::vector<ui_elements::TableContainer> const &tableContainers) {
+        for (auto const &tableContainer : tableContainers) {
             addGameTableContainer(tableContainer);
         }
     }
