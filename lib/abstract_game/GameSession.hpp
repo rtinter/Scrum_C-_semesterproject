@@ -83,21 +83,7 @@ namespace abstract_game {
          * @param result the result of the specific GameRunThrough
          */
         void addNewGameRunThrough(std::string const &resultUnit, double const &result);
-
-
-        GameID getGameID() const;
-
-        int getUserID() const;
-
-        size_t getGameSessionUID() const;
-
-        std::chrono::steady_clock::time_point getStartPoint() const;
-
-        std::chrono::steady_clock::time_point getEndPoint() const;
-
-        bool isEnded() const;
-
-
+        
     };
 
 } // abstract_game

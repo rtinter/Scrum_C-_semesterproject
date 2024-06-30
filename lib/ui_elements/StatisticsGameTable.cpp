@@ -46,7 +46,7 @@ namespace ui_elements {
 
         ImGui::PushFont(commons::Fonts::_header3);
         // Kopfzeile
-        for (auto &entry: _input.begin()->second) {
+        for (auto const &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
         }
         ImGui::TableHeadersRow();
@@ -55,17 +55,14 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::createTableRows() const {
-        for (auto &keyvaluepair: _input) {
+        for (auto const &keyvaluepair: _input) {
             if (_input.begin()->first == keyvaluepair.first) {
                 continue; //skips the Tablehead
             }
             ImGui::TableNextRow();
             ImGui::PushFont(commons::Fonts::_header3);
-            int i = 0;
-            int max = 4;
-            for (auto &entry: keyvaluepair.second) {
-                if(i == max)
-                    continue;
+            int i{0};
+            for (auto const &entry: keyvaluepair.second) {
                 //Datum
                 ImGui::TableSetColumnIndex(i);
                 //checks if vector has to few data sets
@@ -76,7 +73,7 @@ namespace ui_elements {
                 }
                 i++;
             }
-           ImGui::PopFont();
+            ImGui::PopFont();
         }
     }
 
@@ -96,14 +93,14 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::render() {
-            //backgroundColor
-            ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::ColorTheme::PRIMARY_COLOR);
-            if (_input.empty()) {
-                //If there are no values we need a default map
-                defaultTable();
-            } else {
-                createTable();
-            }
-            ImGui::PopStyleColor();
+        //backgroundColor
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::ColorTheme::PRIMARY_COLOR);
+        if (_input.empty()) {
+            //If there are no values we need a default map
+            defaultTable();
+        } else {
+            createTable();
+        }
+        ImGui::PopStyleColor();
     }
 }

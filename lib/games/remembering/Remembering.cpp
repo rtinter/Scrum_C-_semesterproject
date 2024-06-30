@@ -146,7 +146,7 @@ namespace games {
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
                 _submitted = false;
                 _showContinueButton = false;
-                for (int i = 0; i < _currentQuestionSet.questions.size(); ++i) {
+                for (int i{0}; i < _currentQuestionSet.questions.size(); ++i) {
                     if (_selectedAnswers[i] == _currentQuestionSet.questions[i].correctAnswerIndex) {
                         ++_score;
                     }

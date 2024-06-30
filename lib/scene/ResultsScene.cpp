@@ -97,12 +97,10 @@ namespace scene {
                     double meanResult{resultSum / nRunthroughs};
                     std::ostringstream streamObj;
                     streamObj << std::fixed << std::setprecision(2) << meanResult;
-                    std::string strMeanResult {streamObj.str()};
+                    std::string strMeanResult{streamObj.str()};
                     std::string combinedResult{strMeanResult};
                     combinedResult.append(" ").append(resultUnit);
                     session.second.push_back(combinedResult);
-                } else {
-                    session.second.emplace_back(" - ");
                 }
             }
         }

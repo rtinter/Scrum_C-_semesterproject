@@ -91,27 +91,4 @@ namespace abstract_game {
         _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
     }
 
-    GameID GameSession::getGameID() const {
-        return _gameID;
-    }
-
-    int GameSession::getUserID() const {
-        return _userID;
-    }
-
-    size_t GameSession::getGameSessionUID() const {
-        return _gameSessionUID;
-    }
-
-    std::chrono::steady_clock::time_point GameSession::getStartPoint() const {
-        return _startPoint;
-    }
-
-    std::chrono::steady_clock::time_point GameSession::getEndPoint() const {
-        return _endPoint;
-    }
-
-    bool GameSession::isEnded() const {
-        return _ended;
-    }
 } // abstract_game
