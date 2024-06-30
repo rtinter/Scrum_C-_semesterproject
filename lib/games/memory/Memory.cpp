@@ -7,7 +7,8 @@
 
 namespace memory {
 
-    Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY), _imageManager(MemoryGameImageManager::getInstance()) {
+    Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY),
+                       _imageManager(MemoryGameImageManager::getInstance()) {
         _gameName = "Memory";
         _gameDescription =
                 "Memory ist ein Spiel, welches deine Konzentration und Merkfähigkeit auf die Probe stellt.\n"
@@ -35,7 +36,7 @@ namespace memory {
 
         // Generate indices for the images
         std::vector<int> indices(30);
-        for (int i {0}; i < 30; ++i) {
+        for (int i{0}; i < 30; ++i) {
             indices[i] = i % 15; // Create pairs of indices (0 to 14)
         }
 
@@ -43,43 +44,88 @@ namespace memory {
         std::mt19937 g(rd());
         std::shuffle(indices.begin(), indices.end(), g); // Shuffle the image indices
 
-        for (int i {0}; i < 30; ++i) {
-            int imageIndex {indices[i]};
-            sf::Texture& texture {_imageManager.getTexture(imageIndex)};
-            auto tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize, imageIndex)};
+        for (int i{0}; i < 30; ++i) {
+            int imageIndex = indices[i];
+            sf::Texture &texture = _imageManager.getTexture(imageIndex);
+            auto tile = std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
+                                                             imageIndex);
             _tiles.push_back(tile);
         }
     }
 
 
     void Memory::arrangeTiles() {
-        std::random_device rd;
-        std::mt19937 g(rd());
 
-        int const columns {10};
-        int const rows[] {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
+        int const columns{10};
+        int const rows[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
         _coordinates.clear(); // Ensure coordinates are cleared before arranging
 
-        int index {0};
-        for (int col {0}; col < columns; ++col) {
-            for (int row {0}; row < rows[col]; ++row) {
+        int index{0};
+        for (int col{0}; col < columns; ++col) {
+            for (int row{0}; row < rows[col]; ++row) {
                 _coordinates.emplace_back(row * (_tileSize.y + _padding), col * (_tileSize.x + _padding));
                 ++index;
             }
         }
 
-        std::shuffle(_coordinates.begin(), _coordinates.end(), g);
+    }
+
+
+    void Memory::centerCoordinates() {
+        int const columns{10};
+        int const rows[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
+
+        float const totalWidth{columns * (_tileSize.x + _padding) - _padding};
+        float const totalHeight{5 * (_tileSize.y + _padding) - _padding};
+
+        ImVec2 windowSize = ImGui::GetWindowSize();
+        float startX{(windowSize.x - totalWidth) / 2};
+        float startY{(windowSize.y - totalHeight) / 2};
+
+        int index{0};
+        for (int col{0}; col < columns; ++col) {
+            int yOffset = startY + (5 - rows[col]) * (_tileSize.y + _padding) / 2; // Center each column vertically
+            for (int row{0}; row < rows[col]; ++row) {
+                float x{startX + col * (_tileSize.x + _padding)};
+                float y{yOffset + row * (_tileSize.y + _padding)};
+                if (index < _tiles.size()) {
+                    _coordinates[index] = Coordinates(y, x);
+                    ++index;
+                }
+            }
+        }
+    }
+
+    void Memory::showAllTiles() {
+        for (auto &tile: _tiles) {
+            if (!tile->isFaceUp()) {
+                tile->flip();
+            }
+        }
+    }
+
+    void Memory::hideAllTiles() {
+        for (auto &tile: _tiles) {
+            if (tile->isFaceUp()) {
+                tile->flip();
+            }
+        }
+    }
+
+    void Memory::startGameTimer() {
+        _timer = std::make_unique<ui_elements::Timer>(_gameName, _totalGameTime);
+        _timer->start();
     }
 
     void Memory::handleTileClick(int tileID) {
-        if (_isCheckingMatch) {
+        if (!_initialDisplayDone || _isCheckingMatch) {
             handleMismatch(); // Immediately handle mismatch if a new tile is clicked
         }
 
-        auto& tile {_tiles[tileID]};
+        auto &tile{_tiles[tileID]};
 
-        if (tile->isFlipped()) {
+        if (tile->isFaceUp()) {
             return; // Ignore if the tile is already flipped
         }
 
@@ -97,44 +143,6 @@ namespace memory {
         }
     }
 
-    void Memory::resetTiles() {
-        for (auto& tile : _tiles) {
-            tile->reset();
-        }
-    }
-
-    void Memory::flipTilesBack() {
-        for (auto& tile : _tiles) {
-            if (tile->isFlipped()) {
-                tile->flip();
-            }
-        }
-    }
-
-    void Memory::centerTiles() {
-        int const columns {10};
-        int const rows[] {1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
-
-        float const totalWidth {columns * (_tileSize.x + _padding) - _padding};
-        float const totalHeight {5 * (_tileSize.y + _padding) - _padding};
-
-        ImVec2 windowSize = ImGui::GetWindowSize();
-        float startX {(windowSize.x - totalWidth) / 2};
-        float startY {(windowSize.y - totalHeight) / 2};
-
-        int index {0};
-        for (int col {0}; col < columns; ++col) {
-            int yOffset = startY + (5 - rows[col]) * (_tileSize.y + _padding) / 2; // Center each column vertically
-            for (int row {0}; row < rows[col]; ++row) {
-                float x {startX + col * (_tileSize.x + _padding)};
-                float y {yOffset + row * (_tileSize.y + _padding)};
-                if (index < _tiles.size()) {
-                    _coordinates[index] = Coordinates(y, x);
-                    ++index;
-                }
-            }
-        }
-    }
 
     void Memory::checkForMatch() {
         if (_firstTile->getIndex() == _secondTile->getIndex()) {
@@ -164,17 +172,18 @@ namespace memory {
 
     void Memory::checkForWin() {
         // Calculate time taken
-        int timeTaken {_totalGameTime - _timer->getSecondsLeft()};
+        int timeTaken{_totalGameTime - _timer->getSecondsLeft()};
         int minutes = {timeTaken / 60};
         int seconds = {timeTaken % 60};
 
         // Format time as <minutes:seconds>
-        std::string timeTakenStr {std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
+        std::string timeTakenStr{std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
 
         // Update end box message
         _endBoxTitle = "Gut gemacht!";
         _endBoxText = "Du hast " + std::to_string(_pairsFound) + " Paare gefunden.\n"
-                                                                 "Dafür hast du " + timeTakenStr + " Minuten gebraucht.";
+                                                                 "Dafür hast du " + timeTakenStr +
+                      " Minuten gebraucht.";
 
         stop();
     }
@@ -182,15 +191,15 @@ namespace memory {
 
     void Memory::handleGameOver() {
         // Calculate time taken
-        int timeTaken {_totalGameTime - _timer->getSecondsLeft()};
-        int minutes {timeTaken / 60};
-        int seconds {timeTaken % 60};
+        int timeTaken{_totalGameTime - _timer->getSecondsLeft()};
+        int minutes{timeTaken / 60};
+        int seconds{timeTaken % 60};
 
         // Format time as <minutes:seconds>
-        std::string timeTakenStr {std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
+        std::string timeTakenStr{std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
 
         // Update end box message
-        std::string pairString {_pairsFound == 1 ? "Paar" : "Paare"};
+        std::string pairString{_pairsFound == 1 ? "Paar" : "Paare"};
         _endBoxTitle = "Spiel vorbei!";
         _endBoxText = "Zeit abgelaufen.\n"
                       "Du hast " + std::to_string(_pairsFound) + " " + pairString + " gefunden.";
@@ -204,6 +213,7 @@ namespace memory {
             _secondTile->flip();
         }
     }
+
 
     void Memory::render() {
         ui_elements::InfoBox(
@@ -237,30 +247,51 @@ namespace memory {
     void Memory::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Memory").render([this] {
-            if (_tiles.empty()) {
-                initializeTiles();
-                arrangeTiles();
-                centerTiles();
-            }
 
             _timer->render();
-            if (_timer->isExpiredNow()) {
+
+            auto now = std::chrono::steady_clock::now();
+            if (std::chrono::duration_cast<std::chrono::seconds>(now - _initialDisplayStartTime).count() < 3) {
+                if (!_initialDisplayDone) {
+                    initializeTiles();
+                    arrangeTiles();
+                    centerCoordinates();
+                    showAllTiles();
+                    _initialDisplayDone = true;
+                }
+                _timer->reset();
+            } else {
+                if (_timerPaused) {
+                    hideAllTiles();
+                    initializeTiles();
+                    arrangeTiles();
+                    centerCoordinates();
+                    startGameTimer();
+                    _timerPaused = false;
+                }
+            }
+
+
+            if (_timer && _timer->isExpiredNow()) {
                 handleGameOver();
             }
 
+
             if (_delayActive) {
-                auto now = std::chrono::steady_clock::now();
-                if (std::chrono::duration_cast<std::chrono::seconds>(now - _matchCheckTime).count() >= 2) {
+                auto nowDelay = std::chrono::steady_clock::now();
+                if (std::chrono::duration_cast<std::chrono::seconds>(nowDelay - _matchCheckTime).count() >= 2) {
                     handleMismatch();
                 }
             }
 
-            for (int i {0}; i < _tiles.size(); ++i) {
-                auto& tile {_tiles[i]};
-                auto coords {_coordinates[i]};
+
+            for (int i = 0; i < _tiles.size(); ++i) {
+                auto &tile = _tiles[i];
+                auto coords = _coordinates[i];
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
                 tile->render();
             }
+
 
         });
         ImGui::PopStyleColor();
@@ -270,16 +301,10 @@ namespace memory {
         _isGameRunning = true;
         _showStartBox = false;
         _showEndBox = false;
+        _initialDisplayDone = false;
 
-        _timer = std::make_unique<ui_elements::Timer>(_gameName, _totalGameTime);
-        _timer->start();
-
-        resetTiles();
-        for (auto& tile : _tiles) {
-            tile->flip();
-        }
-
-
+        startGameTimer();
+        _initialDisplayStartTime = std::chrono::steady_clock::now();
     }
 
     void Memory::stop() {
@@ -294,6 +319,8 @@ namespace memory {
         _firstTile = nullptr;
         _secondTile = nullptr;
         _pairsFound = 0;
+        _initialDisplayDone = false;
+        _timerPaused = true;
     }
 
     void Memory::updateStatistics() {

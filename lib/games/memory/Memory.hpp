@@ -16,6 +16,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 #include <algorithm>
+#include <chrono>
 
 namespace memory {
 
@@ -26,8 +27,7 @@ namespace memory {
         std::vector<Coordinates> _coordinates;
         MemoryGameImageManager& _imageManager; // Use MemoryGameImageManager for managing images
 
-        bool _showAllTiles{false}; //unused
-
+        bool _initialDisplayDone{false};
         ImVec2 _tileSize{140, 140};
         float _padding{15.0f};
 
@@ -38,21 +38,22 @@ namespace memory {
         int _totalGameTime{30};
 
         std::chrono::steady_clock::time_point _matchCheckTime;
+        std::chrono::steady_clock::time_point _initialDisplayStartTime;
         bool _delayActive{false};
+        bool _timerPaused{true};
 
         void initializeTiles();
         void arrangeTiles();
+        void centerCoordinates();
+        void showAllTiles();
+        void hideAllTiles();
+        void startGameTimer();
         void handleTileClick(int tileID);
-        void resetTiles();
-        void flipTilesBack();
-        void centerTiles();
-
         void checkForMatch();
         void resetFlippedTiles();
         void checkForWin();
         void handleMismatch();
         void handleGameOver();
-
 
     public:
         explicit Memory();

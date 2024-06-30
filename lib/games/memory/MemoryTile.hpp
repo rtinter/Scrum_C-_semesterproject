@@ -12,7 +12,7 @@ namespace memory {
 
     class MemoryTile : public ui_elements::Tile {
     private:
-        bool _isFlipped{false};
+        bool _isFaceUp{false};
         sf::Texture _frontTexture;
         ImVec4 _backColor{commons::ColorTheme::PRIMARY_COLOR};
         std::function<void()> _onClick;
@@ -28,7 +28,7 @@ namespace memory {
 
         void reset();
 
-        bool isFlipped() const;
+        bool isFaceUp() const;
 
         void setBackColor(ImVec4 color); //unused
 
