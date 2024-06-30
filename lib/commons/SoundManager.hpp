@@ -8,6 +8,13 @@
 
 
 namespace commons {
+
+    /**
+     * @brief The SoundManager class is a singleton class that manages the sound effects.
+     *
+     * Currently, the SoundManager only supports Windows. There will be no sound on other platforms.
+     * To ensure the safe use of sounds, you should use the SoundPolice class instead, which is a wrapper for this class.
+     */
     class SoundManager {
 
         /**
