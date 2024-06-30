@@ -93,7 +93,7 @@ namespace games {
         ImGui::Text("%s", q.question.c_str());
 
         // Store the answers
-        std::vector<const char *> answers;
+        std::vector<char const *> answers;
         answers.reserve(q.answers.size());
         for (auto const &answer: q.answers) {
             answers.emplace_back(answer.c_str());
@@ -146,12 +146,12 @@ namespace games {
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
                 _submitted = false;
                 _showContinueButton = false;
-                stop();
-                for (int i = 0; i < _currentQuestionSet.questions.size(); ++i) {
+                for (int i{0}; i < _currentQuestionSet.questions.size(); ++i) {
                     if (_selectedAnswers[i] == _currentQuestionSet.questions[i].correctAnswerIndex) {
                         ++_score;
                     }
                 }
+                stop();
 
                 //set endBox Texts after the game
                 _endBoxTitle = "Dein Ergebnis";
@@ -163,8 +163,7 @@ namespace games {
 
     // Displays the evaluation of the player's performance
     std::string Remembering::displayEvaluation(int const &score, int const &size) {
-        std::string evaluation =
-                std::to_string(score) + " von " + std::to_string(size) + " richtig.\n";
+        std::string evaluation{std::to_string(score) + " von " + std::to_string(size) + " richtig.\n"};
         if (score >= (3 * size) / 4) {
             evaluation += "Sehr gut gemacht!\n\n";
         } else if (score >= size / 2) {
@@ -177,7 +176,7 @@ namespace games {
 
     // Displays centered text by measuring window and colorsizes
     void Remembering::displayCenteredText(std::string const &text) {
-        ImVec2 windowSize = ImGui::GetWindowSize();
+        ImVec2 windowSize{ImGui::GetWindowSize()};
 
         std::istringstream stream{text};
         std::string line;
@@ -188,8 +187,8 @@ namespace games {
         }
 
         for (auto const &li: lines) {
-            ImVec2 textSize = ImGui::CalcTextSize(li.c_str(), nullptr, false, windowSize.x);
-            float offsetX = (windowSize.x - textSize.x) * 0.5f;
+            ImVec2 textSize{ImGui::CalcTextSize(li.c_str(), nullptr, false, windowSize.x)};
+            float offsetX{(windowSize.x - textSize.x) * 0.5f};
 
             if (offsetX > 0) {
                 ImGui::SetCursorPosX(offsetX);
@@ -227,7 +226,7 @@ namespace games {
     }
 
     void Remembering::updateStatistics() {
-        double percentageOfCorrectAnswers{static_cast<double>(_score) / _currentQuestionSet.questions.size() * 100.};
+        double percentageOfCorrectAnswers{static_cast<double>(_score) / _currentQuestionSet.questions.size() * 100};
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("% korrekte Antworten",
                                                                                      percentageOfCorrectAnswers);
     }
