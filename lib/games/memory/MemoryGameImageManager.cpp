@@ -34,9 +34,7 @@ namespace memory {
     }
 
     void MemoryGameImageManager::loadTextureFromFile(const std::string &path, sf::Texture &texture) {
-        if (texture.loadFromFile(path)) {
-            std::cout << "Loaded texture from file: " << path << std::endl;
-        } else {
+        if (!texture.loadFromFile(path)) {
             std::cerr << "Failed to load texture from file: " << path << std::endl;
         }
     }
