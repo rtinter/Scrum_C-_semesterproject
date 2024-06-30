@@ -305,4 +305,4 @@ namespace games {
 
         }
     }
-} // sequence
+} // games
