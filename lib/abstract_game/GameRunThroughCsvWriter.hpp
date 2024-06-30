@@ -1,7 +1,3 @@
-//
-// Created by Admin on 07.06.2024.
-//
-
 #ifndef GameRunThroughCsvWriter_HPP
 #define GameRunThroughCsvWriter_HPP
 
@@ -16,11 +12,11 @@ namespace abstract_game {
 
     class GameRunThroughCsvWriter {
     public:
-        explicit GameRunThroughCsvWriter(const std::string &filename);
+        explicit GameRunThroughCsvWriter(std::string const &filename);
 
-        void writeHeader(const std::vector<std::string> &header);
+        void writeHeader(std::vector<std::string> const &header);
 
-        void writeRow(const std::vector<std::string> &row) {
+        void writeRow(std::vector<std::string> const &row) {
             for (size_t i {0}; i < row.size(); ++i) {
                 _file << row[i];
                 if (i != row.size() - 1) {

@@ -151,10 +151,11 @@ namespace typeracer {
              *  stop the timer when the sentence is completed and save the WPM
             ***********************************/
             if (_runTimer && strlen(_input) > 0) {
-                auto currentTime{std::chrono::steady_clock::now()};
-                std::chrono::duration<float> elapsedSeconds{currentTime - _startPoint};
-                float minutes{elapsedSeconds.count() / 60.0f};
-                int numChars = strlen(_input);
+                auto const currentTime{std::chrono::steady_clock::now()};
+                std::chrono::duration<float> const elapsedSeconds{currentTime - _startPoint};
+                float const minutes{elapsedSeconds.count() / 60.0f};
+                // cant use {}
+                int const numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 
                 std::stringstream wpmStream;

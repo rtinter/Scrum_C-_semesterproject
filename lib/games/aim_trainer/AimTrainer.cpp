@@ -1,15 +1,17 @@
 #include "AimTrainer.hpp"
+
+#include <algorithm>
 #include "Window.hpp"
 #include "SoundPolice.hpp"
+#include "WindowConfig.hpp"
 
 int randomPos(int n) {
     return rand() % n + 1;
 }
 
 void games::AimTrainer::spawnBlobs() {
-    const auto size = ImGui::GetWindowSize();
-    int windowWidth{static_cast<int>(size.x)};
-    int windowHeight{static_cast<int>(size.y)};
+    int const windowWidth{WindowConfig::WINDOW_WIDTH};
+    int const windowHeight{WindowConfig::WINDOW_HEIGHT};
 
     if(_spawnAmount >= 1){
         commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 30, 3.f);
@@ -17,14 +19,12 @@ void games::AimTrainer::spawnBlobs() {
 
     for (int i{0}; i < _spawnAmount; ++i) {
         int x{randomPos(windowWidth)};
-        if (x < 240)
-            x = 240;
+        x = std::max(x, 240);
         if (x > windowWidth)
             x = windowWidth - 240;
         int y{randomPos(windowHeight)};
 
-        if (y < 240)
-            y = 240;
+        y = std::max(y, 240);
         if (y > windowHeight)
             y = windowHeight - 240;
 
@@ -76,13 +76,15 @@ void games::AimTrainer::render() {
                         _currentBlobs.end(),
                         [this, &hit, mousePos](aim_trainer::Blob &b) {
 
-                            const auto coords{b.getCoords()};
-                            const float dx{coords.x - mousePos.x};
-                            const float dy{coords.y - mousePos.y};
-                            const float dist{dx * dx + dy * dy};
+                            auto const coordsx{b.getCoords().x};
+                            auto const coordsy{b.getCoords().y};
+
+                            float const dx{coordsx - mousePos.x};
+                            float const dy{coordsy - mousePos.y};
+                            float const dist{dx * dx + dy * dy};
 
                             // increment successful clicks of blobs
-                            bool inCircle{dist <= b.getRadius() * b.getRadius()};
+                            bool const inCircle{dist <= b.getRadius() * b.getRadius()};
                             if (inCircle) {
                                 _successCounter++;
                                 hit = true;

@@ -1,6 +1,3 @@
-//
-// Created by Admin on 14.06.2024.
-//
 #include "GameSessionManager.hpp"
 
 namespace abstract_game {

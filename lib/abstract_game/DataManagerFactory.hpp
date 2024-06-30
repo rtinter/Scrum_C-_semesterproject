@@ -1,7 +1,3 @@
-//
-// Created by Admin on 06.06.2024.
-//
-
 #ifndef ATHENA_DATAMANAGERFACTORY_HPP
 #define ATHENA_DATAMANAGERFACTORY_HPP
 
@@ -24,14 +20,7 @@ namespace abstract_game {
          * @param type The type of DataManager to create.
          * @return A unique_ptr to the created DataManager instance.
          */
-        static std::unique_ptr<DataManager> Create(const std::string& type) {
-            if (type == "CsvManager") {
-                return std::make_unique<CsvStorage>();
-            }
-            // Add other types here if needed, e.g. SQLManager
-            return nullptr;
-        }
-
+        static std::unique_ptr<DataManager> create(std::string const &type);
     };
 
 } // abstract_game

@@ -6,6 +6,7 @@
 #include "Fonts.hpp"
 #include "RandomPicker.hpp"
 #include "imgui_internal.h"
+#include <algorithm>
 
 /**
  * init() fills the matrix with values
@@ -27,8 +28,8 @@ void Matrix::init(int nMarkedCells) {
     for (int n{0}; n < nMarkedCells; ++n) {
         bool isMarked{false};
         while (!isMarked) {
-            int x{commons::RandomPicker::randomInt(0, SIZE - 1)};
-            int y{commons::RandomPicker::randomInt(0, SIZE - 1)};
+            int const x{commons::RandomPicker::randomInt(0, SIZE - 1)};
+            int const y{commons::RandomPicker::randomInt(0, SIZE - 1)};
             if (_data[x][y] == _unmarked) {
                 if (n % 2 == 0) {
                     //  10, 20, 30, 40 represent "0" in different color shades
@@ -146,10 +147,10 @@ bool Matrix::isEqual(Matrix const &other) const {
  * @return boolean value
  */
 bool Matrix::isMirroredVersionOf(Matrix const &other) const {
-    for (Matrix mirrored: other.getAllMirroredVersions()) {
-        if (isEqual(mirrored)) return true;
-    }
-    return false;
+    auto mirroredVersions{other.getAllMirroredVersions()};
+    return std::any_of(mirroredVersions.begin(), mirroredVersions.end(), [this](Matrix mirrored) {
+        return isEqual(mirrored);
+    });
 }
 
 /**
@@ -157,10 +158,10 @@ bool Matrix::isMirroredVersionOf(Matrix const &other) const {
  * @return boolean value
  */
 bool Matrix::isRotatedVersionOf(Matrix const &other) const {
-    for (Matrix rotated: other.getAllRotatedVersions()) {
-        if (isEqual(rotated)) return true;
-    }
-    return false;
+    auto rotatedVersions{other.getAllRotatedVersions()};
+    return std::any_of(rotatedVersions.begin(), rotatedVersions.end(), [this](Matrix rotated) {
+        return isEqual(rotated);
+    });
 }
 
 /**
@@ -168,7 +169,7 @@ bool Matrix::isRotatedVersionOf(Matrix const &other) const {
  * @return mirrored matrix
  */
 Matrix Matrix::getAMirroredVersion() const {
-    int type{commons::RandomPicker::randomInt(0, 1)};
+    int const type{commons::RandomPicker::randomInt(0, 1)};
     return (0 == type) ? mirrorHorizontally() : mirrorVertically();
 }
 
@@ -177,9 +178,8 @@ Matrix Matrix::getAMirroredVersion() const {
  * @return rotated matrix
  */
 Matrix Matrix::getARotatedVersion() const {
-    int times{commons::RandomPicker::randomInt(1, 3)};
+    int const times{commons::RandomPicker::randomInt(1, 3)};
     return rotate90DegreesRight(times); // rotated by 90°, 180° or 270°
-
 }
 
 /**

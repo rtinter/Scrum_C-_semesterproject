@@ -9,7 +9,7 @@
 
 
 namespace {
-    void renderCategory(const String &categoryName, std::vector<UniqueTile> &tiles) {
+    void renderCategory(String const &categoryName, std::vector<UniqueTile> &tiles) {
         ImGui::Spacing();
 
         ImGui::PushFont(commons::Fonts::_header2);
@@ -18,7 +18,7 @@ namespace {
 
         ImGui::Spacing();
 
-        int count = 0;
+        int count {0};
         for (UniqueTile &tile: tiles) {
             count++;
             if (tile)
@@ -34,13 +34,13 @@ namespace {
 }
 
 namespace views {
-    void Dashboard::addTileToCategory(const std::string &category,
+    void Dashboard::addTileToCategory(std::string const &category,
                                       UniqueTile &tile) {
         _categoryTiles[category].emplace_back(std::move(tile));
     }
 
     //add tiles to category
-    void Dashboard::addTilesToCategory(const std::string &category, std::vector<UniqueTile> &tiles) {
+    void Dashboard::addTilesToCategory(std::string const &category, std::vector<UniqueTile> &tiles) {
         for (auto &tile: tiles) {
             addTileToCategory(category, tile);
         }

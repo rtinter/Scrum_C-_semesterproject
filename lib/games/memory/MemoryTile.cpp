@@ -12,9 +12,7 @@ namespace memory {
 
     void MemoryTile::render() {
         if (_isFaceUp) {
-            // Render the front of the tile using the texture.
-            // The texture's native handle is cast to a void pointer as required by ImGui::Image.
-            ImGui::Image(reinterpret_cast<void *>(static_cast<intptr_t>(_frontTexture.getNativeHandle())), _size);
+            ImGui::Image(reinterpret_cast<ImTextureID>(_frontTexture.getNativeHandle()), _size);
         } else {
             ImGui::PushStyleColor(ImGuiCol_Button, _backColor);
             ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 1)); // Black border

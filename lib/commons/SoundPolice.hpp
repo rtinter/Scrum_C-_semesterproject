@@ -18,7 +18,7 @@ namespace commons {
      */
     class SoundPolice {
     public:
-        static void safePlaySound(Sound sound);
+        static void safePlaySound([[maybe_unused]] Sound sound);
         static void safePlaySound(Sound sound, int volumeInPercent);
         static void safePlaySound(Sound sound, int volumeInPercent, float pitch);
     };

@@ -46,18 +46,15 @@ namespace memory {
         std::mt19937 g(rd());
         std::shuffle(indices.begin(), indices.end(), g); // Shuffle the image indices
 
-
         for (int i{0}; i < 30; ++i) {
-
-            int imageIndex{indices[i]};
+            int const imageIndex {indices[i]};
 
             // Retrieve the texture corresponding to the image index from the image manager
-            sf::Texture &texture{_imageManager.getTexture(imageIndex)};
+            sf::Texture const &texture {_imageManager.getTexture(imageIndex)};
 
             // Create a new memory tile with the retrieved texture, a click handler, tile size, and image index
-            auto tile{std::make_shared<memory::MemoryTile>
-                              (texture, [this, i]() { handleTileClick(i); }, _tileSize, imageIndex)};
-
+            auto const tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
+                                                             imageIndex)};
             // Add the created tile to the _tiles vector
             _tiles.push_back(tile);
         }
@@ -94,22 +91,22 @@ namespace memory {
         float const totalWidth{columns * (_tileSize.x + _tilePadding) - _tilePadding};
         float const totalHeight{5 * (_tileSize.y + _tilePadding) - _tilePadding};
 
-        // Calculate the start position for the tile formation depending on the current window size
-        ImVec2 windowSize{ImGui::GetWindowSize()};
-        float startX{(windowSize.x - totalWidth) / 2};
-        float startY{(windowSize.y - totalHeight) / 2};
+        // Calculae the start position for the tile formation
+        float const startX{(WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
+        float const startY{(WindowConfig::WINDOW_HEIGHT - totalHeight) / 2};
 
         int index{0};
 
         // Loop through each column to arrange the tiles
         for (int col{0}; col < columns; ++col) {
-            // // Calculate vertical offset to center each column vertically
-            int yOffset{static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _tilePadding) / 2)};
+            // Calculate vertical offset to center each column vertically
+            int const yOffset{static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _tilePadding) /
+                                                  2)};
             // Loop through each row for the current column to position the tiles
             for (int row{0}; row < rows[col]; ++row) {
                 // Calculate x and y positions for the tile
-                float x{startX + col * (_tileSize.x + _tilePadding)};
-                float y{yOffset + row * (_tileSize.y + _tilePadding)};
+                float const x{startX + col * (_tileSize.x + _tilePadding)};
+                float const y{yOffset + row * (_tileSize.y + _tilePadding)};
                 // Assign the calculated coordinates to the tile if within bounds
                 if (index < _tiles.size()) {
                     _coordinates[index] = Coordinates(y, x);
@@ -145,7 +142,7 @@ namespace memory {
             handleMismatch(); // Immediately handle mismatch if a new tile is clicked
         }
 
-        auto &tile{_tiles[tileID]}; // Get the tile that was clicked
+        auto const &tile{_tiles[tileID]}; // Get the tile that was clicked
 
         if (tile->isFaceUp()) {
             return; // Ignore if the tile is already flipped face-up
@@ -155,7 +152,6 @@ namespace memory {
 
         // Play sound when a tile is flipped open
         commons::SoundPolice::safePlaySound(commons::Sound::CARD_FLIP, 60, 2.5f);
-
 
         // If no first tile is selected, set this as the first tile
         if (!_firstTile) {
@@ -201,9 +197,9 @@ namespace memory {
 
     void Memory::checkForWin() {
         // Calculate time taken
-        int timeTaken{_totalGameTime - _timer->getSecondsLeft()};
-        int minutes{timeTaken / 60};
-        int seconds{timeTaken % 60};
+        int const timeTaken{_totalGameTime - _timer->getSecondsLeft()};
+        int const minutes{timeTaken / 60};
+        int const seconds{timeTaken % 60};
 
         // Format time as <minutes:seconds>
         _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
@@ -220,15 +216,15 @@ namespace memory {
 
     void Memory::handleGameOver() {
         // Calculate time taken
-        int timeTaken{_totalGameTime - _timer->getSecondsLeft()};
-        int minutes{timeTaken / 60};
-        int seconds{timeTaken % 60};
+        int const timeTaken{_totalGameTime - _timer->getSecondsLeft()};
+        int const minutes{timeTaken / 60};
+        int const seconds{timeTaken % 60};
 
         // Format time as <minutes:seconds>
         _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
 
         // Update end box message
-        std::string pairString{_pairsFound == 1 ? "Paar" : "Paare"};
+        std::string const pairString{_pairsFound == 1 ? "Paar" : "Paare"};
         _endBoxTitle = "Spiel vorbei!";
         _endBoxText = "Zeit abgelaufen.\n"
                       "Du hast " + std::to_string(_pairsFound) + " " + pairString + " gefunden.";
@@ -280,7 +276,7 @@ namespace memory {
             _timer->render();
 
             // Handle the initial preview display of the tiles for 3 seconds
-            auto now{std::chrono::steady_clock::now()};
+            auto const now{std::chrono::steady_clock::now()};
             if (std::chrono::duration_cast<std::chrono::seconds>(now - _initialDisplayStartTime).count() < 3) {
 
                 // Prepare tiles once for the initial display
@@ -312,7 +308,7 @@ namespace memory {
 
             if (_delayActive) {
                 // Capture the current time to check against the match check start time
-                auto nowDelay{std::chrono::steady_clock::now()};
+                auto const nowDelay{std::chrono::steady_clock::now()};
 
                 // Calculate the duration since the mismatch check started
                 if (std::chrono::duration_cast<std::chrono::seconds>(nowDelay - _matchCheckTime).count() >= 2) {
@@ -322,9 +318,9 @@ namespace memory {
             }
 
             // Render each tile at its assigned coordinates
-            for (int i{0}; i < _tiles.size(); ++i) {
-                auto &tile{_tiles[i]};
-                auto coords{_coordinates[i]};
+            for (int i {0}; i < _tiles.size(); ++i) {
+                auto const &tile {_tiles[i]};
+                auto const coords {_coordinates[i]};
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
                 tile->render();
             }

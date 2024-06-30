@@ -2,12 +2,7 @@
 
 ## Athena
 
-<div align="center">
-
-[Platzhalter Logo]
-
 ### [Projektbeiträge: Eigener Beitrag](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/aem_projekt_beitraege/-/tree/main/Projektbeitrag?ref_type=heads) | [Projektdokumentation im Wiki](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/home)
-</div>
 
 ## Produktvision
 Das **Ziel** des Projektes ist es, eine unterhaltsame und benutzerfreundliche Plattform für die kognitive Leistungsmessung und -verbesserung durch Tests, im weiteren Spiele genannt, zu erstellen. Diese Spiele werden im Speziellen auf Fähigkeiten, wie Reaktionsschnelligkeit, Erinnerungsvermögen, Mustererkennung, Resilienz sowie Moral abgestimmt sein. Dadurch soll Anwärter:innen auf Assessment-Centern bei der Polizei und der Feuerwehr eine erste Abschätzung gegeben werden, ob sie sich für diese Art von Arbeit eignen und sich gegebenenfalls verbessern. (Wörtlich aus der Produktwahl übernommen.)
@@ -24,18 +19,18 @@ Der **Mehrwert** unserer Anwendung besteht darin, das Konzept der Leistungsmessu
 Gruppe: AEM-1
  
 | Rolle | Teilnehmer              | Matr.-Nr. |
-| ----- |-------------------------|-----------|
-| PO | Jane Schönfeld          | 941120    |
-| SM | Benjamin Puhani         | 941077    |
-| DEV | Jannik Brozy            | 940986    |
-| DEV | René Marcel Tinter      | 940995    |
-| DEV | Caspar Quast            | 941155    |
-| DEV | Noah Zepner             | 941167    |
-| DEV | Timo Michaelis          | 941362    |
-| DEV | Sebastian Elisa Reineke | 941070    |
-| DEV | Karlina Jung            | 941169    |
-| DEV | Jonas Neumann           | 941341    |
-| DEV | Gerrit Koch             | 941213    |
+|-------|-------------------------|-----------|
+| PO    | Jane Schönfeld          | 941120    |
+| SM    | Benjamin Puhani         | 941077    |
+| DEV   | Jannik Brozy            | 940986    |
+| DEV   | René Marcel Tinter      | 940995    |
+| DEV   | Caspar Quast            | 941155    |
+| DEV   | Noah Zepner             | 941167    |
+| DEV   | Timo Michaelis          | 941362    |
+| DEV   | Sebastian Elisa Reineke | 941070    |
+| DEV   | Karlina Jung            | 941169    |
+| DEV   | Jonas Neumann           | 941341    |
+| DEV   | Gerrit Koch             | 941213    |
 
 
 ## Table of Contents

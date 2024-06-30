@@ -2,7 +2,6 @@
 #include <imgui-SFML.h>
 #include <SceneManager.hpp>
 #include <StyleManager.hpp>
-#include <SoundManager.hpp>
 #include "MemoryGameImageManager.hpp"
 
 #include "SFML/Graphics/RenderWindow.hpp"
@@ -10,11 +9,13 @@
 
 #include "Logger.hpp"
 #include "QueueEntryType.hpp"
+#include "WindowConfig.hpp"
 
-int const App::FRAME_RATE{60};
-int const App::WINDOW_HEIGHT{1080};
-int const App::WINDOW_WIDTH{1920};
-std::string const App::TILE{"Human Benchmark"};
+#if (defined(_WIN32))
+
+#include "SoundManager.hpp"
+
+#endif
 
 void App::start() {
 
@@ -25,9 +26,9 @@ void App::start() {
     logger << QueueEntryType::INFORMATION;
     logger << "App Start";
 
-    sf::VideoMode videoMode(WINDOW_WIDTH, WINDOW_HEIGHT);
-    sf::RenderWindow window(videoMode, TILE, sf::Style::Close);
-    window.setFramerateLimit(FRAME_RATE);
+    sf::VideoMode videoMode(WindowConfig::WINDOW_WIDTH, WindowConfig::WINDOW_HEIGHT);
+    sf::RenderWindow window(videoMode, WindowConfig::TILE, sf::Style::Close);
+    window.setFramerateLimit(WindowConfig::FRAME_RATE);
 
     //init singleton and start Dashboard
     scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
