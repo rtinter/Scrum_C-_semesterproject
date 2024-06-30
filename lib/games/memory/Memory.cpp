@@ -20,7 +20,7 @@ namespace memory {
                 "1. Du darfst alle Bildpaare einmal ansehen, anschließend werden sie gemischt und verdeckt umgedreht.\n"
                 "2. Pro Zug kannst du immer nur zwei Karten aufdecken.\n"
                 "3. Zeigen beide Karten das gleiche Bild, hast du ein Paar und die Karten bleiben aufgedeckt.\n"
-                "4. Passen die Karten nicht zusammen, werden sie wieder umgedreht und du verlierst 1 Sekunden.\n"
+                "4. Passen die Karten nicht zusammen, werden sie wieder umgedreht und du verlierst eine Sekunde.\n"
                 "5. Du musst alle Paare in 120 Sekunden finden und möglichst wenige Züge dafür benötigen.\n";
 
         _gameControls =
