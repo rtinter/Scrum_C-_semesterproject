@@ -81,11 +81,8 @@ namespace memory {
         float const totalWidth{columns * (_tileSize.x + _padding) - _padding};
         float const totalHeight{5 * (_tileSize.y + _padding) - _padding};
 
-        auto windowWidth {WindowConfig::WINDOW_WIDTH};
-        auto windowHeight {WindowConfig::WINDOW_HEIGHT};
-
-        float startX{(windowWidth - totalWidth) / 2};
-        float startY{(windowHeight - totalHeight) / 2};
+        float startX{(WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
+        float startY{(WindowConfig::WINDOW_HEIGHT - totalHeight) / 2};
 
         int index{0};
         for (int col{0}; col < columns; ++col) {
