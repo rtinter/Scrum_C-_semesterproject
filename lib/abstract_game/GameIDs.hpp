@@ -1,5 +1,6 @@
 #ifndef GAMEIDS_HPP
 #define GAMEIDS_HPP
+
 #include <string>
 
 namespace abstract_game {
@@ -21,7 +22,8 @@ namespace abstract_game {
         ANALOGY = 1010,
         SEQUENCE = 1011,
         ROWS_OF_SYMBOLS = 1012,
-        ABSURD_QUESTIONS = 1013
+        ABSURD_QUESTIONS = 1013,
+        MEMORY = 1014
     };
 
     /*********************************
@@ -34,7 +36,7 @@ namespace abstract_game {
             case GameID::REACTION:
                 return "Reaktion";
             case GameID::COLOR_MATCH:
-                return "Farbe & Text";
+                return "Farbe & Wort";
             case GameID::AIM_TRAINER:
                 return "Aim Trainer";
             case GameID::LETTER_SALAD:
@@ -57,6 +59,8 @@ namespace abstract_game {
                 return "Symbolreihen";
             case GameID::ABSURD_QUESTIONS:
                 return "Schlussfolgerungen";
+            case GameID::MEMORY:
+                return "Memory";
             default:
                 return "Unknown";
         }

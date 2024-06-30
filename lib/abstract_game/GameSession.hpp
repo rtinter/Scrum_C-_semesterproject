@@ -37,6 +37,7 @@ namespace abstract_game {
 
         // Run through information
         int _runThroughCount{0};
+
         std::vector<GameRunThrough> _gameRunThroughs;
 
         /**
@@ -82,8 +83,7 @@ namespace abstract_game {
          * @param resultUnit the unit in which the result of the game is saved
          * @param result the result of the specific GameRunThrough
          */
-        void addNewGameRunThrough(std::string const &resultUnit, long const &result);
-
+        void addNewGameRunThrough(std::string const &resultUnit, double const &result);
     };
 
 } // abstract_game

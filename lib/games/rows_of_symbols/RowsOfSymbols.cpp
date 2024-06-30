@@ -13,7 +13,7 @@
 namespace games {
 
     RowsOfSymbols::RowsOfSymbols() : abstract_game::Game(abstract_game::GameID::ROWS_OF_SYMBOLS),
-                                    _correctSymbols(0), _wrongSymbols(0), _timer {"Symbolreihen", TOTAL_TIME_SEC} {
+                                     _correctSymbols(0), _wrongSymbols(0), _timer{"Symbolreihen", TOTAL_TIME_SEC} {
 
         _gameName = "Symbolreihen";
 
@@ -80,7 +80,7 @@ namespace games {
             }
 
             // check if time is up for current symbol and go to next symbol
-            if(isTimeUpForCurrentSymbol()) {
+            if (isTimeUpForCurrentSymbol()) {
                 popCurrentSymbol();
             }
 
@@ -112,9 +112,12 @@ namespace games {
 
     void RowsOfSymbols::stop() {
         _endBoxTitle = "Geschafft!";
-        _endBoxText = "Du hast in einer Zeit von " + std::to_string(TOTAL_TIME_SEC) + " Sekunden " + std::to_string(_correctSymbols) + " Symbole richtig erkannt!\n\n"
-                     + "In dieser Zeit hast du dich " + std::to_string(_wrongSymbols) + " Mal falsch entschieden und dafür\n"
-                     + "eine Zeit von ungefähr " + std::to_string(_wrongSymbols * WRONG_ANSWER_TIME_REDUCTION_SEC) + " Sekunden abgezogen bekommen.";
+        _endBoxText = "Du hast in einer Zeit von " + std::to_string(TOTAL_TIME_SEC) + " Sekunden " +
+                      std::to_string(_correctSymbols) + " Symbole richtig erkannt!\n\n"
+                      + "In dieser Zeit hast du dich " + std::to_string(_wrongSymbols) +
+                      " Mal falsch entschieden und dafür\n"
+                      + "eine Zeit von ungefähr " + std::to_string(_wrongSymbols * WRONG_ANSWER_TIME_REDUCTION_SEC) +
+                      " Sekunden abgezogen bekommen.";
         _showEndBox = true;
         _isGameRunning = false;
         updateStatistics();
@@ -123,13 +126,13 @@ namespace games {
     void RowsOfSymbols::updateStatistics() {
 
         // add the result of this run through to the current session
-        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Korrekte Symbole",
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Symbole",
                                                                                      _correctSymbols);
     }
 
     void RowsOfSymbols::updateShownSymbols() {
 
-        while(_symbols.size() < NR_OF_SHOWN_SYMBOLS){
+        while (_symbols.size() < NR_OF_SHOWN_SYMBOLS) {
 
             bool recentlyUsed;
             SymbolType newSymbol;
@@ -139,12 +142,12 @@ namespace games {
                 newSymbol = static_cast<SymbolType>(commons::RandomPicker::randomInt(0, 7));
 
                 recentlyUsed = false;
-                for(auto &symbol: _lastAddedSymbols) {
+                for (auto &symbol: _lastAddedSymbols) {
                     if (symbol == newSymbol)
                         recentlyUsed = true;
                 }
 
-            } while(recentlyUsed);
+            } while (recentlyUsed);
 
             // add new symbol to the list of active symbols
             _symbols.push_back(newSymbol);
@@ -153,12 +156,12 @@ namespace games {
             _lastAddedSymbols.push_front(_symbols.back());
 
             // remove the oldest symbol if list (dequeue) is too long
-            if(_lastAddedSymbols.size() > NUMBER_OF_RECENTLY_USED_SYMBOLS)
+            if (_lastAddedSymbols.size() > NUMBER_OF_RECENTLY_USED_SYMBOLS)
                 _lastAddedSymbols.pop_back();
         }
     }
 
-    void RowsOfSymbols::renderRow(){
+    void RowsOfSymbols::renderRow() {
 
         ui_elements::Centered(true, false, [this] {
 
@@ -168,7 +171,7 @@ namespace games {
 
             renderBackgroundRect();
 
-            bool first {true};
+            bool first{true};
             for (auto &symbol: _symbols) {
                 Symbol::renderSymbolType(symbol, first);
                 first = false;
@@ -182,22 +185,22 @@ namespace games {
         });
     }
 
-    void RowsOfSymbols::renderBackgroundRect(){
+    void RowsOfSymbols::renderBackgroundRect() {
 
         // colors for the gradient
-        ImU32 colorLeft {IM_COL32(0, 0, 0, 10)};
-        ImU32 colorRight {IM_COL32(0, 0, 0, 0)};
+        ImU32 colorLeft{IM_COL32(0, 0, 0, 10)};
+        ImU32 colorRight{IM_COL32(0, 0, 0, 0)};
 
         // get the draw list and prepare the total width and gap between the symbols
-        ImDrawList &drawList {*ImGui::GetWindowDrawList()};
-        int totalWidthOfSymbols {static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
-        int totalGapBetweenSymbols {20 * (NR_OF_SHOWN_SYMBOLS - 1)};
+        ImDrawList &drawList{*ImGui::GetWindowDrawList()};
+        int totalWidthOfSymbols{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
+        int totalGapBetweenSymbols{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
 
         // calculate the top left and bottom right corner of the rectangle
-        ImVec2 topLeft {ImGui::GetCursorScreenPos()};
+        ImVec2 topLeft{ImGui::GetCursorScreenPos()};
         ImVec2 bottomRight
                 {ImVec2(ImGui::GetCursorScreenPos().x + totalWidthOfSymbols + totalGapBetweenSymbols,
-                       ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2)};
+                        ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2)};
 
         // draw the gradient background
         drawList.AddRectFilledMultiColor(topLeft, bottomRight,
@@ -225,8 +228,8 @@ namespace games {
     }
 
     void RowsOfSymbols::clickButton0() {
-        SymbolType symbol {_symbols.front()};
-        bool correct {false};
+        SymbolType symbol{_symbols.front()};
+        bool correct{false};
 
         // check if this button 0 is correct for the current symbol
         switch (symbol) {
@@ -249,7 +252,7 @@ namespace games {
 
     void RowsOfSymbols::clickButton1() {
         SymbolType symbol {_symbols.front()};
-        bool correct {false};
+        bool correct{false};
 
         // check if this button 1 is correct for the current symbol
         switch (symbol) {
@@ -280,11 +283,10 @@ namespace games {
     void RowsOfSymbols::evaluateAnswer(bool correct) {
 
         // play sounds and update the correct and wrong symbols counter
-        if(correct){
+        if (correct) {
             commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
             _correctSymbols++;
-        }
-        else {
+        } else {
             commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
             _wrongSymbols++;
             _timer.reduceTime(WRONG_ANSWER_TIME_REDUCTION_SEC);
@@ -296,7 +298,7 @@ namespace games {
     bool RowsOfSymbols::isTimeUpForCurrentSymbol() const {
 
         // check if the time for the current symbol is up
-        auto timeForSymbolsInMs {std::chrono::milliseconds(static_cast<int>(SYMBOL_TIME_SEC * 1000))};
+        auto timeForSymbolsInMs{std::chrono::milliseconds(static_cast<int>(SYMBOL_TIME_SEC * 1000))};
         return std::chrono::steady_clock::now() - _lastSymbolChange > timeForSymbolsInMs;
     }
 }

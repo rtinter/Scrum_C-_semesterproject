@@ -19,10 +19,10 @@ namespace abstract_game {
         std::string timeString {std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()))};
 
         // get random value as string
-        auto duration {std::chrono::system_clock::now().time_since_epoch()};
-        auto nanos {std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
+        auto duration{std::chrono::system_clock::now().time_since_epoch()};
+        auto nanos{std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
         std::srand(nanos);
-        std::string randomString {std::to_string(std::rand() % 1000 + 1)};
+        std::string randomString{std::to_string(std::rand() % 1000 + 1)};
 
         // concatenate timeString and random value for hash input
         std::stringstream ss;
@@ -74,8 +74,7 @@ namespace abstract_game {
         writeToDataManager();
     }
 
-    void GameSession::addNewGameRunThrough(std::string const &resultUnit, long const &result) {
-
+    void GameSession::addNewGameRunThrough(std::string const &resultUnit, double const &result) {
         increaseRunThroughCount();
         _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
 

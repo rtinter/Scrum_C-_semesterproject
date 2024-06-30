@@ -2,15 +2,12 @@
 
 #include <ColorTheme.hpp>
 #include <Fonts.hpp>
-#include <iomanip>
 #include <unordered_map>
-#include <ostream>
-#include <iostream>
 
 namespace ui_elements {
     StatisticsGameTable::StatisticsGameTable(
-            std::map<int, //Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
-                    std::vector<std::string> > input) {
+            std::map<int, // Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
+                    std::vector<std::string> > const &input) {
         _input = input;
         if (input.empty()) {
             _column_size = 0;
@@ -19,18 +16,10 @@ namespace ui_elements {
         }
     }
 
-    std::string timePointToString(const std::chrono::system_clock::time_point &tp) {
-        std::time_t t = std::chrono::system_clock::to_time_t(tp);
-        std::tm tm = *std::localtime(&t);
-        std::ostringstream oss;
-        oss << std::put_time(&tm, "%d.%m.%Y %H:%M Uhr");
-        return oss.str();
-    }
-
-    void StatisticsGameTable::defaultTable() const {
+    void StatisticsGameTable::defaultTable() {
         if (ImGui::BeginTable("Tabelle", 4, ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
             ImGui::PushFont(commons::Fonts::_header2);
-            // Kopfzeile
+            // column names
             ImGui::StyleColorsClassic();
             ImGui::TableSetupColumn("Datum");
             ImGui::TableSetupColumn("Dauer");
@@ -45,8 +34,8 @@ namespace ui_elements {
     void StatisticsGameTable::createTableHead() const {
 
         ImGui::PushFont(commons::Fonts::_header3);
-        // Kopfzeile
-        for (auto &entry: _input.begin()->second) {
+        // column names
+        for (auto const &entry: _input.begin()->second) {
             ImGui::TableSetupColumn(entry.c_str());
         }
         ImGui::TableHeadersRow();
@@ -55,28 +44,25 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::createTableRows() const {
-        for (auto &keyvaluepair: _input) {
+        for (auto const &keyvaluepair: _input) {
             if (_input.begin()->first == keyvaluepair.first) {
-                continue; //skips the Tablehead
+                continue; //skips the table head
             }
             ImGui::TableNextRow();
             ImGui::PushFont(commons::Fonts::_header3);
-            int i = 0;
-            int max = 4;
-            for (auto &entry: keyvaluepair.second) {
-                if(i == max)
-                    continue;
-                //Datum
+            int i{0};
+            for (auto const &entry: keyvaluepair.second) {
+                // date
                 ImGui::TableSetColumnIndex(i);
                 //checks if vector has to few data sets
                 if (i < _column_size) {
-                    ImGui::Text(entry.c_str());
+                    ImGui::Text("%s", entry.c_str());
                 } else { //if so leaves the column empty
                     ImGui::Text("");
                 }
                 i++;
             }
-           ImGui::PopFont();
+            ImGui::PopFont();
         }
     }
 
@@ -96,14 +82,14 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::render() {
-            //backgroundColor
-            ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::ColorTheme::PRIMARY_COLOR);
-            if (_input.empty()) {
-                //If there are no values we need a default map
-                defaultTable();
-            } else {
-                createTable();
-            }
-            ImGui::PopStyleColor();
+        //backgroundColor
+        ImGui::PushStyleColor(ImGuiCol_WindowBg, commons::ColorTheme::PRIMARY_COLOR);
+        if (_input.empty()) {
+            //If there are no values we need a default map
+            defaultTable();
+        } else {
+            createTable();
+        }
+        ImGui::PopStyleColor();
     }
 }
