@@ -219,16 +219,10 @@ namespace games {
         }
     }
 
-    /**
-     * Set up LevelCounter -> max sequence length if player correctly reproduces sequence
-     */
     void SimonSays::nextLevel() {
         _levelCounter++;
     }
 
-    /**
-     * Switches GameMode from WATCH to REPEAT and vice versa.
-     */
     void SimonSays::switchGameMode() {
         switch (_currentGameMode) {
             case GameMode::WATCH:
