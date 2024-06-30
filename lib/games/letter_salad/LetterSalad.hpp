@@ -1,8 +1,3 @@
-//
-// Created by Benjamin Puhani (941077) on 08.06.2024.
-// &22 Buchstabensalat
-//
-
 #ifndef ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 #define ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 

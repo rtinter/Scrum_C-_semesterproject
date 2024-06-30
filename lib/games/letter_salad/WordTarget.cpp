@@ -1,8 +1,3 @@
-//
-// Created by Benjamin Puhani (941077) on 11.06.2024.
-// &22 Buchstabensalat
-//
-
 #include "WordTarget.hpp"
 WordTarget::WordTarget(std::string const &word) {
     _word = word;
