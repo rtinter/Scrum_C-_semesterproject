@@ -12,9 +12,9 @@ namespace ui_elements {
      */
     class Timer : public UiElement {
 
-        const float _height{80};
-        const float _width{200};
-        const std::string _windowName;
+        float const _height{80};
+        float const _width{200};
+        std::string const _windowName;
 
         bool _expired{false};
         bool _expiredNow{false};
