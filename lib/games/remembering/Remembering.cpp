@@ -189,7 +189,7 @@ namespace games {
 
         for (auto const &li: lines) {
             ImVec2 textSize{ImGui::CalcTextSize(li.c_str(), nullptr, false, windowWidth)};
-            float offsetX{(windowWidth - textSize.x) * 0.5f};
+            float const offsetX{(windowWidth - textSize.x) * 0.5f};
 
             if (offsetX > 0) {
                 ImGui::SetCursorPosX(offsetX);
