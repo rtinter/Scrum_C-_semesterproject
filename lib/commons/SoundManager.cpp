@@ -12,12 +12,13 @@ namespace commons {
 
     void SoundManager::loadSounds() {
 
+        logger::Logger& logger {logger::Logger::getInstance()};
+
 #if (!defined(_WIN32))
         // only load sounds on windows
+        logger << "Sounds currently only supported on Windows, SoundManager not loaded";
         return;
 #endif
-
-        logger::Logger& logger {logger::Logger::getInstance()};
 
         // load sound buffers, add new sounds here
         initSoundBuffer(Sound::CLICK, "click.mp3");
@@ -29,7 +30,7 @@ namespace commons {
         initSoundBuffer(Sound::BEEP, "beep.mp3");
         initSoundBuffer(Sound::BEEP_FAIL, "beep-fail.mp3");
 
-        logger << "Sound Manager loaded";
+        logger << "SoundManager loaded";
     }
 
     void SoundManager::initSoundBuffer(commons::Sound sound, std::string const &filename) {
