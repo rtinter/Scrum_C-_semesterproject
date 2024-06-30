@@ -49,11 +49,11 @@ namespace commons {
      * @return boolean value: Are color1 and color2 the same color?
      */
     bool ColorHelper::isEqual(ImVec4 const &color1, ImVec4 const &color2) {
-        float const epsilon{0.005f}; // max. difference that is allowed for "same" colors
-        return std::abs(color1.x - color2.x) < epsilon &&
-               std::abs(color1.y - color2.y) < epsilon &&
-               std::abs(color1.z - color2.z) < epsilon &&
-               std::abs(color1.w - color2.w) < epsilon;
+        static constexpr float const EPSILON{0.005f}; // max. difference that is allowed for "same" colors
+        return std::abs(color1.x - color2.x) < EPSILON &&
+               std::abs(color1.y - color2.y) < EPSILON &&
+               std::abs(color1.z - color2.z) < EPSILON &&
+               std::abs(color1.w - color2.w) < EPSILON;
     }
 
 } // commons

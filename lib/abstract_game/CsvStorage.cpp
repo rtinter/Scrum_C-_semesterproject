@@ -1,17 +1,16 @@
 #include <fstream>
 #include <sstream>
 #include "GameRunThroughCsvWriter.hpp"
-#include "Session.hpp"
 #include "CsvParser.hpp"
 #include "CsvStorage.hpp"
 #include <iostream>
+#include <iomanip>
 
 namespace abstract_game {
-    const std::string SESSION_CSV_FILENAME {"game_session.csv"};
-    const std::string RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
+    std::string const SESSION_CSV_FILENAME {"game_session.csv"};
+    std::string const RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
 
-    std::string CsvStorage::getDateString(time_t timestamp)
-    {
+    std::string CsvStorage::getDateString(time_t timestamp) {
         std::stringstream ss;
         ss << std::put_time(std::localtime(&timestamp), "%d.%m.%Y");
         return ss.str();
@@ -21,15 +20,11 @@ namespace abstract_game {
             size_t sessionUID,
             int userID,
             GameID gameID,
-            long long startTime,
-            long long endTime,
             time_t start,
             time_t end,
-            bool ended
-    )
-    {
+            bool ended) {
 
-        bool isEmpty = false;
+        bool isEmpty{false};
 
         // Check if the file is empty before opening in append mode
         std::ifstream infile(SESSION_CSV_FILENAME);
@@ -61,8 +56,7 @@ namespace abstract_game {
             << end << ","
             << ended << "\n";
 
-        std::cout << getDateString(end) << std::endl;
-        std::string data {ss.str()};
+        std::string const data {ss.str()};
         file << data;
         file.close();
     }
@@ -78,7 +72,7 @@ namespace abstract_game {
         // Check if the file is empty before writing the header
         std::ifstream infile(RUNTHROUGH_CSV_FILENAME);
         infile.seekg(0, std::ios::end);
-        bool isEmpty {infile.tellg() == 0};
+        bool const isEmpty {infile.tellg() == 0};
         infile.close();
 
 
@@ -89,54 +83,18 @@ namespace abstract_game {
         }
 
 
-        for (const auto &runThrough: _gameRunThroughs) {
+        for (auto const &runThrough: _gameRunThroughs) {
             std::ostringstream oss;
             oss.precision(2);
             oss << std::fixed << runThrough.result;
 
-            std::string result = oss.str();
+            std::string result{oss.str()};
             writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
                              std::to_string(runThrough.gameSessionUID),
                              oss.str(),
                              runThrough.resultUnit});
         }
         writer.close();
-    }
-
-    std::vector<Session> CsvStorage::getUserData(int userID) {
-        csv::CsvParser parser(SESSION_CSV_FILENAME);
-        std::vector<Session> sessions;
-        // GameSessionUID,UserID,GameID,StartTime,EndTime,StartTimestamp,EndTimestamp,DurationInSeconds,Ended
-
-        for(const auto &row : parser.parse()){
-            const auto userId = std::atoi(row[3].c_str());
-
-            if(userId != userID)
-                continue;
-
-
-            // GameID,GameSessionUID,UserID,StartTimestamp,EndTimestamp,DurationInSeconds,Ended
-            const auto gameId { row[0] };
-            const size_t gameSessionId {static_cast<size_t>(std::atoi(row[1].c_str()))};
-            const auto startTimestamp { static_cast<time_t>(std::stoll(row[3])) };
-            const auto endTimestamp { static_cast<time_t>(std::stoll(row[4])) };
-            // const auto durationInSeconds { std::atoi(row[5].c_str()) };
-            const auto ended { static_cast<bool>(row[6].c_str()) };
-
-            auto diff = std::chrono::seconds(endTimestamp) - std::chrono::seconds(startTimestamp);
-            std::string date = getDateString(endTimestamp);
-
-            sessions.emplace_back(Session{
-                    .gameSessionId = gameSessionId,
-                    .start = startTimestamp,
-                    .end = endTimestamp,
-                    .date = date,
-                    .duration = diff.count(),
-                    .ended = ended
-            });
-        }
-        // Implementation to read user data from the CSV file
-        return sessions;
     }
 
 } // abstract_game

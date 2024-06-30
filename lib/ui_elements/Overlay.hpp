@@ -6,7 +6,7 @@ namespace ui_elements {
 
     class Overlay {
     public:
-        explicit Overlay(const char *name, bool &showModal);
+        explicit Overlay(char const *name, bool &showModal);
 
         void render(std::function<void()> const &callback) const;
 

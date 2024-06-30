@@ -58,7 +58,7 @@ void EquationBuilder::generateTask() {
             break;
         case Operator::DIVIDE:
         {
-            bool validDivision = false;
+            bool validDivision {false};
             while (!validDivision) {
 
                 operand1 = numberDist(_rng);
@@ -94,31 +94,31 @@ void EquationBuilder::render() {
 
         // Instructions text
         ImGui::PushFont(commons::Fonts::_header3);
-        std::string instructionText {"Trage das Ergebnis hier ein und bestätige mit Enter:"};
-        ImVec2 instructionTextSize {ImGui::CalcTextSize(instructionText.c_str())};
+        static std::string const INSTRUCTION_TEXT {"Trage das Ergebnis hier ein und bestätige mit Enter:"};
+        static ImVec2 const INSTRUCTION_TEXT_SIZE {ImGui::CalcTextSize(INSTRUCTION_TEXT.c_str())};
         ImGui::PopFont();
 
         // Calculate dimensions for centering the task
-        float inputFieldWidth{100.0f};
-        float spaceWidth{ImGui::CalcTextSize(" ").x};
-        float numberWidth{ImGui::CalcTextSize(std::to_string(_number).c_str()).x};
-        float operatorWidth{ImGui::CalcTextSize(_operator.c_str()).x};
-        float targetNumberWidth{ImGui::CalcTextSize(std::to_string(_targetNumber).c_str()).x};
-        float equalWidth{ImGui::CalcTextSize("= ").x};
-        float totalWidth{numberWidth + spaceWidth + operatorWidth + spaceWidth + inputFieldWidth + spaceWidth + equalWidth + targetNumberWidth};
+        static float const INPUT_FIELD_WIDTH{100.0f};
+        float const spaceWidth{ImGui::CalcTextSize(" ").x};
+        float const numberWidth{ImGui::CalcTextSize(std::to_string(_number).c_str()).x};
+        float const operatorWidth{ImGui::CalcTextSize(_operator.c_str()).x};
+        float const targetNumberWidth{ImGui::CalcTextSize(std::to_string(_targetNumber).c_str()).x};
+        float const equalWidth{ImGui::CalcTextSize("= ").x};
+        float const totalWidth{numberWidth + spaceWidth + operatorWidth + spaceWidth + INPUT_FIELD_WIDTH + spaceWidth + equalWidth + targetNumberWidth};
 
         ImVec2 const windowSize{static_cast<float>(WindowConfig::WINDOW_WIDTH), static_cast<float>(WindowConfig::WINDOW_HEIGHT)};
         float centerX{(windowSize.x - totalWidth) / 2.0f};
         // Calculate the total height for vertical centering
-        float textHeight{ImGui::GetTextLineHeight()};
-        float totalHeight{textHeight * 2};  // Include space for instructions
+        float const textHeight{ImGui::GetTextLineHeight()};
+        float const totalHeight{textHeight * 2};  // Include space for instructions
 
         // Position instructions above the task
         ImGui::SetCursorPosY((ImGui::GetWindowHeight() - totalHeight) / 2.0f - textHeight);
 
         ImGui::PushFont(commons::Fonts::_header3);
-        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - instructionTextSize.x) / 2.0f);
-        ImGui::Text("%s", instructionText.c_str());
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - INSTRUCTION_TEXT_SIZE.x) / 2.0f);
+        ImGui::Text("%s", INSTRUCTION_TEXT.c_str());
         ImGui::PopFont();
 
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + ImGui::GetTextLineHeight());
@@ -132,7 +132,7 @@ void EquationBuilder::render() {
         ImGui::SameLine();
         ImGui::Text(" %s ", _operator.c_str());
         ImGui::SameLine();
-        ImGui::SetNextItemWidth(inputFieldWidth);
+        ImGui::SetNextItemWidth(INPUT_FIELD_WIDTH);
 
         if (!_focusSet) {
             ImGui::SetKeyboardFocusHere();
@@ -159,7 +159,7 @@ void EquationBuilder::render() {
 }
 
 bool EquationBuilder::evaluateUserInput() {
-    int input{std::atoi(_input.data())};
+    int const input{std::atoi(_input.data())};
     if (_operator == "/" && input == 0) return false; // Avoid division by zero
     return input == evaluateExpression();
 }

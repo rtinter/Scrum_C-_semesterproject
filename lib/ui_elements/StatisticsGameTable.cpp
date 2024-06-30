@@ -2,12 +2,17 @@
 
 #include <ColorTheme.hpp>
 #include <Fonts.hpp>
-#include <unordered_map>
 
 namespace ui_elements {
-    StatisticsGameTable::StatisticsGameTable(
-            std::map<int, // Reihenfolge in der die Tabelle angezeigt wird 0. Wert Überschrift
-                    std::vector<std::string> > const &input) {
+
+    /**
+     * @brief Constructor for StatisticsGameTable.
+     *
+     * @param input Map aus int und Liste von Strings (Reihenfolge und Zeile an Strings)
+     * Der int gibt die Sortierung der Zeilen an (Niedrigste ist die höchste).
+     * Die Liste von Strings entspricht einer Zeile, pro Spalte ein String.
+     */
+    StatisticsGameTable::StatisticsGameTable(std::map<int, std::vector<std::string>> const &input) {
         _input = input;
         if (input.empty()) {
             _column_size = 0;
@@ -57,8 +62,8 @@ namespace ui_elements {
                 //checks if vector has to few data sets
                 if (i < _column_size) {
                     ImGui::Text("%s", entry.c_str());
-                } else { //if so leaves the column empty
-                    ImGui::Text("");
+                } else {
+                    // else leave the column empty
                 }
                 i++;
             }

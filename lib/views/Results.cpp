@@ -1,6 +1,5 @@
 #include "Results.hpp"
 #include "Window.hpp"
-#include "StatisticsGameTable.hpp"
 #include <imgui.h>
 
 namespace views {

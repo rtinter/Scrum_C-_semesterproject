@@ -1,7 +1,5 @@
 #include "Logger.hpp"
 #include <iostream>
-#include <sstream>
-#include <iomanip>
 
 namespace logger {
     /*

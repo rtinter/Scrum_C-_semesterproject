@@ -11,7 +11,7 @@ namespace abstract_game {
     _gameID{gameID},
     _startPoint{std::chrono::steady_clock::now()},
     _ended{false},
-    _dataManager{DataManagerFactory::Create("CsvManager")},
+    _dataManager{DataManagerFactory::create("CsvManager")},
     _begin{time(nullptr)}{}
 
     size_t GameSession::calcGameSessionUID() {
@@ -19,18 +19,18 @@ namespace abstract_game {
         std::string timeString {std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()))};
 
         // get random value as string
-        auto duration{std::chrono::system_clock::now().time_since_epoch()};
-        auto nanos{std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
+        auto const duration{std::chrono::system_clock::now().time_since_epoch()};
+        auto const nanos{std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
         std::srand(nanos);
         std::string randomString{std::to_string(std::rand() % 1000 + 1)};
 
         // concatenate timeString and random value for hash input
         std::stringstream ss;
         ss << timeString << randomString;
-        std::string hashInput{ss.str()};
+        std::string const hashInput{ss.str()};
 
         // create hash from input
-        size_t hash{std::hash<std::string>{}(hashInput)};
+        size_t const hash{std::hash<std::string>{}(hashInput)};
 
         return hash;
     }
@@ -40,14 +40,9 @@ namespace abstract_game {
     }
 
     void GameSession::writeToDataManager() const {
-        long long startTime {std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count()};
-        long long endTime {std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count()};
-
         // size_t sessionUID,
         // int userID,
         // GameID gameID,
-        // long long startTime,
-        // long long endTime,
         // time_t start,
         // time_t end,
         // bool ended
@@ -56,8 +51,6 @@ namespace abstract_game {
                 _gameSessionUID,
                 _userID,
                 _gameID,
-                startTime,
-                endTime,
                 _begin,
                 _end,
                 _ended

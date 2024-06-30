@@ -1,7 +1,3 @@
-//
-// Created by karlinaj on 30.05.2024.
-//
-
 #ifndef ATHENA_GAMERUNTHROUGH_HPP
 #define ATHENA_GAMERUNTHROUGH_HPP
 

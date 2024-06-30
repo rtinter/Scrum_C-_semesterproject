@@ -8,5 +8,4 @@ public:
     explicit GameObject(float x, float y, float z);
     virtual void render() const = 0;
     ImVec2 getCoords() const;
-    float getZ() const {return _z;};
 };

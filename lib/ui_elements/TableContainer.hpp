@@ -1,9 +1,5 @@
-//
-// Created by samtf on 07.06.2024.
-//
-
-#ifndef ATHENA_TABLECONTAINER_H
-#define ATHENA_TABLECONTAINER_H
+#ifndef ATHENA_TABLECONTAINER_HPP
+#define ATHENA_TABLECONTAINER_HPP
 
 #include "UiElement.hpp"
 #include "StatisticsGameTable.hpp"
@@ -30,4 +26,4 @@ public:
 
 } // ui_elements
 
-#endif //ATHENA_TABLECONTAINER_H
+#endif //ATHENA_TABLECONTAINER_HPP

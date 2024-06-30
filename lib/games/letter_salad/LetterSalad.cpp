@@ -1,11 +1,5 @@
-//
-// Created by Benjamin Puhani (941077) on 08.06.2024.
-// &22 Buchstabensalat
-//
-
 #include "LetterSalad.hpp"
 #include "Window.hpp"
-#include <algorithm>
 #include <fstream>
 #include "Fonts.hpp"
 #include "TextCentered.hpp"
@@ -70,9 +64,13 @@ namespace game {
 
         // When debug mode is enabled, then only print the words.
         // All other fields stay EMPTY_CELL
+        #pragma clang diagnostic push
+        #pragma ide diagnostic ignored "Simplify"
         if (!DEBUG) {
             randomizeGameField();
         }
+        #pragma clang diagnostic pop
+
         _isGameRunning = true;
         _showStartBox = false;
         _showEndBox = false;
@@ -122,7 +120,8 @@ namespace game {
             return;
         }
 
-        json data = json::parse(file);
+        // cant use uniform initializer :( An exception will be thrown if used.
+        json const data = json::parse(file);
         _wordList = {data["wordlist"].begin(), data["wordlist"].end()};
         logger.log("LetterSalad wordlist loaded", QueueEntryType::INFORMATION);
 
@@ -211,9 +210,9 @@ namespace game {
 
         _wordsPerMinute = (_activeWordList.size() - missingWords) / (TIME_LIMIT / 60.);
 
-        static std::string missingWordsText = "Dir fehlen noch:\n" +
+        std::string const missingWordsText {"Dir fehlen noch:\n" +
                                               std::to_string(missingWords) + " " + missingWord + "\nBzw. " +
-                                              std::to_string(missingLetters) + " Buchstaben.";
+                                              std::to_string(missingLetters) + " Buchstaben."};
         _endBoxText = missingWordsText;
     }
 
@@ -223,7 +222,7 @@ namespace game {
         ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 
         for (int y = 0; y < _gameField.size(); y++) {
-            auto &row = _gameField[y];
+            auto const &row {_gameField[y]};
 
             for (int x = 0; x < row.size(); x++) {
                 // Always print on the same line but the first cell
@@ -254,10 +253,10 @@ namespace game {
     }
 
     void LetterSalad::renderSelectedWord() const {
-        static int const WIDTH = 650;
-        static int const HEIGHT = 40;
+        static constexpr int const WIDTH {650};
+        static constexpr int const HEIGHT {40};
 
-        ImVec2 startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
+        ImVec2 const startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
 
         ImGui::PushFont(commons::Fonts::_header2);
 
@@ -265,15 +264,15 @@ namespace game {
         ImGui::BeginChild("##selectedWord", ImVec2(WIDTH, HEIGHT));
 
         // Get the position and size of the dummy
-        ImVec2 pos = ImGui::GetItemRectMin();
-        ImDrawList *drawList = ImGui::GetWindowDrawList();
-        ImU32 rectangle = IM_COL32(3, 161, 252, 255);
-        float rounding = 25.f;
+        ImVec2 const pos {ImGui::GetItemRectMin()};
+        ImDrawList *drawList {ImGui::GetWindowDrawList()};
+        static constexpr ImU32 const RECTANGLE {IM_COL32(3, 161, 252, 255)};
+        static constexpr float const ROUNDING {25.f};
 
         drawList->AddRectFilled(pos,
                                 ImVec2(pos.x + WIDTH, pos.y + HEIGHT),
-                                rectangle,
-                                rounding
+                                RECTANGLE,
+                                ROUNDING
         );
 
         ui_elements::TextCentered(_selectedWord.c_str());
@@ -292,7 +291,7 @@ namespace game {
 
         static Coordinates lastHoveredCell{-1, -1};
 
-        auto newlines{getLine(_firstSelectedCell, coords)};
+        auto const newlines{getLine(_firstSelectedCell, coords)};
 
         if (newlines.empty()) {
             return;
@@ -315,7 +314,7 @@ namespace game {
             _selectedWord = "";
             _currentLine = getLine(_firstSelectedCell, coords);
 
-            for (auto &lineE : _currentLine) {
+            for (auto const &lineE : _currentLine) {
                 selectBox(lineE);
                 _selectedWord += _gameField[lineE.y][lineE.x].getChar();
             }
@@ -360,14 +359,14 @@ namespace game {
         _isFirstCellSelected = false;
         _isSecondCellSelected = false;
         if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
-            for (auto &lineE : _currentLine) {
+            for (auto const &lineE : _currentLine) {
                 LetterSalad::deselectBox(lineE);
             }
         } else {
-            for (auto &lineE : _currentLine) {
+            for (auto const &lineE : _currentLine) {
                 LetterSalad::finalize(lineE);
             }
-            auto foundWord{_activeWordList.find(WordTarget{_selectedWord})};
+            auto const foundWord{_activeWordList.find(WordTarget{_selectedWord})};
 
             if (!(*foundWord->isFound())) {
                 foundWord->setFound();
@@ -398,16 +397,16 @@ namespace game {
     void LetterSalad::allWordsFound() {
         _endBoxTitle = "Herzlichen Glückwunsch!";
 
-        int secondsLeft{_timer.getSecondsLeft()};
-        std::string minutes{std::to_string(secondsLeft / 60)};
-        std::string seconds{std::to_string(secondsLeft % 60)};
+        int const secondsLeft{_timer.getSecondsLeft()};
+        std::string const minutes{std::to_string(secondsLeft / 60)};
+        std::string const seconds{std::to_string(secondsLeft % 60)};
 
         _wordsPerMinute = (_activeWordList.size()) / ((TIME_LIMIT - secondsLeft) / 60.);
 
-        static std::string endboxString =
+        std::string const endboxString {
                 "Du hast alle Wörter gefunden!\n"
                 "Und sogar noch Zeit übrig gehabt!\n" + minutes +
-                " Minuten und " + seconds + " Sekunden\n";
+                " Minuten und " + seconds + " Sekunden\n"};
         _endBoxText = endboxString;
 
     }
@@ -438,9 +437,9 @@ namespace game {
         // make sure to only draw elements
         // if the start and end cell are in one line
         // diagonally or horizontally or vertically
-        bool isDiagonal = {std::abs(dx) == std::abs(dy)};
-        bool isHorizontal = {dy == 0};
-        bool isVertical = {dx == 0};
+        bool const isDiagonal = {std::abs(dx) == std::abs(dy)};
+        bool const isHorizontal = {dy == 0};
+        bool const isVertical = {dx == 0};
 
         // return if the cells are not in one line
         if (!isDiagonal && !isHorizontal && !isVertical) {
@@ -463,9 +462,7 @@ namespace game {
         return linePoints;
     }
 
-    bool checkIfCoordsAreInRange(Coordinates const &c,
-                                 int const &min,
-                                 int const &max) {
+    bool checkIfCoordsAreInRange(Coordinates const &c, int const &min, int const &max) {
         return c.x >= min && c.y >= min && c.x < max && c.y < max;
     }
 
@@ -491,7 +488,7 @@ namespace game {
         for (auto &row : _gameField) {
             for (auto &box : row) {
                 if (box.getLetter() == EMPTY_CELL) {
-                    std::string letter{std::string(1, 'A' + rand() % 26)};
+                    std::string const letter{std::string(1, 'A' + rand() % 26)};
                     box.setLetter(letter);
                 }
             }
@@ -504,8 +501,8 @@ namespace game {
         _activeWordList.clear();
 
         while (_activeWordList.size() < NR_OF_WORDS) {
-            int randomIndex{RandomPicker::randomInt(0, _wordList.size() - 1)};
-            auto wordPair{*std::next(_wordList.begin(), randomIndex)};
+            int const randomIndex{RandomPicker::randomInt(0, _wordList.size() - 1)};
+            auto const wordPair{*std::next(_wordList.begin(), randomIndex)};
             // check if the word can be placed
             if (_activeWordList.find(wordPair) == _activeWordList.end() && placeWord(wordPair.getWord())) {
                 // if yes add it to the active wordList
@@ -526,8 +523,8 @@ namespace game {
         // 0 = horizontal, 1 = vertical, 2 = diagonal_1, 3 = diagonal_2
         Orientation orientation{RandomPicker::randomInt(1, 3)};
 
-        int height{20};
-        int width{20};
+        static int const HEIGHT{20};
+        static int const WIDTH{20};
 
         bool placed{false};
         int tries{0};
@@ -536,33 +533,33 @@ namespace game {
             tries++;
             int row;
             int col;
-            bool reverse{(rand() % 2) != 0};
+            bool const reverse{(rand() % 2) != 0};
 
             switch (orientation) {
                 case Orientation::HORIZONTAL: {
-                    row = RandomPicker::randomInt(0, height - word.length());
-                    col = RandomPicker::randomInt(0, width - 1);
+                    row = RandomPicker::randomInt(0, HEIGHT - word.length());
+                    col = RandomPicker::randomInt(0, WIDTH - 1);
                     if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::VERTICAL: {
                     // place word vertically
-                    row = RandomPicker::randomInt(0, height - 1);
-                    col = RandomPicker::randomInt(0, width - word.length());
+                    row = RandomPicker::randomInt(0, HEIGHT - 1);
+                    col = RandomPicker::randomInt(0, WIDTH - word.length());
                     if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::DIAGONAL_DOWN: {
                     // place word diagonally top left to bottom right
-                    row = RandomPicker::randomInt(0, height - word.length());
-                    col = RandomPicker::randomInt(0, width - word.length());
+                    row = RandomPicker::randomInt(0, HEIGHT - word.length());
+                    col = RandomPicker::randomInt(0, WIDTH - word.length());
                     if (reverse) std::reverse(word.begin(), word.end());
                     break;
                 }
                 case Orientation::DIAGONAL_UP: {
                     // place word diagonally bottom left to top right
-                    row = RandomPicker::randomInt(word.length() - 1, height - 1);
-                    col = RandomPicker::randomInt(0, width - word.length());
+                    row = RandomPicker::randomInt(word.length() - 1, HEIGHT - 1);
+                    col = RandomPicker::randomInt(0, WIDTH - word.length());
                     if (reverse) std::reverse(word.begin(), word.end());
                 }
             }
@@ -593,12 +590,12 @@ namespace game {
                     }
                 }
 
-                if (currentRow < 0 || currentRow >= height || currentCol < 0 || currentCol >= width) {
+                if (currentRow < 0 || currentRow >= HEIGHT || currentCol < 0 || currentCol >= WIDTH) {
                     fits = false;
                     break;
                 }
 
-                std::string letter{_gameField[currentRow][currentCol].getLetter()};
+                std::string const letter{_gameField[currentRow][currentCol].getLetter()};
 
                 if (letter != EMPTY_CELL && letter != std::string(1, word[i])) {
                     fits = false;

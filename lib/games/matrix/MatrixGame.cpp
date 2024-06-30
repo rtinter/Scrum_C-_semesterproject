@@ -99,13 +99,13 @@ namespace game {
         float const displayedSize{static_cast<float>(Matrix::getSize() * Matrix::getCellSizeSmall())};
         ImGui::BeginGroup();
         for (int i{0}; i < _matricesToChooseFrom.size(); i++) {
-            bool isCorrect{i == _idOfCorrectMatrix};
+            bool const isCorrect{i == _idOfCorrectMatrix};
 
             // adjust frame style
             ImGuiStyle &style{ImGui::GetStyle()};
-            ImVec2 oldItemSpacing{style.ItemSpacing};
+            ImVec2 const oldItemSpacing{style.ItemSpacing};
             style.ItemSpacing = ImVec2(0, 0);
-            float oldFrameRounding{style.FrameRounding};
+            float const oldFrameRounding{style.FrameRounding};
             style.FrameRounding = 0.f;
 
             // create transparent button
@@ -115,17 +115,17 @@ namespace game {
             ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                                   isCorrect ? commons::ColorTheme::SUCCESS_COLOR : commons::ColorTheme::ERROR_COLOR);
 
-            float const margin{4.f}; // button should overlap matrix a little bit
-            std::string buttonIdString{"buttonForMatrix" + std::to_string(i)};
-            if (ImGui::Button(buttonIdString.c_str(), ImVec2(displayedSize + margin, displayedSize + margin))) {
+            static constexpr float const MARGIN{4.f}; // button should overlap matrix a little bit
+            std::string const buttonIdString{"buttonForMatrix" + std::to_string(i)};
+            if (ImGui::Button(buttonIdString.c_str(), ImVec2(displayedSize + MARGIN, displayedSize + MARGIN))) {
                 onClick(isCorrect);
             }
             ImGui::PopStyleColor(3); // pop ImGuiCol_Button(Hovered/Active)
 
             // display matrix at same position (= covered by transparent button)
             ImVec2 cursorPosition{ImGui::GetCursorPos().x, ImGui::GetCursorPos().y};
-            cursorPosition.y -= displayedSize + margin / 2;
-            cursorPosition.x += margin / 2;
+            cursorPosition.y -= displayedSize + MARGIN / 2;
+            cursorPosition.x += MARGIN / 2;
             ImGui::SetCursorPos(cursorPosition);
             _matricesToChooseFrom[i].renderSmall();
             style.ItemSpacing = oldItemSpacing;
@@ -223,7 +223,7 @@ namespace game {
         // create one matrix that is mirrored or rotated
         // but still incorrect because it doesn't match _currentGameMode
         // (will overwrite one of the previous incorrect options)
-        int id{commons::RandomPicker::randomInt(0, _matricesToChooseFrom.size() - 1)};
+        int const id{commons::RandomPicker::randomInt(0, _matricesToChooseFrom.size() - 1)};
         switch (_currentGameMode) {
             case GameMode::ROTATE :
                 _matricesToChooseFrom[id] = _mainMatrix.getAMirroredVersion();

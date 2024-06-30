@@ -38,7 +38,8 @@ namespace game {
                 return;
             }
 
-            json data = json::parse(file);
+            // Cant use {} for initialization due to runtime error
+            json const data = json::parse(file);
             _sequences = {data["sequences"].begin(), data["sequences"].end()};
 
             file.close();

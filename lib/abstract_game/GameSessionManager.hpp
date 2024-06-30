@@ -1,7 +1,3 @@
-//
-// Created by Admin on 07.06.2024.
-//
-
 #ifndef GAMESESSIONMANAGER_HPP
 #define GAMESESSIONMANAGER_HPP
 

@@ -17,14 +17,14 @@ namespace logger {
 
     class Logger {
     private:
-        std::queue<QueueEntry> _sink{};
+        std::queue<QueueEntry> _sink;
 
         bool _initialized{false};
         bool _stop{false};
         std::ofstream _outputStream;
 
         QueueEntryType _type{QueueEntryType::DEBUG};
-        std::future<void> _sinkBackgroundTask{};
+        std::future<void> _sinkBackgroundTask;
 
         void log(QueueEntry const &entry);
 

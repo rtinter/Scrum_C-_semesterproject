@@ -6,7 +6,6 @@
 #include "Window.hpp"
 #include "Centered.hpp"
 #include "SoundPolice.hpp"
-#include <algorithm>
 #include <random>
 #include <thread>
 
@@ -102,7 +101,7 @@ namespace sequence {
         ImGui::NewLine();
 
         for (int i{1}; i <= K_NUMBER_OF_BUTTONS; i++) {
-            int buttonID{i - 1};
+            int const buttonID{i - 1};
 
             if ((i - 1) % 3) {
                 ImGui::SameLine();
@@ -239,7 +238,7 @@ namespace sequence {
                 break;
 
             case GameMode::REPEAT:
-                _currentGameMode = GameMode::WATCH;;
+                _currentGameMode = GameMode::WATCH;
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(700));
                 _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable

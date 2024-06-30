@@ -2,7 +2,6 @@
 #include <imgui-SFML.h>
 #include <SceneManager.hpp>
 #include <StyleManager.hpp>
-#include <SoundManager.hpp>
 #include "MemoryGameImageManager.hpp"
 
 #include "SFML/Graphics/RenderWindow.hpp"
@@ -11,6 +10,12 @@
 #include "Logger.hpp"
 #include "QueueEntryType.hpp"
 #include "WindowConfig.hpp"
+
+#if (defined(_WIN32))
+
+#include "SoundManager.hpp"
+
+#endif
 
 void App::start() {
 

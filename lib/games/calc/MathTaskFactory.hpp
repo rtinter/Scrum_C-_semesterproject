@@ -1,4 +1,3 @@
-// MathTaskFactory.hpp
 #ifndef MATH_TASK_FACTORY_HPP
 #define MATH_TASK_FACTORY_HPP
 

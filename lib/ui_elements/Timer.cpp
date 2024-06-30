@@ -93,7 +93,6 @@ namespace ui_elements {
 
             // Get the position and size of the dummy
             ImVec2 pos {ImGui::GetItemRectMin()};
-            ImVec2 textSize {ImGui::CalcTextSize(text.c_str())};
             ImVec2 textPos {ImVec2(
                     pos.x + ((this->_width - ImGui::CalcTextSize(text.c_str()).x) * 0.5f),
                     pos.y + ((this->_height - ImGui::CalcTextSize(text.c_str()).y) * 0.5f)

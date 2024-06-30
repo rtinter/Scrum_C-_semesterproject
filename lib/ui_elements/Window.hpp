@@ -10,6 +10,9 @@ namespace ui_elements {
      * new ImGui windows. The default flags for this project are set automatically.
      **************************************************************************************/
     class Window {
+        std::string _name;
+        bool *_pOpen{nullptr};
+        ImGuiWindowFlags _flags{};
     public:
         explicit Window(std::string const &name, bool *p_open = nullptr,
                         ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize |
@@ -31,10 +34,6 @@ namespace ui_elements {
             }
         }
 
-    private:
-        std::string _name;
-        bool *_pOpen{nullptr};
-        ImGuiWindowFlags _flags{};
     };
 
 }

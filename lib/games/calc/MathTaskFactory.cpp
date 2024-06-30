@@ -21,9 +21,9 @@ namespace math_task_factory {
 
     std::unique_ptr<MathTask> createRandomMathTask() {
         // Get current time as seed
-        auto now {std::chrono::system_clock::now()};
-        auto duration {now.time_since_epoch()};
-        auto timeSeed {std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()};
+        auto const now {std::chrono::system_clock::now()};
+        auto const duration {now.time_since_epoch()};
+        auto const timeSeed {std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()};
 
         std::random_device rd;
         std::seed_seq seedSeq{rd(), static_cast<unsigned int>(timeSeed)};
@@ -32,7 +32,7 @@ namespace math_task_factory {
         // Create a uniform distribution from 0 to the last enum value (excluding Count)
         std::uniform_int_distribution<> dis(0, static_cast<int>(MathTaskType::EQUATION_BUILDER));
 
-        auto randomType {static_cast<MathTaskType>(dis(gen))};
+        auto const randomType {static_cast<MathTaskType>(dis(gen))};
         return createMathTask(randomType);
     }
 }
