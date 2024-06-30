@@ -29,11 +29,4 @@ namespace views {
     void Results::addGameTableContainer(ui_elements::TableContainer const &tableContainer) {
         _gameTableContainers.emplace_back(tableContainer);
     }
-
-    // wird nicht verwendet -> löschen?
-    void Results::addGameTableContainers(std::vector<ui_elements::TableContainer> const &tableContainers) {
-        for (auto const &tableContainer: tableContainers) {
-            addGameTableContainer(tableContainer);
-        }
-    }
 } // views

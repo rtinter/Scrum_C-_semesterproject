@@ -26,10 +26,6 @@ namespace views {
         void render();
 
         void addGameTableContainer(ui_elements::TableContainer const &tableContainer);
-
-        void addGameTableContainers(
-                std::vector<ui_elements::TableContainer> const &tableContainers); // wird nicht verwendet -> löschen?
-
     };
 
 } // views
