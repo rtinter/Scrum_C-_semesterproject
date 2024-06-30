@@ -11,6 +11,12 @@
 #include "QueueEntryType.hpp"
 #include "WindowConfig.hpp"
 
+#if (defined(_WIN32))
+
+#include "SoundManager.hpp"
+
+#endif
+
 void App::start() {
 
     // Initialize ImageManager singleton
