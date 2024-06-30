@@ -6,7 +6,7 @@
 #pragma ide diagnostic ignored "UnreachableCode"
 namespace commons {
 
-    std::string const SoundManager::PATH {"./sounds/"};
+    std::string const SoundManager::PATH{"./sounds/"};
 
     sf::Sound SoundManager::_activeSound;
 
@@ -14,7 +14,7 @@ namespace commons {
 
     void SoundManager::loadSounds() {
 
-        logger::Logger& logger {logger::Logger::getInstance()};
+        logger::Logger &logger{logger::Logger::getInstance()};
 
 #if (!defined(_WIN32))
         // only load sounds on windows
@@ -31,13 +31,14 @@ namespace commons {
         initSoundBuffer(Sound::BEEP, "beep.mp3");
         initSoundBuffer(Sound::BEEP_FAIL, "beep-fail.mp3");
         initSoundBuffer(Sound::CARD_FLIP, "card-flip.mp3");
+        initSoundBuffer(Sound::CLICK, "click.mp3");
 
         logger << "SoundManager loaded";
     }
 
     void SoundManager::initSoundBuffer(commons::Sound sound, std::string const &filename) {
 
-        logger::Logger& logger {logger::Logger::getInstance()};
+        logger::Logger &logger{logger::Logger::getInstance()};
 
         sf::SoundBuffer soundBuffer;
         if (soundBuffer.loadFromFile(PATH + filename)) {
@@ -62,7 +63,7 @@ namespace commons {
         return;
 #endif
 
-        logger::Logger& logger {logger::Logger::getInstance()};
+        logger::Logger &logger{logger::Logger::getInstance()};
 
         // check if sound manager is initialized
         if (_soundBufferMap.empty()) {
