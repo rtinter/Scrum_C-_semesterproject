@@ -147,8 +147,6 @@ namespace games {
                 _submitted = false;
                 _showContinueButton = false;
                 for (int i{0}; i < _currentQuestionSet.questions.size(); ++i) {
-                stop();
-                for (int i{0}; i < _currentQuestionSet.questions.size(); ++i) {
                     if (_selectedAnswers[i] == _currentQuestionSet.questions[i].correctAnswerIndex) {
                         ++_score;
                     }
