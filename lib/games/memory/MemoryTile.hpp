@@ -30,10 +30,6 @@ namespace memory {
 
         bool isFaceUp() const;
 
-        void setBackColor(ImVec4 color); //unused
-
-        ImVec4 getBackColor() const; //unused
-
         int getIndex() const; // Add getter for index
     };
 

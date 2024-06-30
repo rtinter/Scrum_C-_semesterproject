@@ -1,6 +1,6 @@
 #include "MemoryGameImageManager.hpp"
 #include <iostream>
-#include "Colors.hpp"
+
 
 namespace memory {
 
@@ -9,13 +9,9 @@ namespace memory {
         return instance;
     }
 
-    MemoryGameImageManager::MemoryGameImageManager() : _backgroundColor(commons::Colors::LIGHT_GRAY) {
-        // Constructor does not load images anymore
-    }
-
     MemoryGameImageManager::~MemoryGameImageManager() {
         releaseResources(); // Ensure resources are released
-    };
+    }
 
     void MemoryGameImageManager::initialize() {
         loadImages();
@@ -51,22 +47,6 @@ namespace memory {
             return empty;
         }
         return _textures[index];
-    }
-
-    int MemoryGameImageManager::getImageCount() const { //unused
-        return _textures.size();
-    }
-
-    std::vector<sf::Texture> &MemoryGameImageManager::getTextures() { //unused
-        return _textures;
-    }
-
-    void MemoryGameImageManager::setBackgroundColor(ImVec4 color) { //unused
-        _backgroundColor = color;
-    }
-
-    ImVec4 MemoryGameImageManager::getBackgroundColor() const { //unused
-        return _backgroundColor;
     }
 
 } // memory

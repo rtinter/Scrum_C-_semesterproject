@@ -79,13 +79,13 @@ namespace memory {
         float const totalWidth{columns * (_tileSize.x + _padding) - _padding};
         float const totalHeight{5 * (_tileSize.y + _padding) - _padding};
 
-        ImVec2 windowSize = ImGui::GetWindowSize();
+        ImVec2 windowSize {ImGui::GetWindowSize()};
         float startX{(windowSize.x - totalWidth) / 2};
         float startY{(windowSize.y - totalHeight) / 2};
 
         int index{0};
         for (int col{0}; col < columns; ++col) {
-            int yOffset = startY + (5 - rows[col]) * (_tileSize.y + _padding) / 2; // Center each column vertically
+            int yOffset {static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _padding) / 2)}; // Center each column vertically
             for (int row{0}; row < rows[col]; ++row) {
                 float x{startX + col * (_tileSize.x + _padding)};
                 float y{yOffset + row * (_tileSize.y + _padding)};
@@ -146,6 +146,7 @@ namespace memory {
 
     void Memory::checkForMatch() {
         if (_firstTile->getIndex() == _secondTile->getIndex()) {
+            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT,60, 1.5f);
             _pairsFound++;
             _firstTile = nullptr;
             _secondTile = nullptr;
@@ -173,8 +174,8 @@ namespace memory {
     void Memory::checkForWin() {
         // Calculate time taken
         int timeTaken{_totalGameTime - _timer->getSecondsLeft()};
-        int minutes = {timeTaken / 60};
-        int seconds = {timeTaken % 60};
+        int minutes {timeTaken / 60};
+        int seconds {timeTaken % 60};
 
         // Format time as <minutes:seconds>
         std::string timeTakenStr{std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
@@ -192,8 +193,8 @@ namespace memory {
     void Memory::handleGameOver() {
         // Calculate time taken
         int timeTaken{_totalGameTime - _timer->getSecondsLeft()};
-        int minutes{timeTaken / 60};
-        int seconds{timeTaken % 60};
+        int minutes {timeTaken / 60};
+        int seconds {timeTaken % 60};
 
         // Format time as <minutes:seconds>
         std::string timeTakenStr{std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
@@ -250,7 +251,7 @@ namespace memory {
 
             _timer->render();
 
-            auto now = std::chrono::steady_clock::now();
+            auto now {std::chrono::steady_clock::now()};
             if (std::chrono::duration_cast<std::chrono::seconds>(now - _initialDisplayStartTime).count() < 3) {
                 if (!_initialDisplayDone) {
                     initializeTiles();
@@ -278,7 +279,7 @@ namespace memory {
 
 
             if (_delayActive) {
-                auto nowDelay = std::chrono::steady_clock::now();
+                auto nowDelay{std::chrono::steady_clock::now()};
                 if (std::chrono::duration_cast<std::chrono::seconds>(nowDelay - _matchCheckTime).count() >= 2) {
                     handleMismatch();
                 }

@@ -16,25 +16,17 @@ namespace memory {
         void releaseResources(); // Method to release textures
         sf::Texture &getTexture(int index);
 
-        int getImageCount() const; // unused
-        std::vector<sf::Texture> &getTextures(); // unused
-
-        void setBackgroundColor(ImVec4 color); // unused
-        ImVec4 getBackgroundColor() const; // unused
-
-        MemoryGameImageManager(const MemoryGameImageManager &) = delete; // Delete copy constructor
-        MemoryGameImageManager &operator=(const MemoryGameImageManager &) = delete; // Delete copy assignment
-        MemoryGameImageManager(MemoryGameImageManager &&) = delete; // Delete move constructor
-        MemoryGameImageManager &operator=(MemoryGameImageManager &&) = delete; // Delete move assignment
-
+        MemoryGameImageManager(const MemoryGameImageManager &) = delete;
+        MemoryGameImageManager &operator=(const MemoryGameImageManager &) = delete;
+        MemoryGameImageManager(MemoryGameImageManager &&) = delete;
+        MemoryGameImageManager &operator=(MemoryGameImageManager &&) = delete;
 
     private:
-        MemoryGameImageManager(); // Private constructor
-        ~MemoryGameImageManager(); // Private destructor
+        MemoryGameImageManager() = default;
+        ~MemoryGameImageManager();
 
         std::vector<std::string> _imagePaths;
         std::vector<sf::Texture> _textures;
-        ImVec4 _backgroundColor;
 
         void loadImages();
 

@@ -43,14 +43,6 @@ namespace memory {
         return _isFaceUp;
     }
 
-    void MemoryTile::setBackColor(ImVec4 color) { //unused
-        _backColor = color;
-    }
-
-    ImVec4 MemoryTile::getBackColor() const { //unused
-        return _backColor;
-    }
-
     int MemoryTile::getIndex() const {
         return _index;
     }
