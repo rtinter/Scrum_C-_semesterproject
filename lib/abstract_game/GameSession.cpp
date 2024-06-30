@@ -17,13 +17,13 @@ namespace abstract_game {
 
     size_t GameSession::calcGameSessionUID() {
         // get current timeString as string
-        std::string timeString = std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+        std::string timeString{std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()))};
 
         // get random value as string
-        auto duration = std::chrono::system_clock::now().time_since_epoch();
-        auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+        auto duration{std::chrono::system_clock::now().time_since_epoch()};
+        auto nanos{std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
         std::srand(nanos);
-        std::string randomString = std::to_string(std::rand() % 1000 + 1);
+        std::string randomString{std::to_string(std::rand() % 1000 + 1)};
 
         // concatenate timeString and random value for hash input
         std::stringstream ss;
@@ -41,18 +41,8 @@ namespace abstract_game {
     }
 
     void GameSession::writeToDataManager() const {
-        long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
-        long long endTime = std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count();
-        unsigned long long duration{getDurationInSeconds()};
-
-        // size_t sessionUID,
-        // int userID,
-        // GameID gameID,
-        // long long startTime,
-        // long long endTime,
-        // time_t start,
-        // time_t end,
-        // bool ended
+        long long startTime{std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count()};
+        long long endTime{std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count()};
 
         _dataManager->saveGameSession(
                 _gameSessionUID,
@@ -75,16 +65,7 @@ namespace abstract_game {
         _end = time(nullptr);
         writeToDataManager();
     }
-
-    unsigned long long GameSession::getDurationInSeconds() const {
-        if (!_ended) {
-            // game session is still running
-            return std::chrono::duration_cast<std::chrono::seconds>(
-                    std::chrono::steady_clock::now() - _startPoint).count();
-        }             // game session has ended
-        return std::chrono::duration_cast<std::chrono::seconds>(_endPoint - _startPoint).count();
-    }
-
+    
     void GameSession::addNewGameRunThrough(std::string const &resultUnit, double const &result) {
 
         increaseRunThroughCount();
