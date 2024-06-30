@@ -48,7 +48,7 @@ namespace memory {
 
         for (int i{0}; i < 30; ++i) {
             int imageIndex = indices[i];
-            sf::Texture &texture = _imageManager.getTexture(imageIndex);
+            sf::Texture &texture {_imageManager.getTexture(imageIndex)};
             auto tile = std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
                                                              imageIndex);
             _tiles.push_back(tile);
@@ -289,9 +289,9 @@ namespace memory {
             }
 
 
-            for (int i = 0; i < _tiles.size(); ++i) {
-                auto &tile = _tiles[i];
-                auto coords = _coordinates[i];
+            for (int i {0}; i < _tiles.size(); ++i) {
+                auto &tile {_tiles[i]};
+                auto coords {_coordinates[i]};
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
                 tile->render();
             }
