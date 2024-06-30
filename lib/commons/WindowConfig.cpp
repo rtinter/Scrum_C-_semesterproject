@@ -1,7 +1,3 @@
-//
-// Created by caspar on 30/06/2024.
-//
-
 #include "WindowConfig.hpp"
 
 int const WindowConfig::FRAME_RATE{60};

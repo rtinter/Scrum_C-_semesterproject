@@ -1,10 +1,7 @@
-//
-// Created by caspar on 30/06/2024.
-//
-#include <string>
-
 #ifndef ATHENA_WINDOWCONFIG_HPP
 #define ATHENA_WINDOWCONFIG_HPP
+
+#include <string>
 
 class WindowConfig {
 
