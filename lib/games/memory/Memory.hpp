@@ -1,23 +1,17 @@
 #ifndef ATHENA_MEMORY_HPP
 #define ATHENA_MEMORY_HPP
 
-#include "Game.hpp"
-#include "Colors.hpp"
-#include "Timer.hpp"
-#include "Tile.hpp"
-#include "Coordinates.hpp"
-#include "RandomPicker.hpp"
-#include "MemoryTile.hpp"
-#include "MemoryGameImageManager.hpp"
-#include "WindowConfig.hpp"
-#include <imgui.h>
-#include <vector>
-#include <memory>
-#include <unordered_map>
-#include <SFML/Graphics.hpp>
-#include <random>
-#include <algorithm>
 #include <chrono>
+#include <imgui.h>
+#include <memory>
+#include <vector>
+
+#include "Coordinates.hpp"
+#include "Game.hpp"
+#include "MemoryGameImageManager.hpp"
+#include "MemoryTile.hpp"
+#include "Tile.hpp"
+#include "Timer.hpp"
 
 namespace memory {
 
@@ -25,7 +19,7 @@ namespace memory {
         ImVec4 _windowColor{commons::ColorTheme::BACKGROUND_COLOR};
         std::unique_ptr<ui_elements::Timer> _timer;
         std::vector<std::shared_ptr<MemoryTile>> _tiles;
-        std::vector<Coordinates> _coordinates;
+        std::vector<commons::Coordinates> _coordinates;
         MemoryGameImageManager& _imageManager; // Use MemoryGameImageManager for managing images
 
         bool _initialDisplayDone{false};

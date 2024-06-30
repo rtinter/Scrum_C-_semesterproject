@@ -1,13 +1,15 @@
 #include "Sequence.hpp"
-#include "Fonts.hpp"
-#include "ColorTheme.hpp"
-#include "InfoBox.hpp"
-#include "TextCentered.hpp"
-#include "Window.hpp"
-#include "Centered.hpp"
-#include "SoundPolice.hpp"
+
 #include <random>
 #include <thread>
+
+#include "Centered.hpp"
+#include "Colors.hpp"
+#include "ColorTheme.hpp"
+#include "Fonts.hpp"
+#include "InfoBox.hpp"
+#include "SoundPolice.hpp"
+#include "Window.hpp"
 
 namespace sequence {
 

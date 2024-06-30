@@ -75,11 +75,11 @@ namespace game {
 
     // Renders the current question and answer options
     void Conclusions::renderQuestion() {
-        static constexpr float const BUTTON_WIDTH {100.0f};
+        static constexpr float BUTTON_WIDTH {100.0f};
         float const buttonOffsetX {(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
-        static constexpr float const ITEM_WIDTH {100.0f};
+        static constexpr float ITEM_WIDTH {100.0f};
         float const itemOffsetX {(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
-        static constexpr float const TEXT_WRAP_WIDTH {1350.0f}; // Set a fixed wrap width for the question text
+        static constexpr float TEXT_WRAP_WIDTH {1350.0f}; // Set a fixed wrap width for the question text
 
         ImGui::PushFont(commons::Fonts::_header2);
 

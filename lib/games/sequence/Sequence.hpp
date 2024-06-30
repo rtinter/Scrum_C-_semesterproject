@@ -2,6 +2,9 @@
 #define ATHENA_SEQUENCE_H
 
 #include <array>
+#include <chrono>
+#include <vector>
+
 #include "Game.hpp"
 
 namespace sequence {

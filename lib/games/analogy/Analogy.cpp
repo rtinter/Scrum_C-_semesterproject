@@ -1,4 +1,7 @@
 #include "Analogy.hpp"
+
+#include <iostream>
+
 #include "nlohmann/json.hpp"
 #include "Logger.hpp"
 
@@ -67,9 +70,9 @@ namespace game {
     // Renders the current question and answer options
     void Analogy::renderQuestion() {
 
-        static constexpr float const BUTTON_WIDTH{100.0f};
+        static constexpr float BUTTON_WIDTH{100.0f};
         float const buttonOffsetX{(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
-        static constexpr float const ITEM_WIDTH{100.0f};
+        static constexpr float ITEM_WIDTH{100.0f};
         float const itemOffsetX{(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
 
         ImGui::PushFont(commons::Fonts::_header2);

@@ -1,12 +1,14 @@
 #include "Memory.hpp"
+
+#include <random>
+
 #include "GameSessionManager.hpp"
 #include "InfoBox.hpp"
-#include "Window.hpp"
-#include "Centered.hpp"
 #include "SoundPolice.hpp"
+#include "Window.hpp"
+#include "WindowConfig.hpp"
 
 namespace memory {
-
     Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY),
                        _imageManager(MemoryGameImageManager::getInstance()) {
         _gameName = "Memory";
@@ -30,7 +32,6 @@ namespace memory {
                 "3. Klicke entweder sofort weiter oder warte 2 Sekunden, bis die Karten sich zudecken.\n"
                 "4. Klicke auf 'Versuch es nochmal', um das Spiel zurückzusetzen und es erneut zu versuchen.\n"
                 "5. Klicke auf 'Zurück zur Startseite', um zum Hauptmenü zurückzukehren.";
-
     }
 
     void Memory::initializeTiles() {
@@ -47,17 +48,18 @@ namespace memory {
         std::shuffle(indices.begin(), indices.end(), g); // Shuffle the image indices
 
         for (int i{0}; i < 30; ++i) {
-            int const imageIndex {indices[i]};
-            sf::Texture const &texture {_imageManager.getTexture(imageIndex)};
-            auto const tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
-                                                             imageIndex)};
+            int const imageIndex{indices[i]};
+            sf::Texture const &texture{_imageManager.getTexture(imageIndex)};
+            auto const tile{
+                std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
+                                                     imageIndex)
+            };
             _tiles.push_back(tile);
         }
     }
 
 
     void Memory::arrangeTiles() {
-
         int const columns{10};
         int const rows[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
@@ -70,7 +72,6 @@ namespace memory {
                 ++index;
             }
         }
-
     }
 
 
@@ -86,13 +87,15 @@ namespace memory {
 
         int index{0};
         for (int col{0}; col < columns; ++col) {
-            int const yOffset{static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _padding) /
-                                                  2)}; // Center each column vertically
+            int const yOffset{
+                static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _padding) /
+                                 2)
+            }; // Center each column vertically
             for (int row{0}; row < rows[col]; ++row) {
                 float const x{startX + col * (_tileSize.x + _padding)};
                 float const y{yOffset + row * (_tileSize.y + _padding)};
                 if (index < _tiles.size()) {
-                    _coordinates[index] = Coordinates(y, x);
+                    _coordinates[index] = commons::Coordinates(y, x);
                     ++index;
                 }
             }
@@ -185,7 +188,7 @@ namespace memory {
         // Update end box message
         _endBoxTitle = "Gut gemacht!";
         _endBoxText = "Du hast " + std::to_string(_pairsFound) + " Paare gefunden.\n"
-                                                                 "Dafür hast du " + _timeTakenString +
+                      "Dafür hast du " + _timeTakenString +
                       " Minuten gebraucht.";
 
         stop();
@@ -220,27 +223,27 @@ namespace memory {
 
     void Memory::render() {
         ui_elements::InfoBox(
-                _gameID,
-                _showStartBox,
-                "Startbox",
-                _gameName,
-                _gameDescription,
-                _gameRules,
-                _gameControls,
-                [this] {
-                    start();
-                }).render();
+            _gameID,
+            _showStartBox,
+            "Startbox",
+            _gameName,
+            _gameDescription,
+            _gameRules,
+            _gameControls,
+            [this] {
+                start();
+            }).render();
 
         ui_elements::InfoBox(
-                _gameID,
-                _showEndBox,
-                "Endbox",
-                _endBoxTitle,
-                _endBoxText,
-                [this] {
-                    reset();
-                    start();
-                }).render();
+            _gameID,
+            _showEndBox,
+            "Endbox",
+            _endBoxTitle,
+            _endBoxText,
+            [this] {
+                reset();
+                start();
+            }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -250,7 +253,6 @@ namespace memory {
     void Memory::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
         ui_elements::Window("Memory").render([this] {
-
             _timer->render();
 
             auto const now{std::chrono::steady_clock::now()};
@@ -288,14 +290,12 @@ namespace memory {
             }
 
 
-            for (int i {0}; i < _tiles.size(); ++i) {
-                auto const &tile {_tiles[i]};
-                auto const coords {_coordinates[i]};
+            for (int i{0}; i < _tiles.size(); ++i) {
+                auto const &tile{_tiles[i]};
+                auto const coords{_coordinates[i]};
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
                 tile->render();
             }
-
-
         });
         ImGui::PopStyleColor();
     }
@@ -329,7 +329,7 @@ namespace memory {
 
     void Memory::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Sekunden benötigt",
-                                                                                     _totalGameTime - _timer->getSecondsLeft());
+            _totalGameTime - _timer->getSecondsLeft());
     }
 
     std::string Memory::getName() const {

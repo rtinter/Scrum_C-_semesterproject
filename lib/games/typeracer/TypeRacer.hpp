@@ -1,6 +1,8 @@
 #ifndef ATHENA_TYPERACER_H
 #define ATHENA_TYPERACER_H
 
+#include <chrono>
+
 #include "Game.hpp"
 #include "imgui.h"
 #include <Colors.hpp>

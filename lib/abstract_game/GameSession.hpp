@@ -1,14 +1,13 @@
-#ifndef ATHENA_GAMESESSION_HPP
-#define ATHENA_GAMESESSION_HPP
+#pragma once
 
-#include <string>
 #include <chrono>
-#include <utility>
+#include <memory>
+#include <string>
 #include <vector>
-#include "GameRunThrough.hpp"
+
 #include "DataManager.hpp"
 #include "GameIDs.hpp"
-#include "GameRunThroughCsvWriter.hpp"
+#include "GameRunThrough.hpp"
 
 namespace abstract_game {
 
@@ -79,7 +78,6 @@ namespace abstract_game {
          *
          * This method creates a new GameRunThrough that happened during the current Gamesession and adds it to the vector of Runthroughs.
          *
-         * @param gameSessionUID the UID of the current gameSession (*this)
          * @param resultUnit the unit in which the result of the game is saved
          * @param result the result of the specific GameRunThrough
          */
@@ -87,6 +85,3 @@ namespace abstract_game {
     };
 
 } // abstract_game
-
-
-#endif //ATHENA_GAMESESSION_HPP

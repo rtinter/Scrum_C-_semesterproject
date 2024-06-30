@@ -1,14 +1,12 @@
-#ifndef ATHENA_COLORTHEME_H
-#define ATHENA_COLORTHEME_H
+#pragma once
 
-#include "imgui.h"
-#include "Colors.hpp"
+#include <imgui.h>
 
 namespace commons {
-/**
- * @brief Static class that specifies the colors to be used for certain functionalities,
- * e. g. text color, background color, ...
- */
+    /**
+     * @brief Static class that specifies the colors to be used for certain functionalities,
+     * e.g. text color, background color, ...
+     */
     class ColorTheme {
     public:
         ColorTheme() = delete;
@@ -23,9 +21,5 @@ namespace commons {
         static ImVec4 const ACCENT_COLOR;
 
         static void setup();
-
     };
-
 } // commons
-
-#endif //ATHENA_COLORTHEME_H

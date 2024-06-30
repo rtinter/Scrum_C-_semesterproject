@@ -188,13 +188,13 @@ namespace game {
     void RowsOfSymbols::renderBackgroundRect() {
 
         // colors for the gradient
-        static constexpr ImU32 const COLOR_LEFT{IM_COL32(0, 0, 0, 10)};
-        static constexpr ImU32 const COLOR_RIGHT{IM_COL32(0, 0, 0, 0)};
+        static constexpr ImU32 COLOR_LEFT{IM_COL32(0, 0, 0, 10)};
+        static constexpr ImU32 COLOR_RIGHT{IM_COL32(0, 0, 0, 0)};
 
         // get the draw list and prepare the total width and gap between the symbols
         ImDrawList &drawList{*ImGui::GetWindowDrawList()};
-        static constexpr int const TOTAL_WIDTH_OF_SYMBOLS{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
-        static constexpr int const TOTAL_GAP_BETWEEN_SYMBOLS{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
+        static constexpr int TOTAL_WIDTH_OF_SYMBOLS{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
+        static constexpr int TOTAL_GAP_BETWEEN_SYMBOLS{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
 
         // calculate the top left and bottom right corner of the rectangle
         ImVec2 const topLeft{ImGui::GetCursorScreenPos()};

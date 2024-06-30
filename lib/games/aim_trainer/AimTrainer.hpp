@@ -14,6 +14,7 @@
 
 #include "DashboardScene.hpp"
 #include "Timer.hpp"
+#include "SFML/System/Clock.hpp"
 
 namespace games {
 class AimTrainer : abstract_game::Game {

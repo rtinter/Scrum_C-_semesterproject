@@ -69,8 +69,8 @@ namespace game {
 
     void Symbol::renderOuterCircle(ImDrawList &drawList) {
 
-        static constexpr ImU32 const COLOR_CIRCLE {IM_COL32(205, 0, 0, 255)};
-        static constexpr float const RADIUS {SYMBOL_SIZE * 0.5f};
+        static constexpr ImU32 COLOR_CIRCLE {IM_COL32(205, 0, 0, 255)};
+        static constexpr float RADIUS {SYMBOL_SIZE * 0.5f};
 
         // calculate the center of the circle
         ImVec2 const circleCenter {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN)};
@@ -81,7 +81,7 @@ namespace game {
 
     void Symbol::renderInnerRect(ImDrawList &drawList) {
 
-        static constexpr ImU32 const COLOR_SQUARE {IM_COL32(205, 0, 0, 255)};
+        static constexpr ImU32 COLOR_SQUARE {IM_COL32(205, 0, 0, 255)};
         static constexpr auto INGAP {SYMBOL_SIZE * INNER_GAP};
 
         // calculate the top left and bottom right corner of the inner square
@@ -94,9 +94,9 @@ namespace game {
 
     void Symbol::renderInnerCircle(ImDrawList &drawList) {
 
-        static constexpr ImU32 const COLOR_CIRCLE {IM_COL32(205, 0, 0, 255)};
-        static constexpr float const RADIUS {SYMBOL_SIZE * 0.5f};
-        static constexpr float const INGAP {SYMBOL_SIZE * INNER_GAP};
+        static constexpr ImU32 COLOR_CIRCLE {IM_COL32(205, 0, 0, 255)};
+        static constexpr float RADIUS {SYMBOL_SIZE * 0.5f};
+        static constexpr float INGAP {SYMBOL_SIZE * INNER_GAP};
 
         // calculate the center of the circle
         ImVec2 const circleCenter {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN)};
@@ -116,7 +116,7 @@ namespace game {
 
     void Symbol::renderPoint(RelativePointPosition relativePointPosition, ImDrawList &drawList) {
 
-        static constexpr ImU32 const COLOR {IM_COL32(238, 0, 0, 255)};
+        static constexpr ImU32 COLOR {IM_COL32(238, 0, 0, 255)};
         float x {ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN};
         float y {ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN};
 

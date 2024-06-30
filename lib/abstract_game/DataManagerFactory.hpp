@@ -1,15 +1,17 @@
-#ifndef ATHENA_DATAMANAGERFACTORY_HPP
-#define ATHENA_DATAMANAGERFACTORY_HPP
+#pragma once
 
-#include <iostream>
-#include <string>
 #include <memory>
-#include <vector>
+#include <string>
+
 #include "DataManager.hpp"
-#include "CsvStorage.hpp"
 
 namespace abstract_game {
-
+    /**
+     * @brief The DataManagerFactory class is responsible for creating DataManager instances.
+     *
+     * This class provides a factory method to create DataManager instances based on the specified type.
+     * It returns a unique_ptr to the created DataManager instance.
+     */
     class DataManagerFactory {
     public:
         DataManagerFactory() = delete;
@@ -22,7 +24,4 @@ namespace abstract_game {
          */
         static std::unique_ptr<DataManager> create(std::string const &type);
     };
-
 } // abstract_game
-
-#endif //ATHENA_DATAMANAGERFACTORY_HPP

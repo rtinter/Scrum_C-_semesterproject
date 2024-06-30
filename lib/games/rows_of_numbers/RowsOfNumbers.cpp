@@ -9,6 +9,7 @@
 
 #include <nlohmann/json.hpp>
 #include <fstream>
+#include <iostream>
 #include <random>
 #include <SoundPolice.hpp>
 

@@ -1,21 +1,18 @@
-#ifndef GAME_H
-#define GAME_H
+#pragma once
 
-#include "GameSession.hpp"
-#include "CsvStorage.hpp"
-#include "GameIDs.hpp"
-#include <memory>
 #include <string>
 
+#include "GameIDs.hpp"
+
 namespace abstract_game {
-/**
- * @brief Abstract base class representing a generic game.
- *
- * This class defines the interface for all specific game implementations.
- * It handles the basic lifecycle of a game, including starting, stopping,
- * and resetting. Additionally, it manages the collection and uploading
- * of game statistics.
- */
+    /**
+     * @brief Abstract base class representing a generic game.
+     *
+     * This class defines the interface for all specific game implementations.
+     * It handles the basic lifecycle of a game, including starting, stopping,
+     * and resetting. Additionally, it manages the collection and uploading
+     * of game statistics.
+     */
     class Game {
     public:
         explicit Game(GameID gameID);
@@ -70,7 +67,6 @@ namespace abstract_game {
          */
         virtual void updateStatistics() = 0;
 
-
     protected:
         std::string _gameName;
         std::string _gameDescription;
@@ -88,8 +84,4 @@ namespace abstract_game {
 
         long _statisticResult;
     };
-
-
 } //abstract_game
-
-#endif  // GAME_H

@@ -1,11 +1,16 @@
-#ifndef GAMESESSIONMANAGER_HPP
-#define GAMESESSIONMANAGER_HPP
+#pragma once
 
-#include "GameSession.hpp"
-#include "GameIDs.hpp"
 #include <memory>
 
+#include "GameIDs.hpp"
+#include "GameSession.hpp"
+
 namespace abstract_game {
+    /**
+     * @brief The GameSessionManager class is responsible for managing game sessions.
+     *
+     * This class provides methods to start, end, and retrieve the current game session.
+     */
     class GameSessionManager {
     public:
         GameSessionManager() = delete;
@@ -16,11 +21,7 @@ namespace abstract_game {
 
         static std::shared_ptr<GameSession> getCurrentSession();
 
-
     private:
-
         static std::shared_ptr<GameSession> _currentSession;
     };
 } // namespace abstract_game
-
-#endif // GAMESESSIONMANAGER_HPP

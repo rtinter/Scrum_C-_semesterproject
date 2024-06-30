@@ -115,7 +115,7 @@ namespace game {
             ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                                   isCorrect ? commons::ColorTheme::SUCCESS_COLOR : commons::ColorTheme::ERROR_COLOR);
 
-            static constexpr float const MARGIN{4.f}; // button should overlap matrix a little bit
+            static constexpr float MARGIN{4.f}; // button should overlap matrix a little bit
             std::string const buttonIdString{"buttonForMatrix" + std::to_string(i)};
             if (ImGui::Button(buttonIdString.c_str(), ImVec2(displayedSize + MARGIN, displayedSize + MARGIN))) {
                 onClick(isCorrect);

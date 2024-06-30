@@ -1,7 +1,8 @@
 #include "StatisticsGameTable.hpp"
 
-#include <ColorTheme.hpp>
-#include <Fonts.hpp>
+#include "Colors.hpp"
+#include "ColorTheme.hpp"
+#include "Fonts.hpp"
 
 namespace ui_elements {
 

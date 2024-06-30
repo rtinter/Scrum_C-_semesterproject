@@ -1,14 +1,15 @@
-#ifndef ATHENA_CSVSTORAGE_HPP
-#define ATHENA_CSVSTORAGE_HPP
+#pragma once
 
-
-#include <iostream>
 #include "DataManager.hpp"
-#include <chrono>
 
 namespace abstract_game {
-
-    class CsvStorage : public DataManager {
+    /**
+     * @brief The CsvStorage class is responsible for saving game session and run-through data to CSV files.
+     *
+     * This class provides methods to save game session and run-through data to CSV files.
+     * It handles the logic for writing data to the CSV files and provides methods to retrieve the date string.
+     */
+    class CsvStorage final : public DataManager {
     public:
         void saveGameSession(
                 size_t sessionUID,
@@ -24,5 +25,3 @@ namespace abstract_game {
     };
 
 } // abstract_game
-
-#endif //ATHENA_CSVSTORAGE_HPP

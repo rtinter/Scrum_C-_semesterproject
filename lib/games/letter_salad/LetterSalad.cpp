@@ -253,8 +253,8 @@ namespace game {
     }
 
     void LetterSalad::renderSelectedWord() const {
-        static constexpr int const WIDTH {650};
-        static constexpr int const HEIGHT {40};
+        static constexpr int WIDTH {650};
+        static constexpr int HEIGHT {40};
 
         ImVec2 const startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
 
@@ -266,8 +266,8 @@ namespace game {
         // Get the position and size of the dummy
         ImVec2 const pos {ImGui::GetItemRectMin()};
         ImDrawList *drawList {ImGui::GetWindowDrawList()};
-        static constexpr ImU32 const RECTANGLE {IM_COL32(3, 161, 252, 255)};
-        static constexpr float const ROUNDING {25.f};
+        static constexpr ImU32 RECTANGLE {IM_COL32(3, 161, 252, 255)};
+        static constexpr float ROUNDING {25.f};
 
         drawList->AddRectFilled(pos,
                                 ImVec2(pos.x + WIDTH, pos.y + HEIGHT),
@@ -287,9 +287,9 @@ namespace game {
      *
      * @param coords the coordinates of the hovered cell.
      */
-    void LetterSalad::onHover(Coordinates const &coords) {
+    void LetterSalad::onHover(commons::Coordinates const &coords) {
 
-        static Coordinates lastHoveredCell{-1, -1};
+        static commons::Coordinates lastHoveredCell{-1, -1};
 
         auto const newlines{getLine(_firstSelectedCell, coords)};
 
@@ -299,7 +299,7 @@ namespace game {
 
         // check if the hovered cell is not the last hovered cell
         if (lastHoveredCell.x != -1 && lastHoveredCell != coords) {
-            std::vector<Coordinates> difference;
+            std::vector<commons::Coordinates> difference;
             // remove all elements that are now not hovered anymore
             std::set_difference(_currentLine.begin(),
                                 _currentLine.end(),
@@ -330,7 +330,7 @@ namespace game {
      *
      * @param coords
      */
-    void LetterSalad::clickCell(Coordinates const &coords) {
+    void LetterSalad::clickCell(commons::Coordinates const &coords) {
         commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 70);
 
         // if the first has not been selected yet
@@ -420,8 +420,9 @@ namespace game {
      * Diagonally, horizontally or vertically.
      * Basing on the Bresenham's line algorithm.
      */
-    std::vector<Coordinates> LetterSalad::getLine(Coordinates const &start, Coordinates const &end) {
-        std::vector<Coordinates> linePoints;
+    auto LetterSalad::getLine(commons::Coordinates const &start,
+                              commons::Coordinates const &end) -> std::vector<commons::Coordinates> {
+        std::vector<commons::Coordinates> linePoints;
         int x1{start.x};
         int y1{start.y};
         int x2{end.x};
@@ -462,23 +463,23 @@ namespace game {
         return linePoints;
     }
 
-    bool checkIfCoordsAreInRange(Coordinates const &c, int const &min, int const &max) {
+    bool checkIfCoordsAreInRange(commons::Coordinates const &c, int const &min, int const &max) {
         return c.x >= min && c.y >= min && c.x < max && c.y < max;
     }
 
-    void LetterSalad::selectBox(Coordinates const &coords) {
+    void LetterSalad::selectBox(commons::Coordinates const &coords) {
         if (checkIfCoordsAreInRange(coords, 0, 20)) {
             _gameField[coords.y][coords.x].isSelected = true;
         }
     }
 
-    void LetterSalad::deselectBox(Coordinates const &coords) {
+    void LetterSalad::deselectBox(commons::Coordinates const &coords) {
         if (checkIfCoordsAreInRange(coords, 0, 20)) {
             _gameField[coords.y][coords.x].isSelected = false;
         }
     }
 
-    void LetterSalad::finalize(Coordinates const &coords) {
+    void LetterSalad::finalize(commons::Coordinates const &coords) {
         if (checkIfCoordsAreInRange(coords, 0, 20)) {
             _gameField[coords.y][coords.x].isSolved = true;
         }
