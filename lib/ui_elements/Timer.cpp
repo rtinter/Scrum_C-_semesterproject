@@ -31,9 +31,9 @@ namespace ui_elements {
         }
 
         // return value if timer is running (dynamic value)
-        auto now = std::chrono::steady_clock::now();
-        auto duration = std::chrono::duration_cast<std::chrono::seconds>
-                (now - _startPoint).count();
+        auto now {std::chrono::steady_clock::now()};
+        auto duration {std::chrono::duration_cast<std::chrono::seconds>
+                (now - _startPoint).count()};
         return _currentTimerTimeInSeconds - duration;
     }
 
@@ -87,28 +87,28 @@ namespace ui_elements {
             // Create the string for the timer
             std::stringstream ss;
             ss << getMinutes() << ":" << std::setw(2) << std::setfill('0') << getSeconds();
-            std::string text = ss.str();
+            std::string text {ss.str()};
 
             ImGui::Dummy(ImVec2(this->_width, this->_height));
 
             // Get the position and size of the dummy
-            ImVec2 pos = ImGui::GetItemRectMin();
-            ImVec2 textSize = ImGui::CalcTextSize(text.c_str());
-            ImVec2 textPos = ImVec2(
-                    pos.x + ((this->_width - textSize.x) * 0.5f),
-                    pos.y + ((this->_height - textSize.y) * 0.5f)
-            );
+            ImVec2 pos {ImGui::GetItemRectMin()};
+            ImVec2 textSize {ImGui::CalcTextSize(text.c_str())};
+            ImVec2 textPos {ImVec2(
+                    pos.x + ((this->_width - ImGui::CalcTextSize(text.c_str()).x) * 0.5f),
+                    pos.y + ((this->_height - ImGui::CalcTextSize(text.c_str()).y) * 0.5f)
+            )};
 
-            ImDrawList *drawList = ImGui::GetWindowDrawList();
+            ImDrawList &drawList {(*ImGui::GetWindowDrawList())};
 
-            ImU32 rectangle = IM_COL32(255, 0, 0, 255);
-            ImU32 textColor = IM_COL32(255, 255, 255, 255);
-            float rounding = 25.f;
+            ImU32 rectangle {IM_COL32(255, 0, 0, 255)};
+            ImU32 textColor {IM_COL32(255, 255, 255, 255)};
+            float rounding {25.f};
 
-            drawList->AddRectFilled(pos, ImVec2(pos.x + this->_width, pos.y + this->_height), rectangle, rounding);
+            drawList.AddRectFilled(pos, ImVec2(pos.x + this->_width, pos.y + this->_height), rectangle, rounding);
 
             // Draw the text over the rectangle
-            drawList->AddText(textPos, textColor, text.c_str());
+            drawList.AddText(textPos, textColor, text.c_str());
 
             ImGui::PopFont();
         });

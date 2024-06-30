@@ -9,15 +9,22 @@
 namespace commons {
 
     void SoundPolice::safePlaySound(Sound sound) {
-        safePlaySound(sound, 100);
+#if (defined(_WIN32))
+        // the sounds are only supported on windows
+        commons::SoundManager::playSound(sound);
+#endif
     }
+
     void SoundPolice::safePlaySound(Sound sound, int volumeInPercent) {
-        safePlaySound(sound, volumeInPercent, 1.0f);
+#if (defined(_WIN32))
+        // the sounds are only supported on windows
+        commons::SoundManager::playSound(sound, volumeInPercent);
+#endif
     }
 
     void SoundPolice::safePlaySound(Sound sound, int volumeInPercent, float pitch) {
 #if (defined(_WIN32))
-        // load the sounds
+        // the sounds are only supported on windows
         commons::SoundManager::playSound(sound, volumeInPercent, pitch);
 #endif
     }
