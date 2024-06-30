@@ -7,7 +7,6 @@
 #include "Centered.hpp"
 #include "SoundPolice.hpp"
 #include <algorithm>
-#include <iostream>
 #include <random>
 #include <thread>
 
@@ -71,7 +70,7 @@ namespace sequence {
         _levelCounter = 0;
         _buttonsClickedSequence.clear();
         //Set all button states to false/0 (not lighting up)
-        _buttonStatess.fill(0);
+        _buttonStates.fill(0);
 
         chooseNextRandomButton();
         nextLevel();        //first level
@@ -100,11 +99,9 @@ namespace sequence {
 
     void Sequence::displayButtons() {
 
-
         ImGui::NewLine();
 
-
-        for (int i{1}; i <= _NUMBER_OF_BUTTONS; i++) {
+        for (int i{1}; i <= K_NUMBER_OF_BUTTONS; i++) {
             int buttonID{i - 1};
 
             if ((i - 1) % 3) {
@@ -117,21 +114,21 @@ namespace sequence {
 
                     checkWaitTimeExpired();
                     checkLitUpExpired(
-                            _buttonStatess[buttonID]);       //check, if Button is currently already lit up and then should be turned off
+                            _buttonStates[buttonID]);       //check, if Button is currently already lit up and then should be turned off
                     if (_wasLastButtonOfSequence) {
                         switchGameMode();
                     }
 
-                    if (_buttonStatess[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
+                    if (_buttonStates[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::ACCENT_COLOR);
-                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
+                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::TRANSPARENT);
                     } else {                            //button is not supposed to light up -> normal render color
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::PRIMARY_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::PRIMARY_COLOR);
-                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
+                        ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::TRANSPARENT);
                     }
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
@@ -144,7 +141,7 @@ namespace sequence {
                 case GameMode::REPEAT:
 
                     ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
-                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
+                    ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::SECONDARY_COLOR);
                     ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0, 0, 0, 0));
 
                     if (ImGui::Button(std::to_string(buttonID).c_str(), ImVec2(200, 200))) {
@@ -181,25 +178,22 @@ namespace sequence {
 
     }
 
-    /**
-     * Generates a random number in the range of 1 to 9 to choose a next button to light up for the random sequence.
-     */
     void Sequence::chooseNextRandomButton() {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distribution(0, _NUMBER_OF_BUTTONS - 1);
+        std::uniform_int_distribution<> distribution(0, K_NUMBER_OF_BUTTONS - 1);
 
         _buttonsClickedSequence.emplace_back(distribution(gen));
     }
 
     void Sequence::showSequence() {
-        int buttonForLoopIteration{0};
+        int buttonForLoopIteration{0};  //to keep iterator of button in sequence in sync with the sequence displayed
         for (int button: _buttonsClickedSequence) {
-            if ((_buttonStatess[button] == 0) &&
+            if ((_buttonStates[button] == 0) &&
                 _canShowNextButtonInSequence && (_sequenceButtonIterator ==
                                                  buttonForLoopIteration) &&
-                !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up, light it up!
-                lightUp(_buttonStatess[button], button);    //light up button X by setting state of button X to 1/true
+                !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up AND wait time between light ups is over, light it up!
+                lightUp(_buttonStates[button], button);    //light up button X by setting state of button X to 1/true
             }
             buttonForLoopIteration++;
 
@@ -258,7 +252,7 @@ namespace sequence {
     }
 
     void Sequence::moveOnToNextButton() {
-        _sequenceButtonIterator++;      //increase iterator that runs through button sequence to check/light up next button
+        _sequenceButtonIterator++;
     }
 
     void Sequence::waitInBetweenButtons() {

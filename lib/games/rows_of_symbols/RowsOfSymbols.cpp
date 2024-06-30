@@ -248,7 +248,7 @@ namespace game {
     }
 
     void RowsOfSymbols::clickButton1() {
-        SymbolType symbol = _symbols.front();
+        SymbolType symbol {_symbols.front()};
         bool correct {false};
 
         // check if this button 1 is correct for the current symbol

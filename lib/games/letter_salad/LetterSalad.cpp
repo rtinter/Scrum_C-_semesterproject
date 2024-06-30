@@ -3,7 +3,6 @@
 // &22 Buchstabensalat
 //
 
-#include <iostream>
 #include "LetterSalad.hpp"
 #include "Window.hpp"
 #include <algorithm>
@@ -58,8 +57,19 @@ namespace game {
     }
 
     void LetterSalad::start() {
+
+        if (_wordList.empty()) {
+            logger::Logger &logger{logger::Logger::getInstance()};
+            logger.log("There are no words in the wordlist. Aborting LetterSalad!", QueueEntryType::SEVERE);
+            _showEndBox = true;
+            return;
+        }
+
         init();
         fillGameFieldWithRandomWords();
+
+        // When debug mode is enabled, then only print the words.
+        // All other fields stay EMPTY_CELL
         if (!DEBUG) {
             randomizeGameField();
         }
@@ -76,6 +86,9 @@ namespace game {
         start();
     }
 
+    /**
+     * @brief Initializes the game field with empty cells.
+     */
     void LetterSalad::init() {
         for (int y{0}; y < 20; y++) {
             std::vector<Box> row;
@@ -91,18 +104,27 @@ namespace game {
                                                                                      _wordsPerMinute);
     }
 
-    // the vector is read in from the file
+    // the vector is read in from the file but initialized here
     std::vector<WordTarget> LetterSalad::_wordList;
 
     void LetterSalad::loadWordsFromFile() {
+
+        // return if the wordlist is not empty
+        if (!_wordList.empty()) {
+            return;
+        }
+
+        logger::Logger &logger{logger::Logger::getInstance()};
+
         std::fstream file("./config/games/letter_salad_words.json");
         if (!file) {
-            std::cerr << "Unable to open file letter_salad_words.json";
+            logger.log("Error opening or reading the file letter_salad_words.json", QueueEntryType::SEVERE);
             return;
         }
 
         json data = json::parse(file);
         _wordList = {data["wordlist"].begin(), data["wordlist"].end()};
+        logger.log("LetterSalad wordlist loaded", QueueEntryType::INFORMATION);
 
         file.close();
     }
@@ -156,7 +178,7 @@ namespace game {
         if (ImGui::BeginListBox("##textList", ImVec2(350, 900))) {
             for (auto const &wordPair : _activeWordList) {
                 ImGui::PushItemFlag(ImGuiItemFlags_Disabled, true);
-                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding,  ImVec2(ImGui::GetStyle().FramePadding.x,8));
+                ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(ImGui::GetStyle().FramePadding.x, 8));
                 ImGui::Checkbox(wordPair.getWord().c_str(), wordPair.isFound());
                 ImGui::PopStyleVar();
                 ImGui::PopItemFlag();
@@ -235,15 +257,12 @@ namespace game {
         static int const WIDTH = 650;
         static int const HEIGHT = 40;
 
-        ImVec2 startPos{
-                ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)
-        };
+        ImVec2 startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
 
         ImGui::PushFont(commons::Fonts::_header2);
 
         ImGui::SetCursorPos(startPos);
-        ImGui::BeginChild("##selectedWord",
-                          ImVec2(WIDTH, HEIGHT));
+        ImGui::BeginChild("##selectedWord", ImVec2(WIDTH, HEIGHT));
 
         // Get the position and size of the dummy
         ImVec2 pos = ImGui::GetItemRectMin();
@@ -262,6 +281,13 @@ namespace game {
         ImGui::EndChild(); // ##selectedWord
     }
 
+    /**
+     * @brief When the mouse is hovering over the game field,
+     * then draw a straight line between the first selected cell and the hovered cell.
+     * Does not hover if no cell has been selected yet.
+     *
+     * @param coords the coordinates of the hovered cell.
+     */
     void LetterSalad::onHover(Coordinates const &coords) {
 
         static Coordinates lastHoveredCell{-1, -1};
@@ -298,6 +324,13 @@ namespace game {
         lastHoveredCell = coords;
     }
 
+    /**
+     * @brief When a cell is clicked, check if it is the first or second cell.
+     * If the first cell has been clicked, then select it.
+     * If the second cell has been clicked, then select it and check if the selected word is correct.
+     *
+     * @param coords
+     */
     void LetterSalad::clickCell(Coordinates const &coords) {
         commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 70);
 
@@ -317,6 +350,12 @@ namespace game {
 
     }
 
+    /**
+     * @brief Check if the selected word is in the word list.
+     * If it is, then finalize the word.
+     * If it is not, then deselect the boxes.
+     * If all words have been found, then stop the game.
+     */
     void LetterSalad::resetSelectedPair() {
         _isFirstCellSelected = false;
         _isSecondCellSelected = false;
@@ -356,7 +395,7 @@ namespace game {
         _currentLine.clear();
     }
 
-    void LetterSalad::allWordsFound(){
+    void LetterSalad::allWordsFound() {
         _endBoxTitle = "Herzlichen Glückwunsch!";
 
         int secondsLeft{_timer.getSecondsLeft()};
@@ -373,17 +412,15 @@ namespace game {
 
     }
 
-    bool LetterSalad::isWordInList(
-            std::set<WordTarget> &wordlist,
-            std::string const &word) {
+    bool LetterSalad::isWordInList(std::set<WordTarget> &wordlist, std::string const &word) {
         return wordlist.find(WordTarget{word}) != _activeWordList.end();
     }
 
-/**
- * Get the coordinates of the cells between the start and end cell.
- * Diagonally, horizontally or vertically.
- * Basing on the Bresenham's line algorithm.
- */
+    /**
+     * Get the coordinates of the cells between the start and end cell.
+     * Diagonally, horizontally or vertically.
+     * Basing on the Bresenham's line algorithm.
+     */
     std::vector<Coordinates> LetterSalad::getLine(Coordinates const &start, Coordinates const &end) {
         std::vector<Coordinates> linePoints;
         int x1{start.x};
@@ -477,6 +514,13 @@ namespace game {
         }
     }
 
+    /**
+     * @brief Places a word in the game field.
+     * Tries 1000 times for a random orientation and position.
+     * @param word the word to be placed.
+     *
+     * @return true if the word could be placed, false otherwise.
+     */
     bool LetterSalad::placeWord(std::string word) {
         // get random orientation
         // 0 = horizontal, 1 = vertical, 2 = diagonal_1, 3 = diagonal_2

@@ -9,6 +9,7 @@
 #include "fireDepartmentAndPoliceTexts.hpp"
 #include "GameSessionManager.hpp"
 #include "RandomPicker.hpp"
+#include "SoundPolice.hpp"
 
 
 namespace typeracer {
@@ -176,6 +177,7 @@ namespace typeracer {
     }
 
     void TypeRacer::stop() {
+        commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
         _endBoxTitle = "Geschafft!";
         _runTimer = false;
         _showEndBox = true;

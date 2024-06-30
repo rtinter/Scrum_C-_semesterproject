@@ -45,17 +45,19 @@ Gruppe: AEM-1
   - [Projektstruktur](#projektstruktur)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
+  - [Dependencies für Linux](#dependencies-für-linux)
   - [Building the Project](#building-the-project)
+  - [Terminal Installation](#terminal-installation)
 
 ## Features
 
 - Kognitive Leistungsmessung und -verbesserung durch Tests
 - Spiele in den Kategorien 
-  - Reaktionsschnelligkeit
-  - Erinnerungsvermögen
-  - Mustererkennung
-  - Resilienz
-  - Moral
+  - Reaktion
+  - Genauigkeit
+  - Merkfähigkeit
+  - Problemlösung
+  - Logisches Denken
 - Detaillierte Statistiken und Vergleiche
 - Wettbewerbscharakter
 - Vorbereitung auf Assessment-Center für Polizei und Feuerwehr

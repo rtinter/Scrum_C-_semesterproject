@@ -8,6 +8,7 @@
 #include "Window.hpp"
 #include "RandomPicker.hpp"
 #include "ColorHelper.hpp"
+#include "SoundPolice.hpp"
 
 namespace games {
     ColorMatch::ColorMatch() : Game(abstract_game::GameID::COLOR_MATCH) {
@@ -185,15 +186,17 @@ namespace games {
      */
     void ColorMatch::onClick(bool const &isCurrentColor) {
         if (isCurrentColor) {
-            // when incorrect button was clicked
+            // when correct button was clicked
             _indexOfCurrentColor++;
             _numberOfCorrectClicksInTotal++;
             _numberOfCorrectClicksSinceLastError++;
             _longestStreak = std::max(_numberOfCorrectClicksSinceLastError, _longestStreak);
+            commons::SoundPolice::safePlaySound(Sound::CLICK);
         } else {
-            // when correct button was clicked
+            // when incorrect button was clicked
             _numberOfCorrectClicksSinceLastError = 0;
             _timer.reduceTime(5);
+            commons::SoundPolice::safePlaySound(Sound::ERROR);
         }
     }
 

@@ -1,0 +1,130 @@
+[
+  {
+    "frage": "Alle Schnecken haben Haeuser. Alle Haeuser haben Schornsteine. Schlussfolgerung: Deshalb haben alle Schnecken Schornsteine.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Schnecken sind Marathonlaeufer. Alle Marathonlaeufer koennen fliegen, weil sie Fische sind. Fische haben zwei Beine. Schlussfolgerung: Alle Schnecken haben zwei Beine.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Maeuse essen Fisch. Fisch kann miauen. Also: Maeuse koennen miauen.",
+    "antwort": 0
+  },
+  {
+    "frage": "Mancher Humor ist trocken. Mancher Wein ist auch trocken. Schlussfolgerung: Humor ist wie Wein.",
+    "antwort": 0
+  },
+  {
+    "frage": "Die Leere ist voll. Was voll ist, ist leer. Schlussfolgerung: Die Fuelle ist leer.",
+    "antwort": 0
+  },
+  {
+    "frage": "Alle Baeume sind Pflanzen. Alle Pflanzen benoetigen Wasser. Schlussfolgerung: Alle Baeume benoetigen Wasser.",
+    "antwort": 1
+  },
+  {
+    "frage": "Einige Voegel sind bunt. Einige Gemaelde sind auch bunt. Schlussfolgerung: Voegel sind wie Gemaelde.",
+    "antwort": 0
+  },
+  {
+    "frage": "Alle Katzen jagen Maeuse. Einige Maeuse leben in Haeusern. Schlussfolgerung: Alle Katzen leben in Haeusern.",
+    "antwort": 0
+  },
+  {
+    "frage": "Jeder Kreis ist eine geometrische Figur. Alle geometrischen Figuren haben eine Flaeche. Schlussfolgerung: Jeder Kreis hat eine Flaeche.",
+    "antwort": 1
+  },
+  {
+    "frage": "Einige Buecher sind interessant. Einige Filme sind auch interessant. Schlussfolgerung: Buecher sind wie Filme.",
+    "antwort": 0
+  },
+  {
+    "frage": "Alle Computer benoetigen Strom. Einige Geraete benoetigen Batterien. Schlussfolgerung: Alle Computer benoetigen Batterien.",
+    "antwort": 0
+  },
+  {
+    "frage": "Manche Hunde sind freundlich. Manche Menschen sind auch freundlich. Schlussfolgerung: Hunde sind wie Menschen.",
+    "antwort": 0
+  },
+  {
+    "frage": "Alle Menschen haben ein Gehirn. Alle Gehirne haben Neuronen. Schlussfolgerung: Alle Menschen haben Neuronen.",
+    "antwort": 1
+  },
+  {
+    "frage": "Jeder Philosoph ist ein Denker. Einige Denker sind Wissenschaftler. Schlussfolgerung: Jeder Philosoph ist ein Wissenschaftler.",
+    "antwort": 0
+  },
+  {
+    "frage": "Einige Insekten koennen fliegen. Alle Insekten haben sechs Beine. Schlussfolgerung: Alle Insekten, die fliegen koennen, haben sechs Beine.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Rechtecke sind Vierecke. Einige Vierecke sind Quadrate. Schlussfolgerung: Alle Rechtecke sind Quadrate.",
+    "antwort": 0
+  },
+  {
+    "frage": "Jeder Arzt hat eine Ausbildung. Alle Menschen mit einer Ausbildung haben Wissen. Schlussfolgerung: Jeder Arzt hat Wissen.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Saeugetiere haben Wirbelsaeulen. Wale sind Saeugetiere. Schlussfolgerung: Wale haben Wirbelsaeulen.",
+    "antwort": 1
+  },
+  {
+    "frage": "Einige Metalle leiten Strom. Eisen ist ein Metall. Schlussfolgerung: Eisen leitet Strom.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Saeugetiere gebaeren lebende Junge. Einige Tiere legen Eier. Schlussfolgerung: Einige Saeugetiere legen Eier.",
+    "antwort": 0
+  },
+  {
+    "frage": "Alle Politiker luegen. Einige Politiker sagen die Wahrheit. Schlussfolgerung: Einige Politiker luegen nicht.",
+    "antwort": 0
+  },
+  {
+    "frage": "Einige Rechtecke sind Quadrate. Alle Quadrate haben vier gleich lange Seiten. Schlussfolgerung: Einige Rechtecke haben vier gleich lange Seiten.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Logiker sind praezise Denker. Einige praezise Denker sind Mathematiker. Schlussfolgerung: Alle Logiker sind Mathematiker.",
+    "antwort": 0
+  },
+  {
+    "frage": "Kein Vogel ist ein Fisch. Alle Pinguine sind Voegel. Schlussfolgerung: Kein Pinguin ist ein Fisch.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Vierecke haben vier Seiten. Ein Quadrat ist ein Viereck. Schlussfolgerung: Ein Quadrat hat vier Seiten.",
+    "antwort": 1
+  },
+  {
+    "frage": "Einige Menschen sind Aerzte. Alle Aerzte haben eine Lizenz. Schlussfolgerung: Einige Menschen haben eine Lizenz.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Elektronen sind Teilchen. Einige Teilchen sind Protonen. Schlussfolgerung: Einige Elektronen sind Protonen.",
+    "antwort": 0
+  },
+  {
+    "frage": "Alle Musiker spielen Instrumente. Einige Instrumente sind Trommeln. Schlussfolgerung: Einige Musiker spielen Trommeln.",
+    "antwort": 1
+  },
+  {
+    "frage": "Kein Elefant ist ein Insekt. Einige Insekten koennen fliegen. Schlussfolgerung: Kein Elefant kann fliegen.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Planeten drehen sich um Sterne. Die Erde ist ein Planet. Schlussfolgerung: Die Erde dreht sich um einen Stern.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Studenten haben Buecher. Einige Buecher sind Romane. Schlussfolgerung: Einige Studenten haben Romane.",
+    "antwort": 1
+  },
+  {
+    "frage": "Alle Vierecke sind Polygonen. Alle Rechtecke sind Vierecke. Schlussfolgerung: Alle Rechtecke sind Polygonen.",
+    "antwort": 1
+  }
+]
