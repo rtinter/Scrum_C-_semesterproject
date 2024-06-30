@@ -177,4 +177,8 @@ namespace scene {
     std::string ResultsScene::getName() const {
         return "ResultsScene";
     }
+
+    std::time_t ResultsScene::stringToTimeT(std::string const &timeStr) {
+        return std::stoll(timeStr);
+    }
 } // scene

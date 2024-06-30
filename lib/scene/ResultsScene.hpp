@@ -24,9 +24,7 @@ namespace scene {
 
         void displayResults();
 
-        static std::time_t stringToTimeT(std::string const &timeStr) {
-            return std::stoll(timeStr);
-        }
+        static std::time_t stringToTimeT(std::string const &timeStr);
 
     public:
         ResultsScene();
