@@ -8,8 +8,8 @@ int randomPos(int n) {
 }
 
 void games::AimTrainer::spawnBlobs() {
-    int windowWidth{WindowConfig::WINDOW_WIDTH};
-    int windowHeight{WindowConfig::WINDOW_HEIGHT};
+    int const windowWidth{WindowConfig::WINDOW_WIDTH};
+    int const windowHeight{WindowConfig::WINDOW_HEIGHT};
 
     if(_spawnAmount >= 1){
         commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 30, 3.f);
