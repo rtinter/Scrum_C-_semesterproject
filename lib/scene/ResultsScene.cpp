@@ -52,34 +52,8 @@ namespace scene {
             if (!row.empty()) {
                 int gameID{std::stoi(row[0])};
                 std::string sessionUID{row[1]};
-                std::string startTimeStr{row[3]};
-                std::string endTimeStr{row[4]};
-                std::string durationStr{row[5]};
 
-                time_t converted{stringToTimeT(startTimeStr)};
-                std::string dateString{storage.getDateString(converted)};
-
-                // Convert start and end time to time_t
-                std::time_t startTime{stringToTimeT(startTimeStr)};
-                std::time_t endTime{stringToTimeT(endTimeStr)};
-
-                // Calculate duration in seconds
-                std::chrono::seconds duration{std::chrono::seconds(endTime - startTime)};
-
-                // Create row with data
-                std::vector<std::string> sessionData{
-                        dateString,
-                        std::to_string(duration.count()) + " s",
-                };
-
-                _sessionsMap[gameID].emplace_back(sessionUID, sessionData);
-            }
-        }
-
-        for (auto &pair: _sessionsMap) {
-            // Calculate number of runthroughs and mean result for entire session
-            for (auto &session: pair.second) {
-                std::string sessionUID{session.first};
+                // Calculate number of runthroughs and mean result for entire session
                 std::string resultUnit;
                 int nRunthroughs{0};
                 double resultSum{0.0};
@@ -92,15 +66,41 @@ namespace scene {
                         }
                     }
                 }
-                session.second.push_back(std::to_string(nRunthroughs));
+
+                // Only create a new row if there are runthrough data for this session
                 if (nRunthroughs > 0) {
+                    std::string startTimeStr{row[3]};
+                    std::string endTimeStr{row[4]};
+                    std::string durationStr{row[5]};
+
+                    time_t converted{stringToTimeT(startTimeStr)};
+                    std::string dateString{storage.getDateString(converted)};
+
+                    // Convert start and end time to time_t
+                    std::time_t startTime{stringToTimeT(startTimeStr)};
+                    std::time_t endTime{stringToTimeT(endTimeStr)};
+
+                    // Calculate duration in seconds
+                    std::chrono::seconds duration{std::chrono::seconds(endTime - startTime)};
+
+                    // Calculate mean result
                     double meanResult{resultSum / nRunthroughs};
+
+                    // Create string with mean result and unit
                     std::ostringstream streamObj;
                     streamObj << std::fixed << std::setprecision(2) << meanResult;
                     std::string strMeanResult{streamObj.str()};
                     std::string combinedResult{strMeanResult};
                     combinedResult.append(" ").append(resultUnit);
-                    session.second.push_back(combinedResult);
+
+                    // Create row with data
+                    std::vector<std::string> sessionData{
+                            dateString,
+                            std::to_string(duration.count()) + " s",
+                            std::to_string(nRunthroughs),
+                            combinedResult
+                    };
+                    _sessionsMap[gameID].emplace_back(sessionUID, sessionData);
                 }
             }
         }
