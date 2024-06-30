@@ -77,7 +77,7 @@ namespace games {
         * @brief Displays centered text within the game window.
         * @param text The text to be displayed.
         */
-        static void displayCenteredText(const std::string &text);
+        static void displayCenteredText(std::string const &text);
 
         /**
          * @brief Selects a random set of questions from the question bank.

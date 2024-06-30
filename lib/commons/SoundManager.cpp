@@ -1,11 +1,10 @@
-#include <iostream>
 #include "SoundManager.hpp"
 #include "../logger/Logger.hpp"
 #include <SFML/Audio.hpp>
 
 namespace commons {
 
-    std::string const SoundManager::PATH = "./sounds/";
+    std::string const SoundManager::PATH {"./sounds/"};
 
     sf::Sound SoundManager::_activeSound;
 
@@ -13,7 +12,14 @@ namespace commons {
 
     void SoundManager::loadSounds() {
 
-        logger::Logger& instance {logger::Logger::getInstance()};
+        logger::Logger& logger {logger::Logger::getInstance()};
+
+#if (!defined(_WIN32))
+        // only load sounds on windows
+        logger << "Sounds currently only supported on Windows, SoundManager not loaded";
+        return;
+#endif
+
         // load sound buffers, add new sounds here
         initSoundBuffer(Sound::CLICK, "click.mp3");
         initSoundBuffer(Sound::LASER_GUN, "laser-gun.mp3");
@@ -24,18 +30,19 @@ namespace commons {
         initSoundBuffer(Sound::BEEP, "beep.mp3");
         initSoundBuffer(Sound::BEEP_FAIL, "beep-fail.mp3");
 
-        instance << "Sound Manager loaded";
+        logger << "SoundManager loaded";
     }
 
     void SoundManager::initSoundBuffer(commons::Sound sound, std::string const &filename) {
+
+        logger::Logger& logger {logger::Logger::getInstance()};
 
         sf::SoundBuffer soundBuffer;
         if (soundBuffer.loadFromFile(PATH + filename)) {
             _soundBufferMap[sound] = soundBuffer;
         } else {
-            std::cout << "Error loading sound " << filename << std::endl;
+            logger << "Error loading sound: " << filename;
         }
-
     }
 
     void SoundManager::playSound(commons::Sound sound) {
@@ -44,26 +51,26 @@ namespace commons {
 
     void SoundManager::playSound(commons::Sound sound, int volumeInPercent) {
         playSound(sound, volumeInPercent, 1.0f);
-        logger::Logger& instance {logger::Logger::getInstance()};
-        instance << "Playing Sound";
     }
 
     void SoundManager::playSound(commons::Sound sound, int volumeInPercent, float pitch) {
 
-
 #if (!defined(_WIN32))
+        // only play sound on windows
         return;
 #endif
 
+        logger::Logger& logger {logger::Logger::getInstance()};
+
         // check if sound manager is initialized
         if (_soundBufferMap.empty()) {
-            std::cout << "SoundManager not initialized" << std::endl;
+            logger << "SoundManager not initialized";
             return;
         }
 
         // check if sound is in map
         if (!_soundBufferMap.count(sound)) {
-            std::cout << "Sound could not be loaded" << std::endl;
+            logger << "Sound could not be loaded";
             return;
         }
 
@@ -73,7 +80,6 @@ namespace commons {
         _activeSound.setPitch(pitch);
         _activeSound.play();
 
-        logger::Logger& instance {logger::Logger::getInstance()};
-        instance << "Playing Sound";
+        logger << "Playing Sound";
     }
 }
