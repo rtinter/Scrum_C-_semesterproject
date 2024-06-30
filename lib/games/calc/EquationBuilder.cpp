@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "Fonts.hpp"
 #include "SoundManager.hpp"
+#include "WindowConfig.hpp"
 
 EquationBuilder::EquationBuilder() :
     MathTask(),
@@ -106,8 +107,8 @@ void EquationBuilder::render() {
         float const equalWidth{ImGui::CalcTextSize("= ").x};
         float const totalWidth{numberWidth + spaceWidth + operatorWidth + spaceWidth + INPUT_FIELD_WIDTH + spaceWidth + equalWidth + targetNumberWidth};
 
-        ImVec2 windowSize{ImGui::GetWindowSize()};
-        float const centerX{(windowSize.x - totalWidth) / 2.0f};
+        ImVec2 const windowSize{static_cast<float>(WindowConfig::WINDOW_WIDTH), static_cast<float>(WindowConfig::WINDOW_HEIGHT)};
+        float centerX{(windowSize.x - totalWidth) / 2.0f};
         // Calculate the total height for vertical centering
         float const textHeight{ImGui::GetTextLineHeight()};
         float const totalHeight{textHeight * 2};  // Include space for instructions
