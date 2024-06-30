@@ -15,14 +15,14 @@ namespace abstract_game {
     _begin{time(nullptr)}{}
 
     size_t GameSession::calcGameSessionUID() {
-        // get current timeString as string
-        std::string timeString = std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()));
+        // get current time as string
+        std::string timeString {std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()))};
 
         // get random value as string
-        auto duration = std::chrono::system_clock::now().time_since_epoch();
-        auto nanos = std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+        auto duration {std::chrono::system_clock::now().time_since_epoch()};
+        auto nanos {std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
         std::srand(nanos);
-        std::string randomString = std::to_string(std::rand() % 1000 + 1);
+        std::string randomString {std::to_string(std::rand() % 1000 + 1)};
 
         // concatenate timeString and random value for hash input
         std::stringstream ss;
@@ -40,8 +40,8 @@ namespace abstract_game {
     }
 
     void GameSession::writeToDataManager() const {
-        long long startTime = std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count();
-        long long endTime = std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count();
+        long long startTime {std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count()};
+        long long endTime {std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count()};
 
         // size_t sessionUID,
         // int userID,
