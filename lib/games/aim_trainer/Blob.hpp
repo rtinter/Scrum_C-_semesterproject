@@ -4,7 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <random>
 
-namespace aim_trainer {
+namespace games {
 class Blob : public GameObject {
 private:
     float _radius {120.0};

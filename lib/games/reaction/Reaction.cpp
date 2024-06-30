@@ -11,7 +11,7 @@
 #include <sstream>
 #include <SoundPolice.hpp>
 
-namespace reaction {
+namespace games {
     Reaction::Reaction() : abstract_game::Game(abstract_game::GameID::REACTION) {
         _gameName = "Reaction";
         _gameDescription =

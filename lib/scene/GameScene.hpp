@@ -69,7 +69,7 @@ namespace scene {
 
     // Explicit instantiation of GameScene for reaction::Reaction
     template
-    class GameScene<reaction::Reaction>;
+    class GameScene<games::Reaction>;
 
     // Explicit instantiation of GameScene for games::ColorMatch
     template

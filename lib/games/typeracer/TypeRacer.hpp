@@ -6,7 +6,7 @@
 #include <Colors.hpp>
 #include <set>
 
-namespace typeracer {
+namespace games {
 
     /******************************************************
      *Type Racer Game

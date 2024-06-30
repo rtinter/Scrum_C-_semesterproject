@@ -7,7 +7,7 @@
 
 using json = nlohmann::json;
 
-namespace game {
+namespace games {
 
     /*********************************
     * The Sequence class represents a sequence of numbers, its solution,

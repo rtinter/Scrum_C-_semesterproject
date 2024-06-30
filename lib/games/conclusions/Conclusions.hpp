@@ -19,7 +19,7 @@
 #include <nlohmann/json.hpp>
 #include "GameIDs.hpp"
 
-namespace game {
+namespace games {
 
     /**
      * @brief The Conclusions game class, which represents the logic and rendering of the game.

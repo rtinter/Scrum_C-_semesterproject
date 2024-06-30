@@ -1,6 +1,6 @@
 #pragma once
 
-namespace game {
+namespace games {
     enum class RelativePointPosition {
         TOP_LEFT,
         TOP_CENTER,

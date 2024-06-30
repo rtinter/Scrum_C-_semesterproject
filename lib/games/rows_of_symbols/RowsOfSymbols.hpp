@@ -13,7 +13,7 @@
 #include "SymbolType.hpp"
 #include "Timer.hpp"
 
-namespace game {
+namespace games {
 
     class RowsOfSymbols : abstract_game::Game {
 

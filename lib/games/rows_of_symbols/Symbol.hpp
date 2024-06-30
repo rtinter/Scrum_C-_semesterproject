@@ -12,7 +12,7 @@
 #include "RelativePointPosition.hpp"
 #include "imgui.h"
 
-namespace game {
+namespace games {
     class Symbol {
 
         /**

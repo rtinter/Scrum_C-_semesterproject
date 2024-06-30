@@ -6,7 +6,7 @@
 #include "SFML/System/Clock.hpp"
 #include "Colors.hpp"
 
-namespace reaction {
+namespace games {
     /******************************************************
      *<b>Reaction Test Game</b><br>
      *

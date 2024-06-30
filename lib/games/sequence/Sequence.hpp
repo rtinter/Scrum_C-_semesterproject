@@ -4,7 +4,7 @@
 #include <array>
 #include "Game.hpp"
 
-namespace sequence {
+namespace games {
 
     /**
      * Sequence is a game meant to test the user's ability to memorize an ever growing sequence of buttons they need to press

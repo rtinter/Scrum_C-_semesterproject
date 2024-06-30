@@ -23,7 +23,7 @@ private:
 
     std::atomic_bool _cancelBackgroundTask {false};
 
-    std::vector<aim_trainer::Blob> _currentBlobs;
+    std::vector<games::Blob> _currentBlobs;
 
     int _successCounter {0};
     int _missedCounter {0};

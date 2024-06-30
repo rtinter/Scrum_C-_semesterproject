@@ -4,7 +4,7 @@
 
 using json = nlohmann::json;
 
-namespace game {
+namespace games {
 
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
     Analogy::Analogy() : abstract_game::Game(abstract_game::GameID::ANALOGY), _selectedOption{'\0'} {

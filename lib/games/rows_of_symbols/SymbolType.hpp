@@ -1,6 +1,6 @@
 #pragma once
 
-namespace game {
+namespace games {
     enum class SymbolType {
         CIRCLE_2_A,
         CIRCLE_2_B,

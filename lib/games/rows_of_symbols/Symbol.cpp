@@ -1,7 +1,7 @@
 #include "Symbol.hpp"
 #include "imgui.h"
 
-namespace game {
+namespace games {
 
     void Symbol::renderSymbolType(SymbolType symbolType, bool highlighted) {
 

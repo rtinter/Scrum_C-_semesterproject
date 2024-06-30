@@ -10,7 +10,7 @@
 #include <random>
 #include <thread>
 
-namespace sequence {
+namespace games {
 
     Sequence::Sequence() : Game(abstract_game::GameID::SEQUENCE) {
         _gameName = "Abfolge-Merken-Spiel";
