@@ -21,7 +21,6 @@ namespace commons {
 #endif
 
         // load sound buffers, add new sounds here
-        initSoundBuffer(Sound::CLICK, "click.mp3");
         initSoundBuffer(Sound::LASER_GUN, "laser-gun.mp3");
         initSoundBuffer(Sound::EXPLOSION, "explosion.mp3");
         initSoundBuffer(Sound::ERROR, "error.mp3");
@@ -29,6 +28,7 @@ namespace commons {
         initSoundBuffer(Sound::CORRECT, "correct.mp3");
         initSoundBuffer(Sound::BEEP, "beep.mp3");
         initSoundBuffer(Sound::BEEP_FAIL, "beep-fail.mp3");
+        initSoundBuffer(Sound::CARD_FLIP, "card-flip.mp3");
 
         logger << "SoundManager loaded";
     }

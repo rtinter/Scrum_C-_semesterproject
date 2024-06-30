@@ -3,6 +3,7 @@
 #include <SceneManager.hpp>
 #include <StyleManager.hpp>
 #include <SoundManager.hpp>
+#include "MemoryGameImageManager.hpp"
 
 #include "SFML/Graphics/RenderWindow.hpp"
 #include "SFML/Window/Event.hpp"
@@ -17,7 +18,10 @@ std::string const App::TILE{"Human Benchmark"};
 
 void App::start() {
 
-    logger::Logger& logger {logger::Logger::getInstance()};
+    // Initialize ImageManager singleton
+    memory::MemoryGameImageManager::getInstance().initialize();
+
+    logger::Logger &logger{logger::Logger::getInstance()};
     logger << QueueEntryType::INFORMATION;
     logger << "App Start";
 
@@ -28,6 +32,7 @@ void App::start() {
     //init singleton and start Dashboard
     scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};
     sceneManager.addDefaultScenes();
+
 
     if (!ImGui::SFML::Init(window)) {
         // Initialisierung fehlgeschlagen
@@ -53,6 +58,7 @@ void App::start() {
 
             if (event.type == sf::Event::Closed) {
                 logger << "App close initialized";
+                //MemoryGameImageManager::getInstance().releaseResources(); // Release resources before closing the window
                 window.close();
             }
         }
@@ -62,6 +68,9 @@ void App::start() {
         ImGui::SFML::Render(window);
         window.display();
     }
+
+    // Release texture resources before shutting down ImGui
+    memory::MemoryGameImageManager::getInstance().releaseResources();
 
     ImGui::SFML::Shutdown();
     logger << "App Shutdown";

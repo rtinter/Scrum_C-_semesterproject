@@ -11,6 +11,7 @@
 #include "TypeRacer.hpp"
 #include "MatrixGame.hpp"
 #include "RowsOfNumbers.hpp"
+#include "Memory.hpp"
 #include "Analogy.hpp"
 #include "Calc.hpp"
 #include "RowsOfSymbols.hpp"
@@ -157,6 +158,20 @@ scene::DashboardScene::DashboardScene() {
                     []() {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<sequence::Sequence> >()
+                        );
+                    }
+            )
+    );
+
+    rememberCategory.push_back(
+            std::make_unique<Tile>(
+                    "\uF5FD",
+                    "Memory",
+                    "Finde alle Paare",
+                    commons::Colors::YELLOW,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<memory::Memory>>()
                         );
                     }
             )
