@@ -5,11 +5,6 @@
 
 class App {
 
-    static const int WINDOW_WIDTH;
-    static const int WINDOW_HEIGHT;
-    static const std::string TILE;
-    static const int FRAME_RATE;
-
 public:
     static void start();
 };

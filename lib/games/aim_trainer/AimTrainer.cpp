@@ -1,15 +1,15 @@
 #include "AimTrainer.hpp"
 #include "Window.hpp"
 #include "SoundPolice.hpp"
+#include "WindowConfig.hpp"
 
 int randomPos(int n) {
     return rand() % n + 1;
 }
 
 void games::AimTrainer::spawnBlobs() {
-    const auto size = ImGui::GetWindowSize();
-    int windowWidth{static_cast<int>(size.x)};
-    int windowHeight{static_cast<int>(size.y)};
+    int const windowWidth{WindowConfig::WINDOW_WIDTH};
+    int const windowHeight{WindowConfig::WINDOW_HEIGHT};
 
     if(_spawnAmount >= 1){
         commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 30, 3.f);
