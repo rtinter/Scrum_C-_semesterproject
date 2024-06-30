@@ -1,5 +1,6 @@
 #include "Remembering.hpp"
 #include "SoundPolice.hpp"
+#include "WindowConfig.hpp"
 
 namespace games {
 
@@ -176,7 +177,7 @@ namespace games {
 
     // Displays centered text by measuring window and colorsizes
     void Remembering::displayCenteredText(std::string const &text) {
-        ImVec2 windowSize{ImGui::GetWindowSize()};
+        auto windowWidth = WindowConfig::WINDOW_WIDTH;
 
         std::istringstream stream{text};
         std::string line;
@@ -187,8 +188,8 @@ namespace games {
         }
 
         for (auto const &li: lines) {
-            ImVec2 textSize{ImGui::CalcTextSize(li.c_str(), nullptr, false, windowSize.x)};
-            float offsetX{(windowSize.x - textSize.x) * 0.5f};
+            ImVec2 textSize{ImGui::CalcTextSize(li.c_str(), nullptr, false, windowWidth)};
+            float offsetX{(windowWidth - textSize.x) * 0.5f};
 
             if (offsetX > 0) {
                 ImGui::SetCursorPosX(offsetX);
