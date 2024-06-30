@@ -314,6 +314,7 @@ namespace memory {
     void Memory::stop() {
         _showEndBox = true;
         _isGameRunning = false;
+        updateStatistics();
     }
 
     void Memory::reset() {
@@ -328,7 +329,7 @@ namespace memory {
     }
 
     void Memory::updateStatistics() {
-        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("benötigte Zeit",
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Sekunden benötigt",
                                                                                      _totalGameTime - _timer->getSecondsLeft());
     }
 
