@@ -47,10 +47,10 @@ namespace memory {
         std::shuffle(indices.begin(), indices.end(), g); // Shuffle the image indices
 
         for (int i{0}; i < 30; ++i) {
-            int imageIndex = indices[i];
+            int imageIndex {indices[i]};
             sf::Texture &texture {_imageManager.getTexture(imageIndex)};
-            auto tile = std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
-                                                             imageIndex);
+            auto tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
+                                                             imageIndex)};
             _tiles.push_back(tile);
         }
     }
