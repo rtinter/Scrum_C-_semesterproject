@@ -8,6 +8,13 @@
 
 
 namespace commons {
+
+    /**
+     * @brief The SoundManager class is a singleton class that manages the sound effects.
+     *
+     * Currently, the SoundManager only supports Windows. There will be no sound on other platforms.
+     * To ensure the safe use of sounds, you should use the SoundPolice class instead, which is a wrapper for this class.
+     */
     class SoundManager {
 
         /**
@@ -45,7 +52,7 @@ namespace commons {
          * @param sound The sound to play.
          * @deprecated
          */
-        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
+        [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound);
 
         /**
@@ -54,7 +61,7 @@ namespace commons {
          * @param volumeInPercent The volume in percent with a default value of 100.
          * @deprecated
          */
-        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
+        [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound, int volumeInPercent);
 
         /**
@@ -64,7 +71,7 @@ namespace commons {
          * @param pitch The pitch with a default value of 1.
          * @deprecated
          */
-        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
+        [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound, int volumeInPercent, float pitch);
     };
 }

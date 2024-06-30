@@ -15,9 +15,12 @@
 
 namespace games {
 
+    /**
+     * @brief The RowsOfSymbols game class, which represents the logic and rendering of the game.
+     */
     class RowsOfSymbols : abstract_game::Game {
 
-        // list of currently shown symbols
+        // list (deque) of currently shown symbols
         std::deque<SymbolType> _symbols;
 
         // number of correct symbols clicked
@@ -26,7 +29,7 @@ namespace games {
         // number of wrong symbols clicked
         int _wrongSymbols;
 
-        // list of recently used symbols
+        // list (deque) of recently used symbols
         std::deque<SymbolType> _lastAddedSymbols;
 
         // timer for the game to end the run-through after a certain time
