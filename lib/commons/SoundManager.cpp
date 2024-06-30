@@ -4,7 +4,7 @@
 
 namespace commons {
 
-    std::string const SoundManager::PATH = "./sounds/";
+    std::string const SoundManager::PATH {"./sounds/"};
 
     sf::Sound SoundManager::_activeSound;
 
