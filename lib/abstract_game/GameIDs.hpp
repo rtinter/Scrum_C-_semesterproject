@@ -1,5 +1,6 @@
 #ifndef GAMEIDS_HPP
 #define GAMEIDS_HPP
+
 #include <string>
 
 namespace abstract_game {
@@ -35,7 +36,7 @@ namespace abstract_game {
             case GameID::REACTION:
                 return "Reaktion";
             case GameID::COLOR_MATCH:
-                return "Farbe & Text";
+                return "Farbe & Wort";
             case GameID::AIM_TRAINER:
                 return "Aim Trainer";
             case GameID::LETTER_SALAD:

@@ -146,12 +146,12 @@ namespace games {
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {
                 _submitted = false;
                 _showContinueButton = false;
-                stop();
                 for (int i{0}; i < _currentQuestionSet.questions.size(); ++i) {
                     if (_selectedAnswers[i] == _currentQuestionSet.questions[i].correctAnswerIndex) {
                         ++_score;
                     }
                 }
+                stop();
 
                 //set endBox Texts after the game
                 _endBoxTitle = "Dein Ergebnis";
@@ -226,7 +226,7 @@ namespace games {
     }
 
     void Remembering::updateStatistics() {
-        double percentageOfCorrectAnswers{static_cast<double>(_score) / _currentQuestionSet.questions.size() * 100.};
+        double percentageOfCorrectAnswers{static_cast<double>(_score) / _currentQuestionSet.questions.size() * 100};
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("% korrekte Antworten",
                                                                                      percentageOfCorrectAnswers);
     }
