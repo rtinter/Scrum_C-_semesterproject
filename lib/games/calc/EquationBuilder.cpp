@@ -107,7 +107,7 @@ void EquationBuilder::render() {
         float equalWidth{ImGui::CalcTextSize("= ").x};
         float totalWidth{numberWidth + spaceWidth + operatorWidth + spaceWidth + inputFieldWidth + spaceWidth + equalWidth + targetNumberWidth};
 
-        ImVec2 windowSize{static_cast<float>(WindowConfig::WINDOW_WIDTH), static_cast<float>(WindowConfig::WINDOW_HEIGHT)};
+        ImVec2 const windowSize{static_cast<float>(WindowConfig::WINDOW_WIDTH), static_cast<float>(WindowConfig::WINDOW_HEIGHT)};
         float centerX{(windowSize.x - totalWidth) / 2.0f};
         // Calculate the total height for vertical centering
         float textHeight{ImGui::GetTextLineHeight()};
