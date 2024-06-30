@@ -1,4 +1,4 @@
-#include "Sequence.hpp"
+#include "SimonSays.hpp"
 #include "Fonts.hpp"
 #include "ColorTheme.hpp"
 #include "InfoBox.hpp"
@@ -12,7 +12,7 @@
 
 namespace games {
 
-    Sequence::Sequence() : Game(abstract_game::GameID::SEQUENCE) {
+    SimonSays::SimonSays() : Game(abstract_game::GameID::SEQUENCE) {
         _gameName = "Abfolge-Merken-Spiel";
         _gameDescription = "Unser Abfolge-Merken-Spiel soll die Fähigkeit testen, sich Abfolgen einzuprägen\nund korrekt wiederzugeben.\n";
         _gameRules = "Auf dem Bildschirm werden 9 verschiedene Buttons angezeigt.\n"
@@ -23,7 +23,7 @@ namespace games {
         _gameControls = "Linke Maustaste: Klicken der Buttons in der korrekten Reihenfolge.\n";
     }
 
-    void Sequence::render() {
+    void SimonSays::render() {
         ui_elements::InfoBox(_gameID, _showStartBox, "Startbox", _gameName, _gameDescription, _gameRules, _gameControls,
                              [this] {
                                  start();
@@ -39,7 +39,7 @@ namespace games {
 
     }
 
-    void Sequence::renderGame() {
+    void SimonSays::renderGame() {
         ui_elements::Window("Sequence Game").render(([this] {
 
             ui_elements::Centered(true, true, [this] {
@@ -60,7 +60,7 @@ namespace games {
 
     }
 
-    void Sequence::start() {
+    void SimonSays::start() {
         _currentGameMode = GameMode::WATCH;
         _isGameRunning = true;
         _showEndBox = false;
@@ -78,11 +78,11 @@ namespace games {
 
     }
 
-    void Sequence::reset() {
+    void SimonSays::reset() {
         start();
     }
 
-    void Sequence::stop() {
+    void SimonSays::stop() {
         updateStatistics();
         _endBoxString = "Du hast eine Abfolge von " + std::to_string(_longestReproducedSequence) +
                         " Klicks richtig wiederholt!";
@@ -92,12 +92,12 @@ namespace games {
         _endBoxTitle = "Falsch geklickt!";
     }
 
-    void Sequence::updateStatistics() {
+    void SimonSays::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten in Folge",
                                                                                      _longestReproducedSequence);
     }
 
-    void Sequence::displayButtons() {
+    void SimonSays::displayButtons() {
 
         ImGui::NewLine();
 
@@ -157,7 +157,7 @@ namespace games {
 
     }
 
-    void Sequence::isClickedInCorrectOrder(int const &buttonID) {
+    void SimonSays::isClickedInCorrectOrder(int const &buttonID) {
 
         if (buttonID ==
             _buttonsClickedSequence[_sequenceButtonIterator]) {     //if clicked button is the right button to be clicked in sequence
@@ -178,7 +178,7 @@ namespace games {
 
     }
 
-    void Sequence::chooseNextRandomButton() {
+    void SimonSays::chooseNextRandomButton() {
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> distribution(0, K_NUMBER_OF_BUTTONS - 1);
@@ -186,7 +186,7 @@ namespace games {
         _buttonsClickedSequence.emplace_back(distribution(gen));
     }
 
-    void Sequence::showSequence() {
+    void SimonSays::showSequence() {
         int buttonForLoopIteration{0};  //to keep iterator of button in sequence in sync with the sequence displayed
         for (int button: _buttonsClickedSequence) {
             if ((_buttonStates[button] == 0) &&
@@ -200,7 +200,7 @@ namespace games {
         }
     }
 
-    void Sequence::lightUp(int &buttonState, int const &buttonID) {
+    void SimonSays::lightUp(int &buttonState, int const &buttonID) {
         //Sets a button to be lit up for 800ms
         _stopHighlightingHere =
                 std::chrono::steady_clock::now() + std::chrono::milliseconds(_lightUpDurationInMilliseconds);
@@ -209,7 +209,7 @@ namespace games {
         _canShowNextButtonInSequence = false;   //another button is currently lit up, this variable assures no other button is being lit up at the same time
     }
 
-    void Sequence::checkLitUpExpired(int &buttonState) {
+    void SimonSays::checkLitUpExpired(int &buttonState) {
 
         //if Lighting up time is expired
         if ((buttonState == 1) && std::chrono::steady_clock::now() > _stopHighlightingHere) {
@@ -222,14 +222,14 @@ namespace games {
     /**
      * Set up LevelCounter -> max sequence length if player correctly reproduces sequence
      */
-    void Sequence::nextLevel() {
+    void SimonSays::nextLevel() {
         _levelCounter++;
     }
 
     /**
      * Switches GameMode from WATCH to REPEAT and vice versa.
      */
-    void Sequence::switchGameMode() {
+    void SimonSays::switchGameMode() {
         switch (_currentGameMode) {
             case GameMode::WATCH:
                 _currentGameMode = GameMode::REPEAT;
@@ -251,16 +251,16 @@ namespace games {
         }
     }
 
-    void Sequence::moveOnToNextButton() {
+    void SimonSays::moveOnToNextButton() {
         _sequenceButtonIterator++;
     }
 
-    void Sequence::waitInBetweenButtons() {
+    void SimonSays::waitInBetweenButtons() {
         _stopWaitingHere = std::chrono::steady_clock::now() + std::chrono::milliseconds(_waitDurationInMilliseconds);
         _mustWait = true;
     }
 
-    void Sequence::checkWaitTimeExpired() {
+    void SimonSays::checkWaitTimeExpired() {
         if (_mustWait && (std::chrono::steady_clock::now() > _stopWaitingHere)) {
             _mustWait = false;
 
@@ -276,7 +276,7 @@ namespace games {
         }
     }
 
-    void Sequence::playButtonSound(const int &buttonID) {
+    void SimonSays::playButtonSound(const int &buttonID) {
         switch (buttonID) {
             case 0:
                 commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.666f);

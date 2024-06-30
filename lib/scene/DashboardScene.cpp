@@ -5,7 +5,7 @@
 #include "Reaction.hpp"
 #include "LetterSalad.hpp"
 #include "ColorMatch.hpp"
-#include "Sequence.hpp"
+#include "SimonSays.hpp"
 #include "AimTrainer.hpp"
 #include "Remembering.hpp"
 #include "TypeRacer.hpp"
@@ -151,12 +151,12 @@ scene::DashboardScene::DashboardScene() {
     rememberCategory.push_back(
             std::make_unique<Tile>(
                     "",
-                    "Sequence",
+                    "Simon Says",
                     "Merke dir die Reihenfolge!",
                     commons::Colors::YELLOW,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Sequence> >()
+                                std::make_unique<GameScene<games::SimonSays> >()
                         );
                     }
             )

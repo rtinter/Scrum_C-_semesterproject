@@ -10,7 +10,7 @@ namespace games {
      * Sequence is a game meant to test the user's ability to memorize an ever growing sequence of buttons they need to press
      * in the right order. Each button also plays a sound in different pitches to further support the user's memory.
      */
-    class Sequence : public abstract_game::Game {
+    class SimonSays : public abstract_game::Game {
 
         /**
          * Enums to switch between two different modes in the game. WATCH for letting the computer play the sequence and
@@ -155,7 +155,7 @@ namespace games {
         static void playButtonSound(int const &buttonID);
 
     public:
-        explicit Sequence();
+        explicit SimonSays();
 
         void render() override;
 
