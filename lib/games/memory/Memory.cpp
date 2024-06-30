@@ -181,12 +181,12 @@ namespace memory {
         int seconds{timeTaken % 60};
 
         // Format time as <minutes:seconds>
-        std::string timeTakenStr{std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
+        _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
 
         // Update end box message
         _endBoxTitle = "Gut gemacht!";
         _endBoxText = "Du hast " + std::to_string(_pairsFound) + " Paare gefunden.\n"
-                                                                 "Dafür hast du " + timeTakenStr +
+                                                                 "Dafür hast du " + _timeTakenString +
                       " Minuten gebraucht.";
 
         stop();
@@ -200,7 +200,7 @@ namespace memory {
         int seconds{timeTaken % 60};
 
         // Format time as <minutes:seconds>
-        std::string timeTakenStr{std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds)};
+        _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
 
         // Update end box message
         std::string pairString{_pairsFound == 1 ? "Paar" : "Paare"};
@@ -328,7 +328,8 @@ namespace memory {
     }
 
     void Memory::updateStatistics() {
-        // ignore for now
+        abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("benötigte Zeit",
+                                                                                     _totalGameTime - _timer->getSecondsLeft());
     }
 
     std::string Memory::getName() const {

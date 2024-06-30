@@ -36,6 +36,7 @@ namespace memory {
         int _pairsFound{0};
         bool _isCheckingMatch{false};
         int _totalGameTime{150};
+        std::string _timeTakenString;
 
         std::chrono::steady_clock::time_point _matchCheckTime;
         std::chrono::steady_clock::time_point _initialDisplayStartTime;
