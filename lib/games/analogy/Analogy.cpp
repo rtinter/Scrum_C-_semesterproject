@@ -81,7 +81,7 @@ namespace game {
 
         for (auto const &option: _currentQuestion.options) {
             ImGui::SetCursorPosX(itemOffsetX);
-            std::string label{"  " + option.second};
+            std::string const label{"  " + option.second};
             if (ImGui::RadioButton(label.c_str(), _selectedOption == option.first)) {
                 _selectedOption = option.first;
             }

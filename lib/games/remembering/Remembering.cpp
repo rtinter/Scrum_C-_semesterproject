@@ -84,7 +84,7 @@ namespace games {
     // Renders a question and its possible answers
     void Remembering::renderQuestion(int const &index, QuestionBank::Question const &q, int &selectedAnswer) const {
         // Calculate text width for centering
-        ImVec2 textSize{ImGui::CalcTextSize(q.question.c_str())};
+        ImVec2 textSize{ImGui::CalcTextSize(q.question.c_str()).x, ImGui::CalcTextSize(q.question.c_str()).y};
         float textOffsetX{(ImGui::GetWindowWidth() - textSize.x) / 2.0F};
 
         float comboWidth{ImGui::GetWindowWidth() * 0.3F};
@@ -177,7 +177,7 @@ namespace games {
 
     // Displays centered text by measuring window and colorsizes
     void Remembering::displayCenteredText(std::string const &text) {
-        auto const windowWidth {WindowConfig::WINDOW_WIDTH};
+        auto const windowWidth{WindowConfig::WINDOW_WIDTH};
 
         std::istringstream stream{text};
         std::string line;
@@ -188,7 +188,8 @@ namespace games {
         }
 
         for (auto const &li: lines) {
-            ImVec2 textSize{ImGui::CalcTextSize(li.c_str(), nullptr, false, windowWidth)};
+            ImVec2 textSize{ImGui::CalcTextSize(li.c_str(), nullptr, false, windowWidth).x,
+                            ImGui::CalcTextSize(li.c_str(), nullptr, false, windowWidth).y};
             float const offsetX{(windowWidth - textSize.x) * 0.5f};
 
             if (offsetX > 0) {

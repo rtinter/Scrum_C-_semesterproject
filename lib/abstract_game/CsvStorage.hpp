@@ -19,7 +19,7 @@ namespace abstract_game {
                 bool ended
         ) override;
 
-        std::string getDateString(time_t timestamp);
+        static std::string getDateString(time_t timestamp);
         void saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) override;
     };
 

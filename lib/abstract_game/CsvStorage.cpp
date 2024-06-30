@@ -10,8 +10,7 @@ namespace abstract_game {
     const std::string SESSION_CSV_FILENAME {"game_session.csv"};
     const std::string RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
 
-    std::string CsvStorage::getDateString(time_t timestamp)
-    {
+    std::string CsvStorage::getDateString(time_t timestamp) {
         std::stringstream ss;
         ss << std::put_time(std::localtime(&timestamp), "%d.%m.%Y");
         return ss.str();
@@ -23,9 +22,7 @@ namespace abstract_game {
             GameID gameID,
             time_t start,
             time_t end,
-            bool ended
-    )
-    {
+            bool ended) {
 
         bool isEmpty = false;
 

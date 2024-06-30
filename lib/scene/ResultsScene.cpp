@@ -74,7 +74,7 @@ namespace scene {
                     std::string durationStr{row[5]};
 
                     time_t converted{stringToTimeT(startTimeStr)};
-                    std::string dateString{storage.getDateString(converted)};
+                    std::string dateString{abstract_game::CsvStorage::getDateString(converted)};
 
                     // Convert start and end time to time_t
                     std::time_t startTime{stringToTimeT(startTimeStr)};

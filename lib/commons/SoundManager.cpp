@@ -2,6 +2,8 @@
 #include "../logger/Logger.hpp"
 #include <SFML/Audio.hpp>
 
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "UnreachableCode"
 namespace commons {
 
     std::string const SoundManager::PATH {"./sounds/"};
@@ -83,3 +85,5 @@ namespace commons {
         logger << "Playing Sound";
     }
 }
+
+#pragma clang diagnostic pop

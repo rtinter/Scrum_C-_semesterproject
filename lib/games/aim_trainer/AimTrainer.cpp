@@ -76,13 +76,15 @@ void games::AimTrainer::render() {
                         _currentBlobs.end(),
                         [this, &hit, mousePos](aim_trainer::Blob &b) {
 
-                            const auto coords{b.getCoords()};
-                            const float dx{coords.x - mousePos.x};
-                            const float dy{coords.y - mousePos.y};
-                            const float dist{dx * dx + dy * dy};
+                            auto const coordsx{b.getCoords().x};
+                            auto const coordsy{b.getCoords().y};
+
+                            float const dx{coordsx - mousePos.x};
+                            float const dy{coordsy - mousePos.y};
+                            float const dist{dx * dx + dy * dy};
 
                             // increment successful clicks of blobs
-                            bool inCircle{dist <= b.getRadius() * b.getRadius()};
+                            bool const inCircle{dist <= b.getRadius() * b.getRadius()};
                             if (inCircle) {
                                 _successCounter++;
                                 hit = true;

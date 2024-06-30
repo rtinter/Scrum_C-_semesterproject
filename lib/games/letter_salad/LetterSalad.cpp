@@ -257,10 +257,10 @@ namespace game {
     }
 
     void LetterSalad::renderSelectedWord() const {
-        static int const WIDTH = 650;
-        static int const HEIGHT = 40;
+        static constexpr int const WIDTH = 650;
+        static constexpr int const HEIGHT = 40;
 
-        ImVec2 startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
+        ImVec2 const startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
 
         ImGui::PushFont(commons::Fonts::_header2);
 

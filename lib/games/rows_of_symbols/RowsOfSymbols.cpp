@@ -188,24 +188,24 @@ namespace game {
     void RowsOfSymbols::renderBackgroundRect() {
 
         // colors for the gradient
-        ImU32 const colorLeft{IM_COL32(0, 0, 0, 10)};
-        ImU32 const colorRight{IM_COL32(0, 0, 0, 0)};
+        static constexpr ImU32 const COLOR_LEFT{IM_COL32(0, 0, 0, 10)};
+        static constexpr ImU32 const COLOR_RIGHT{IM_COL32(0, 0, 0, 0)};
 
         // get the draw list and prepare the total width and gap between the symbols
         ImDrawList &drawList{*ImGui::GetWindowDrawList()};
-        int const totalWidthOfSymbols{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
-        int const totalGapBetweenSymbols{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
+        static constexpr int const TOTAL_WIDTH_OF_SYMBOLS{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
+        static constexpr int const TOTAL_GAP_BETWEEN_SYMBOLS{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
 
         // calculate the top left and bottom right corner of the rectangle
         ImVec2 const topLeft{ImGui::GetCursorScreenPos()};
         ImVec2 const bottomRight
-                {ImVec2(ImGui::GetCursorScreenPos().x + totalWidthOfSymbols + totalGapBetweenSymbols,
+                {ImVec2(ImGui::GetCursorScreenPos().x + TOTAL_WIDTH_OF_SYMBOLS + TOTAL_GAP_BETWEEN_SYMBOLS,
                         ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2)};
 
         // draw the gradient background
         drawList.AddRectFilledMultiColor(topLeft, bottomRight,
-                                         colorLeft, colorRight,
-                                         colorRight, colorLeft);
+                                         COLOR_LEFT, COLOR_RIGHT,
+                                         COLOR_RIGHT, COLOR_LEFT);
     }
 
     void RowsOfSymbols::renderButtons() {

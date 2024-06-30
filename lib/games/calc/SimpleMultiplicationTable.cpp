@@ -46,7 +46,8 @@ void SimpleMultiplicationTable::render() {
         // Calculate width of the instructions
         ImGui::PushFont(commons::Fonts::_header3);
         static std::string const INSTRUCTION_TEXT{"Trage das Ergebnis hier ein und bestätige mit Enter:"};
-        ImVec2 const instructionTextSize {ImGui::CalcTextSize(INSTRUCTION_TEXT.c_str())};
+        ImVec2 const instructionTextSize{ImGui::CalcTextSize(INSTRUCTION_TEXT.c_str()).x,
+                                         ImGui::CalcTextSize(INSTRUCTION_TEXT.c_str()).y};
         ImGui::PopFont();
 
         // Calculate the total height for vertical centering
@@ -77,7 +78,8 @@ void SimpleMultiplicationTable::render() {
         }
 
         ImGui::SetNextItemWidth(INPUT_FIELD_WIDTH);
-        ImGui::InputText("##input", _input.data(), _input.size(), ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
+        ImGui::InputText("##input", _input.data(), _input.size(),
+                         ImGuiInputTextFlags_CharsDecimal | ImGuiInputTextFlags_EnterReturnsTrue);
         ImGui::PopFont();
 
         if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {

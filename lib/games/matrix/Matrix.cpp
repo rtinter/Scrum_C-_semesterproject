@@ -6,6 +6,7 @@
 #include "Fonts.hpp"
 #include "RandomPicker.hpp"
 #include "imgui_internal.h"
+#include <algorithm>
 
 /**
  * init() fills the matrix with values
