@@ -128,7 +128,7 @@ namespace games {
         _endScreenStatisticText = endScreenTextStream.str();
 
         if (_completedLevels > 0) {
-            double averageTimePerTask {_elapsedTimeCalculated / _completedLevels};
+            double const averageTimePerTask {_elapsedTimeCalculated / _completedLevels};
             std::ostringstream averageTimeStream;
             averageTimeStream << "Durchschnittlich hast du " << std::round(averageTimePerTask)
                               << " Sekunden für eine Aufgabe gebraucht.";
@@ -150,7 +150,7 @@ namespace games {
         if (!_endTime.has_value()) {
             return 0.0;
         }
-        auto duration {std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime.value())};
+        auto const duration {std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime.value())};
         return static_cast<double>(duration.count());
     }
 

@@ -6,7 +6,6 @@
 #include "Window.hpp"
 #include "Centered.hpp"
 #include "SoundPolice.hpp"
-#include <algorithm>
 #include <random>
 #include <thread>
 
@@ -239,7 +238,7 @@ namespace sequence {
                 break;
 
             case GameMode::REPEAT:
-                _currentGameMode = GameMode::WATCH;;
+                _currentGameMode = GameMode::WATCH;
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(700));
                 _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable

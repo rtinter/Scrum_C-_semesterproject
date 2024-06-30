@@ -21,8 +21,6 @@ private:
     std::future<void> _backgroundBlobTask;
     std::future<void> _spawnBlobTask;
 
-    std::atomic_bool _cancelBackgroundTask {false};
-
     std::vector<aim_trainer::Blob> _currentBlobs;
 
     int _successCounter {0};

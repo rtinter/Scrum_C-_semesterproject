@@ -89,7 +89,7 @@ namespace game {
 
         // Wrap the text within the specified width and center it
         ImGui::PushTextWrapPos(textStartPosX + textWrapWidth);
-        ImGui::TextWrapped(_currentQuestion.questionText.c_str());
+        ImGui::TextWrapped("%s", _currentQuestion.questionText.c_str());
         ImGui::PopTextWrapPos();
 
         ImGui::PopFont();

@@ -2,7 +2,6 @@
 #include <imgui-SFML.h>
 #include <SceneManager.hpp>
 #include <StyleManager.hpp>
-#include <SoundManager.hpp>
 #include "MemoryGameImageManager.hpp"
 
 #include "SFML/Graphics/RenderWindow.hpp"

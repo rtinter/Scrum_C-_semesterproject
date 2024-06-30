@@ -5,7 +5,6 @@
 
 #include "LetterSalad.hpp"
 #include "Window.hpp"
-#include <algorithm>
 #include <fstream>
 #include "Fonts.hpp"
 #include "TextCentered.hpp"
@@ -70,9 +69,13 @@ namespace game {
 
         // When debug mode is enabled, then only print the words.
         // All other fields stay EMPTY_CELL
+        #pragma clang diagnostic push
+        #pragma ide diagnostic ignored "Simplify"
         if (!DEBUG) {
             randomizeGameField();
         }
+        #pragma clang diagnostic pop
+
         _isGameRunning = true;
         _showStartBox = false;
         _showEndBox = false;
