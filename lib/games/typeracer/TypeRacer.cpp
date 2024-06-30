@@ -154,6 +154,7 @@ namespace typeracer {
                 auto const currentTime{std::chrono::steady_clock::now()};
                 std::chrono::duration<float> const elapsedSeconds{currentTime - _startPoint};
                 float const minutes{elapsedSeconds.count() / 60.0f};
+                // cant use {}
                 int const numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 

@@ -7,8 +7,8 @@
 #include <iomanip>
 
 namespace abstract_game {
-    const std::string SESSION_CSV_FILENAME {"game_session.csv"};
-    const std::string RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
+    std::string const SESSION_CSV_FILENAME {"game_session.csv"};
+    std::string const RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
 
     std::string CsvStorage::getDateString(time_t timestamp) {
         std::stringstream ss;
@@ -24,7 +24,7 @@ namespace abstract_game {
             time_t end,
             bool ended) {
 
-        bool isEmpty = false;
+        bool isEmpty{false};
 
         // Check if the file is empty before opening in append mode
         std::ifstream infile(SESSION_CSV_FILENAME);
@@ -56,7 +56,7 @@ namespace abstract_game {
             << end << ","
             << ended << "\n";
 
-        std::string data {ss.str()};
+        std::string const data {ss.str()};
         file << data;
         file.close();
     }
@@ -72,7 +72,7 @@ namespace abstract_game {
         // Check if the file is empty before writing the header
         std::ifstream infile(RUNTHROUGH_CSV_FILENAME);
         infile.seekg(0, std::ios::end);
-        bool isEmpty {infile.tellg() == 0};
+        bool const isEmpty {infile.tellg() == 0};
         infile.close();
 
 
@@ -83,12 +83,12 @@ namespace abstract_game {
         }
 
 
-        for (const auto &runThrough: _gameRunThroughs) {
+        for (auto const &runThrough: _gameRunThroughs) {
             std::ostringstream oss;
             oss.precision(2);
             oss << std::fixed << runThrough.result;
 
-            std::string result = oss.str();
+            std::string result{oss.str()};
             writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
                              std::to_string(runThrough.gameSessionUID),
                              oss.str(),

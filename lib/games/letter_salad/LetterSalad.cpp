@@ -1,8 +1,3 @@
-//
-// Created by Benjamin Puhani (941077) on 08.06.2024.
-// &22 Buchstabensalat
-//
-
 #include "LetterSalad.hpp"
 #include "Window.hpp"
 #include <fstream>
@@ -125,7 +120,8 @@ namespace game {
             return;
         }
 
-        json data = json::parse(file);
+        // cant use uniform initializer :( An exception will be thrown if used.
+        json const data = json::parse(file);
         _wordList = {data["wordlist"].begin(), data["wordlist"].end()};
         logger.log("LetterSalad wordlist loaded", QueueEntryType::INFORMATION);
 
@@ -214,9 +210,9 @@ namespace game {
 
         _wordsPerMinute = (_activeWordList.size() - missingWords) / (TIME_LIMIT / 60.);
 
-        std::string const missingWordsText = "Dir fehlen noch:\n" +
+        std::string const missingWordsText {"Dir fehlen noch:\n" +
                                               std::to_string(missingWords) + " " + missingWord + "\nBzw. " +
-                                              std::to_string(missingLetters) + " Buchstaben.";
+                                              std::to_string(missingLetters) + " Buchstaben."};
         _endBoxText = missingWordsText;
     }
 
@@ -226,7 +222,7 @@ namespace game {
         ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 
         for (int y = 0; y < _gameField.size(); y++) {
-            auto &row = _gameField[y];
+            auto const &row {_gameField[y]};
 
             for (int x = 0; x < row.size(); x++) {
                 // Always print on the same line but the first cell
@@ -257,8 +253,8 @@ namespace game {
     }
 
     void LetterSalad::renderSelectedWord() const {
-        static constexpr int const WIDTH = 650;
-        static constexpr int const HEIGHT = 40;
+        static constexpr int const WIDTH {650};
+        static constexpr int const HEIGHT {40};
 
         ImVec2 const startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
 
@@ -268,10 +264,10 @@ namespace game {
         ImGui::BeginChild("##selectedWord", ImVec2(WIDTH, HEIGHT));
 
         // Get the position and size of the dummy
-        ImVec2 const pos = ImGui::GetItemRectMin();
-        ImDrawList *drawList = ImGui::GetWindowDrawList();
-        static ImU32 const RECTANGLE = IM_COL32(3, 161, 252, 255);
-        static float const ROUNDING = 25.f;
+        ImVec2 const pos {ImGui::GetItemRectMin()};
+        ImDrawList *drawList {ImGui::GetWindowDrawList()};
+        static constexpr ImU32 const RECTANGLE {IM_COL32(3, 161, 252, 255)};
+        static constexpr float const ROUNDING {25.f};
 
         drawList->AddRectFilled(pos,
                                 ImVec2(pos.x + WIDTH, pos.y + HEIGHT),
@@ -318,7 +314,7 @@ namespace game {
             _selectedWord = "";
             _currentLine = getLine(_firstSelectedCell, coords);
 
-            for (auto &lineE : _currentLine) {
+            for (auto const &lineE : _currentLine) {
                 selectBox(lineE);
                 _selectedWord += _gameField[lineE.y][lineE.x].getChar();
             }
@@ -363,14 +359,14 @@ namespace game {
         _isFirstCellSelected = false;
         _isSecondCellSelected = false;
         if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
-            for (auto &lineE : _currentLine) {
+            for (auto const &lineE : _currentLine) {
                 LetterSalad::deselectBox(lineE);
             }
         } else {
-            for (auto &lineE : _currentLine) {
+            for (auto const &lineE : _currentLine) {
                 LetterSalad::finalize(lineE);
             }
-            auto foundWord{_activeWordList.find(WordTarget{_selectedWord})};
+            auto const foundWord{_activeWordList.find(WordTarget{_selectedWord})};
 
             if (!(*foundWord->isFound())) {
                 foundWord->setFound();
@@ -407,10 +403,10 @@ namespace game {
 
         _wordsPerMinute = (_activeWordList.size()) / ((TIME_LIMIT - secondsLeft) / 60.);
 
-        std::string const endboxString =
+        std::string const endboxString {
                 "Du hast alle Wörter gefunden!\n"
                 "Und sogar noch Zeit übrig gehabt!\n" + minutes +
-                " Minuten und " + seconds + " Sekunden\n";
+                " Minuten und " + seconds + " Sekunden\n"};
         _endBoxText = endboxString;
 
     }
@@ -537,7 +533,7 @@ namespace game {
             tries++;
             int row;
             int col;
-            bool reverse{(rand() % 2) != 0};
+            bool const reverse{(rand() % 2) != 0};
 
             switch (orientation) {
                 case Orientation::HORIZONTAL: {
@@ -599,7 +595,7 @@ namespace game {
                     break;
                 }
 
-                std::string letter{_gameField[currentRow][currentCol].getLetter()};
+                std::string const letter{_gameField[currentRow][currentCol].getLetter()};
 
                 if (letter != EMPTY_CELL && letter != std::string(1, word[i])) {
                     fits = false;

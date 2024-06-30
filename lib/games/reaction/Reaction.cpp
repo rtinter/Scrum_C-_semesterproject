@@ -57,8 +57,8 @@ namespace reaction {
 
                     commons::SoundPolice::safePlaySound(commons::Sound::CLICK);
 
-                    auto const duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                            _finishPoint - _startPoint).count();
+                    auto const duration {std::chrono::duration_cast<std::chrono::milliseconds>(
+                            _finishPoint - _startPoint).count()};
 
                     _showEndBox = true;
                     _statisticResult = duration;

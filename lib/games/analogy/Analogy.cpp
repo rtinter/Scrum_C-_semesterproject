@@ -67,10 +67,10 @@ namespace game {
     // Renders the current question and answer options
     void Analogy::renderQuestion() {
 
-        float const buttonWidth{100.0f};
-        float const buttonOffsetX{(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
-        float const itemWidth{100.0f};
-        float const itemOffsetX{(ImGui::GetWindowWidth() - itemWidth) / 2.0f};
+        static constexpr float const BUTTON_WIDTH{100.0f};
+        float const buttonOffsetX{(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
+        static constexpr float const ITEM_WIDTH{100.0f};
+        float const itemOffsetX{(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
 
         ImGui::PushFont(commons::Fonts::_header2);
         ui_elements::TextCentered(_currentQuestion.questionText.c_str());

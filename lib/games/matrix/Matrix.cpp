@@ -147,10 +147,10 @@ bool Matrix::isEqual(Matrix const &other) const {
  * @return boolean value
  */
 bool Matrix::isMirroredVersionOf(Matrix const &other) const {
-    for (Matrix mirrored: other.getAllMirroredVersions()) {
-        if (isEqual(mirrored)) return true;
-    }
-    return false;
+    auto mirroredVersions{other.getAllMirroredVersions()};
+    return std::any_of(mirroredVersions.begin(), mirroredVersions.end(), [this](Matrix mirrored) {
+        return isEqual(mirrored);
+    });
 }
 
 /**
@@ -158,10 +158,10 @@ bool Matrix::isMirroredVersionOf(Matrix const &other) const {
  * @return boolean value
  */
 bool Matrix::isRotatedVersionOf(Matrix const &other) const {
-    for (Matrix rotated: other.getAllRotatedVersions()) {
-        if (isEqual(rotated)) return true;
-    }
-    return false;
+    auto rotatedVersions{other.getAllRotatedVersions()};
+    return std::any_of(rotatedVersions.begin(), rotatedVersions.end(), [this](Matrix rotated) {
+        return isEqual(rotated);
+    });
 }
 
 /**
@@ -180,7 +180,6 @@ Matrix Matrix::getAMirroredVersion() const {
 Matrix Matrix::getARotatedVersion() const {
     int const times{commons::RandomPicker::randomInt(1, 3)};
     return rotate90DegreesRight(times); // rotated by 90°, 180° or 270°
-
 }
 
 /**

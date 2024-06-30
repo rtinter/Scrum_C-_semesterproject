@@ -4,20 +4,21 @@
 
 
 namespace ui_elements {
-    Centered::Centered(bool horizontal, bool vertical, const std::function<void()> &content) {
-        ImVec2 available = ImGui::GetContentRegionAvail();
-        ImVec2 inital = ImGui::GetCursorPos();
+    Centered::Centered(bool horizontal, bool vertical, std::function<void()> const &content) {
+        float availableX {ImGui::GetContentRegionAvail().x};
+        float availableY {ImGui::GetContentRegionAvail().y};
+        ImVec2 inital{ImGui::GetCursorPos()};
 
         ImGui::PushClipRect(ImVec2(0, 0), ImVec2(0, 0), true);
         ImGui::BeginGroup();
         content();
         ImGui::EndGroup();
-        ImVec2 contentSize = ImGui::GetItemRectSize();
+        ImVec2 contentSize{ImGui::GetItemRectSize()};
         ImGui::PopClipRect();
 
 
-        float hPAdding = (available.x - contentSize.x) / 2.0f;
-        float vPAdding = (available.y - contentSize.y) / 2.0f;
+        float hPAdding{(availableX - contentSize.x) / 2.0f};
+        float vPAdding{(availableY - contentSize.y) / 2.0f};
 
 
         ImGui::SetCursorPos(inital);

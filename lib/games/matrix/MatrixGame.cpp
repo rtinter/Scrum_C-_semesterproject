@@ -103,9 +103,9 @@ namespace game {
 
             // adjust frame style
             ImGuiStyle &style{ImGui::GetStyle()};
-            ImVec2 oldItemSpacing{style.ItemSpacing};
+            ImVec2 const oldItemSpacing{style.ItemSpacing};
             style.ItemSpacing = ImVec2(0, 0);
-            float oldFrameRounding{style.FrameRounding};
+            float const oldFrameRounding{style.FrameRounding};
             style.FrameRounding = 0.f;
 
             // create transparent button

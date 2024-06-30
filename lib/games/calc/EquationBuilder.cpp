@@ -58,7 +58,7 @@ void EquationBuilder::generateTask() {
             break;
         case Operator::DIVIDE:
         {
-            bool validDivision = false;
+            bool validDivision {false};
             while (!validDivision) {
 
                 operand1 = numberDist(_rng);
