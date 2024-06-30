@@ -1,7 +1,3 @@
-//
-// Created by Admin on 07.06.2024.
-//
-
 #include "GameRunThroughCsvWriter.hpp"
 #include <iostream>
 #include <stdexcept>

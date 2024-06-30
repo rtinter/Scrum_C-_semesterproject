@@ -1,10 +1,10 @@
 #include <fstream>
 #include <sstream>
 #include "GameRunThroughCsvWriter.hpp"
-#include "Session.hpp"
 #include "CsvParser.hpp"
 #include "CsvStorage.hpp"
 #include <iostream>
+#include <iomanip>
 
 namespace abstract_game {
     const std::string SESSION_CSV_FILENAME {"game_session.csv"};
@@ -21,8 +21,6 @@ namespace abstract_game {
             size_t sessionUID,
             int userID,
             GameID gameID,
-            long long startTime,
-            long long endTime,
             time_t start,
             time_t end,
             bool ended
@@ -61,7 +59,6 @@ namespace abstract_game {
             << end << ","
             << ended << "\n";
 
-        std::cout << getDateString(end) << std::endl;
         std::string data {ss.str()};
         file << data;
         file.close();
@@ -101,42 +98,6 @@ namespace abstract_game {
                              runThrough.resultUnit});
         }
         writer.close();
-    }
-
-    std::vector<Session> CsvStorage::getUserData(int userID) {
-        csv::CsvParser parser(SESSION_CSV_FILENAME);
-        std::vector<Session> sessions;
-        // GameSessionUID,UserID,GameID,StartTime,EndTime,StartTimestamp,EndTimestamp,DurationInSeconds,Ended
-
-        for(const auto &row : parser.parse()){
-            const auto userId = std::atoi(row[3].c_str());
-
-            if(userId != userID)
-                continue;
-
-
-            // GameID,GameSessionUID,UserID,StartTimestamp,EndTimestamp,DurationInSeconds,Ended
-            const auto gameId { row[0] };
-            const size_t gameSessionId {static_cast<size_t>(std::atoi(row[1].c_str()))};
-            const auto startTimestamp { static_cast<time_t>(std::stoll(row[3])) };
-            const auto endTimestamp { static_cast<time_t>(std::stoll(row[4])) };
-            // const auto durationInSeconds { std::atoi(row[5].c_str()) };
-            const auto ended { static_cast<bool>(row[6].c_str()) };
-
-            auto diff = std::chrono::seconds(endTimestamp) - std::chrono::seconds(startTimestamp);
-            std::string date = getDateString(endTimestamp);
-
-            sessions.emplace_back(Session{
-                    .gameSessionId = gameSessionId,
-                    .start = startTimestamp,
-                    .end = endTimestamp,
-                    .date = date,
-                    .duration = diff.count(),
-                    .ended = ended
-            });
-        }
-        // Implementation to read user data from the CSV file
-        return sessions;
     }
 
 } // abstract_game

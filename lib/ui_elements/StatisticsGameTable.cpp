@@ -2,7 +2,6 @@
 
 #include <ColorTheme.hpp>
 #include <Fonts.hpp>
-#include <unordered_map>
 
 namespace ui_elements {
     StatisticsGameTable::StatisticsGameTable(

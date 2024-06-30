@@ -16,8 +16,8 @@ WordTarget::WordTarget(std::string const &word) {
  * @return
  */
 bool WordTarget::operator<(WordTarget const &rhs) const {
-    const size_t lhsLength{_word.length()};
-    const size_t rhsLength{rhs._word.length()};
+    size_t const lhsLength{_word.length()};
+    size_t const rhsLength{rhs._word.length()};
 
     if (lhsLength == rhsLength) {
         // when two strings have the same

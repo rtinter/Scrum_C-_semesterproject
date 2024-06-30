@@ -1,7 +1,3 @@
-//
-// Created by Admin on 06.06.2024.
-//
-
 #ifndef ATHENA_DATAMANAGER_HPP
 #define ATHENA_DATAMANAGER_HPP
 
@@ -10,8 +6,6 @@
 #include <vector>
 #include "GameIDs.hpp"
 #include "GameRunThrough.hpp"
-#include "Session.hpp"
-
 
 namespace abstract_game {
 
@@ -23,16 +17,12 @@ namespace abstract_game {
                 size_t sessionUID,
                 int userID,
                 GameID gameID,
-                long long startTime,
-                long long endTime,
                 time_t start,
                 time_t end,
                 bool ended
         ) = 0;
 
         virtual void saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) = 0;
-
-        virtual std::vector<Session> getUserData(int userID) = 0;
 
     };
 

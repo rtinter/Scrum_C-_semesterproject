@@ -1,9 +1,4 @@
-//
-// Created by Benjamin Puhani (941077) on 14.06.2024.
-//
-
 #include "SoundPolice.hpp"
-#include "SoundManager.hpp"
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations" // safe wrapped
 
 namespace commons {

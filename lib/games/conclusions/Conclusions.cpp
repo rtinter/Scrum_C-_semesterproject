@@ -84,7 +84,7 @@ namespace game {
         ImGui::PushFont(commons::Fonts::_header2);
 
         // Calculate the position to center the text within textWrapWidth
-        float textStartPosX {(ImGui::GetWindowWidth() - textWrapWidth) / 2.0f};
+        float const textStartPosX {(ImGui::GetWindowWidth() - textWrapWidth) / 2.0f};
         ImGui::SetCursorPosX(textStartPosX);
 
         // Wrap the text within the specified width and center it
@@ -120,8 +120,8 @@ namespace game {
 
     // Renders a message and current score when the correct answer is given
     void Conclusions::renderCorrectMessage(){
-        auto now {std::chrono::steady_clock::now()};
-        auto duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
+        auto const now {std::chrono::steady_clock::now()};
+        auto const duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
         if (duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);

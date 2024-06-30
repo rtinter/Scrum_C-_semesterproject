@@ -95,7 +95,7 @@ void EquationBuilder::render() {
         // Instructions text
         ImGui::PushFont(commons::Fonts::_header3);
         static std::string const INSTRUCTION_TEXT {"Trage das Ergebnis hier ein und bestätige mit Enter:"};
-        ImVec2 instructionTextSize {ImGui::CalcTextSize(INSTRUCTION_TEXT.c_str())};
+        static ImVec2 const INSTRUCTION_TEXT_SIZE {ImGui::CalcTextSize(INSTRUCTION_TEXT.c_str())};
         ImGui::PopFont();
 
         // Calculate dimensions for centering the task
@@ -117,7 +117,7 @@ void EquationBuilder::render() {
         ImGui::SetCursorPosY((ImGui::GetWindowHeight() - totalHeight) / 2.0f - textHeight);
 
         ImGui::PushFont(commons::Fonts::_header3);
-        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - instructionTextSize.x) / 2.0f);
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - INSTRUCTION_TEXT_SIZE.x) / 2.0f);
         ImGui::Text("%s", INSTRUCTION_TEXT.c_str());
         ImGui::PopFont();
 
@@ -159,7 +159,7 @@ void EquationBuilder::render() {
 }
 
 bool EquationBuilder::evaluateUserInput() {
-    int input{std::atoi(_input.data())};
+    int const input{std::atoi(_input.data())};
     if (_operator == "/" && input == 0) return false; // Avoid division by zero
     return input == evaluateExpression();
 }

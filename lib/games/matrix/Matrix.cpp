@@ -27,8 +27,8 @@ void Matrix::init(int nMarkedCells) {
     for (int n{0}; n < nMarkedCells; ++n) {
         bool isMarked{false};
         while (!isMarked) {
-            int x{commons::RandomPicker::randomInt(0, SIZE - 1)};
-            int y{commons::RandomPicker::randomInt(0, SIZE - 1)};
+            int const x{commons::RandomPicker::randomInt(0, SIZE - 1)};
+            int const y{commons::RandomPicker::randomInt(0, SIZE - 1)};
             if (_data[x][y] == _unmarked) {
                 if (n % 2 == 0) {
                     //  10, 20, 30, 40 represent "0" in different color shades
@@ -168,7 +168,7 @@ bool Matrix::isRotatedVersionOf(Matrix const &other) const {
  * @return mirrored matrix
  */
 Matrix Matrix::getAMirroredVersion() const {
-    int type{commons::RandomPicker::randomInt(0, 1)};
+    int const type{commons::RandomPicker::randomInt(0, 1)};
     return (0 == type) ? mirrorHorizontally() : mirrorVertically();
 }
 
@@ -177,7 +177,7 @@ Matrix Matrix::getAMirroredVersion() const {
  * @return rotated matrix
  */
 Matrix Matrix::getARotatedVersion() const {
-    int times{commons::RandomPicker::randomInt(1, 3)};
+    int const times{commons::RandomPicker::randomInt(1, 3)};
     return rotate90DegreesRight(times); // rotated by 90°, 180° or 270°
 
 }

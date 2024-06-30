@@ -11,7 +11,7 @@ namespace abstract_game {
     _gameID{gameID},
     _startPoint{std::chrono::steady_clock::now()},
     _ended{false},
-    _dataManager{DataManagerFactory::Create("CsvManager")},
+    _dataManager{DataManagerFactory::create("CsvManager")},
     _begin{time(nullptr)}{}
 
     size_t GameSession::calcGameSessionUID() {
@@ -40,14 +40,9 @@ namespace abstract_game {
     }
 
     void GameSession::writeToDataManager() const {
-        long long startTime {std::chrono::duration_cast<std::chrono::seconds>(_startPoint.time_since_epoch()).count()};
-        long long endTime {std::chrono::duration_cast<std::chrono::seconds>(_endPoint.time_since_epoch()).count()};
-
         // size_t sessionUID,
         // int userID,
         // GameID gameID,
-        // long long startTime,
-        // long long endTime,
         // time_t start,
         // time_t end,
         // bool ended
@@ -56,8 +51,6 @@ namespace abstract_game {
                 _gameSessionUID,
                 _userID,
                 _gameID,
-                startTime,
-                endTime,
                 _begin,
                 _end,
                 _ended

@@ -1,7 +1,3 @@
-//
-// Created by Admin on 07.06.2024.
-//
-
 #ifndef GameRunThroughCsvWriter_HPP
 #define GameRunThroughCsvWriter_HPP
 

@@ -1,4 +1,6 @@
 #include "AimTrainer.hpp"
+
+#include <algorithm>
 #include "Window.hpp"
 #include "SoundPolice.hpp"
 #include "WindowConfig.hpp"
@@ -17,14 +19,12 @@ void games::AimTrainer::spawnBlobs() {
 
     for (int i{0}; i < _spawnAmount; ++i) {
         int x{randomPos(windowWidth)};
-        if (x < 240)
-            x = 240;
+        x = std::max(x, 240);
         if (x > windowWidth)
             x = windowWidth - 240;
         int y{randomPos(windowHeight)};
 
-        if (y < 240)
-            y = 240;
+        y = std::max(y, 240);
         if (y > windowHeight)
             y = windowHeight - 240;
 
