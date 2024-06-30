@@ -6,7 +6,6 @@
 #include "Window.hpp"
 #include "Centered.hpp"
 #include "SoundPolice.hpp"
-#include <algorithm>
 #include <random>
 #include <thread>
 
