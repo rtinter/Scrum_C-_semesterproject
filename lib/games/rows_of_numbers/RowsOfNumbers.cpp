@@ -42,7 +42,7 @@ namespace game {
             _sequences = {data["sequences"].begin(), data["sequences"].end()};
 
             file.close();
-        } catch (const std::exception &e) {
+        } catch (std::exception const &e) {
             std::cerr << "Error while reading file: " << e.what() << std::endl;
         }
     }

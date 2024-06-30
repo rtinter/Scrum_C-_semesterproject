@@ -1,5 +1,6 @@
 #ifndef GAMEIDS_HPP
 #define GAMEIDS_HPP
+
 #include <string>
 
 namespace abstract_game {
