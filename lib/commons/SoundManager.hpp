@@ -45,7 +45,7 @@ namespace commons {
          * @param sound The sound to play.
          * @deprecated
          */
-        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
+        [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound);
 
         /**
@@ -54,7 +54,7 @@ namespace commons {
          * @param volumeInPercent The volume in percent with a default value of 100.
          * @deprecated
          */
-        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
+        [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound, int volumeInPercent);
 
         /**
@@ -64,7 +64,7 @@ namespace commons {
          * @param pitch The pitch with a default value of 1.
          * @deprecated
          */
-        [[deprecated("Do not Use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
+        [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
         static void playSound(commons::Sound sound, int volumeInPercent, float pitch);
     };
 }
