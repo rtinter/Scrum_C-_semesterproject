@@ -50,7 +50,8 @@ namespace typeracer {
                 _gameControls,
                 [this]() {
                     reset();
-                    _randomIndex = commons::RandomPicker::randomInt(0,FireDepartmentAndPoliceTexts::_mixedTexts.size());
+                    _randomIndex = commons::RandomPicker::randomInt(0,
+                                                                    FireDepartmentAndPoliceTexts::_mixedTexts.size());
                 }).render();
 
         ui_elements::InfoBox(
@@ -189,7 +190,7 @@ namespace typeracer {
         _wpm = 0.0f;
         _endBoxText = "";
 
-        for (char &i : _input) {
+        for (char &i: _input) {
             i = '\0';
         }
 
@@ -214,7 +215,7 @@ namespace typeracer {
     TypeRacer::~TypeRacer() {
         _wpm = 0.0f;
         _runTimer = false;
-        for (char &i : _input) {
+        for (char &i: _input) {
             i = '\0';
         }
         _randomIndex = 0;

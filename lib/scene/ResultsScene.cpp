@@ -29,10 +29,10 @@ namespace scene {
         // load csv data
         abstract_game::CsvStorage storage;
         csv::CsvParser gameSessionParser("game_session.csv");
-        std::vector<std::vector<std::string>> gameSessionData{gameSessionParser.parse()};
+        auto gameSessionData{gameSessionParser.parse()};
 
         csv::CsvParser gameRunThroughParser("game_runthroughs.csv");
-        std::vector<std::vector<std::string>> gameRunThroughData{gameRunThroughParser.parse()};
+        auto gameRunThroughData{gameRunThroughParser.parse()};
 
         if (gameSessionData.empty() || gameRunThroughData.empty()) {
             return;
@@ -142,5 +142,9 @@ namespace scene {
 
     std::string ResultsScene::getName() const {
         return "ResultsScene";
+    }
+
+    std::time_t ResultsScene::stringToTimeT(std::string const &timeStr) {
+        return std::stoll(timeStr);
     }
 } // scene
