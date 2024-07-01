@@ -20,17 +20,17 @@ namespace logger {
      * @param entry a QueueEntry
      */
     void Logger::log(QueueEntry const &entry) {
-        std::string dateString {getDateString(entry.timestamp) };
-        if(entry.entryType == LogType::DEBUG){
+        std::string const dateString{getDateString(entry.timestamp)};
+        if (entry.entryType == LogType::DEBUG) {
             _outputStream << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
             std::cout << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
         }
-        if(entry.entryType == LogType::INFORMATION){
+        if (entry.entryType == LogType::INFORMATION) {
             _outputStream << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
             std::cout << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
         }
-        if(entry.entryType == LogType::SEVERE){
-            _outputStream << "[SEVERE]: " << dateString  << " " << entry.content << std::endl;
+        if (entry.entryType == LogType::SEVERE) {
+            _outputStream << "[SEVERE]: " << dateString << " " << entry.content << std::endl;
             std::cerr << "[SEVERE]: " << dateString << " " << entry.content << std::endl;
         }
     }
@@ -85,7 +85,7 @@ namespace logger {
      * @param type a LogType
      */
     void Logger::log(std::string const &content, LogType type) {
-        QueueEntry entry {
+        QueueEntry entry{
             .timestamp = time(nullptr),
             .content = content,
             .entryType = type

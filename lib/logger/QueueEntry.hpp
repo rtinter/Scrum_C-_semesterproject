@@ -4,8 +4,10 @@
 
 #include "LogType.hpp"
 
-struct QueueEntry {
-    time_t timestamp;
-    std::string content;
-    LogType entryType{LogType::INFORMATION};
-};
+namespace logger {
+    struct QueueEntry {
+        time_t timestamp;
+        std::string content;
+        LogType entryType{INFORMATION};
+    };
+} // logger
