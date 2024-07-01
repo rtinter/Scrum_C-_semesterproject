@@ -36,18 +36,24 @@ Gruppe: AEM-1
 ## Table of Contents
 
 - [Features](#features)
-- [Getting Started](#getting-started)
+- [Getting Started With Development](#getting-started-with-development)
   - [Projektstruktur](#projektstruktur)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Dependencies für Linux](#dependencies-für-linux)
+  - [Dependencies für Windows](#dependencies-für-windows)
   - [Building the Project](#building-the-project)
   - [Terminal Installation](#terminal-installation)
+- [Anforderungsnachweise](#anforderungsnachweise)
+- [Herausforderungen](#herausforderungen)
+- [Limitationen](#limitationen)
+- [Ausblick](#ausblick)
+- [Selbsteinschätzung des Teams](#selbsteinschätzung-des-teams)
 
 ## Features
 
 - Kognitive Leistungsmessung und -verbesserung durch Tests
-- Spiele in den Kategorien 
+- 15 Spiele in den verschiedenen Kategorien 
   - Reaktion
   - Genauigkeit
   - Merkfähigkeit
@@ -57,15 +63,24 @@ Gruppe: AEM-1
 - Wettbewerbscharakter
 - Vorbereitung auf Assessment-Center für Polizei und Feuerwehr
 
-## Getting Started
+## Interaktion
+
+Zum Trainieren benötigt man eine Tastatur, Maus und ein Gehirn.
+
+Jedes Spiel benötigt eine eigene Steuerung, diese ist in der jeweiligen Spielbeschreibung zu finden.
+
+## Getting Started With Development
 
 ### Projektstruktur
 
 Das Projekt ist in folgende Verzeichnisse unterteilt:
+- `assets`: Enthält zusätzliche Ressourcen für Spiele, wie json oder Bilder.
 - `lib`: Enthält die Bibliotheken, die für das Projekt benötigt werden.
 - `src`: Enthält den Quellcode des Projekts.
   - `App`: Enthält die Implementierung der Anwendung.
   - `main`: Ist der Einstiegspunkt des Projekts. Startet die App.
+
+[Klassendiagramm](https://dfncloud.fh-kiel.de/s/3cqAJdTNJ5f99tk)
 
 ### Prerequisites
 
@@ -85,6 +100,9 @@ Folgende dependencies müssen installiert werden, wenn auf Linux entwickelt werd
 ```bash
 sudo apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libflac-dev libvorbis-dev libgl1-mesa-dev libegl1-mesa-dev libxinerama-dev libxi-dev clang-tidy zip
 ```
+
+### Dependencies für Windows
+Alle Laufzeitabhängigkeiten werden mitgeliefert.
 
 ### Building the Project
 
@@ -106,3 +124,41 @@ mkdir build && cd build
 cmake ..
 cmake --build .
 ```
+
+## [Anforderungsnachweise](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/blob/dev/Anforderungs-nachweis.md)
+
+## Herausforderungen
+
+| Herausforderung | Lösung |
+| --------------- | ------ |
+| Scene Manager   | Anfängliche Schwierigkeiten bei der Handhabung der Darstellung und dem Seitenwechsel führten zu Verzögerungen bei der Schnittstellenimplementierung. Der Schwerpunkt lag auf der eleganten Integration neuer Tiles, da die Strukturierung der Anwendung in kleinere Spiele eine schnelle Hinzufügung neuer Elemente erforderte. Dabei traten Speicherlecks auf, die durch eine gründliche Stack-Analyse und Debugging behoben wurden. Unsere Lösung für eine solide Grundstruktur bestand in der Verwendung von Template-Programmierung und der optimalen Nutzung von Smartpointern. |
+| Cmake           | Aufgrund der komplexen Projektstruktur stellte die initiale CMake-Konfiguration eine Herausforderung dar. Zur Lösung wurde ein generisches Template entwickelt, das glob-Muster zur automatischen Dateierkennung nutzt: `file(GLOB SOURCES *.cpp)` Dieser Ansatz vereinfacht die CMake-Konfiguration erheblich und erhöht die Flexibilität bei der Projektwartung, auch wenn dadurch die Expressivität verloren geht. [Wiki Eintrag CMake](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/Development/CMake )|
+| Codezeilen Anforderung |Wir hatten bis zur Präsentation ca. 6000 von 8000 Zeilen, was darauf zurückzuführen ist, dass wir versucht haben, guten Code zu schreiben, der auch wiederverwendet werden kann. Dies führte dazu, dass wir in der letzten Woche vor der Abgabe des Projekts noch viel programmiert und noch weitere Spiele (4) erstellt haben, wodurch wir jetzt auf mehr als 8000 Zeilen gekommen sind. |
+| ImGui | Mit ImGui zu arbeiten hat uns vor eine große Herausforderung gestellt, weil wir uns alle zunächst einarbeiten mussten. Das dadurch aufwendigere Umsetzen der grafischen Anforderungen hat uns nach und nach mit ImGui vertrauter gemacht und uns gelehrt, effektiver damit zu arbeiten (Learning by Doing).|
+
+
+## Limitationen
+Die Benutzung von ImGui hinderte uns bei der visuellen Gestaltung der Applikation immens, teilweise sind Spiele immenoch von diversen Usability Sünden betroffen.
+Die Applikation ist aktuell komplett offline.
+
+## Ausblick
+Die Zukunft unserer Anwendung ist mehr als rosig. Wir haben einen guten Grundstein gelegt, auf den man nun aufbauen kann. Um nur einige Beispiele zu nennen, die sogar teilweise schon in der Roadmap/ als Tickets im Backlog angelegt sind:
+- weitere Spiele
+- mehr statistische Auswertungen (beispielsweise unter Verwendung von implot)
+  - Wie lange hat man in den Spielen verbracht?
+  - Wie gut war man im Allgemeinen in einem Spiel?
+  - In welchen Spielen müsste ich mich verbessern?
+  - Wie gut bin ich auf das Assessmentcenter vorbereitet?
+- Die Anwendung könnte vorschlagen, welche Spiele zur persönlichen Verbesserung trainiert werden sollten
+- Usermanagement: Account, Einloggen, Registrieren, Freunde finden, Vergleich zu anderen
+- Datenbank anbinden, um die Ergebnisse zu speichern
+- Monetarisierung durch Werbung oder ein Abo Modell
+
+Wikiseite für unsere [Roadmap](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/Produkt/RoadMap) 
+
+
+
+## Selbsteinschätzung des Teams
+Jeder hat sich in unserem Team nach seinen besten Fähigkeiten eingebracht und nach besten Kräften mitgeholfen. Wir waren über eine Whatsapp Gruppe im ständigen Kontakt. Keiner hat sich durch Inaktivität ausgezeichnet, weshalb wir es ablehnen, eine oder mehrere Personen als schlechter zu betiteln, als andere. Genauso gab es niemanden der über die Maßen mehr gemacht hat, als alle anderen. Wir sind ein Team und möchten auch so benotet werden.
+
+Unserer Ansicht nach haben wir alle Anforderungen erfüllt. Daher schätzen wir unsere erbrachte Leistung als **sehr gut** ein.
