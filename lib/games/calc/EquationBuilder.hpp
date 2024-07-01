@@ -1,36 +1,39 @@
-#ifndef EQUATION_BUILDER_HPP
-#define EQUATION_BUILDER_HPP
+#pragma once
+
+#include <random>  // Include necessary for std::mt19937
+#include <string>
+#include <vector>
 
 #include "MathTask.hpp"
-#include <vector>
-#include <string>
-#include <random>  // Include necessary for std::mt19937
-#include "SoundPolice.hpp"
 
-/**
- * @brief A class that generates and handles an equation building task.
- */
-class EquationBuilder : public MathTask {
-public:
-    EquationBuilder();
+namespace calc {
+    /**
+     * @brief A class that generates and handles an equation building task.
+     */
+    class EquationBuilder final : public MathTask {
+    public:
+        EquationBuilder();
 
-    void start() override;
-    bool isRunning() const override;
-    bool wasSuccessfullyCompleted() const override;
-    void render() override;
+        void start() override;
 
-private:
+        bool isRunning() const override;
 
-    enum class Operator { ADD, SUBTRACT, MULTIPLY, DIVIDE };
+        bool wasSuccessfullyCompleted() const override;
 
-    int _targetNumber;
-    std::string _operator;
-    int _number;
-    std::vector<char> _input;
+        void render() override;
 
-    void generateTask();
-    bool evaluateUserInput();
-    int evaluateExpression() const;
-};
+    private:
+        enum class Operator { ADD, SUBTRACT, MULTIPLY, DIVIDE };
 
-#endif //EQUATION_BUILDER_HPP
+        int _targetNumber;
+        std::string _operator;
+        int _number;
+        std::vector<char> _input;
+
+        void generateTask();
+
+        bool evaluateUserInput() const;
+
+        int evaluateExpression() const;
+    };
+} // calc

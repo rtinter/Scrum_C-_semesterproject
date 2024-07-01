@@ -1,30 +1,28 @@
 #include "Calc.hpp"
-#include "TextCentered.hpp"
+
+#include <cmath>
+#include <sstream>
+
 #include "InfoBox.hpp"
 #include "MathTaskFactory.hpp"
 #include "Window.hpp"
-#include <iostream>
-#include <sstream>
-#include <cmath>
 
 namespace games {
-    Calc::Calc() :
-    Game(abstract_game::GameID::CALC),
-    _timer("Schnelles Rechnen", 10),
-    _difficulty_level(1),
-    _completedLevels(1),
-    _showEndbox(false),
-    _showInfobox(true),
-    _elapsedTimeCalculated(0.0),
-    _timerSeconds(7)
-    {
+    Calc::Calc() : Game(abstract_game::GameID::CALC),
+                   _difficulty_level(1),
+                   _completedLevels(1),
+                   _showEndbox(false),
+                   _showInfobox(true),
+                   _elapsedTimeCalculated(0.0),
+                   _timer("Schnelles Rechnen", 10),
+                   _timerSeconds(7) {
         _gameName = "Schnelles Rechnen";
         _gameDescription = "Unser Spiel 'Schnelles Rechnen' testet die Merkfähigkeit und Kopfrechenfähigkeit,\n"
-                           "die für Polizei- und Feuerwehranwärter unerlässlich sind. Durch die schnelle Abfolge\n"
-                           "von Rechenoperationen und die anschließende Berechnung des Ergebnisses im Kopf wird\n"
-                           "die Fähigkeit zur schnellen, genauen mentalen Verarbeitung gefordert.";
+                "die für Polizei- und Feuerwehranwärter unerlässlich sind. Durch die schnelle Abfolge\n"
+                "von Rechenoperationen und die anschließende Berechnung des Ergebnisses im Kopf wird\n"
+                "die Fähigkeit zur schnellen, genauen mentalen Verarbeitung gefordert.";
         _gameRules = "Es werden Rechenaufgaben angezeigt, die im Kopf gelöst werden müssen.\n"
-                     "Die Schwierigkeit erhöht sich mit jeder Runde.";
+                "Die Schwierigkeit erhöht sich mit jeder Runde.";
         _gameControls = "Eingabefeld: Ergebnis der Rechenaufgabe eingeben und bestätigen.";
         _endScreenTitle = "Spiel beendet";
         _endScreenStatisticText = "";
@@ -43,7 +41,7 @@ namespace games {
     }
 
     void Calc::nextLevel() {
-        _currentLevel = math_task_factory::createRandomMathTask();
+        _currentLevel = calc::createRandomMathTask();
         _currentLevel->start();
 
         // Reset the timer with current timerSeconds
@@ -60,9 +58,9 @@ namespace games {
 
     void Calc::render() {
         ui_elements::InfoBox(
-                _gameID, _showInfobox, "Startbox",
-                _gameName, _gameDescription, _gameRules, _gameControls,
-                [this] { start(); }
+            _gameID, _showInfobox, "Startbox",
+            _gameName, _gameDescription, _gameRules, _gameControls,
+            [this] { start(); }
         ).render();
 
         if (_showInfobox) {
@@ -110,13 +108,13 @@ namespace games {
         _showEndbox = true;
         std::ostringstream endScreenTextStream;
         endScreenTextStream << _endScreenStatisticText << "\n\n"
-                            << _averageTimeText;
-        std::string endScreenText {endScreenTextStream.str()};
+                << _averageTimeText;
+        std::string endScreenText{endScreenTextStream.str()};
 
         ui_elements::InfoBox(
-                _gameID, _showEndbox, "Endbox",
-                _endScreenTitle, endScreenText,
-                [this] { start(); }
+            _gameID, _showEndbox, "Endbox",
+            _endScreenTitle, endScreenText,
+            [this] { start(); }
         ).render();
     }
 
@@ -128,10 +126,10 @@ namespace games {
         _endScreenStatisticText = endScreenTextStream.str();
 
         if (_completedLevels > 0) {
-            double const averageTimePerTask {_elapsedTimeCalculated / _completedLevels};
+            double const averageTimePerTask{_elapsedTimeCalculated / _completedLevels};
             std::ostringstream averageTimeStream;
             averageTimeStream << "Durchschnittlich hast du " << std::round(averageTimePerTask)
-                              << " Sekunden für eine Aufgabe gebraucht.";
+                    << " Sekunden für eine Aufgabe gebraucht.";
             _averageTimeText = averageTimeStream.str();
         }
     }
@@ -140,7 +138,8 @@ namespace games {
         return "Schnelles Rechnen";
     }
 
-    void Calc::reset() {}
+    void Calc::reset() {
+    }
 
     void Calc::stop() {
         updateStatistics();
@@ -150,12 +149,12 @@ namespace games {
         if (!_endTime.has_value()) {
             return 0.0;
         }
-        auto const duration {std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime.value())};
+        auto const duration{std::chrono::duration_cast<std::chrono::seconds>(*_endTime - _startTime.value())};
         return static_cast<double>(duration.count());
     }
 
     void Calc::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
-                                                                                     _completedLevels);
+            _completedLevels);
     }
-}
+} // games
