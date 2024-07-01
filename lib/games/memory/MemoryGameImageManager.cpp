@@ -9,10 +9,6 @@ namespace memory {
         return instance;
     }
 
-    MemoryGameImageManager::~MemoryGameImageManager() {
-        releaseResources(); // Ensure resources are released
-    }
-
     void MemoryGameImageManager::initialize() {
         loadImages();
         for (const auto &path: _imagePaths) {
@@ -23,7 +19,7 @@ namespace memory {
     }
 
     void MemoryGameImageManager::releaseResources() {
-        _textures.clear(); // Clear textures to release OpenGL resources
+        _textures.clear();
     }
 
 

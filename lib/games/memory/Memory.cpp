@@ -34,12 +34,12 @@ namespace memory {
     }
 
     void Memory::initializeTiles() {
-        _tiles.clear(); // Clear existing tiles
+        _tiles.clear();
 
-        // Generate indices for the images
+        // Create pairs of indices for the images
         std::vector<int> indices(30);
         for (int i{0}; i < 30; ++i) {
-            indices[i] = i % 15; // Create pairs of indices (0 to 14)
+            indices[i] = i % 15;
         }
 
         std::random_device rd;
@@ -48,9 +48,14 @@ namespace memory {
 
         for (int i{0}; i < 30; ++i) {
             int const imageIndex {indices[i]};
+
+            // Retrieve the texture corresponding to the image index from the image manager
             sf::Texture const &texture {_imageManager.getTexture(imageIndex)};
+
+            // Create a new memory tile with the retrieved texture, a click handler, tile size, and image index
             auto const tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
                                                              imageIndex)};
+
             _tiles.push_back(tile);
         }
     }
@@ -61,12 +66,13 @@ namespace memory {
         int const columns{10};
         int const rows[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
-        _coordinates.clear(); // Ensure coordinates are cleared before arranging
+        _coordinates.clear();
 
+        // Assign coordinates to each tile
         int index{0};
         for (int col{0}; col < columns; ++col) {
             for (int row{0}; row < rows[col]; ++row) {
-                _coordinates.emplace_back(row * (_tileSize.y + _padding), col * (_tileSize.x + _padding));
+                _coordinates.emplace_back(row * (_tileSize.y + _tilePadding), col * (_tileSize.x + _tilePadding));
                 ++index;
             }
         }
@@ -75,22 +81,27 @@ namespace memory {
 
 
     void Memory::centerCoordinates() {
+
         int const columns{10};
         int const rows[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
-        float const totalWidth{columns * (_tileSize.x + _padding) - _padding};
-        float const totalHeight{5 * (_tileSize.y + _padding) - _padding};
+        // Calculate total width and height of the tile formation
+        float const totalWidth{columns * (_tileSize.x + _tilePadding) - _tilePadding};
+        float const totalHeight{5 * (_tileSize.y + _tilePadding) - _tilePadding};
 
+        // Calculate the start position for the tile formation
         float const startX{(WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
         float const startY{(WindowConfig::WINDOW_HEIGHT - totalHeight) / 2};
 
         int index{0};
+
         for (int col{0}; col < columns; ++col) {
-            int const yOffset{static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _padding) /
-                                                  2)}; // Center each column vertically
+            int const yOffset{static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _tilePadding) /
+                                                  2)};
             for (int row{0}; row < rows[col]; ++row) {
-                float const x{startX + col * (_tileSize.x + _padding)};
-                float const y{yOffset + row * (_tileSize.y + _padding)};
+                float const x{startX + col * (_tileSize.x + _tilePadding)};
+                float const y{yOffset + row * (_tileSize.y + _tilePadding)};
+                // Assign the calculated coordinates to the tile if within bounds
                 if (index < _tiles.size()) {
                     _coordinates[index] = Coordinates(y, x);
                     ++index;
@@ -121,24 +132,24 @@ namespace memory {
     }
 
     void Memory::handleTileClick(int tileID) {
-        if (!_initialDisplayDone || _isCheckingMatch) {
-            handleMismatch(); // Immediately handle mismatch if a new tile is clicked
+        if (_isCheckingMatch) {
+            handleMismatch();
         }
 
         auto const &tile{_tiles[tileID]};
 
         if (tile->isFaceUp()) {
-            return; // Ignore if the tile is already flipped
+            return;
         }
-
-        // Play sound when a tile is flipped open
-        commons::SoundPolice::safePlaySound(commons::Sound::CARD_FLIP, 60, 2.5f);
 
         tile->flip();
 
+        commons::SoundPolice::safePlaySound(commons::Sound::CARD_FLIP, 60, 2.5f);
+
         if (!_firstTile) {
             _firstTile = tile;
-        } else if (!_secondTile) {
+        }
+        else if (!_secondTile) {
             _secondTile = tile;
             _isCheckingMatch = true;
             checkForMatch();
@@ -154,9 +165,11 @@ namespace memory {
             _secondTile = nullptr;
             _isCheckingMatch = false;
             if (_pairsFound == 15) {
-                checkForWin(); // Check for win immediately when all pairs are found
+                checkForWin();
             }
-        } else {
+        }
+        // If the two tiles do not match, delay for 2 seconds before flipping them back
+        else {
             _matchCheckTime = std::chrono::steady_clock::now();
             _delayActive = true;
         }
@@ -164,8 +177,8 @@ namespace memory {
 
     void Memory::handleMismatch() {
         if (_isCheckingMatch) {
-            _timer->reduceTime(1);
-            resetFlippedTiles();
+            _timer->reduceTime(1); // Reduce time by 1 second for mismatch
+            resetMismatchedTiles();
             _firstTile = nullptr;
             _secondTile = nullptr;
             _isCheckingMatch = false;
@@ -174,15 +187,12 @@ namespace memory {
     }
 
     void Memory::checkForWin() {
-        // Calculate time taken
         int const timeTaken{_totalGameTime - _timer->getSecondsLeft()};
         int const minutes{timeTaken / 60};
         int const seconds{timeTaken % 60};
 
-        // Format time as <minutes:seconds>
         _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
 
-        // Update end box message
         _endBoxTitle = "Gut gemacht!";
         _endBoxText = "Du hast " + std::to_string(_pairsFound) + " Paare gefunden.\n"
                                                                  "Dafür hast du " + _timeTakenString +
@@ -193,15 +203,13 @@ namespace memory {
 
 
     void Memory::handleGameOver() {
-        // Calculate time taken
+
         int const timeTaken{_totalGameTime - _timer->getSecondsLeft()};
         int const minutes{timeTaken / 60};
         int const seconds{timeTaken % 60};
 
-        // Format time as <minutes:seconds>
         _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
 
-        // Update end box message
         std::string const pairString{_pairsFound == 1 ? "Paar" : "Paare"};
         _endBoxTitle = "Spiel vorbei!";
         _endBoxText = "Zeit abgelaufen.\n"
@@ -210,7 +218,7 @@ namespace memory {
         stop();
     }
 
-    void Memory::resetFlippedTiles() {
+    void Memory::resetMismatchedTiles() {
         if (_firstTile && _secondTile) {
             _firstTile->flip();
             _secondTile->flip();
@@ -255,6 +263,8 @@ namespace memory {
 
             auto const now{std::chrono::steady_clock::now()};
             if (std::chrono::duration_cast<std::chrono::seconds>(now - _initialDisplayStartTime).count() < 3) {
+
+                // Prepare tiles once for the initial display
                 if (!_initialDisplayDone) {
                     initializeTiles();
                     arrangeTiles();
@@ -262,8 +272,10 @@ namespace memory {
                     showAllTiles();
                     _initialDisplayDone = true;
                 }
+                // Reset timer to prevent time from running during initial display (equivalent to pause)
                 _timer->reset();
             } else {
+                // Handle tiles once after the initial display is done
                 if (_timerPaused) {
                     hideAllTiles();
                     initializeTiles();
@@ -274,27 +286,25 @@ namespace memory {
                 }
             }
 
-
             if (_timer && _timer->isExpiredNow()) {
                 handleGameOver();
             }
 
-
             if (_delayActive) {
                 auto const nowDelay{std::chrono::steady_clock::now()};
                 if (std::chrono::duration_cast<std::chrono::seconds>(nowDelay - _matchCheckTime).count() >= 2) {
+                    // If 2 seconds have passed, handle the mismatch
                     handleMismatch();
                 }
             }
 
-
+            // Render each tile at its assigned coordinates
             for (int i {0}; i < _tiles.size(); ++i) {
                 auto const &tile {_tiles[i]};
                 auto const coords {_coordinates[i]};
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
                 tile->render();
             }
-
 
         });
         ImGui::PopStyleColor();
@@ -305,8 +315,9 @@ namespace memory {
         _showStartBox = false;
         _showEndBox = false;
         _initialDisplayDone = false;
-
         startGameTimer();
+
+        // Capture the current time to track the start of the initial display
         _initialDisplayStartTime = std::chrono::steady_clock::now();
     }
 
@@ -329,7 +340,8 @@ namespace memory {
 
     void Memory::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Sekunden benötigt",
-                                                                                     _totalGameTime - _timer->getSecondsLeft());
+                                                                                     _totalGameTime -
+                                                                                     _timer->getSecondsLeft());
     }
 
     std::string Memory::getName() const {
