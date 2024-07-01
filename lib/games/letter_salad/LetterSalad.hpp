@@ -6,10 +6,10 @@
 #define TIME_LIMIT (15 * 60) // time limit for the game
 
 #include "Game.hpp"
-#include "Coordinates.hpp"
 #include "Box.hpp"
 #include "WordTarget.hpp"
 #include "Timer.hpp"
+#include "Coordinates.hpp"
 #include <set>
 #include "RandomPicker.hpp"
 
@@ -20,12 +20,12 @@ namespace games {
 
     class LetterSalad : abstract_game::Game {
         CharVector2D _gameField;
-        std::vector<Coordinates> _currentLine;
+        std::vector<commons::Coordinates> _currentLine;
         static std::vector<WordTarget> _wordList;
         ui_elements::Timer _timer{"####letterSalad", TIME_LIMIT};
         std::set<WordTarget> _activeWordList;
         // save clicked cells
-        Coordinates _firstSelectedCell{-1, -1};
+        commons::Coordinates _firstSelectedCell{-1, -1};
         bool _isFirstCellSelected{false};
         bool _isSecondCellSelected{false};
         std::string _selectedWord;
@@ -33,19 +33,19 @@ namespace games {
 
         static void loadWordsFromFile();
 
-        void clickCell(Coordinates const &coords);
+        void clickCell(commons::Coordinates const &coords);
 
         void resetSelectedPair();
 
-        static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates const &end);
+        static std::vector<commons::Coordinates> getLine(commons::Coordinates const &start, commons::Coordinates const &end);
 
-        void onHover(Coordinates const &coords);
+        void onHover(commons::Coordinates const &coords);
 
-        void selectBox(Coordinates const &coords);
+        void selectBox(commons::Coordinates const &coords);
 
-        void deselectBox(Coordinates const &coords);
+        void deselectBox(commons::Coordinates const &coords);
 
-        void finalize(Coordinates const &coords);
+        void finalize(commons::Coordinates const &coords);
 
         void randomizeGameField();
 

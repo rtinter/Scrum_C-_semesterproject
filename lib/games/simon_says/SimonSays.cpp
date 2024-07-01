@@ -1,5 +1,6 @@
 #include "SimonSays.hpp"
 #include "Fonts.hpp"
+#include "Colors.hpp"
 #include "ColorTheme.hpp"
 #include "InfoBox.hpp"
 #include "TextCentered.hpp"

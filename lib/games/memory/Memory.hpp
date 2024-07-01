@@ -37,7 +37,7 @@ namespace memory {
         ImVec2 _tileSize{140, 140};
         float _tilePadding{15.0f};
 
-        std::vector<Coordinates> _coordinates;
+        std::vector<commons::Coordinates> _coordinates;
         MemoryGameImageManager& _imageManager;
 
         int _pairsFound{0};

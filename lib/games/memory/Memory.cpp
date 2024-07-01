@@ -103,7 +103,7 @@ namespace memory {
                 float const y{yOffset + row * (_tileSize.y + _tilePadding)};
                 // Assign the calculated coordinates to the tile if within bounds
                 if (index < _tiles.size()) {
-                    _coordinates[index] = Coordinates(y, x);
+                    _coordinates[index] = commons::Coordinates(y, x);
                     ++index;
                 }
             }
