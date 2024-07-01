@@ -121,14 +121,14 @@ namespace scene {
         std::map<int, ui_elements::StatisticsGameTable> gameTables;
 
         // add data to gameTables
-        for (const auto &[fst, snd]: _sessionsMap) {
+        for (auto const &[fst, snd]: _sessionsMap) {
             std::string getGameName{abstract_game::getGameName(static_cast<abstract_game::GameID>(fst))};
             std::map<int, std::vector<std::string>> gameDataMap;
             gameDataMap[0] = stringvectorHeaderline;
 
             int rowIndex{1};
-            for (const auto &[fst, snd]: snd) {
-                std::vector const row{snd};
+            for (const auto &[first, second]: snd) {
+                std::vector const row{second};
                 gameDataMap[rowIndex++] = row;
             }
 

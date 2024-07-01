@@ -24,7 +24,7 @@ namespace games {
 
         this->_questions = DiagramHelper::getQuestions();
 
-        for (const auto &[image, question, answer, explanation, answers] : this->_questions) {
+        for (auto const &[image, question, answer, explanation, answers] : this->_questions) {
             sf::Texture txt;
             std::stringstream ss;
             ss << "./assets/games/diagrams/";
@@ -43,7 +43,7 @@ namespace games {
     void DiagramAnalysis::checkAnswers() {
         std::string answer;
 
-        for (const auto &[fst, snd] : this->_answers) {
+        for (auto const &[fst, snd] : this->_answers) {
             std::string const temp{fst};
             if (snd) {
                 answer = temp;
