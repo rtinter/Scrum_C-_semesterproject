@@ -90,8 +90,8 @@ namespace memory {
         float const totalHeight{5 * (_tileSize.y + _tilePadding) - _tilePadding};
 
         // Calculate the start position for the tile formation
-        float const startX{(WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
-        float const startY{(WindowConfig::WINDOW_HEIGHT - totalHeight) / 2};
+        float const startX{(commons::WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
+        float const startY{(commons::WindowConfig::WINDOW_HEIGHT - totalHeight) / 2};
 
         int index{0};
 

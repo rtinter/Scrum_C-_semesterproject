@@ -177,7 +177,7 @@ namespace games {
 
     // Displays centered text by measuring window and colorsizes
     void Remembering::displayCenteredText(std::string const &text) {
-        auto const windowWidth{WindowConfig::WINDOW_WIDTH};
+        auto const windowWidth{commons::WindowConfig::WINDOW_WIDTH};
 
         std::istringstream stream{text};
         std::string line;

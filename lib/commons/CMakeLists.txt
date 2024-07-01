@@ -12,6 +12,7 @@ target_include_directories(${LIBRARY_NAME} PUBLIC
 )
 
 set(CUSTOM_LIBS
+        logger
 )
 
 target_link_libraries(${LIBRARY_NAME} PUBLIC
@@ -27,4 +28,4 @@ file(GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*")
 
 foreach (FILE ${SOURCE_FILES})
     file(COPY ${FILE} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/sounds)
-endforeach()
+endforeach ()
