@@ -66,16 +66,16 @@ scene::DashboardScene::DashboardScene() {
     );
 
     reactionCategory.push_back(
-        std::make_unique<Tile>(
-            "",
-            "Aim Trainer",
-            "Aim Trainer Beschreibung",
-            commons::Colors::BLUE,
-            [] {
-                SceneManager::getInstance().switchTo(
-                    std::make_unique<GameScene<games::AimTrainer> >());
-            }
-        )
+            std::make_unique<Tile>(
+                    "",
+                    "Aim Trainer",
+                    "Triff die Ziele schnell",
+                    commons::Colors::BLUE,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::AimTrainer> >());
+                    }
+            )
     );
 
     reactionCategory.push_back(
