@@ -1,5 +1,6 @@
 #include "Logger.hpp"
 #include <iostream>
+#include <filesystem>
 
 namespace logger {
     /*
@@ -46,7 +47,7 @@ namespace logger {
     logger::Logger& logger::Logger::getInstance() {
         static Logger logger;
         if (!logger._initialized) {
-            std::string path {"session_"};
+            std::string path {"logs/session_"};
             path.append(std::to_string(time(nullptr)));
             path.append(".txt");
 
@@ -83,6 +84,18 @@ namespace logger {
         };
 
         this->_sink.emplace(entry);
+    }
+
+    void createLogDir(const std::string &path) {
+        if (!std::filesystem::exists(path)) {
+            if (std::filesystem::create_directories(path)) {
+                Logger::getInstance().log("Directory created: " + path, QueueEntryType::INFORMATION);
+            } else {
+                Logger::getInstance().log("Failed to create directory: " + path, QueueEntryType::SEVERE);
+            }
+        } else {
+            Logger::getInstance().log("Failed to create directory: " + path, QueueEntryType::SEVERE);
+        }
     }
 }
 

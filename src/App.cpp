@@ -22,6 +22,8 @@ void App::start() {
     // Initialize ImageManager singleton
     memory::MemoryGameImageManager::getInstance().initialize();
 
+    logger::createLogDir("logs");
+
     logger::Logger &logger{logger::Logger::getInstance()};
     logger << QueueEntryType::INFORMATION;
     logger << "App Start";
