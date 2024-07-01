@@ -18,6 +18,7 @@ namespace games {
     /**
      * @brief The RowsOfSymbols game class, which represents the logic and rendering of the game.
      */
+
     class RowsOfSymbols : abstract_game::Game {
 
         // list (deque) of currently shown symbols

@@ -5,6 +5,7 @@ namespace games {
     /**
      * @brief Enum class for the relative position of a point
      */
+
     enum class RelativePointPosition {
         TOP_LEFT,
         TOP_CENTER,
