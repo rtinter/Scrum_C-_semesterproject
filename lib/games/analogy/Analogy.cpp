@@ -85,11 +85,11 @@ namespace games {
         ImGui::Spacing();
         ImGui::Spacing();
 
-        for (auto const &option: _currentQuestion.options) {
+        for (const auto &[fst, snd]: _currentQuestion.options) {
             ImGui::SetCursorPosX(itemOffsetX);
-            std::string const label{"  " + option.second};
-            if (ImGui::RadioButton(label.c_str(), _selectedOption == option.first)) {
-                _selectedOption = option.first;
+            std::string const label{"  " + snd};
+            if (ImGui::RadioButton(label.c_str(), _selectedOption == fst)) {
+                _selectedOption = fst;
             }
         }
 
@@ -105,9 +105,8 @@ namespace games {
     // Renders a message and current score when the correct answer is given
     void Analogy::renderCorrectMessage() {
         auto const now{std::chrono::steady_clock::now()};
-        auto const duration{std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
-        if (duration < 2) {
+        if (auto const duration{std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()}; duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);
             ImGui::Spacing();
             ImGui::Spacing();

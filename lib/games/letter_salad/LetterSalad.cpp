@@ -217,7 +217,7 @@ namespace games {
     }
 
     void LetterSalad::renderGameField() {
-        ImGui::SetCursorPos(ImVec2(commons::WindowConfig::WINDOW_WIDTH / 2.f - 360, 50));
+        ImGui::SetCursorPos(ImVec2((commons::WindowConfig::WINDOW_WIDTH / 2.f) - 360, 50));
         ImGui::BeginChild("##gameField", ImVec2(720, 760));
         ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 
@@ -229,7 +229,7 @@ namespace games {
                 if (x > 0) ImGui::SameLine();
 
                 // PushID is used to ensure that each cell has a unique ID
-                ImGui::PushID(y * 20 + x);
+                ImGui::PushID((y * 20) + x);
                 if (ImGui::Selectable(
                     _gameField[y][x].getChar(),
                     _gameField[y][x].isSelected || _gameField[y][x].isSolved,
@@ -256,7 +256,7 @@ namespace games {
         static constexpr int WIDTH{650};
         static constexpr int HEIGHT{40};
 
-        ImVec2 const startPos{ImVec2(ImGui::GetWindowWidth() / 2 - static_cast<int>(WIDTH / 2), 810)};
+        auto const startPos{ImVec2((ImGui::GetWindowWidth() / 2.f) - (WIDTH / 2.f), 810)};
 
         ImGui::PushFont(commons::Fonts::_header2);
 
@@ -363,9 +363,8 @@ namespace games {
             for (auto const &lineE: _currentLine) {
                 finalize(lineE);
             }
-            auto const foundWord{_activeWordList.find(letter_salad::WordTarget{_selectedWord})};
 
-            if (!(*foundWord->isFound())) {
+            if (auto const foundWord{_activeWordList.find(letter_salad::WordTarget{_selectedWord})}; !(*foundWord->isFound())) {
                 foundWord->setFound();
                 commons::SoundPolice::safePlaySound(Sound::CORRECT);
             }
@@ -437,10 +436,9 @@ namespace games {
         // diagonally or horizontally or vertically
         bool const isDiagonal = {std::abs(dx) == std::abs(dy)};
         bool const isHorizontal = {dy == 0};
-        bool const isVertical = {dx == 0};
 
         // return if the cells are not in one line
-        if (!isDiagonal && !isHorizontal && !isVertical) {
+        if (bool const isVertical = {dx == 0}; !isDiagonal && !isHorizontal && !isVertical) {
             return linePoints;
         }
 
@@ -484,11 +482,12 @@ namespace games {
         }
     }
 
+    // ReSharper disable once CppMemberFunctionMayBeConst
     void LetterSalad::randomizeGameField() {
         for (auto &row: _gameField) {
             for (auto &box: row) {
                 if (box.getLetter() == EMPTY_CELL) {
-                    auto const letter{std::string(1, 'A' + rand() % 26)};
+                    auto const letter{std::string(1, 'A' + (rand() % 26))};
                     box.setLetter(letter);
                 }
             }
@@ -502,9 +501,8 @@ namespace games {
 
         while (_activeWordList.size() < NR_OF_WORDS) {
             int const randomIndex{RandomPicker::randomInt(0, _wordList.size() - 1)};
-            auto const wordPair{*std::next(_wordList.begin(), randomIndex)};
             // check if the word can be placed
-            if (_activeWordList.find(wordPair) == _activeWordList.end() && placeWord(wordPair.getWord())) {
+            if (auto const wordPair{*std::next(_wordList.begin(), randomIndex)}; _activeWordList.find(wordPair) == _activeWordList.end() && placeWord(wordPair.getWord())) {
                 // if yes add it to the active wordList
                 _activeWordList.insert(wordPair);
             }

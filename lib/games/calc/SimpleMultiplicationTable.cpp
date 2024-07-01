@@ -29,7 +29,7 @@ namespace calc {
     }
 
     void SimpleMultiplicationTable::generateTask() {
-        std::uniform_int_distribution<int> dist{1, 10};
+        std::uniform_int_distribution dist{1, 10};
         _leftOperand = dist(_rng);
         _rightOperand = dist(_rng);
     }
@@ -61,7 +61,7 @@ namespace calc {
             float const totalHeight{textHeight * 2}; // Include space for instructions
 
             // Position instructions above the task
-            ImGui::SetCursorPosY((ImGui::GetWindowHeight() - totalHeight) / 2.0f - textHeight);
+            ImGui::SetCursorPosY(((ImGui::GetWindowHeight() - totalHeight) / 2.0f) - textHeight);
 
             ImGui::PushFont(commons::Fonts::_header3);
             ImGui::SetCursorPosX((ImGui::GetWindowWidth() - instructionTextSize.x) / 2.0f);
@@ -71,7 +71,7 @@ namespace calc {
             ImGui::SetCursorPosY(ImGui::GetCursorPosY() + textHeight);
 
             // Center the task horizontally with an offset to the left
-            ImGui::SetCursorPosX((ImGui::GetWindowWidth() - totalWidth) / 2.0f - LEFT_OFFSET);
+            ImGui::SetCursorPosX(((ImGui::GetWindowWidth() - totalWidth) / 2.0f) - LEFT_OFFSET);
 
             // Render the task
             ImGui::AlignTextToFramePadding();

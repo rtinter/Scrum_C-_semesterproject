@@ -118,7 +118,7 @@ namespace calc {
             float const totalHeight{textHeight * 2}; // Include space for instructions
 
             // Position instructions above the task
-            ImGui::SetCursorPosY((ImGui::GetWindowHeight() - totalHeight) / 2.0f - textHeight);
+            ImGui::SetCursorPosY(((ImGui::GetWindowHeight() - totalHeight) / 2.0f) - textHeight);
 
             ImGui::PushFont(commons::Fonts::_header3);
             ImGui::SetCursorPosX((ImGui::GetWindowWidth() - INSTRUCTION_TEXT_SIZE.x) / 2.0f);

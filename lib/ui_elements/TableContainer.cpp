@@ -10,7 +10,7 @@ namespace ui_elements {
 
 
     void TableContainer::render() {
-        float const childWidth{ImGui::GetWindowWidth() / 2 - 20.f};
+        float const childWidth{(ImGui::GetWindowWidth() / 2) - 20.f};
         constexpr float CHILD_HEIGHT{400.f};
 
         ImGui::BeginChild(_gameName.c_str(), ImVec2(childWidth, CHILD_HEIGHT), true, ImGuiWindowFlags_AlwaysAutoResize);

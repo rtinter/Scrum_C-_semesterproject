@@ -179,7 +179,7 @@ namespace games {
     void SimonSays::chooseNextRandomButton() {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distribution(0, K_NUMBER_OF_BUTTONS - 1);
+        std::uniform_int_distribution distribution(0, K_NUMBER_OF_BUTTONS - 1);
 
         _buttonsClickedSequence.emplace_back(distribution(gen));
     }
