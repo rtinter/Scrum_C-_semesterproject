@@ -13,7 +13,7 @@
 #include <set>
 #include "RandomPicker.hpp"
 
-namespace game {
+namespace games {
 
     using RandomPicker = commons::RandomPicker;
     using CharVector2D = std::vector<std::vector<Box>>;

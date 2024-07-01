@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 
-namespace typeracer {
+namespace games {
 
     /**
      * @brief A class that contains the texts for the fire department and police department.

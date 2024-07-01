@@ -10,7 +10,7 @@
 #include "Sound.hpp"
 #include "SoundPolice.hpp"
 
-namespace game {
+namespace games {
 
     RowsOfSymbols::RowsOfSymbols() : abstract_game::Game(abstract_game::GameID::ROWS_OF_SYMBOLS),
                                      _correctSymbols(0), _wrongSymbols(0), _timer{"Symbolreihen", TOTAL_TIME_SEC} {

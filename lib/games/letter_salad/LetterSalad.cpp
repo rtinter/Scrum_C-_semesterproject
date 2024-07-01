@@ -16,7 +16,7 @@
 
 using json = nlohmann::json;
 
-namespace game {
+namespace games {
 
     LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
         _gameName = "Buchstaben Salat";

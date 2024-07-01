@@ -8,7 +8,7 @@
 #include "ColorTheme.hpp"
 #include "SoundPolice.hpp"
 
-namespace game {
+namespace games {
 
     MatrixGame::MatrixGame() : Game(abstract_game::GameID::MATRIX) {
         _gameName = "Matrix";
