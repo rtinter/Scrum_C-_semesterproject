@@ -1,6 +1,6 @@
 #pragma once
 
-enum QueueEntryType {
+enum LogType {
     INFORMATION,
     DEBUG,
     SEVERE,

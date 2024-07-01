@@ -15,6 +15,7 @@
 #include "Analogy.hpp"
 #include "Calc.hpp"
 #include "RowsOfSymbols.hpp"
+#include "DiagramAnalysis.hpp"
 #include "Conclusions.hpp"
 
 
@@ -237,6 +238,19 @@ scene::DashboardScene::DashboardScene() {
     );
 
 
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "\uE473",
+                    "Diagramme analysieren",
+                    "Analysiere das Diagram",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::DiagramAnalysis>>()
+                        );
+                    }
+            )
+    );
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
      * hier festgelegt.
     */

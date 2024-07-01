@@ -8,7 +8,7 @@
 #include "SFML/Window/Event.hpp"
 
 #include "Logger.hpp"
-#include "QueueEntryType.hpp"
+#include "LogType.hpp"
 #include "WindowConfig.hpp"
 
 #if (defined(_WIN32))
@@ -25,7 +25,7 @@ void App::start() {
     logger::createLogDir("logs");
 
     logger::Logger &logger{logger::Logger::getInstance()};
-    logger << QueueEntryType::INFORMATION;
+    logger << LogType::INFORMATION;
     logger << "App Start";
 
     sf::VideoMode videoMode(WindowConfig::WINDOW_WIDTH, WindowConfig::WINDOW_HEIGHT);
