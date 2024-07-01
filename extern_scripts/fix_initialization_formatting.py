@@ -16,10 +16,10 @@ def convert_initialization(file_path):
 def process_directory(directory):
     for root, _, files in os.walk(directory):
         for file in files:
-            if file.endswith('.cpp') or file.endswith('.h'):
+            if file.endswith('.cpp') or file.endswith('.hpp'):
                 file_path = os.path.join(root, file)
                 convert_initialization(file_path)
 
 # Replace 'your_project_directory' with the path to your project
-process_directory('lib')
-process_directory('src')
+process_directory('../lib')
+process_directory('../src')
