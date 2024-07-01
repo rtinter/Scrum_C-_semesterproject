@@ -220,10 +220,10 @@ namespace games {
         ImGui::BeginChild("##gameField", ImVec2(720, 760));
         ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 
-        for (int y = 0; y < _gameField.size(); y++) {
+        for (int y{0}; y < _gameField.size(); y++) {
             auto const &row{_gameField[y]};
 
-            for (int x = 0; x < row.size(); x++) {
+            for (int x{0}; x < row.size(); x++) {
                 // Always print on the same line but the first cell
                 if (x > 0) ImGui::SameLine();
 
