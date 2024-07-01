@@ -87,9 +87,9 @@ void SimpleMultiplicationTable::render() {
             _completedSuccessfully = (_answer == _leftOperand * _rightOperand);
 
             if (_completedSuccessfully) {
-                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(Sound::CORRECT);
             } else {
-                commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+                commons::SoundPolice::safePlaySound(Sound::ERROR);
             }
 
             // When we enter input the game/level no matter the evaluation outcome we stop game execution

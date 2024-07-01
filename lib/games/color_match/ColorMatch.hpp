@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <Colors.hpp>
 #include <Game.hpp>
 #include <string>

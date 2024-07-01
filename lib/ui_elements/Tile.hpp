@@ -1,11 +1,11 @@
 #pragma once
 
-#include <Colors.hpp>
-#include <ColorTheme.hpp>
-#include <string>
 #include <functional>
 #include <imgui.h>
-#include <UiElement.hpp>
+#include <string>
+
+#include "ColorTheme.hpp"
+#include "UiElement.hpp"
 
 
 namespace ui_elements {

@@ -12,7 +12,7 @@
 
 namespace games {
 
-    RowsOfSymbols::RowsOfSymbols() : abstract_game::Game(abstract_game::GameID::ROWS_OF_SYMBOLS),
+    RowsOfSymbols::RowsOfSymbols() : Game(abstract_game::GameID::ROWS_OF_SYMBOLS),
                                      _correctSymbols(0), _wrongSymbols(0), _timer{"Symbolreihen", TOTAL_TIME_SEC} {
 
         _gameName = "Symbolreihen";
@@ -70,7 +70,7 @@ namespace games {
     }
 
     void RowsOfSymbols::renderGame() {
-        ui_elements::Window("Symbolreihen").render([this]() {
+        ui_elements::Window("Symbolreihen").render([this] {
 
             _timer.render();
 
@@ -284,10 +284,10 @@ namespace games {
 
         // play sounds and update the correct and wrong symbols counter
         if (correct) {
-            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+            commons::SoundPolice::safePlaySound(Sound::CORRECT);
             _correctSymbols++;
         } else {
-            commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+            commons::SoundPolice::safePlaySound(Sound::ERROR);
             _wrongSymbols++;
             _timer.reduceTime(WRONG_ANSWER_TIME_REDUCTION_SEC);
         }

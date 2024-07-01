@@ -5,7 +5,6 @@
 #include "Fonts.hpp"
 
 namespace ui_elements {
-
     /**
      * @brief Constructor for StatisticsGameTable.
      *
@@ -13,7 +12,7 @@ namespace ui_elements {
      * Der int gibt die Sortierung der Zeilen an (Niedrigste ist die höchste).
      * Die Liste von Strings entspricht einer Zeile, pro Spalte ein String.
      */
-    StatisticsGameTable::StatisticsGameTable(std::map<int, std::vector<std::string>> const &input) {
+    StatisticsGameTable::StatisticsGameTable(std::map<int, std::vector<std::string> > const &input) {
         _input = input;
         if (input.empty()) {
             _column_size = 0;
@@ -38,7 +37,6 @@ namespace ui_elements {
     }
 
     void StatisticsGameTable::createTableHead() const {
-
         ImGui::PushFont(commons::Fonts::_header3);
         // column names
         for (auto const &entry: _input.begin()->second) {
@@ -46,18 +44,17 @@ namespace ui_elements {
         }
         ImGui::TableHeadersRow();
         ImGui::PopFont();
-
     }
 
     void StatisticsGameTable::createTableRows() const {
-        for (auto const &keyvaluepair: _input) {
-            if (_input.begin()->first == keyvaluepair.first) {
+        for (const auto &[fst, snd]: _input) {
+            if (_input.begin()->first == fst) {
                 continue; //skips the table head
             }
             ImGui::TableNextRow();
             ImGui::PushFont(commons::Fonts::_header3);
             int i{0};
-            for (auto const &entry: keyvaluepair.second) {
+            for (auto const &entry: snd) {
                 // date
                 ImGui::TableSetColumnIndex(i);
                 //checks if vector has to few data sets
@@ -75,7 +72,6 @@ namespace ui_elements {
     void StatisticsGameTable::createTable() const {
         if (ImGui::BeginTable("Tabelle", _input.begin()->second.size(),
                               ImGuiTableFlags_Borders | ImGuiTableFlags_ScrollY)) {
-
             ImGui::PushStyleColor(ImGuiCol_TableHeaderBg, commons::ColorTheme::PRIMARY_COLOR);
             createTableHead();
 

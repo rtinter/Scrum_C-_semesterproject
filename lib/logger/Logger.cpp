@@ -53,7 +53,7 @@ namespace logger {
 
             logger._initialized = true;
             logger._outputStream.open(path);
-            logger._sinkBackgroundTask = std::async(std::launch::async, [&]() {
+            logger._sinkBackgroundTask = std::async(std::launch::async, [&] {
                 sinkTask(logger);
             });
         }

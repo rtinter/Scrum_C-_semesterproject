@@ -1,5 +1,4 @@
-#ifndef ATHENA_CENTERED_HPP
-#define ATHENA_CENTERED_HPP
+#pragma once
 
 #include <functional>
 
@@ -26,7 +25,4 @@ namespace ui_elements {
         */
         explicit Centered(bool horizontal, bool vertical, std::function<void()> const &callback);
     };
-
 } // ui_elements
-
-#endif //ATHENA_CENTERED_HPP

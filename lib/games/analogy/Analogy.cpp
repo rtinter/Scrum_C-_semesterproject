@@ -10,7 +10,7 @@ using json = nlohmann::json;
 namespace games {
 
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
-    Analogy::Analogy() : abstract_game::Game(abstract_game::GameID::ANALOGY), _selectedOption{'\0'} {
+    Analogy::Analogy() : Game(abstract_game::GameID::ANALOGY), _selectedOption{'\0'} {
         _gameName = "Analogien";
         _gameDescription = "Finde das passende Wort.";
         _gameRules = "1. Analysiere die angezeigte Wortverbindung.\n2. Finde das dazu passende Wort.\n"
@@ -53,7 +53,7 @@ namespace games {
 
     // Renders the main game content
     void Analogy::renderGame() {
-        ui_elements::Window("Analogien").render([this]() {
+        ui_elements::Window("Analogien").render([this] {
             if (_questions.empty()) {
                 std::cout << "No questions loaded." << std::endl;
                 return;

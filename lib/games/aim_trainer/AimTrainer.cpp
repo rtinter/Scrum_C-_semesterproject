@@ -1,6 +1,8 @@
 #include "AimTrainer.hpp"
 
 #include <algorithm>
+#include <Colors.hpp>
+
 #include "Window.hpp"
 #include "SoundPolice.hpp"
 #include "WindowConfig.hpp"
@@ -14,7 +16,7 @@ void games::AimTrainer::spawnBlobs() {
     int const windowHeight{commons::WindowConfig::WINDOW_HEIGHT};
 
     if(_spawnAmount >= 1){
-        commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 30, 3.f);
+        commons::SoundPolice::safePlaySound(Sound::CLICK, 30, 3.f);
     }
 
     for (int i{0}; i < _spawnAmount; ++i) {

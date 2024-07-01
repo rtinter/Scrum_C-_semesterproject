@@ -11,7 +11,7 @@
 #include <SoundPolice.hpp>
 
 namespace games {
-    Reaction::Reaction() : abstract_game::Game(abstract_game::GameID::REACTION) {
+    Reaction::Reaction() : Game(abstract_game::GameID::REACTION) {
         _gameName = "Reaction";
         _gameDescription =
                 "Unser Reaktionszeit-Spiel bewertet die Fähigkeit, schnell und präzise auf visuelle Reize zu reagieren,\n"
@@ -44,7 +44,7 @@ namespace games {
 
     void Reaction::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-        ui_elements::Window("Reaction Game").render([this]() {
+        ui_elements::Window("Reaction Game").render([this] {
             if (_colorClock.getElapsedTime().asSeconds() >= _redDuration && !isGreen()) {
                 _windowColor = commons::Colors::GREEN;
                 _startPoint = std::chrono::steady_clock::now();
@@ -55,7 +55,7 @@ namespace games {
                     _isGameRunning = false;
                     _finishPoint = std::chrono::steady_clock::now();
 
-                    commons::SoundPolice::safePlaySound(commons::Sound::CLICK);
+                    commons::SoundPolice::safePlaySound(Sound::CLICK);
 
                     auto const duration {std::chrono::duration_cast<std::chrono::milliseconds>(
                             _finishPoint - _startPoint).count()};
@@ -79,7 +79,7 @@ namespace games {
                     _endBoxTitle = "Zu früh geklickt!";
                     _endBoxText = "Versuche es nochmal!";
 
-                    commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+                    commons::SoundPolice::safePlaySound(Sound::ERROR);
                 }
             }
         });

@@ -44,10 +44,10 @@ namespace games {
             ui_elements::Centered(true, true, [this] {
                 ImGui::PushFont(commons::Fonts::_header3);
                 switch (_currentGameMode) {
-                    case GameMode::WATCH:
+                    case WATCH:
                         ImGui::Text("Sieh zu und versuch dir die Reihenfolge zu merken!");
                         break;
-                    case GameMode::REPEAT:
+                    case REPEAT:
                         ImGui::Text("Wiederhole die Reihenfolge!");
                         break;
                 }
@@ -60,7 +60,7 @@ namespace games {
     }
 
     void SimonSays::start() {
-        _currentGameMode = GameMode::WATCH;
+        _currentGameMode = WATCH;
         _isGameRunning = true;
         _showEndBox = false;
         _sequenceButtonIterator = 0;
@@ -109,7 +109,7 @@ namespace games {
                 ImGui::NewLine();
             }
             switch (_currentGameMode) {
-                case GameMode::WATCH:
+                case WATCH:
 
                     checkWaitTimeExpired();
                     checkLitUpExpired(
@@ -137,7 +137,7 @@ namespace games {
                     ImGui::PopStyleColor(); //one time extra because of Hovered color
 
                     break;
-                case GameMode::REPEAT:
+                case REPEAT:
 
                     ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
                     ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::SECONDARY_COLOR);
@@ -171,7 +171,7 @@ namespace games {
             }
 
         } else {
-            commons::SoundPolice::safePlaySound(commons::Sound::BEEP_FAIL);
+            commons::SoundPolice::safePlaySound(Sound::BEEP_FAIL);
             stop();     //wrong button clicked -> GAMEOVER!
         }
 
@@ -224,15 +224,15 @@ namespace games {
 
     void SimonSays::switchGameMode() {
         switch (_currentGameMode) {
-            case GameMode::WATCH:
-                _currentGameMode = GameMode::REPEAT;
+            case WATCH:
+                _currentGameMode = REPEAT;
 
                 _correctClicksOfCurrentSequence = 0; //reset correctClicksCount for the new round
                 _sequenceButtonIterator = 0;
                 break;
 
-            case GameMode::REPEAT:
-                _currentGameMode = GameMode::WATCH;
+            case REPEAT:
+                _currentGameMode = WATCH;
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(700));
                 _wasLastButtonOfSequence = false; //reset sequence show endtime checker variable
@@ -272,34 +272,34 @@ namespace games {
     void SimonSays::playButtonSound(const int &buttonID) {
         switch (buttonID) {
             case 0:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.666f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 0.666f);
                 break;
             case 1:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.777f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 0.777f);
                 break;
             case 2:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.888f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 0.888f);
                 break;
             case 3:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 0.999f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 0.999f);
                 break;
             case 4:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.11f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 1.11f);
                 break;
             case 5:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.222f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 1.222f);
                 break;
             case 6:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.333f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 1.333f);
                 break;
             case 7:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.444f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 1.444f);
                 break;
             case 8:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.555f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 1.555f);
                 break;
             default:
-                commons::SoundPolice::safePlaySound(commons::Sound::BEEP, 100, 1.0f);
+                commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 1.0f);
                 break;
 
         }

@@ -59,10 +59,10 @@ namespace games {
             }
             ui_elements::Centered(true, false, [this] {
                 switch (_currentGameMode) {
-                    case GameMode::MATCH_STRING:
+                    case MATCH_STRING:
                         ImGui::Text("Finde die Übereinstimmung mit dem FarbWORT:");
                         break;
-                    case GameMode::MATCH_IMVEC4:
+                    case MATCH_IMVEC4:
                         ImGui::Text("Finde die Übereinstimmung mit der SchriftFARBE:");
                         break;
                 }
@@ -78,7 +78,7 @@ namespace games {
     void ColorMatch::start() {
         reset();
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-                std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
+                std::vector<GameMode>{MATCH_STRING, MATCH_IMVEC4});
         _isGameRunning = true;
         _showEndBox = false;
         _timer.start();
@@ -145,7 +145,7 @@ namespace games {
             bool isCurrentColor;
             std::string buttonID;
             switch (_currentGameMode) {
-                case GameMode::MATCH_STRING:
+                case MATCH_STRING:
                     // create colored buttons with no label
                     isCurrentColor = _availableColorsString.at(i) == _randomColorsString.at(_indexOfCurrentColor);
                     buttonID = "##" + _availableColorsString.at(i);
@@ -154,7 +154,7 @@ namespace games {
                                           commons::ColorHelper::adjustBrightness(_availableColorsImVec4.at(i),
                                                                                  1.2f)); // Hover state equals normal state
                     break;
-                case GameMode::MATCH_IMVEC4:
+                case MATCH_IMVEC4:
                     // create gray buttons with color names (e.g. "rot") as button labels
                     isCurrentColor = commons::ColorHelper::isEqual(_availableColorsImVec4.at(i),
                                                                    _randomColorsImVec4.at(_indexOfCurrentColor));

@@ -1,27 +1,26 @@
 #include "Timer.hpp"
 
-#include <Fonts.hpp>
-#include <sstream>
 #include <iomanip>
-#include <Window.hpp>
+#include <sstream>
+
+#include "Fonts.hpp"
+#include "Window.hpp"
 
 
 namespace ui_elements {
-
     // Konstruktor
     Timer::Timer(std::string const &windowName, int const &timeInSeconds)
-            : _windowName(windowName), _initTimerTimeInSeconds(timeInSeconds),
-              _currentTimerTimeInSeconds(timeInSeconds) {
+        : _windowName(windowName), _initTimerTimeInSeconds(timeInSeconds),
+          _currentTimerTimeInSeconds(timeInSeconds) {
     }
 
     // private methods
-    void Timer::setHighlighted(int seconds){
+    void Timer::setHighlighted(int const seconds) {
         _highlightUntil = std::chrono::steady_clock::now() + std::chrono::seconds(seconds);
         _highlighted = true;
     }
 
     int Timer::getSecondsLeft() const {
-
         // return value if timer is not running (static value)
         if (!isRunning()) {
             if (isExpired()) {
@@ -31,9 +30,11 @@ namespace ui_elements {
         }
 
         // return value if timer is running (dynamic value)
-        auto now {std::chrono::steady_clock::now()};
-        auto duration {std::chrono::duration_cast<std::chrono::seconds>
-                (now - _startPoint).count()};
+        auto const now{std::chrono::steady_clock::now()};
+        auto const duration{
+            std::chrono::duration_cast<std::chrono::seconds>
+            (now - _startPoint).count()
+        };
         return _currentTimerTimeInSeconds - duration;
     }
 
@@ -45,7 +46,8 @@ namespace ui_elements {
     }
 
     int Timer::getMinutes() const {
-        if (getSecondsLeft() > 0) { // Division durch 0 verhindern
+        if (getSecondsLeft() > 0) {
+            // Division durch 0 verhindern
             return getSecondsLeft() / 60;
         }
         return 0;
@@ -58,56 +60,54 @@ namespace ui_elements {
     }
 
     void Timer::checkExpired() {
-
         // check if timer is expired
         if (getSecondsLeft() <= 0 && isRunning()) {
             expire();
         }
 
-        if(isHighlighted() && std::chrono::steady_clock::now() > _highlightUntil){
+        if (isHighlighted() && std::chrono::steady_clock::now() > _highlightUntil) {
             _highlighted = false;
         }
     }
 
     // public methods
     void Timer::render() {
-
         // check if timer is expired
         checkExpired();
 
-        ui_elements::Window(_windowName).render([this]() {
-
-            if(isHighlighted()){
+        Window(_windowName).render([this] {
+            if (isHighlighted()) {
                 ImGui::PushFont(commons::Fonts::_header1);
-            }
-            else {
+            } else {
                 ImGui::PushFont(commons::Fonts::_header2);
             }
 
             // Create the string for the timer
             std::stringstream ss;
             ss << getMinutes() << ":" << std::setw(2) << std::setfill('0') << getSeconds();
-            std::string text {ss.str()};
+            std::string const text{ss.str()};
 
             ImGui::Dummy(ImVec2(this->_width, this->_height));
 
             // Get the position and size of the dummy
-            ImVec2 pos {ImGui::GetItemRectMin()};
-            ImVec2 textPos {ImVec2(
+            ImVec2 const pos{ImGui::GetItemRectMin()};
+            auto const textPos{
+                ImVec2(
                     pos.x + ((this->_width - ImGui::CalcTextSize(text.c_str()).x) * 0.5f),
                     pos.y + ((this->_height - ImGui::CalcTextSize(text.c_str()).y) * 0.5f)
-            )};
+                )
+            };
 
-            ImDrawList &drawList {(*ImGui::GetWindowDrawList())};
+            ImDrawList &drawList{(*ImGui::GetWindowDrawList())};
 
-            ImU32 rectangle {IM_COL32(255, 0, 0, 255)};
-            ImU32 textColor {IM_COL32(255, 255, 255, 255)};
-            float rounding {25.f};
+            constexpr ImU32 RECTANGLE{IM_COL32(255, 0, 0, 255)};
+            constexpr ImU32 TEXT_COLOR{IM_COL32(255, 255, 255, 255)};
+            constexpr float ROUNDING{25.f};
 
-            drawList.AddRectFilled(pos, ImVec2(pos.x + this->_width, pos.y + this->_height), rectangle, rounding);
+            drawList.AddRectFilled(pos, ImVec2(pos.x + this->_width, pos.y + this->_height), RECTANGLE, ROUNDING);
 
             // Draw the text over the rectangle
-            drawList.AddText(textPos, textColor, text.c_str());
+            drawList.AddText(textPos, TEXT_COLOR, text.c_str());
 
             ImGui::PopFont();
         });
@@ -122,7 +122,7 @@ namespace ui_elements {
     }
 
     bool Timer::isExpiredNow() {
-        if(_expiredNow){
+        if (_expiredNow) {
             _expiredNow = false;
             return true;
         }
@@ -134,7 +134,6 @@ namespace ui_elements {
     }
 
     void Timer::start() {
-
         // ignore if timer is already running
         if (isRunning()) {
             return;
@@ -156,8 +155,7 @@ namespace ui_elements {
         _expiredNow = false; // if the timer got expired right now
     }
 
-    void Timer::reduceTime(int seconds) {
-
+    void Timer::reduceTime(int const seconds) {
         if (getSecondsLeft() <= seconds) {
             expire();
         } else {
@@ -166,12 +164,11 @@ namespace ui_elements {
         }
     }
 
-    void Timer::resetWithNewTime(int newTimeInSeconds) {
+    void Timer::resetWithNewTime(int const newTimeInSeconds) {
         _currentTimerTimeInSeconds = newTimeInSeconds;
         _running = false;
         _expired = false;
         _expiredNow = false;
         _startPoint = std::chrono::steady_clock::now(); // Update the start point
     }
-
 }

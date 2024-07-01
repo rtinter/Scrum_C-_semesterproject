@@ -18,7 +18,7 @@ using json = nlohmann::json;
 
 namespace games {
 
-    LetterSalad::LetterSalad() : abstract_game::Game(abstract_game::GameID::LETTER_SALAD) {
+    LetterSalad::LetterSalad() : Game(abstract_game::GameID::LETTER_SALAD) {
         _gameName = "Buchstaben Salat";
         _gameDescription = "Dieses Spiel testet ob du in der Lage bist, "
                            "über einen längeren Zeitraum, "
@@ -159,9 +159,9 @@ namespace games {
     }
 
     void LetterSalad::renderGame() {
-        ui_elements::Window("###letterSalad").render([this]() {
+        ui_elements::Window("###letterSalad").render([this] {
             _timer.render();
-            LetterSalad::renderTextList();
+            renderTextList();
             ImGui::SameLine();
             this->renderGameField();
             this->renderSelectedWord();
@@ -331,7 +331,7 @@ namespace games {
      * @param coords
      */
     void LetterSalad::clickCell(commons::Coordinates const &coords) {
-        commons::SoundPolice::safePlaySound(commons::Sound::CLICK, 70);
+        commons::SoundPolice::safePlaySound(Sound::CLICK, 70);
 
         // if the first has not been selected yet
         if (!_isFirstCellSelected) {
@@ -358,19 +358,19 @@ namespace games {
     void LetterSalad::resetSelectedPair() {
         _isFirstCellSelected = false;
         _isSecondCellSelected = false;
-        if (!LetterSalad::isWordInList(_activeWordList, _selectedWord)) {
+        if (!isWordInList(_activeWordList, _selectedWord)) {
             for (auto const &lineE : _currentLine) {
-                LetterSalad::deselectBox(lineE);
+                deselectBox(lineE);
             }
         } else {
             for (auto const &lineE : _currentLine) {
-                LetterSalad::finalize(lineE);
+                finalize(lineE);
             }
             auto const foundWord{_activeWordList.find(WordTarget{_selectedWord})};
 
             if (!(*foundWord->isFound())) {
                 foundWord->setFound();
-                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(Sound::CORRECT);
             }
 
             bool areAllWordsFound{true};

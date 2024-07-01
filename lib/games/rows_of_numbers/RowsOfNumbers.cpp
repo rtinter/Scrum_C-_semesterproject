@@ -16,7 +16,7 @@
 using json = nlohmann::json;
 
 namespace games {
-    RowsOfNumbers::RowsOfNumbers() : abstract_game::Game(abstract_game::GameID::ROWS_OF_NUMBERS) {
+    RowsOfNumbers::RowsOfNumbers() : Game(abstract_game::GameID::ROWS_OF_NUMBERS) {
         _gameName = "Zahlenreihen";
         _gameDescription = "Finde die fehlende Zahl in der Zahlenreihe.";
         _gameRules = "1. Analysiere die gezeigte Zahlenreihe.\n2. Finde die fehlende Zahl.\n3. Tippe die fehlende Zahl in das Eingabefeld.\n4. Bestätige die Eingabe durch Enter.";
@@ -26,7 +26,7 @@ namespace games {
     }
 
     // the vector is read in from the file
-    std::vector<games::Sequence> RowsOfNumbers::_sequences;
+    std::vector<Sequence> RowsOfNumbers::_sequences;
 
     /*********************************
     *  Loads the words from the configuration file and stores them in _sequences.
@@ -81,7 +81,7 @@ namespace games {
     void RowsOfNumbers::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
 
-        ui_elements::Window(_gameName).render([this]() {
+        ui_elements::Window(_gameName).render([this] {
             ImGui::Spacing();
 
             ImGui::PushFont(commons::Fonts::_header1);
@@ -95,10 +95,10 @@ namespace games {
             if (_inputChanged && _input == _currentSolution) {
                 _correctAnswerTime = std::chrono::steady_clock::now();
                 _waitingForNextNumber = true;
-                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(Sound::CORRECT);
             } else if (_inputChanged && _input != _currentSolution) {
                 ui_elements::TextCentered("Falsch!");
-                commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+                commons::SoundPolice::safePlaySound(Sound::ERROR);
                 if (_solvedCounter > (_sequences.size() / 2))
                     _endBoxTitle = "Gut gemacht!";
                 else

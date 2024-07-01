@@ -47,7 +47,7 @@ namespace views {
     }
 
     void Dashboard::render() {
-        ui_elements::Window("Dashboard").render([this]() {
+        ui_elements::Window("Dashboard").render([this] {
             for (auto &category: _categoryTiles) {
                 renderCategory(category.first, category.second);
             }

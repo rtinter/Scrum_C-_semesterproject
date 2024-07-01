@@ -11,7 +11,7 @@ namespace games {
 
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
     Conclusions::Conclusions() :
-    abstract_game::Game(abstract_game::GameID::ABSURD_QUESTIONS),
+    Game(abstract_game::GameID::ABSURD_QUESTIONS),
     _selectedOption{std::nullopt},
     _showCorrectMessage{false},
     _solved{0}
@@ -59,7 +59,7 @@ namespace games {
 
     // Renders the main game content
     void Conclusions::renderGame() {
-        ui_elements::Window("Absurde Fragen").render([this]() {
+        ui_elements::Window("Absurde Fragen").render([this] {
             if (_questions.empty()) {
                 std::cout << "No questions loaded." << std::endl;
                 return;
@@ -201,13 +201,13 @@ namespace games {
     // Checks the selected answer and updates the game state
     void Conclusions::checkAnswer(std::optional<bool> &selectedOption){
         if (selectedOption.has_value() && selectedOption.value() == _currentQuestion.isCorrectAnswer) {
-            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+            commons::SoundPolice::safePlaySound(Sound::CORRECT);
             _solved++;
             _showCorrectMessage = true;
             _correctMessageStartTime = std::chrono::steady_clock::now();
         } else {
             renderGameOver();
-            commons::SoundPolice::safePlaySound(commons::Sound::BEEP_FAIL);
+            commons::SoundPolice::safePlaySound(Sound::BEEP_FAIL);
         }
     }
 

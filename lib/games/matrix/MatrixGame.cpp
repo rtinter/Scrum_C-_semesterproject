@@ -145,13 +145,13 @@ namespace games {
      */
     void MatrixGame::onClick(bool const &isCorrect) {
         if (isCorrect) {
-            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+            commons::SoundPolice::safePlaySound(Sound::CORRECT);
             _nCorrectClicksInTotal++;
             _nCorrectClicksSinceLastError++;
             _longestStreak = std::max(_nCorrectClicksSinceLastError, _longestStreak);
             generateNewMatrices();
         } else {
-            commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+            commons::SoundPolice::safePlaySound(Sound::ERROR);
             _nCorrectClicksSinceLastError = 0;
             _timer.reduceTime(5);
         }

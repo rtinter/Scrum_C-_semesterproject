@@ -9,7 +9,7 @@
 
 namespace games {
     Calc::Calc() :
-    abstract_game::Game(abstract_game::GameID::CALC),
+    Game(abstract_game::GameID::CALC),
     _timer("Schnelles Rechnen", 10),
     _difficulty_level(1),
     _completedLevels(1),
@@ -62,7 +62,7 @@ namespace games {
         ui_elements::InfoBox(
                 _gameID, _showInfobox, "Startbox",
                 _gameName, _gameDescription, _gameRules, _gameControls,
-                [this]() { start(); }
+                [this] { start(); }
         ).render();
 
         if (_showInfobox) {
@@ -116,7 +116,7 @@ namespace games {
         ui_elements::InfoBox(
                 _gameID, _showEndbox, "Endbox",
                 _endScreenTitle, endScreenText,
-                [this]() { start(); }
+                [this] { start(); }
         ).render();
     }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <chrono>
 
 #include "Header.hpp"
 #include "Results.hpp"

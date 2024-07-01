@@ -13,7 +13,7 @@
 
 
 namespace games {
-    TypeRacer::TypeRacer() : abstract_game::Game(abstract_game::GameID::TYPERACER) {
+    TypeRacer::TypeRacer() : Game(abstract_game::GameID::TYPERACER) {
         _gameName = "Type Racer";
         _gameDescription =
                 "TypeRacer ist ein spannendes Tipp-Spiel, das deine Tippgeschwindigkeit und Genauigkeit herausfordert.\n"
@@ -48,7 +48,7 @@ namespace games {
                 _gameDescription,
                 _gameRules,
                 _gameControls,
-                [this]() {
+                [this] {
                     reset();
                     _randomIndex = commons::RandomPicker::randomInt(0,
                                                                     FireDepartmentAndPoliceTexts::_mixedTexts.size());
@@ -60,7 +60,7 @@ namespace games {
                 "Endbox",
                 _endBoxTitle,
                 _endBoxText,
-                [this]() {
+                [this] {
                     reset();
                 }).render();
 
@@ -71,7 +71,7 @@ namespace games {
 
     void TypeRacer::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-        ui_elements::Window(_gameName).render([this]() {
+        ui_elements::Window(_gameName).render([this] {
             _windowWidth = ImGui::GetWindowWidth();
             _textWidth = ImGui::CalcTextSize(_sentence.c_str()).x;
 
@@ -179,7 +179,7 @@ namespace games {
     }
 
     void TypeRacer::stop() {
-        commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+        commons::SoundPolice::safePlaySound(Sound::CORRECT);
         _endBoxTitle = "Geschafft!";
         _runTimer = false;
         _showEndBox = true;

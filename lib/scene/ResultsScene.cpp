@@ -12,7 +12,7 @@
 
 namespace scene {
 
-    ResultsScene::ResultsScene() : _header("Meine Werte", "Home", []() {
+    ResultsScene::ResultsScene() : _header("Meine Werte", "Home", [] {
         SceneManager::getInstance().switchTo(std::make_unique<DashboardScene>());
     }) {
         loadSessionData();

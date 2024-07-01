@@ -7,7 +7,7 @@
 
 namespace memory {
 
-    Memory::Memory() : abstract_game::Game(abstract_game::GameID::MEMORY),
+    Memory::Memory() : Game(abstract_game::GameID::MEMORY),
                        _imageManager(MemoryGameImageManager::getInstance()) {
         _gameName = "Memory";
         _gameDescription =
@@ -53,7 +53,7 @@ namespace memory {
             sf::Texture const &texture {_imageManager.getTexture(imageIndex)};
 
             // Create a new memory tile with the retrieved texture, a click handler, tile size, and image index
-            auto const tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
+            auto const tile {std::make_shared<MemoryTile>(texture, [this, i] { handleTileClick(i); }, _tileSize,
                                                              imageIndex)};
 
             _tiles.push_back(tile);
@@ -144,7 +144,7 @@ namespace memory {
 
         tile->flip();
 
-        commons::SoundPolice::safePlaySound(commons::Sound::CARD_FLIP, 60, 2.5f);
+        commons::SoundPolice::safePlaySound(Sound::CARD_FLIP, 60, 2.5f);
 
         if (!_firstTile) {
             _firstTile = tile;
@@ -159,7 +159,7 @@ namespace memory {
 
     void Memory::checkForMatch() {
         if (_firstTile->getIndex() == _secondTile->getIndex()) {
-            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT, 60, 1.5f);
+            commons::SoundPolice::safePlaySound(Sound::CORRECT, 60, 1.5f);
             _pairsFound++;
             _firstTile = nullptr;
             _secondTile = nullptr;

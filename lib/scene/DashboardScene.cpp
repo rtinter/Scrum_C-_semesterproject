@@ -22,7 +22,7 @@
 using Tile = ui_elements::Tile;
 
 scene::DashboardScene::DashboardScene() {
-    _header = std::make_unique<views::Header>("Home", "Meine Werte", []() {
+    _header = std::make_unique<views::Header>("Home", "Meine Werte", [] {
         // linking to user result site
         SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
     });
@@ -43,7 +43,7 @@ scene::DashboardScene::DashboardScene() {
             "Reaktionsspiel",
             "Klicke, sobald es grün wird!",
             commons::Colors::BLUE,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::Reaction> >()
                 );
@@ -58,7 +58,7 @@ scene::DashboardScene::DashboardScene() {
             "Welche Farbe passt zum Wort?\n"
             "Welches Wort passt zur Farbe?",
             commons::Colors::BLUE,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::ColorMatch> >());
             }
@@ -71,7 +71,7 @@ scene::DashboardScene::DashboardScene() {
             "Aim Trainer",
             "Aim Trainer Beschreibung",
             commons::Colors::BLUE,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::AimTrainer> >());
             }
@@ -84,7 +84,7 @@ scene::DashboardScene::DashboardScene() {
             "Symbolreihen",
             "Symbole erkennen und einordnen",
             commons::Colors::BLUE,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::RowsOfSymbols> >());
             }
@@ -98,7 +98,7 @@ scene::DashboardScene::DashboardScene() {
             "Type Racer",
             "Schnelles Tippen",
             commons::Colors::ORANGE,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::TypeRacer> >()
                 );
@@ -114,7 +114,7 @@ scene::DashboardScene::DashboardScene() {
             "Buchstabensalat",
             "Finde alle Wörter in vorgegebener Zeit",
             commons::Colors::GREEN,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::LetterSalad> >()
                 );
@@ -128,7 +128,7 @@ scene::DashboardScene::DashboardScene() {
             "Matrix",
             "Finde die gedrehte\nbzw. gespiegelte Matrix",
             commons::Colors::GREEN,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::MatrixGame> >()
                 );
@@ -143,7 +143,7 @@ scene::DashboardScene::DashboardScene() {
             "Fakten merken",
             "Merke dir möglichst viele Fakten",
             commons::Colors::YELLOW,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::Remembering> >()
                 );
@@ -156,7 +156,7 @@ scene::DashboardScene::DashboardScene() {
             "Simon Says",
             "Merke dir die Reihenfolge!",
             commons::Colors::YELLOW,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::SimonSays> >()
                 );
@@ -170,7 +170,7 @@ scene::DashboardScene::DashboardScene() {
             "Memory",
             "Finde alle Paare",
             commons::Colors::YELLOW,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<memory::Memory> >()
                 );
@@ -185,7 +185,7 @@ scene::DashboardScene::DashboardScene() {
             "Zahlenreihen",
             "Finde die fehlende Zahl",
             commons::Colors::SEAFOAM,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::RowsOfNumbers> >()
                 );
@@ -199,7 +199,7 @@ scene::DashboardScene::DashboardScene() {
             "Schnelles Rechnen",
             "Löse Rechenaufgaben",
             commons::Colors::SEAFOAM,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::Calc> >()
                 );
@@ -215,7 +215,7 @@ scene::DashboardScene::DashboardScene() {
             "Analogien",
             "Finde das passende Wort",
             commons::Colors::SEAFOAM,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::Analogy> >()
                 );
@@ -229,7 +229,7 @@ scene::DashboardScene::DashboardScene() {
             "Schlussfolgerungen",
             "Erschließe die logische Schlussfolgerung",
             commons::Colors::SEAFOAM,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::Conclusions> >()
                 );

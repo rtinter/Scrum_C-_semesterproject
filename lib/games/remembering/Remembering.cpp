@@ -58,7 +58,7 @@ namespace games {
 
     // Renders the main game content
     void Remembering::renderGame() {
-        ui_elements::Window{"Remembering Game"}.render([this]() {
+        ui_elements::Window{"Remembering Game"}.render([this] {
             if (_showText) {
                 _timer.render();
                 displayCenteredText(_currentQuestionSet.text);
@@ -137,11 +137,11 @@ namespace games {
 
     void Remembering::renderSubmitButtons() {
         // Center the submit buttons
-        ui_elements::Centered{true, false, [this]() {
+        ui_elements::Centered{true, false, [this] {
             if (!_submitted && ImGui::Button("Submit All")) {
                 _submitted = true;
                 _showContinueButton = true;
-                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(Sound::CORRECT);
             }
 
             if (_showContinueButton && ImGui::Button("Weiter zur Auswertung")) {

@@ -144,9 +144,9 @@ void EquationBuilder::render() {
         if (ImGui::IsKeyPressed(ImGui::GetKeyIndex(ImGuiKey_Enter))) {
             _completedSuccessfully = evaluateUserInput();
             if (_completedSuccessfully) {
-                commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+                commons::SoundPolice::safePlaySound(Sound::CORRECT);
             } else {
-                commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+                commons::SoundPolice::safePlaySound(Sound::ERROR);
             }
             _running = false;
         }
