@@ -1,23 +1,19 @@
-#ifndef ATHENA_TYPERACER_H
-#define ATHENA_TYPERACER_H
+#pragma once
 
 #include <chrono>
-
-#include "Game.hpp"
-#include "imgui.h"
 #include <Colors.hpp>
 #include <set>
+#include <imgui.h>
+
+#include "Game.hpp"
 
 namespace games {
-
-    /******************************************************
-     *Type Racer Game
-         * Type Racer gives the user two sentences and measures the typing speed,
-         * as well as showing correct and incorrect letters.
-    *******************************************************/
-
-
-    class TypeRacer : public abstract_game::Game {
+    /**
+    *Type Racer Game
+    * Type Racer gives the user two sentences and measures the typing speed,
+    * as well as showing correct and incorrect letters.
+    */
+    class TypeRacer final : public abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::LIGHT_GRAY};
         float _windowWidth;
         float _textWidth;
@@ -48,7 +44,4 @@ namespace games {
 
         ~TypeRacer() override;
     };
-
-} // typeracer
-
-#endif //ATHENA_TYPERACER_H
+} // games
