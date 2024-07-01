@@ -1,14 +1,14 @@
 #include "Reaction.hpp"
 
-#include <Colors.hpp>
-#include <InfoBox.hpp>
-#include <Overlay.hpp>
 #include <random>
-#include <TextCentered.hpp>
-#include <Window.hpp>
-#include "GameSessionManager.hpp"
 #include <sstream>
-#include <SoundPolice.hpp>
+
+#include "Colors.hpp"
+#include "GameSessionManager.hpp"
+#include "InfoBox.hpp"
+#include "Overlay.hpp"
+#include "SoundPolice.hpp"
+#include "Window.hpp"
 
 namespace games {
     Reaction::Reaction() : Game(abstract_game::GameID::REACTION) {
@@ -19,10 +19,10 @@ namespace games {
                 "In diesen Berufen ist es entscheidend, rasch auf sich ändernde Situationen zu reagieren, \n"
                 "daher ist das Spiel ein zuverlässiger Indikator für die persönliche Eignung.\n";
         _gameRules = "Der Bildschirm zeigt zunächst eine rote Farbe.\n"
-                     "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
-                     "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
-                     "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
-                     "Versuche, deine beste Zeit zu schlagen!";
+                "Nach einer zufälligen Zeitspanne von bis zu 5 Sekunden wechselt der Bildschirm auf Grün.\n"
+                "Sobald der Bildschirm Grün wird, klickst du so schnell wie möglich die linke Maustaste.\n"
+                "Deine Reaktionszeit wird in Millisekunden angezeigt.\n"
+                "Versuche, deine beste Zeit zu schlagen!";
         _gameControls = "Linke Maustaste: Klicken, sobald der Bildschirm Grün wird.";
     }
 
@@ -57,8 +57,10 @@ namespace games {
 
                     commons::SoundPolice::safePlaySound(Sound::CLICK);
 
-                    auto const duration {std::chrono::duration_cast<std::chrono::milliseconds>(
-                            _finishPoint - _startPoint).count()};
+                    auto const duration{
+                        std::chrono::duration_cast<std::chrono::milliseconds>(
+                            _finishPoint - _startPoint).count()
+                    };
 
                     _showEndBox = true;
                     _statisticResult = duration;
@@ -116,7 +118,7 @@ namespace games {
         _colorClock.restart();
     }
 
-    std::string Reaction::getDurationRating(int duration) {
+    std::string Reaction::getDurationRating(int const duration) {
         if (duration < 260) {
             return "Herausragend";
         }
@@ -145,4 +147,4 @@ namespace games {
     std::string Reaction::getName() const {
         return Game::getName();
     }
-} // reaction
+} // games
