@@ -76,4 +76,6 @@ namespace logger {
             return *this;
         }
     };
+
+    void createLogDir(std::string const &path);
 }
