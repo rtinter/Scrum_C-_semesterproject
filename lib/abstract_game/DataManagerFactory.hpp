@@ -9,7 +9,9 @@
 #include "CsvStorage.hpp"
 
 namespace abstract_game {
-
+    /**
+     * @brief Factory class for creating DataManager instances.
+     */
     class DataManagerFactory {
     public:
         DataManagerFactory() = delete;
