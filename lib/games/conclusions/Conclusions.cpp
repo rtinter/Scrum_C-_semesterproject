@@ -124,9 +124,8 @@ namespace games {
     // Renders a message and current score when the correct answer is given
     void Conclusions::renderCorrectMessage() {
         auto const now{std::chrono::steady_clock::now()};
-        auto const duration{std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
-        if (duration < 2) {
+        if (auto const duration{std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()}; duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);
             ImGui::Spacing();
             ImGui::Spacing();
@@ -173,8 +172,8 @@ namespace games {
             }
 
             // Log the loaded questions
-            for (const auto &q : _questions) {
-                logger.log("Loaded question: " + q.questionText + " Answer: " + std::to_string(static_cast<int>(q.isCorrectAnswer)), logger::LogType::INFORMATION);
+            for (auto const &[questionText, isCorrectAnswer] : _questions) {
+                logger.log("Loaded question: " + questionText + " Answer: " + std::to_string(isCorrectAnswer), logger::LogType::INFORMATION); // NOLINT(*-implicit-bool-conversion)
             }
         } catch (std::exception const &e) {
             std::stringstream error;

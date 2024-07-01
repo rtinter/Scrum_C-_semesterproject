@@ -12,7 +12,7 @@ namespace memory {
 
     void MemoryTile::render() {
         if (_isFaceUp) {
-            ImGui::Image(reinterpret_cast<ImTextureID>(_frontTexture.getNativeHandle()), _size);
+            ImGui::Image(reinterpret_cast<ImTextureID>(_frontTexture.getNativeHandle()), _size); // NOLINT(*-no-int-to-ptr)
         } else {
             ImGui::PushStyleColor(ImGuiCol_Button, _backColor);
             ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 1));

@@ -25,7 +25,7 @@ namespace views {
             ImGui::Text("%s", _leftText.c_str());
 
             // Zentraler Text
-            ImGui::SameLine(ImGui::GetIO().DisplaySize.x / 2 - ImGui::CalcTextSize(_centerText.c_str()).x / 2);
+            ImGui::SameLine((ImGui::GetIO().DisplaySize.x / 2) - (ImGui::CalcTextSize(_centerText.c_str()).x / 2));
             ImGui::Text("%s", _centerText.c_str());
 
             // Rechter Button mit Margin

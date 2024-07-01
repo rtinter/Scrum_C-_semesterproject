@@ -10,7 +10,7 @@ namespace commons {
      * @return a random integer between min and max
      */
     int RandomPicker::randomInt(int const &min, int const &max) {
-        std::uniform_int_distribution<> dis(min, max);
+        std::uniform_int_distribution dis(min, max);
         std::mt19937 gen(_rd());
         return dis(gen);
     }

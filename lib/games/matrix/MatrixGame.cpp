@@ -212,7 +212,7 @@ namespace games {
      */
     void MatrixGame::initMatricesToChooseFrom() {
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-            std::vector<GameMode>{GameMode::MIRROR, GameMode::ROTATE});
+            std::vector{GameMode::MIRROR, GameMode::ROTATE});
 
         // create matrices that are NOT correct
         for (matrix::Matrix &matrix: _matricesToChooseFrom) {

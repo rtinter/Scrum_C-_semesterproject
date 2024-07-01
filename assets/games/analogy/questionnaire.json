@@ -119,7 +119,7 @@
         "d": "Strafe"
       },
       "correct_answer": "a",
-      "explanation": "Ein Schild erklärt den Verkehr, das Regelft ein Spiel."
+      "explanation": "Ein Schild erklärt den Verkehr, das Regelt ein Spiel."
     },
     {
       "question": "Kompass : Navigation wie Uhr : ?",
@@ -170,7 +170,7 @@
       "options": {
         "a": "Staubsauger",
         "b": "Foto",
-        "c": "Wischmob",
+        "c": "Wischmopp",
         "d": "Bild"
       },
       "correct_answer": "a",

@@ -20,22 +20,21 @@ namespace logger {
      * It also provides methods for flushing the log queue and stopping the logging process.
      */
     class Logger final {
-    private:
         std::queue<QueueEntry> _sink;
 
         bool _initialized{false};
         bool _stop{false};
         std::ofstream _outputStream;
 
-        LogType _type{LogType::DEBUG};
-        std::future<void> _sinkBackgroundTask{};
+        LogType _type{DEBUG};
+        std::future<void> _sinkBackgroundTask;
 
         void log(QueueEntry const &entry);
 
     public:
         static Logger &getInstance();
 
-        virtual ~Logger();
+        ~Logger();
 
         void flush();
 
@@ -43,7 +42,7 @@ namespace logger {
 
         static void sinkTask(Logger &logger);
 
-        static std::string getDateString(time_t timestamp) {
+        static std::string getDateString(time_t const timestamp) {
             std::stringstream ss;
             ss << std::put_time(std::localtime(&timestamp), "%d.%m.%Y - %H:%M:%S");
             return ss.str();
@@ -58,7 +57,7 @@ namespace logger {
             return *this;
         }
 
-        Logger &operator<<(int content) {
+        Logger &operator<<(int const content) {
             this->_sink.emplace(QueueEntry{
                 .timestamp = time(nullptr),
                 .content = std::to_string(content),
@@ -67,7 +66,7 @@ namespace logger {
             return *this;
         }
 
-        Logger &operator<<(float content) {
+        Logger &operator<<(float const content) {
             this->_sink.emplace(QueueEntry{
                 .timestamp = time(nullptr),
                 .content = std::to_string(content),

@@ -86,8 +86,8 @@ namespace games {
         constexpr int ROWS[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
         // Calculate total width and height of the tile formation
-        float const totalWidth{COLUMNS * (_tileSize.x + _tilePadding) - _tilePadding};
-        float const totalHeight{5 * (_tileSize.y + _tilePadding) - _tilePadding};
+        float const totalWidth{((_tileSize.x + _tilePadding) * COLUMNS) - _tilePadding};
+        float const totalHeight{(5 * (_tileSize.y + _tilePadding)) - _tilePadding};
 
         // Calculate the start position for the tile formation
         float const startX{(commons::WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
@@ -97,12 +97,12 @@ namespace games {
 
         for (int col{0}; col < COLUMNS; ++col) {
             int const yOffset{
-                static_cast<int>(startY + (5 - ROWS[col]) * (_tileSize.y + _tilePadding) /
-                                 2)
+                static_cast<int>(startY + ((5 - ROWS[col]) * (_tileSize.y + _tilePadding) /
+                                 2))
             };
             for (int row{0}; row < ROWS[col]; ++row) {
-                float const x{startX + col * (_tileSize.x + _tilePadding)};
-                float const y{yOffset + row * (_tileSize.y + _tilePadding)};
+                float const x{startX + (col * (_tileSize.x + _tilePadding))};
+                float const y{yOffset + (row * (_tileSize.y + _tilePadding))};
                 // Assign the calculated coordinates to the tile if within bounds
                 if (index < _tiles.size()) {
                     _coordinates[index] = commons::Coordinates(y, x);

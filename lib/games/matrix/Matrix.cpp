@@ -31,14 +31,13 @@ namespace matrix {
             bool isMarked{false};
             while (!isMarked) {
                 int const x{commons::RandomPicker::randomInt(0, SIZE - 1)};
-                int const y{commons::RandomPicker::randomInt(0, SIZE - 1)};
-                if (_data[x][y] == _unmarked) {
+                if (int const y{commons::RandomPicker::randomInt(0, SIZE - 1)}; _data[x][y] == _unmarked) {
                     if (n % 2 == 0) {
                         //  10, 20, 30, 40 represent "0" in different color shades
-                        _data[x][y] = commons::RandomPicker::pickRandomElement(std::vector<int>{10, 20, 30, 40});
+                        _data[x][y] = commons::RandomPicker::pickRandomElement(std::vector{10, 20, 30, 40});
                     } else {
                         //  11, 21, 31, 41 represent "1" in different color shades
-                        _data[x][y] = commons::RandomPicker::pickRandomElement(std::vector<int>{11, 21, 31, 41});
+                        _data[x][y] = commons::RandomPicker::pickRandomElement(std::vector{11, 21, 31, 41});
                     }
                     isMarked = true;
                 }
@@ -64,7 +63,7 @@ namespace matrix {
         ImGui::BeginGroup();
         for (int i{0}; i < SIZE; ++i) {
             for (int j{0}; j < SIZE; ++j) {
-                ImGui::PushID(i * SIZE + j); // ensure unique ID
+                ImGui::PushID((i * SIZE) + j); // ensure unique ID
                 ImVec4 buttonColor{commons::Colors::BLACK};
                 ImGui::PushStyleColor(ImGuiCol_Button, buttonColor);
                 ImGui::PushStyleColor(ImGuiCol_ButtonHovered, buttonColor);

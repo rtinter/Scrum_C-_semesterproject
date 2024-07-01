@@ -81,7 +81,7 @@ namespace games {
     void ColorMatch::start() {
         reset();
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-            std::vector<GameMode>{MATCH_STRING, MATCH_IMVEC4});
+            std::vector{MATCH_STRING, MATCH_IMVEC4});
         _isGameRunning = true;
         _showEndBox = false;
         _timer.start();

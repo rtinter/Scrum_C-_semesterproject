@@ -12,7 +12,7 @@
 
 namespace games {
     DiagramAnalysis::DiagramAnalysis()
-            : abstract_game::Game(abstract_game::GameID::DIAGRAM) {
+            : Game(abstract_game::GameID::DIAGRAM) {
         _gameName = "Diagramm Analyse";
         _gameDescription =
                 "Das Ziel von Diagramm-Analyse ist es, die Fähigkeit der Spieler zu verbessern, \n"
@@ -22,17 +22,16 @@ namespace games {
 
         _gameRules = "Wähle die richtige Antwort aus.";
 
-        DiagramHelper helper;
-        this->_questions = helper.getQuestions();
+        this->_questions = DiagramHelper::getQuestions();
 
-        for (auto const &question : this->_questions) {
+        for (auto const &[image, question, answer, explanation, answers] : this->_questions) {
             sf::Texture txt;
             std::stringstream ss;
             ss << "./assets/games/diagrams/";
-            ss << question.image;
+            ss << image;
             txt.loadFromFile(ss.str());
 
-            this->_textures.insert({question.question, txt});
+            this->_textures.insert({question, txt});
         }
 
         _currentQuestion = this->_questions[0];
@@ -44,18 +43,18 @@ namespace games {
     void DiagramAnalysis::checkAnswers() {
         std::string answer;
 
-        for (auto const &pair : this->_answers) {
-            std::string const _answer{pair.first.c_str()};
-            if (pair.second) {
-                answer = _answer;
+        for (auto const &[fst, snd] : this->_answers) {
+            std::string const temp{fst};
+            if (snd) {
+                answer = temp;
                 break;
             }
         }
 
-        if (answer == "")
+        if (answer.empty())
             return;
 
-        if (_currentQuestion.answer.c_str() == answer) {
+        if (_currentQuestion.answer == answer) {
             _score++;
         }
 
@@ -81,7 +80,7 @@ namespace games {
         if(!_isGameRunning)
             return;
 
-        if (_showEndBox && _isGameRunning) {
+        if (_showEndBox) {
             std::stringstream ss;
             if(_score > 0){
                 ss << "Du hast insgesamt " << _score << " von " << this->_questions.size() << " richtig beantwortet.";
@@ -94,7 +93,7 @@ namespace games {
                                  _endBoxText, [this] { reset(); })
                     .render();
         } else {
-            ui_elements::Window(_gameName).render([this]() {
+            ui_elements::Window(_gameName).render([this] {
                 if (_questions.empty()) {
                     std::cout << "No questions loaded." << std::endl;
                     return;

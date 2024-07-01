@@ -4,9 +4,9 @@
 
 namespace aim_trainer {
     Blob::Blob(float const x, float const y, float const z) : GameObject(x, y, z) {
-        float r{static_cast<float>(rand() % 255 + 1)};
-        float g{static_cast<float>(rand() % 255 + 1)};
-        float b{static_cast<float>(rand() % 255 + 1)};
+        float r{static_cast<float>((rand() % 255) + 1)};
+        float g{static_cast<float>((rand() % 255) + 1)};
+        float b{static_cast<float>((rand() % 255) + 1)};
 
         this->_color = {r, g, b, 255};
     }

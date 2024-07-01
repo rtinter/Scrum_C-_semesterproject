@@ -72,7 +72,7 @@ scene::DashboardScene::DashboardScene() {
             "Aim Trainer",
             "Triff die Ziele schnell",
             commons::Colors::BLUE,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::AimTrainer> >());
             }
@@ -245,7 +245,7 @@ scene::DashboardScene::DashboardScene() {
                     "Diagramme analysieren",
                     "Analysiere das Diagram",
                     commons::Colors::SEAFOAM,
-                    []() {
+                    [] {
                         SceneManager::getInstance().switchTo(
                                 std::make_unique<GameScene<games::DiagramAnalysis>>()
                         );

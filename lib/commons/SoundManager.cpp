@@ -24,6 +24,7 @@ namespace commons {
 #endif
 
         // load sound buffers, add new sounds here
+        // ReSharper disable once CppDFAUnreachableCode
         initSoundBuffer(Sound::LASER_GUN, "laser-gun.mp3");
         initSoundBuffer(Sound::EXPLOSION, "explosion.mp3");
         initSoundBuffer(Sound::ERROR, "error.mp3");
@@ -40,8 +41,7 @@ namespace commons {
     void SoundManager::initSoundBuffer(Sound const sound, std::string const &filename) {
         logger::Logger &logger{logger::Logger::getInstance()};
 
-        sf::SoundBuffer soundBuffer;
-        if (soundBuffer.loadFromFile(PATH + filename)) {
+        if (sf::SoundBuffer soundBuffer; soundBuffer.loadFromFile(PATH + filename)) {
             _soundBufferMap[sound] = soundBuffer;
         } else {
             logger << "Error loading sound: " << filename;
@@ -49,10 +49,12 @@ namespace commons {
     }
 
     void SoundManager::playSound(Sound const sound) {
+        // ReSharper disable once CppDeprecatedEntity
         playSound(sound, 100.0f);
     }
 
     void SoundManager::playSound(Sound const sound, int const volumeInPercent) {
+        // ReSharper disable once CppDeprecatedEntity
         playSound(sound, volumeInPercent, 1.0f);
     }
 
@@ -62,6 +64,7 @@ namespace commons {
         return;
 #endif
 
+        // ReSharper disable once CppDFAUnreachableCode
         logger::Logger &logger{logger::Logger::getInstance()};
 
         // check if sound manager is initialized

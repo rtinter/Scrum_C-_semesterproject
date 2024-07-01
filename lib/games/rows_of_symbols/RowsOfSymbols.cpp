@@ -185,7 +185,7 @@ namespace games {
 
         // get the draw list and prepare the total width and gap between the symbols
         ImDrawList &drawList{*ImGui::GetWindowDrawList()};
-        static constexpr int TOTAL_WIDTH_OF_SYMBOLS{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
+        static constexpr int TOTAL_WIDTH_OF_SYMBOLS{static_cast<int>(SYMBOL_SIZE + (MARGIN * 2)) * NR_OF_SHOWN_SYMBOLS};
         static constexpr int TOTAL_GAP_BETWEEN_SYMBOLS{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
 
         // calculate the top left and bottom right corner of the rectangle
@@ -193,7 +193,7 @@ namespace games {
         auto const bottomRight
         {
             ImVec2(ImGui::GetCursorScreenPos().x + TOTAL_WIDTH_OF_SYMBOLS + TOTAL_GAP_BETWEEN_SYMBOLS,
-                   ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2)
+                   ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + (MARGIN * 2))
         };
 
         // draw the gradient background

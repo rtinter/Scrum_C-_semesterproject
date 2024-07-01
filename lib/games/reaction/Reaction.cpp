@@ -91,7 +91,7 @@ namespace games {
     void Reaction::start() {
         std::random_device rd; // Seed the random number generator
         std::mt19937 gen(rd()); // Mersenne Twister engine
-        std::uniform_int_distribution<> dis(2000, 5000);
+        std::uniform_int_distribution dis(2000, 5000);
 
         _isGameRunning = true;
         _showEndBox = false;
@@ -112,7 +112,7 @@ namespace games {
         // Use <random> for better random number generation
         std::random_device rd; // Seed the random number generator
         std::mt19937 gen(rd()); // Mersenne Twister engine
-        std::uniform_int_distribution<> dis(2000, 10000);
+        std::uniform_int_distribution dis(2000, 10000);
 
         _redDuration = static_cast<float>(dis(gen)) / 1000.0f;
         _colorClock.restart();

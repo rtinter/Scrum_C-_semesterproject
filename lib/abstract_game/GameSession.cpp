@@ -28,7 +28,7 @@ namespace abstract_game {
         auto const duration{std::chrono::system_clock::now().time_since_epoch()};
         auto const nanos{std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
         std::srand(nanos);
-        std::string const randomString{std::to_string(std::rand() % 1000 + 1)};
+        std::string const randomString{std::to_string((std::rand() % 1000) + 1)};
 
         // concatenate timeString and random value for hash input
         std::stringstream ss;

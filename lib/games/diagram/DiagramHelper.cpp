@@ -1,6 +1,4 @@
-//
-// Created by jannik on 28/06/2024.
-//
-
-#include "DiagramHelper.hpp"
-#include "DiagramQuestion.hpp"
+/**
+ * Do not delete this file!
+ * @brief this .cpp file is needed to compile on ARM64.
+ */

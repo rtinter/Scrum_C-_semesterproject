@@ -12,7 +12,7 @@
 
 namespace games {
     int randomPos(int const n) {
-        return rand() % n + 1;
+        return (rand() % n) + 1;
     }
 
     void AimTrainer::spawnBlobs() {
@@ -85,7 +85,7 @@ namespace games {
 
                         float const dx{coordsx - mousePos.x};
                         float const dy{coordsy - mousePos.y};
-                        float const dist{dx * dx + dy * dy};
+                        float const dist{(dx * dx) + (dy * dy)};
 
                         // increment successful clicks of blobs
                         bool const inCircle{dist <= b.getRadius() * b.getRadius()};
