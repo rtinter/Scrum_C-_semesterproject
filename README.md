@@ -88,6 +88,7 @@ Zum Arbeiten mit dem Projekt ist es empfohlen die Entwicklungsumgebung [CLion](h
 
 Alternativ kann auch [Visual Studio Code](https://code.visualstudio.com/) in Verbindung mit der [C/C++ Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) verwendet werden. Hiefür müssen noch [CMake](https://cmake.org/) und [MinGW](https://sourceforge.net/projects/mingw-w64/) installiert werden.
 
+
 ### Installation
 
 1. Sollte ein Projekt in CLion offen sein, dieses mit `File > Close Project` schließen.
@@ -102,7 +103,11 @@ sudo apt -y install libxrandr-dev libxcursor-dev libudev-dev libopenal-dev libfl
 ```
 
 ### Dependencies für Windows
-Alle Laufzeitabhängigkeiten werden mitgeliefert.
+Zum Kompilieren auf einem Windows 11 System müssen folgende Abhängigkeiten in einem konfigurierten MSYS2 installiert sein. Für die Installation der Abhängigkeiten muss folgender Befehl ausgeführt werden.
+
+```bash
+pacman -S mingw-w64-x86_64-sfml mingw-w64-x86_64-boost mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+```
 
 ### Building the Project
 
@@ -117,6 +122,8 @@ IDE unabhängige Installation für: Windows, Linux, Mac
 Vorausgesetzte Programme: 
 Cmake, Git, C++ Compiler (MingW, Visual Studio Compiler, G++)
 
+Für Windows muss das o. g. Bash-Script innerhalb der MSYS2-Umgebung ausgeführt werden. 
+
 ```bash
 git clone git@gitlab.iue.fh-kiel.de:aem/aem-2024/aem-team-1/human-benchmark/athena.git
 cd athena
@@ -124,6 +131,8 @@ mkdir build && cd build
 cmake ..
 cmake --build .
 ```
+
+Disclaimer: Der Build-Prozess wurde unter Windows 11 & Linux erfolgreich getestet.
 
 ## [Anforderungsnachweise](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/blob/dev/Anforderungs-nachweis.md)
 
