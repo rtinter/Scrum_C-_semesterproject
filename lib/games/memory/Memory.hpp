@@ -42,7 +42,7 @@ namespace games {
         bool _initialDisplayDone{false};
         bool _delayActive{false};
         bool _timerPaused{true};
-        StressButton _stressButton;
+        memory::StressButton _stressButton;
 
         /**
          * @brief Initializes the tiles for the game.
