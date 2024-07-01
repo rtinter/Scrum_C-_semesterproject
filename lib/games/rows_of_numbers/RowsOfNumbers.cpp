@@ -1,32 +1,35 @@
-
 #include "RowsOfNumbers.hpp"
-#include "Sequence.hpp"
-#include <InfoBox.hpp>
-#include <Window.hpp>
-#include <Fonts.hpp>
-#include <TextCentered.hpp>
-#include <RandomPicker.hpp>
 
-#include <nlohmann/json.hpp>
 #include <fstream>
 #include <iostream>
 #include <random>
-#include <SoundPolice.hpp>
+#include <nlohmann/json.hpp>
+
+#include "Fonts.hpp"
+#include "InfoBox.hpp"
+#include "RandomPicker.hpp"
+#include "Sequence.hpp"
+#include "SoundPolice.hpp"
+#include "TextCentered.hpp"
+#include "Window.hpp"
 
 using json = nlohmann::json;
 
 namespace games {
-    RowsOfNumbers::RowsOfNumbers() : Game(abstract_game::GameID::ROWS_OF_NUMBERS) {
+    RowsOfNumbers::RowsOfNumbers() : Game(abstract_game::GameID::ROWS_OF_NUMBERS), _randomSequence(0),
+                                     _currentSolution(0),
+                                     _timeSinceCorrectAnswer(0) {
         _gameName = "Zahlenreihen";
         _gameDescription = "Finde die fehlende Zahl in der Zahlenreihe.";
-        _gameRules = "1. Analysiere die gezeigte Zahlenreihe.\n2. Finde die fehlende Zahl.\n3. Tippe die fehlende Zahl in das Eingabefeld.\n4. Bestätige die Eingabe durch Enter.";
+        _gameRules =
+                "1. Analysiere die gezeigte Zahlenreihe.\n2. Finde die fehlende Zahl.\n3. Tippe die fehlende Zahl in das Eingabefeld.\n4. Bestätige die Eingabe durch Enter.";
         _gameControls = "Tippe die fehlende Zahl der Zahlenreihe in das Eingabefeld.";
 
         loadWordsFromFile();
     }
 
     // the vector is read in from the file
-    std::vector<Sequence> RowsOfNumbers::_sequences;
+    std::vector<rows_of_numbers::Sequence> RowsOfNumbers::_sequences;
 
     /*********************************
     *  Loads the words from the configuration file and stores them in _sequences.
@@ -51,26 +54,26 @@ namespace games {
 
     void RowsOfNumbers::render() {
         ui_elements::InfoBox(
-                _gameID,
-                _showStartBox,
-                "Startbox",
-                _gameName,
-                _gameDescription,
-                _gameRules,
-                _gameControls,
-                [this] {
-                    start();
-                }).render();
+            _gameID,
+            _showStartBox,
+            "Startbox",
+            _gameName,
+            _gameDescription,
+            _gameRules,
+            _gameControls,
+            [this] {
+                start();
+            }).render();
 
         ui_elements::InfoBox(
-                _gameID,
-                _showEndBox,
-                "Endbox",
-                _endBoxTitle,
-                _endBoxText,
-                [this] {
-                    reset();
-                }).render();
+            _gameID,
+            _showEndBox,
+            "Endbox",
+            _endBoxTitle,
+            _endBoxText,
+            [this] {
+                reset();
+            }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -114,7 +117,7 @@ namespace games {
             // Wait 5 seconds before showing the next number
             if (_waitingForNextNumber &&
                 _timeSinceCorrectAnswer >= 1) {
-                _randomSequence = commons::RandomPicker::randomInt(0,_sequences.size());
+                _randomSequence = commons::RandomPicker::randomInt(0, _sequences.size());
                 _currentSequence = _sequences[_randomSequence].sequence;
                 _currentSolution = _sequences[_randomSequence].solution;
                 _currentExplanation = _sequences[_randomSequence].explanation;
@@ -152,7 +155,7 @@ namespace games {
         _inputChanged = false;
         _input = 0;
         _solvedCounter = 0;
-        _randomSequence = commons::RandomPicker::randomInt(0,_sequences.size());
+        _randomSequence = commons::RandomPicker::randomInt(0, _sequences.size());
         _currentSequence = _sequences[_randomSequence].sequence;
         _currentSolution = _sequences[_randomSequence].solution;
         _currentExplanation = _sequences[_randomSequence].explanation;
@@ -172,7 +175,7 @@ namespace games {
 
     void RowsOfNumbers::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
-                                                                                     _solvedCounter);
+            _solvedCounter);
     }
 
     void RowsOfNumbers::stop() {
@@ -192,6 +195,4 @@ namespace games {
         _input = 0;
         _solvedCounter = 0;
     }
-
-
-} // game
+} // games
