@@ -1,11 +1,9 @@
 #pragma once
 
-namespace games {
-
+namespace rows_of_symbols {
     /**
      * @brief Enum class for the type of symbol used in the game RowsOfSymbols
      */
-
     enum class SymbolType {
         CIRCLE_2_A,
         CIRCLE_2_B,
@@ -16,4 +14,4 @@ namespace games {
         RECT_3_A,
         RECT_3_B
     };
-}
+} // rows_of_symbols
