@@ -434,11 +434,11 @@ namespace games {
         // make sure to only draw elements
         // if the start and end cell are in one line
         // diagonally or horizontally or vertically
-        bool const isDiagonal = {std::abs(dx) == std::abs(dy)};
-        bool const isHorizontal = {dy == 0};
+        bool const isDiagonal {std::abs(dx) == std::abs(dy)};
+        bool const isHorizontal {dy == 0};
 
         // return if the cells are not in one line
-        if (bool const isVertical = {dx == 0}; !isDiagonal && !isHorizontal && !isVertical) {
+        if (bool const isVertical {dx == 0}; !isDiagonal && !isHorizontal && !isVertical) {
             return linePoints;
         }
 

@@ -172,7 +172,7 @@ namespace games {
             }
 
             // Log the loaded questions
-            for (const auto &[questionText, isCorrectAnswer] : _questions) {
+            for (auto const &[questionText, isCorrectAnswer] : _questions) {
                 logger.log("Loaded question: " + questionText + " Answer: " + std::to_string(isCorrectAnswer), logger::LogType::INFORMATION); // NOLINT(*-implicit-bool-conversion)
             }
         } catch (std::exception const &e) {

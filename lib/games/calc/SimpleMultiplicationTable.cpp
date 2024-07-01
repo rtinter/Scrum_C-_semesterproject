@@ -39,7 +39,7 @@ namespace calc {
             ImGui::PushFont(commons::Fonts::_header1);
 
             std::string const taskText{std::to_string(_leftOperand) + " * " + std::to_string(_rightOperand) + " = "};
-            ImVec2 const textSize = ImGui::CalcTextSize(taskText.c_str());
+            ImVec2 const textSize{ImGui::CalcTextSize(taskText.c_str())};
             static constexpr float INPUT_FIELD_WIDTH{150.0f}; // Adjust width for multi-digit numbers
             float const spaceWidth{ImGui::CalcTextSize(" ").x};
             static constexpr float LEFT_OFFSET{20.0f}; // Adjust this value to move the task more to the left
