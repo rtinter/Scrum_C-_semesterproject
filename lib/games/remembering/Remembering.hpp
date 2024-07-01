@@ -1,30 +1,18 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <memory>
+#include <string>
+#include <vector>
+
 #include "Game.hpp"
 #include "QuestionBank.hpp"
 #include "Timer.hpp"
-#include "Window.hpp"
-#include "UiElement.hpp"
-#include "Scene.hpp"
-#include <Centered.hpp>
-#include <DashboardScene.hpp>
-#include <Fonts.hpp>
-#include <InfoBox.hpp>
-#include <Overlay.hpp>
-#include <SceneManager.hpp>
-#include <TextCentered.hpp>
-#include <sstream>
-#include <algorithm>
 
 namespace games {
-
     /**
      * @brief Class representing the Remembering game.
      */
-    class Remembering : public abstract_game::Game {
+    class Remembering final : public abstract_game::Game {
     public:
         /**
          * @brief Constructor: Initializes the Remembering game.
@@ -70,8 +58,8 @@ namespace games {
         ui_elements::Timer _timer{"Remembering Game", 40};
         static std::vector<int> _selectedAnswers;
 
-        std::unique_ptr<QuestionBank> _questionBank;
-        QuestionBank::QuestionSet _currentQuestionSet;
+        std::unique_ptr<remembering::QuestionBank> _questionBank;
+        remembering::QuestionBank::QuestionSet _currentQuestionSet;
 
         /**
         * @brief Displays centered text within the game window.
@@ -98,7 +86,7 @@ namespace games {
          * @param q The question to be rendered.
          * @param selectedAnswer The index of the selected answer.
          */
-        void renderQuestion(int const &index, QuestionBank::Question const &q, int &selectedAnswer) const;
+        void renderQuestion(int const &index, remembering::QuestionBank::Question const &q, int &selectedAnswer) const;
 
         /**
          * @brief Sets the styles for the UI elements.
@@ -110,5 +98,4 @@ namespace games {
          */
         void renderSubmitButtons();
     };
-
-}
+} // games
