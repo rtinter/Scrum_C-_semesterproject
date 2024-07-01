@@ -1,14 +1,14 @@
 #include "App.hpp"
-#include <imgui-SFML.h>
-#include <SceneManager.hpp>
-#include <StyleManager.hpp>
-#include "MemoryGameImageManager.hpp"
 
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/Event.hpp"
+#include <imgui-SFML.h>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 
 #include "Logger.hpp"
+#include "MemoryGameImageManager.hpp"
 #include "QueueEntryType.hpp"
+#include "SceneManager.hpp"
+#include "StyleManager.hpp"
 #include "WindowConfig.hpp"
 
 #if (defined(_WIN32))
