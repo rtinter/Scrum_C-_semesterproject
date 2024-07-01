@@ -13,6 +13,10 @@
 #include "imgui.h"
 
 namespace games {
+
+    /**
+     * @brief The Symbol class, which represents the rendering of a symbol.
+     */
     class Symbol {
 
         /**
