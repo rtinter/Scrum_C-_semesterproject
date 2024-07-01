@@ -1,10 +1,8 @@
-#ifndef ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
-#define ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
+#pragma once
 
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
-#include <imgui.h>
 
 namespace memory {
     /**
@@ -37,8 +35,11 @@ namespace memory {
 
         // Deleted these to strictly enforce Singleton behavior
         MemoryGameImageManager(const MemoryGameImageManager &) = delete;
+
         MemoryGameImageManager &operator=(const MemoryGameImageManager &) = delete;
+
         MemoryGameImageManager(MemoryGameImageManager &&) = delete;
+
         MemoryGameImageManager &operator=(MemoryGameImageManager &&) = delete;
 
     private:
@@ -67,7 +68,4 @@ namespace memory {
         std::vector<std::string> _imagePaths;
         std::vector<sf::Texture> _textures;
     };
-
-} // namespace memory
-
-#endif //ATHENA_MEMORYGAMEIMAGEMANAGER_HPP
+} // memory

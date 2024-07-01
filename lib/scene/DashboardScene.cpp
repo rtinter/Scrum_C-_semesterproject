@@ -172,7 +172,7 @@ scene::DashboardScene::DashboardScene() {
             commons::Colors::YELLOW,
             [] {
                 SceneManager::getInstance().switchTo(
-                    std::make_unique<GameScene<memory::Memory> >()
+                    std::make_unique<GameScene<games::Memory> >()
                 );
             }
         )

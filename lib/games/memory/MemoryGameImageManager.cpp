@@ -1,9 +1,9 @@
 #include "MemoryGameImageManager.hpp"
+
 #include <iostream>
 
 
 namespace memory {
-
     MemoryGameImageManager &MemoryGameImageManager::getInstance() {
         static MemoryGameImageManager instance;
         return instance;
@@ -35,12 +35,11 @@ namespace memory {
         }
     }
 
-    sf::Texture &MemoryGameImageManager::getTexture(int index) {
+    sf::Texture &MemoryGameImageManager::getTexture(int const index) {
         if (index < 0 || index >= _textures.size()) {
             static sf::Texture empty;
             return empty;
         }
         return _textures[index];
     }
-
 } // memory

@@ -1,14 +1,14 @@
 #include "MemoryTile.hpp"
+
 #include <imgui.h>
 #include <SFML/Graphics/Texture.hpp>
 
 namespace memory {
-
-
     MemoryTile::MemoryTile(sf::Texture const &frontTexture, std::function<void()> const &onClick, ImVec2 const &size,
-                           int index)
-            : Tile("", "", "", commons::ColorTheme::PRIMARY_COLOR, onClick), _frontTexture(frontTexture),
-              _onClick(onClick), _size(size), _index(index) {}
+                           int const index)
+        : Tile("", "", "", commons::ColorTheme::PRIMARY_COLOR, onClick), _frontTexture(frontTexture),
+          _onClick(onClick), _size(size), _index(index) {
+    }
 
     void MemoryTile::render() {
         if (_isFaceUp) {
@@ -46,4 +46,4 @@ namespace memory {
     int MemoryTile::getIndex() const {
         return _index;
     }
-} // namespace memory
+} // memory
