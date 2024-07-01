@@ -78,6 +78,6 @@ namespace logger {
         }
     };
 
-    void createLogDir(const std::string& path);
+    void createLogDir(std::string const &path);
 }
 

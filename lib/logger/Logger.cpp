@@ -86,7 +86,7 @@ namespace logger {
         this->_sink.emplace(entry);
     }
 
-    void createLogDir(const std::string &path) {
+    void createLogDir(std::string const &path) {
         if (!std::filesystem::exists(path)) {
             if (std::filesystem::create_directories(path)) {
                 Logger::getInstance().log("Directory created: " + path, QueueEntryType::INFORMATION);
