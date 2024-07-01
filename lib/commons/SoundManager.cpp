@@ -6,7 +6,7 @@
 #pragma ide diagnostic ignored "UnreachableCode"
 namespace commons {
 
-    std::string const SoundManager::PATH{"./sounds/"};
+    std::string const SoundManager::PATH{"assets/commons/sounds/"};
 
     sf::Sound SoundManager::_activeSound;
 

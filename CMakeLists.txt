@@ -46,6 +46,7 @@ FetchContent_MakeAvailable(rapidcsv)
 
 add_subdirectory(lib)
 add_subdirectory(src)
+add_subdirectory(assets)
 
 target_compile_features(${CMAKE_PROJECT_NAME} PRIVATE cxx_std_17)
 
