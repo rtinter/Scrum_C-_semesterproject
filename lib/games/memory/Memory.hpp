@@ -11,6 +11,7 @@
 #include "MemoryTile.hpp"
 #include "Tile.hpp"
 #include "Timer.hpp"
+#include "StressButton.hpp"
 
 namespace games {
     /**
@@ -41,6 +42,7 @@ namespace games {
         bool _initialDisplayDone{false};
         bool _delayActive{false};
         bool _timerPaused{true};
+        memory::StressButton _stressButton;
 
         /**
          * @brief Initializes the tiles for the game.

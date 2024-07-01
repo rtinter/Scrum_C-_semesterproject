@@ -16,6 +16,7 @@ namespace games {
                 "Memory ist ein Spiel, welches deine Konzentration und Merkfähigkeit auf die Probe stellt.\n"
                 "Schauen wir mal, ob du auch unter Druck einen kühlen Kopf bewahren kannst.\n"
                 "Zwei gleiche Bilder bilden ein Paar, kannst du sie alle vor Ablauf der Zeit finden?\n"
+                "Wie viele Stressbuttons kannst du außerdem nebenher anklicken?\n"
                 "Viel Glück und viel Vergnügen!\n";
 
         _gameRules =
@@ -23,15 +24,15 @@ namespace games {
                 "2. Pro Zug kannst du immer nur zwei Karten aufdecken.\n"
                 "3. Zeigen beide Karten das gleiche Bild, hast du ein Paar und die Karten bleiben aufgedeckt.\n"
                 "4. Passen die Karten nicht zusammen, werden sie wieder umgedreht und du verlierst eine Sekunde.\n"
-                "5. Du musst alle Paare in 120 Sekunden finden und möglichst wenige Züge dafür benötigen.\n";
+                "5. Du musst alle Paare in 120 Sekunden finden und möglichst wenige Züge dafür benötigen.\n"
+                "6. Stressbuttons verschwinden nach 2 Sekunden, und erscheinen in unregelmäßigen Abständen.\n";
 
         _gameControls =
                 "Steuerung:\n"
                 "1. Du benötigst nur die linke Maustaste, um zu Klicken.\n"
                 "2. Tippe nacheinander die beiden Karten deiner Wahl an, um sie aufzudecken.\n"
                 "3. Klicke entweder sofort weiter oder warte 2 Sekunden, bis die Karten sich zudecken.\n"
-                "4. Klicke auf 'Versuch es nochmal', um das Spiel zurückzusetzen und es erneut zu versuchen.\n"
-                "5. Klicke auf 'Zurück zur Startseite', um zum Hauptmenü zurückzukehren.";
+                "4. Klicke Stressbuttons an, um sie verschwinden zu lassen.\n";
     }
 
     void Memory::initializeTiles() {
@@ -196,8 +197,10 @@ namespace games {
 
         _endBoxTitle = "Gut gemacht!";
         _endBoxText = "Du hast " + std::to_string(_pairsFound) + " Paare gefunden.\n"
-                      "Dafür hast du " + _timeTakenString +
-                      " Minuten gebraucht.";
+                                                                 "Dafür hast du " + _timeTakenString +
+                      " Minuten gebraucht.\n"
+                      "Du hast " + std::to_string(_stressButton.getClickCount()) + " von " +
+                      std::to_string(_stressButton.getTotalCount()) + " möglichen Buttons geklickt.";
 
         stop();
     }
@@ -213,7 +216,10 @@ namespace games {
         std::string const pairString{_pairsFound == 1 ? "Paar" : "Paare"};
         _endBoxTitle = "Spiel vorbei!";
         _endBoxText = "Zeit abgelaufen.\n"
-                      "Du hast " + std::to_string(_pairsFound) + " " + pairString + " gefunden.";
+                      "Du hast " + std::to_string(_pairsFound) + " " + pairString + " gefunden.\n"
+                                                                                    "Du hast " +
+                      std::to_string(_stressButton.getClickCount()) + " von " +
+                      std::to_string(_stressButton.getTotalCount()) + " möglichen Buttons geklickt.";
 
         stop();
     }
@@ -278,9 +284,12 @@ namespace games {
                     initializeTiles();
                     arrangeTiles();
                     centerCoordinates();
+                    _stressButton.setTileData(_tiles, _tileSize);
                     startGameTimer();
                     _timerPaused = false;
+                    _stressButton.reset();
                 }
+                _stressButton.update();
             }
 
             if (_timer && _timer->isExpiredNow()) {
@@ -299,8 +308,12 @@ namespace games {
                 auto const &tile{_tiles[i]};
                 auto const coords{_coordinates[i]};
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
+                tile->setPosition(ImVec2(coords.x, coords.y));
                 tile->render();
             }
+
+            _stressButton.render();
+
         });
         ImGui::PopStyleColor();
     }
@@ -314,6 +327,7 @@ namespace games {
 
         // Capture the current time to track the start of the initial display
         _initialDisplayStartTime = std::chrono::steady_clock::now();
+        _stressButton.reset();
     }
 
     void Memory::stop() {
@@ -331,6 +345,7 @@ namespace games {
         _pairsFound = 0;
         _initialDisplayDone = false;
         _timerPaused = true;
+        _stressButton.reset();
     }
 
     void Memory::updateStatistics() {

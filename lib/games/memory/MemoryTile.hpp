@@ -17,6 +17,7 @@ namespace memory {
         ImVec2 _size;
         int _index;
         bool _isFaceUp{false};
+        ImVec2 _position;
 
     public:
         MemoryTile(sf::Texture const &frontTexture, std::function<void()> const &onClick, ImVec2 const &size,
@@ -31,5 +32,7 @@ namespace memory {
         bool isFaceUp() const;
 
         int getIndex() const;
+        void setPosition(ImVec2 const &position);
+        ImVec2 getPosition() const;
     };
 } // memory
