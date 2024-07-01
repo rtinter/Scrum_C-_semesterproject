@@ -1,14 +1,13 @@
 #include "Dashboard.hpp"
 
-#include <Centered.hpp>
-
-
-#include "Fonts.hpp"
-#include "Window.hpp"
 #include <imgui.h>
 
+#include "Centered.hpp"
+#include "Fonts.hpp"
+#include "Window.hpp"
 
-namespace {
+
+namespace views {
     void renderCategory(String const &categoryName, std::vector<UniqueTile> &tiles) {
         ImGui::Spacing();
 
@@ -18,7 +17,7 @@ namespace {
 
         ImGui::Spacing();
 
-        int count {0};
+        int count{0};
         for (UniqueTile &tile: tiles) {
             count++;
             if (tile)
@@ -31,9 +30,7 @@ namespace {
             }
         }
     }
-}
 
-namespace views {
     void Dashboard::addTileToCategory(std::string const &category,
                                       UniqueTile &tile) {
         _categoryTiles[category].emplace_back(std::move(tile));
@@ -48,9 +45,9 @@ namespace views {
 
     void Dashboard::render() {
         ui_elements::Window("Dashboard").render([this] {
-            for (auto &category: _categoryTiles) {
-                renderCategory(category.first, category.second);
+            for (auto &[fst, snd]: _categoryTiles) {
+                renderCategory(fst, snd);
             }
         });
     }
-}
+} // views

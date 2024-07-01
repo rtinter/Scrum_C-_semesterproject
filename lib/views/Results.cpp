@@ -1,9 +1,10 @@
 #include "Results.hpp"
-#include "Window.hpp"
+
 #include <imgui.h>
 
-namespace views {
+#include "Window.hpp"
 
+namespace views {
     void Results::render() {
         ui_elements::Window("Results").render([this] {
             ImGui::SetWindowPos(ImVec2(0, 100));
