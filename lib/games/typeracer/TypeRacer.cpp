@@ -12,7 +12,7 @@
 #include "SoundPolice.hpp"
 
 
-namespace typeracer {
+namespace games {
     TypeRacer::TypeRacer() : abstract_game::Game(abstract_game::GameID::TYPERACER) {
         _gameName = "Type Racer";
         _gameDescription =

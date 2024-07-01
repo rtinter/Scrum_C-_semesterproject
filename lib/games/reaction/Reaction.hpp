@@ -7,7 +7,7 @@
 #include "SFML/System/Clock.hpp"
 #include "Colors.hpp"
 
-namespace reaction {
+namespace games {
     /******************************************************
      *<b>Reaction Test Game</b><br>
      *
@@ -23,8 +23,19 @@ namespace reaction {
         sf::Clock _colorClock;
         std::chrono::steady_clock::time_point _startPoint, _finishPoint;
 
+        /**
+         * @brief This method returns a rating based on the duration.
+         *
+         * @param duration The duration.
+         * @return The rating.
+         */
         static std::string getDurationRating(int duration);
 
+        /**
+         * @brief This method checks if the window color is green.
+         *
+         * @return True if the window color is green, false otherwise.
+         */
         bool isGreen() const;
 
     public:

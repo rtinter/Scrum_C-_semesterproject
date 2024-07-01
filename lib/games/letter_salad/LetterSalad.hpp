@@ -1,30 +1,31 @@
-#pragma once
+#ifndef ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
+#define ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_
 
 #define EMPTY_CELL "_" // empty cell
 #define NR_OF_WORDS 15 // number of words to be searched
 #define TIME_LIMIT (15 * 60) // time limit for the game
 
-#include <set>
-
-#include "Box.hpp"
-#include "Coordinates.hpp"
 #include "Game.hpp"
-#include "RandomPicker.hpp"
-#include "Timer.hpp"
+#include "Coordinates.hpp"
+#include "Box.hpp"
 #include "WordTarget.hpp"
+#include "Timer.hpp"
+#include <set>
+#include "RandomPicker.hpp"
 
-namespace game {
+namespace games {
+
     using RandomPicker = commons::RandomPicker;
-    using CharVector2D = std::vector<std::vector<Box> >;
+    using CharVector2D = std::vector<std::vector<Box>>;
 
     class LetterSalad : abstract_game::Game {
         CharVector2D _gameField;
-        std::vector<commons::Coordinates> _currentLine;
+        std::vector<Coordinates> _currentLine;
         static std::vector<WordTarget> _wordList;
         ui_elements::Timer _timer{"####letterSalad", TIME_LIMIT};
         std::set<WordTarget> _activeWordList;
         // save clicked cells
-        commons::Coordinates _firstSelectedCell{-1, -1};
+        Coordinates _firstSelectedCell{-1, -1};
         bool _isFirstCellSelected{false};
         bool _isSecondCellSelected{false};
         std::string _selectedWord;
@@ -32,21 +33,19 @@ namespace game {
 
         static void loadWordsFromFile();
 
-        void clickCell(commons::Coordinates const &coords);
+        void clickCell(Coordinates const &coords);
 
         void resetSelectedPair();
 
-        std::vector<commons::Coordinates> getLine(commons::Coordinates const &start,
-                                                  commons::Coordinates const &end);
+        static std::vector<Coordinates> getLine(Coordinates const &start, Coordinates const &end);
 
+        void onHover(Coordinates const &coords);
 
-        void onHover(commons::Coordinates const &coords);
+        void selectBox(Coordinates const &coords);
 
-        void selectBox(commons::Coordinates const &coords);
+        void deselectBox(Coordinates const &coords);
 
-        void deselectBox(commons::Coordinates const &coords);
-
-        void finalize(commons::Coordinates const &coords);
+        void finalize(Coordinates const &coords);
 
         void randomizeGameField();
 
@@ -85,4 +84,6 @@ namespace game {
 
         void init();
     };
+
 }
+#endif //ATHENA_LIB_GAMES_LETTER_SALAD_LETTERSALAD_HPP_

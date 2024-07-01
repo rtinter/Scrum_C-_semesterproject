@@ -7,7 +7,7 @@
 
 using json = nlohmann::json;
 
-namespace game {
+namespace games {
 
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
     Conclusions::Conclusions() :

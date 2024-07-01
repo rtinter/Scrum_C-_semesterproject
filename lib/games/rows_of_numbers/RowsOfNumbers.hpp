@@ -7,7 +7,7 @@
 #include <WordTarget.hpp>
 #include "Sequence.hpp"
 
-namespace game {
+namespace games {
 
     /*********************************
     * The RowsOfNumbers class manages the game,
@@ -26,7 +26,7 @@ namespace game {
         std::chrono::steady_clock::time_point _correctAnswerTime;
         bool _waitingForNextNumber {false};
         bool _inputChanged {false};
-        static std::vector<game::Sequence> _sequences;
+        static std::vector<games::Sequence> _sequences;
 
         static void loadWordsFromFile();
 

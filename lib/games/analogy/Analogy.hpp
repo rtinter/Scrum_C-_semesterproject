@@ -15,7 +15,7 @@
 #include "chrono"
 #include "SFML/System/Clock.hpp"
 
-namespace game {
+namespace games {
     /**
      * @brief The Analogy game class, which represents the logic and rendering of the game.
      */

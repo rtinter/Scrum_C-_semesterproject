@@ -12,11 +12,12 @@
 #include "RelativePointPosition.hpp"
 #include "imgui.h"
 
-namespace game {
+namespace games {
 
     /**
      * @brief The Symbol class, which represents the rendering of a symbol.
      */
+
     class Symbol {
 
         /**

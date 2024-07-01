@@ -15,7 +15,7 @@
 
 using json = nlohmann::json;
 
-namespace game {
+namespace games {
     RowsOfNumbers::RowsOfNumbers() : abstract_game::Game(abstract_game::GameID::ROWS_OF_NUMBERS) {
         _gameName = "Zahlenreihen";
         _gameDescription = "Finde die fehlende Zahl in der Zahlenreihe.";
@@ -26,7 +26,7 @@ namespace game {
     }
 
     // the vector is read in from the file
-    std::vector<game::Sequence> RowsOfNumbers::_sequences;
+    std::vector<games::Sequence> RowsOfNumbers::_sequences;
 
     /*********************************
     *  Loads the words from the configuration file and stores them in _sequences.

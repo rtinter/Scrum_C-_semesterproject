@@ -3,7 +3,7 @@
 
 #include <utility>
 
-namespace game {
+namespace games {
     Sequence::Sequence(std::string const &sequence, int const &solution, std::string const &explanation) :
     sequence(std::move(sequence)),
         solution(solution),

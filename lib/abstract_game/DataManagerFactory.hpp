@@ -7,10 +7,7 @@
 
 namespace abstract_game {
     /**
-     * @brief The DataManagerFactory class is responsible for creating DataManager instances.
-     *
-     * This class provides a factory method to create DataManager instances based on the specified type.
-     * It returns a unique_ptr to the created DataManager instance.
+     * @brief Factory class for creating DataManager instances.
      */
     class DataManagerFactory {
     public:

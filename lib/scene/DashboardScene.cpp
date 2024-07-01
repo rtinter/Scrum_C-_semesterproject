@@ -5,7 +5,7 @@
 #include "Reaction.hpp"
 #include "LetterSalad.hpp"
 #include "ColorMatch.hpp"
-#include "Sequence.hpp"
+#include "SimonSays.hpp"
 #include "AimTrainer.hpp"
 #include "Remembering.hpp"
 #include "TypeRacer.hpp"
@@ -44,7 +44,7 @@ scene::DashboardScene::DashboardScene() {
                     commons::Colors::BLUE,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<reaction::Reaction> >()
+                                std::make_unique<GameScene<games::Reaction> >()
                         );
                     }
             )
@@ -85,7 +85,7 @@ scene::DashboardScene::DashboardScene() {
             commons::Colors::BLUE,
             []() {
                 SceneManager::getInstance().switchTo(
-                    std::make_unique<GameScene<game::RowsOfSymbols> >());
+                    std::make_unique<GameScene<games::RowsOfSymbols> >());
             }
         )
     );
@@ -99,7 +99,7 @@ scene::DashboardScene::DashboardScene() {
                     commons::Colors::ORANGE,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<typeracer::TypeRacer> >()
+                                std::make_unique<GameScene<games::TypeRacer> >()
                         );
                     }
             )
@@ -115,7 +115,7 @@ scene::DashboardScene::DashboardScene() {
                     commons::Colors::GREEN,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::LetterSalad> >()
+                                std::make_unique<GameScene<games::LetterSalad> >()
                         );
                     }
             )
@@ -129,7 +129,7 @@ scene::DashboardScene::DashboardScene() {
                     commons::Colors::GREEN,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::MatrixGame> >()
+                                std::make_unique<GameScene<games::MatrixGame> >()
                         );
                     }
             )
@@ -152,12 +152,12 @@ scene::DashboardScene::DashboardScene() {
     rememberCategory.push_back(
             std::make_unique<Tile>(
                     "",
-                    "Sequence",
+                    "Simon Says",
                     "Merke dir die Reihenfolge!",
                     commons::Colors::YELLOW,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<sequence::Sequence> >()
+                                std::make_unique<GameScene<games::SimonSays> >()
                         );
                     }
             )
@@ -186,7 +186,7 @@ scene::DashboardScene::DashboardScene() {
                     commons::Colors::SEAFOAM,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::RowsOfNumbers> >()
+                                std::make_unique<GameScene<games::RowsOfNumbers> >()
                         );
                     }
             )
@@ -216,7 +216,7 @@ scene::DashboardScene::DashboardScene() {
                     commons::Colors::SEAFOAM,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::Analogy>>()
+                                std::make_unique<GameScene<games::Analogy>>()
                         );
                     }
             )
@@ -230,7 +230,7 @@ scene::DashboardScene::DashboardScene() {
                     commons::Colors::SEAFOAM,
                     []() {
                         SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<game::Conclusions>>()
+                                std::make_unique<GameScene<games::Conclusions>>()
                         );
                     }
             )

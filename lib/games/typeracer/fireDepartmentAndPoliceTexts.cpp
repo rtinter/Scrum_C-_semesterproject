@@ -1,6 +1,6 @@
 #include "fireDepartmentAndPoliceTexts.hpp"
 
-namespace typeracer {
+namespace games {
     std::vector<std::string> FireDepartmentAndPoliceTexts::_mixedTexts = {
             "The fire department saves lives daily through quick response. They are well-equipped to extinguish fires and help people in need.",
             "The police protect and serve the community by enforcing laws. They work around the clock to ensure public safety.",

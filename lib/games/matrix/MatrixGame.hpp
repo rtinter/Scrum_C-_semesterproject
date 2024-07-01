@@ -5,7 +5,7 @@
 #include "Timer.hpp"
 #include "Matrix.hpp"
 
-namespace game {
+namespace games {
     /**
      * @brief: provides logic and visuals for the game 'Matrix'
      */
