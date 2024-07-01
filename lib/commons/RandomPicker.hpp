@@ -1,8 +1,7 @@
-#ifndef ATHENA_RANDOMPICKER_H
-#define ATHENA_RANDOMPICKER_H
+#pragma once
 
-#include <vector>
 #include <random>
+#include <vector>
 
 namespace commons {
     /**
@@ -10,7 +9,7 @@ namespace commons {
      * random vector elements.
      */
     class RandomPicker {
-        static std::random_device _rd;  // initialize random number generator
+        static std::random_device _rd; // initialize random number generator
 
     public:
         RandomPicker() = delete;
@@ -30,7 +29,4 @@ namespace commons {
 
         static int randomInt(int const &min, int const &max);
     };
-
 } // commons
-
-#endif //ATHENA_RANDOMPICKER_H

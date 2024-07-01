@@ -1,14 +1,15 @@
 #include "Tile.hpp"
 
-#include <Centered.hpp>
-#include <ColorHelper.hpp>
-#include <Fonts.hpp>
 #include <sstream>
-#include <TextCentered.hpp>
+
+#include "Centered.hpp"
+#include "ColorHelper.hpp"
+#include "Colors.hpp"
+#include "Fonts.hpp"
+#include "TextCentered.hpp"
 
 
 namespace ui_elements {
-
     // Constructor: Initializes the Tile with the specified icon, name, description, color, and click function
     Tile::Tile(std::string const &pic, std::string const &name, std::string const &desc,
                ImVec4 const &color, std::function<void()> const &onClick)
@@ -72,7 +73,7 @@ namespace ui_elements {
             TextCentered(_description.c_str());
         });
 
-        ImGui::EndChild();  // End the child window
-        ImGui::PopStyleVar();  // Pop the style variable for child rounding
+        ImGui::EndChild(); // End the child window
+        ImGui::PopStyleVar(); // Pop the style variable for child rounding
     }
-}
+} // ui_elements

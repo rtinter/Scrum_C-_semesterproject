@@ -1,11 +1,10 @@
-#ifndef ATHENA_LIB_GAMES_LETTER_SALAD_ORIENTATION_HPP_
-#define ATHENA_LIB_GAMES_LETTER_SALAD_ORIENTATION_HPP_
+#pragma once
 
-enum class Orientation {
-  HORIZONTAL,
-  VERTICAL,
-  DIAGONAL_DOWN,
-  DIAGONAL_UP,
-};
-
-#endif //ATHENA_LIB_GAMES_LETTER_SALAD_ORIENTATION_HPP_
+namespace letter_salad {
+    enum class Orientation {
+        HORIZONTAL,
+        VERTICAL,
+        DIAGONAL_DOWN,
+        DIAGONAL_UP,
+    };
+} // letter_salad

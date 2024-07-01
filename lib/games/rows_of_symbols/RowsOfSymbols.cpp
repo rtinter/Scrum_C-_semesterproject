@@ -1,25 +1,26 @@
 #include "RowsOfSymbols.hpp"
-#include "InfoBox.hpp"
-#include "imgui.h"
-#include "Window.hpp"
-#include "TextCentered.hpp"
-#include "Fonts.hpp"
-#include "RandomPicker.hpp"
-#include "Symbol.hpp"
+
+#include <imgui.h>
+
 #include "Centered.hpp"
+#include "Fonts.hpp"
+#include "InfoBox.hpp"
+#include "RandomPicker.hpp"
 #include "Sound.hpp"
 #include "SoundPolice.hpp"
+#include "Symbol.hpp"
+#include "TextCentered.hpp"
+#include "Window.hpp"
 
 namespace games {
-
-    RowsOfSymbols::RowsOfSymbols() : abstract_game::Game(abstract_game::GameID::ROWS_OF_SYMBOLS),
+    RowsOfSymbols::RowsOfSymbols() : Game(abstract_game::GameID::ROWS_OF_SYMBOLS),
                                      _correctSymbols(0), _wrongSymbols(0), _timer{"Symbolreihen", TOTAL_TIME_SEC} {
-
         _gameName = "Symbolreihen";
 
-        _gameDescription = "Bei dem Spiel Symbolreihen handelt es sich um einen Test, der die Konzentration auf die Probe stellt.\n"
-                           "In einer Linie werden mehrere Symbole angezeigt, die nacheinander an der Reihe sind.\n"
-                           "Das aktuelle Symbol auf der linken Seite soll in eine von zwei Kategorien einsortiert werden.\n";
+        _gameDescription =
+                "Bei dem Spiel Symbolreihen handelt es sich um einen Test, der die Konzentration auf die Probe stellt.\n"
+                "In einer Linie werden mehrere Symbole angezeigt, die nacheinander an der Reihe sind.\n"
+                "Das aktuelle Symbol auf der linken Seite soll in eine von zwei Kategorien einsortiert werden.\n";
 
         _gameRules =
                 "1. Zur Kategorie 1 gehören alle Symbole mit einem Kreis und drei Punkten\n    oder einem Quadrat und zwei Punkten im Inneren.\n"
@@ -31,7 +32,7 @@ namespace games {
         _gameControls =
                 "Steuerung:\n"
                 "1. Unter dem aktuellen Symbol auf der linken Seite befinden sich die beiden Knöpfe, beschriftet mit 1 und 0.\n"
-                "2. Klicke auf den Knopf mit der 1, wenn das Symbol im inneren einen Kreis mit drei Punkten\n    oder ein Quadrat mit zwei Punkten darstellt.\n"
+                "2. Klicke auf den Knopf mit der 1, wenn das Symbol im Inneren einen Kreis mit drei Punkten\n    oder ein Quadrat mit zwei Punkten darstellt.\n"
                 "3. Klicke auf den Knopf mit der 0, für alle Symbole, auf die das nicht zutrifft.\n";
     }
 
@@ -41,16 +42,16 @@ namespace games {
 
     void RowsOfSymbols::render() {
         ui_elements::InfoBox(
-                _gameID,
-                _showStartBox,
-                "Startbox",
-                _gameName,
-                _gameDescription,
-                _gameRules,
-                _gameControls,
-                [this] {
-                    start();
-                }).render();
+            _gameID,
+            _showStartBox,
+            "Startbox",
+            _gameName,
+            _gameDescription,
+            _gameRules,
+            _gameControls,
+            [this] {
+                start();
+            }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -58,20 +59,19 @@ namespace games {
 
         if (_showEndBox) {
             ui_elements::InfoBox(
-                    _gameID,
-                    _showEndBox,
-                    "Endbox",
-                    _endBoxTitle,
-                    _endBoxText,
-                    [this] {
-                        reset();
-                    }).render();
+                _gameID,
+                _showEndBox,
+                "Endbox",
+                _endBoxTitle,
+                _endBoxText,
+                [this] {
+                    reset();
+                }).render();
         }
     }
 
     void RowsOfSymbols::renderGame() {
-        ui_elements::Window("Symbolreihen").render([this]() {
-
+        ui_elements::Window("Symbolreihen").render([this] {
             _timer.render();
 
             // check if time is up
@@ -90,7 +90,6 @@ namespace games {
 
             updateShownSymbols();
             renderRow();
-
         });
     }
 
@@ -124,29 +123,25 @@ namespace games {
     }
 
     void RowsOfSymbols::updateStatistics() {
-
         // add the result of this run through to the current session
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Symbole",
-                                                                                     _correctSymbols);
+            _correctSymbols);
     }
 
     void RowsOfSymbols::updateShownSymbols() {
-
         while (_symbols.size() < NR_OF_SHOWN_SYMBOLS) {
-
             bool recentlyUsed;
-            SymbolType newSymbol;
+            rows_of_symbols::SymbolType newSymbol;
 
             // generate new symbol that was not used recently
             do {
-                newSymbol = static_cast<SymbolType>(commons::RandomPicker::randomInt(0, 7));
+                newSymbol = static_cast<rows_of_symbols::SymbolType>(commons::RandomPicker::randomInt(0, 7));
 
                 recentlyUsed = false;
-                for (auto &symbol: _lastAddedSymbols) {
+                for (auto const &symbol: _lastAddedSymbols) {
                     if (symbol == newSymbol)
                         recentlyUsed = true;
                 }
-
             } while (recentlyUsed);
 
             // add new symbol to the list of active symbols
@@ -162,9 +157,7 @@ namespace games {
     }
 
     void RowsOfSymbols::renderRow() {
-
         ui_elements::Centered(true, false, [this] {
-
             ImGui::BeginGroup(); // symbols + buttons
 
             ImGui::BeginGroup(); // symbols
@@ -172,8 +165,8 @@ namespace games {
             renderBackgroundRect();
 
             bool first{true};
-            for (auto &symbol: _symbols) {
-                Symbol::renderSymbolType(symbol, first);
+            for (auto const &symbol: _symbols) {
+                rows_of_symbols::Symbol::renderSymbolType(symbol, first);
                 first = false;
             }
 
@@ -186,21 +179,22 @@ namespace games {
     }
 
     void RowsOfSymbols::renderBackgroundRect() {
-
         // colors for the gradient
-        static constexpr ImU32 const COLOR_LEFT{IM_COL32(0, 0, 0, 10)};
-        static constexpr ImU32 const COLOR_RIGHT{IM_COL32(0, 0, 0, 0)};
+        static constexpr ImU32 COLOR_LEFT{IM_COL32(0, 0, 0, 10)};
+        static constexpr ImU32 COLOR_RIGHT{IM_COL32(0, 0, 0, 0)};
 
         // get the draw list and prepare the total width and gap between the symbols
         ImDrawList &drawList{*ImGui::GetWindowDrawList()};
-        static constexpr int const TOTAL_WIDTH_OF_SYMBOLS{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
-        static constexpr int const TOTAL_GAP_BETWEEN_SYMBOLS{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
+        static constexpr int TOTAL_WIDTH_OF_SYMBOLS{static_cast<int>(SYMBOL_SIZE + MARGIN * 2) * NR_OF_SHOWN_SYMBOLS};
+        static constexpr int TOTAL_GAP_BETWEEN_SYMBOLS{20 * (NR_OF_SHOWN_SYMBOLS - 1)};
 
         // calculate the top left and bottom right corner of the rectangle
         ImVec2 const topLeft{ImGui::GetCursorScreenPos()};
-        ImVec2 const bottomRight
-                {ImVec2(ImGui::GetCursorScreenPos().x + TOTAL_WIDTH_OF_SYMBOLS + TOTAL_GAP_BETWEEN_SYMBOLS,
-                        ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2)};
+        auto const bottomRight
+        {
+            ImVec2(ImGui::GetCursorScreenPos().x + TOTAL_WIDTH_OF_SYMBOLS + TOTAL_GAP_BETWEEN_SYMBOLS,
+                   ImGui::GetCursorScreenPos().y + SYMBOL_SIZE + MARGIN * 2)
+        };
 
         // draw the gradient background
         drawList.AddRectFilledMultiColor(topLeft, bottomRight,
@@ -228,21 +222,21 @@ namespace games {
     }
 
     void RowsOfSymbols::clickButton0() {
-        SymbolType const symbol{_symbols.front()};
+        rows_of_symbols::SymbolType const symbol{_symbols.front()};
         bool correct{false};
 
         // check if this button 0 is correct for the current symbol
         switch (symbol) {
-            case SymbolType::CIRCLE_2_A:
-            case SymbolType::CIRCLE_2_B:
-            case SymbolType::RECT_3_A:
-            case SymbolType::RECT_3_B:
+            case rows_of_symbols::SymbolType::CIRCLE_2_A:
+            case rows_of_symbols::SymbolType::CIRCLE_2_B:
+            case rows_of_symbols::SymbolType::RECT_3_A:
+            case rows_of_symbols::SymbolType::RECT_3_B:
                 correct = true;
                 break;
-            case SymbolType::CIRCLE_3_A:
-            case SymbolType::CIRCLE_3_B:
-            case SymbolType::RECT_2_A:
-            case SymbolType::RECT_2_B:
+            case rows_of_symbols::SymbolType::CIRCLE_3_A:
+            case rows_of_symbols::SymbolType::CIRCLE_3_B:
+            case rows_of_symbols::SymbolType::RECT_2_A:
+            case rows_of_symbols::SymbolType::RECT_2_B:
                 correct = false;
                 break;
         }
@@ -251,21 +245,21 @@ namespace games {
     }
 
     void RowsOfSymbols::clickButton1() {
-        SymbolType const symbol {_symbols.front()};
+        rows_of_symbols::SymbolType const symbol{_symbols.front()};
         bool correct{false};
 
         // check if this button 1 is correct for the current symbol
         switch (symbol) {
-            case SymbolType::CIRCLE_2_A:
-            case SymbolType::CIRCLE_2_B:
-            case SymbolType::RECT_3_A:
-            case SymbolType::RECT_3_B:
+            case rows_of_symbols::SymbolType::CIRCLE_2_A:
+            case rows_of_symbols::SymbolType::CIRCLE_2_B:
+            case rows_of_symbols::SymbolType::RECT_3_A:
+            case rows_of_symbols::SymbolType::RECT_3_B:
                 correct = false;
                 break;
-            case SymbolType::CIRCLE_3_A:
-            case SymbolType::CIRCLE_3_B:
-            case SymbolType::RECT_2_A:
-            case SymbolType::RECT_2_B:
+            case rows_of_symbols::SymbolType::CIRCLE_3_A:
+            case rows_of_symbols::SymbolType::CIRCLE_3_B:
+            case rows_of_symbols::SymbolType::RECT_2_A:
+            case rows_of_symbols::SymbolType::RECT_2_B:
                 correct = true;
                 break;
         }
@@ -274,20 +268,18 @@ namespace games {
     }
 
     void RowsOfSymbols::popCurrentSymbol() {
-
         // remove the first symbol from the list of shown symbols
         _symbols.pop_front();
         _lastSymbolChange = std::chrono::steady_clock::now();
     }
 
-    void RowsOfSymbols::evaluateAnswer(bool correct) {
-
+    void RowsOfSymbols::evaluateAnswer(bool const correct) {
         // play sounds and update the correct and wrong symbols counter
         if (correct) {
-            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+            commons::SoundPolice::safePlaySound(Sound::CORRECT);
             _correctSymbols++;
         } else {
-            commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+            commons::SoundPolice::safePlaySound(Sound::ERROR);
             _wrongSymbols++;
             _timer.reduceTime(WRONG_ANSWER_TIME_REDUCTION_SEC);
         }
@@ -296,9 +288,8 @@ namespace games {
     }
 
     bool RowsOfSymbols::isTimeUpForCurrentSymbol() const {
-
         // check if the time for the current symbol is up
         auto const timeForSymbolsInMs{std::chrono::milliseconds(static_cast<int>(SYMBOL_TIME_SEC * 1000))};
         return std::chrono::steady_clock::now() - _lastSymbolChange > timeForSymbolsInMs;
     }
-}
+} // games

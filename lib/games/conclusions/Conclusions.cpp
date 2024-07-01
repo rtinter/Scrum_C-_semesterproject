@@ -1,26 +1,29 @@
 #include "Conclusions.hpp"
-#include "nlohmann/json.hpp"
-#include "Logger.hpp"
-#include "SoundPolice.hpp"
+
 #include <fstream>
 #include <iostream>
+#include <nlohmann/json.hpp>
+
+#include "Fonts.hpp"
+#include "Logger.hpp"
+#include "RandomPicker.hpp"
+#include "SoundPolice.hpp"
+#include "TextCentered.hpp"
+#include "Window.hpp"
 
 using json = nlohmann::json;
 
 namespace games {
-
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
-    Conclusions::Conclusions() :
-    abstract_game::Game(abstract_game::GameID::ABSURD_QUESTIONS),
-    _selectedOption{std::nullopt},
-    _showCorrectMessage{false},
-    _solved{0}
-    {
+    Conclusions::Conclusions() : Game(abstract_game::GameID::ABSURD_QUESTIONS),
+                                 _showCorrectMessage{false},
+                                 _solved{0},
+                                 _selectedOption{std::nullopt} {
         _gameName = "Absurde Fragen";
         _gameDescription = "Beantworte die absurden Fragen.";
         _gameRules = "1. Lies die angezeigte Frage.\n"
-                     "2. Entscheide, ob die Schlussfolgerung richtig oder falsch ist.\n"
-                     "3. Bestätige deine Auswahl mit dem Bestätigen Button.\n";
+                "2. Entscheide, ob die Schlussfolgerung richtig oder falsch ist.\n"
+                "3. Bestätige deine Auswahl mit dem Bestätigen Button.\n";
         _gameControls = "Linke Maustaste zur Auswahl der Antwort und ebenfalls zum Bestätigen des Buttons";
 
         loadQuestions();
@@ -29,27 +32,27 @@ namespace games {
     // Renders the game, including start box, end box, and the game itself
     void Conclusions::render() {
         ui_elements::InfoBox(
-                _gameID,
-                _showStartBox,
-                "Startbox",
-                _gameName,
-                _gameDescription,
-                _gameRules,
-                _gameControls,
-                [this] {
-                    start();
-                }
+            _gameID,
+            _showStartBox,
+            "Startbox",
+            _gameName,
+            _gameDescription,
+            _gameRules,
+            _gameControls,
+            [this] {
+                start();
+            }
         ).render();
 
         ui_elements::InfoBox(
-                _gameID,
-                _showEndBox,
-                "Endbox",
-                _endBoxTitle,
-                _endBoxText,
-                [this] {
-                    reset();
-                }
+            _gameID,
+            _showEndBox,
+            "Endbox",
+            _endBoxTitle,
+            _endBoxText,
+            [this] {
+                reset();
+            }
         ).render();
 
         if (_isGameRunning) {
@@ -59,7 +62,7 @@ namespace games {
 
     // Renders the main game content
     void Conclusions::renderGame() {
-        ui_elements::Window("Absurde Fragen").render([this]() {
+        ui_elements::Window("Absurde Fragen").render([this] {
             if (_questions.empty()) {
                 std::cout << "No questions loaded." << std::endl;
                 return;
@@ -75,16 +78,16 @@ namespace games {
 
     // Renders the current question and answer options
     void Conclusions::renderQuestion() {
-        static constexpr float const BUTTON_WIDTH {100.0f};
-        float const buttonOffsetX {(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
-        static constexpr float const ITEM_WIDTH {100.0f};
-        float const itemOffsetX {(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
-        static constexpr float const TEXT_WRAP_WIDTH {1350.0f}; // Set a fixed wrap width for the question text
+        static constexpr float BUTTON_WIDTH{100.0f};
+        float const buttonOffsetX{(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
+        static constexpr float ITEM_WIDTH{100.0f};
+        float const itemOffsetX{(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
+        static constexpr float TEXT_WRAP_WIDTH{1350.0f}; // Set a fixed wrap width for the question text
 
         ImGui::PushFont(commons::Fonts::_header2);
 
         // Calculate the position to center the text within textWrapWidth
-        float const textStartPosX {(ImGui::GetWindowWidth() - TEXT_WRAP_WIDTH) / 2.0f};
+        float const textStartPosX{(ImGui::GetWindowWidth() - TEXT_WRAP_WIDTH) / 2.0f};
         ImGui::SetCursorPosX(textStartPosX);
 
         // Wrap the text within the specified width and center it
@@ -119,9 +122,9 @@ namespace games {
     }
 
     // Renders a message and current score when the correct answer is given
-    void Conclusions::renderCorrectMessage(){
-        auto const now {std::chrono::steady_clock::now()};
-        auto const duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
+    void Conclusions::renderCorrectMessage() {
+        auto const now{std::chrono::steady_clock::now()};
+        auto const duration{std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
         if (duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);
@@ -150,19 +153,19 @@ namespace games {
 
     // Loads questions/answers from the conclusions JSON file relative to bin dir
     void Conclusions::loadQuestions() {
-        logger::Logger& logger { logger::Logger::getInstance()};
+        logger::Logger &logger{logger::Logger::getInstance()};
 
-        std::fstream file;
         try {
+            std::fstream file;
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
             file.open("assets/games/conclusions/conclusions.json");
-            logger.log("Loading files for Conclusions-Game", LogType::INFORMATION);
+            logger.log("Loading files for Conclusions-Game", logger::LogType::INFORMATION);
 
             json data;
             file >> data;
             file.close();
 
-            for (const auto &elem : data) {
+            for (const auto &elem: data) {
                 Question q;
                 q.questionText = elem["frage"];
                 q.isCorrectAnswer = elem["antwort"].get<int>() == 1;
@@ -171,14 +174,13 @@ namespace games {
 
             // Log the loaded questions
             for (const auto &q : _questions) {
-                logger.log("Loaded question: " + q.questionText + " Answer: " + std::to_string(static_cast<int>(q.isCorrectAnswer)), LogType::INFORMATION);
+                logger.log("Loaded question: " + q.questionText + " Answer: " + std::to_string(static_cast<int>(q.isCorrectAnswer)), logger::LogType::INFORMATION);
             }
-
         } catch (std::exception const &e) {
             std::stringstream error;
             error << "Error opening or reading the file conclusions.json: " << e.what();
             std::cerr << error.str() << std::endl;
-            logger.log(error.str(), LogType::SEVERE);
+            logger.log(error.str(), logger::LogType::SEVERE);
         }
     }
 
@@ -199,15 +201,15 @@ namespace games {
 
 
     // Checks the selected answer and updates the game state
-    void Conclusions::checkAnswer(std::optional<bool> &selectedOption){
+    void Conclusions::checkAnswer(std::optional<bool> const &selectedOption) {
         if (selectedOption.has_value() && selectedOption.value() == _currentQuestion.isCorrectAnswer) {
-            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+            commons::SoundPolice::safePlaySound(Sound::CORRECT);
             _solved++;
             _showCorrectMessage = true;
             _correctMessageStartTime = std::chrono::steady_clock::now();
         } else {
             renderGameOver();
-            commons::SoundPolice::safePlaySound(commons::Sound::BEEP_FAIL);
+            commons::SoundPolice::safePlaySound(Sound::BEEP_FAIL);
         }
     }
 

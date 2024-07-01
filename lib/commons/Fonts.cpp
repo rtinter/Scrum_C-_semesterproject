@@ -1,5 +1,6 @@
 #include "Fonts.hpp"
-#include "imgui-SFML.h"
+
+#include <imgui-SFML.h>
 #include <iostream>
 
 namespace commons {
@@ -17,7 +18,7 @@ namespace commons {
      * @brief: Loads fonts from .ttf files and adds them to io.Fonts
      */
     void Fonts::setup() {
-        ImGuiIO &io{ImGui::GetIO()};
+        ImGuiIO const &io{ImGui::GetIO()};
         io.Fonts->Clear();
 
         // Add default font
@@ -46,5 +47,4 @@ namespace commons {
             std::cerr << "UpdateFontTexture failed." << std::endl;
         }
     }
-
 } // commons

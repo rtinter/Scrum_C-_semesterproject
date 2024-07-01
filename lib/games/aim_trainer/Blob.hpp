@@ -1,15 +1,20 @@
 #pragma once
 
-#include "imgui.h"
+#include <imgui.h>
+
 #include "GameObject.hpp"
-#include <SFML/Graphics.hpp>
-#include <random>
 
 namespace aim_trainer {
-    class Blob : public GameObject {
-    private:
+    /**
+     * @brief The Blob class represents a single blob in the aim trainer game.
+     *
+     * This class represents a single blob in the aim trainer game.
+     * It inherits from the GameObject class and provides methods for rendering the blob and checking if it can be disposed.
+     */
+    class Blob final : public abstract_game::GameObject {
         float _radius{120.0};
         ImVec4 _color;
+
     public:
         Blob(float x, float y, float z);
 
@@ -21,4 +26,4 @@ namespace aim_trainer {
 
         bool canBeDisposed() const { return _radius < 10.0; };
     };
-}
+} // aim_trainer

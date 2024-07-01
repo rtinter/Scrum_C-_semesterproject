@@ -1,10 +1,8 @@
-#ifndef ATHENA_FONTS_H
-#define ATHENA_FONTS_H
+#pragma once
 
-#include "imgui.h"
+#include <imgui.h>
 
 namespace commons {
-
     /**
      * @brief Static class that provides different fonts and icons.
      */
@@ -26,7 +24,4 @@ namespace commons {
 
         static void setup();
     };
-
 } // commons
-
-#endif //ATHENA_FONTS_H

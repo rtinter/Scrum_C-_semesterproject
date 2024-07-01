@@ -1,17 +1,20 @@
 #include "ColorMatch.hpp"
-#include "Fonts.hpp"
-#include "ColorTheme.hpp"
-#include "InfoBox.hpp"
-#include "Overlay.hpp"
-#include "TextCentered.hpp"
+
 #include "Centered.hpp"
-#include "Window.hpp"
-#include "RandomPicker.hpp"
 #include "ColorHelper.hpp"
+#include "ColorTheme.hpp"
+#include "Fonts.hpp"
+#include "InfoBox.hpp"
+#include "RandomPicker.hpp"
 #include "SoundPolice.hpp"
+#include "Window.hpp"
 
 namespace games {
-    ColorMatch::ColorMatch() : Game(abstract_game::GameID::COLOR_MATCH) {
+    ColorMatch::ColorMatch() : Game(abstract_game::GameID::COLOR_MATCH), _isTimeForNewRandomColors(false),
+                               _indexOfCurrentColor(0),
+                               _numberOfCorrectClicksInTotal(0),
+                               _numberOfCorrectClicksSinceLastError(0),
+                               _longestStreak(0), _currentGameMode() {
         _gameName = "Farbe & Wort";
         _gameDescription =
                 "Unser Spiel 'Farbe & Wort' zielt darauf ab, die kognitive Flexibilität zu testen,\n"
@@ -24,9 +27,9 @@ namespace games {
                 "zwischen verschiedenen Reizen zu unterscheiden, sind wesentliche Fähigkeiten\n"
                 "für den Einsatz von Polizei- und Feuerwehrkräften.";
         _gameRules = "Es wird zufällig zwischen zwei Spiel-Modi gewechselt: "
-                     "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
-                     "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
-                     "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
+                "Im Modus 'Farbwort' muss man auf den zum Farbwort passenden Farb-Button klicken.\n"
+                "Im Modus 'Schriftfarbe' muss man auf den zur Schriftfarbe passenden Text-Button klicken.\n"
+                "Dabei müssen die angezeigten Zufallswörter von links nach rechts abgearbeitet werden.";
         _gameControls = "Linke Maustaste: Klicken der richtigen Antworten in der richtigen Reihenfolge";
     }
 
@@ -59,10 +62,10 @@ namespace games {
             }
             ui_elements::Centered(true, false, [this] {
                 switch (_currentGameMode) {
-                    case GameMode::MATCH_STRING:
+                    case MATCH_STRING:
                         ImGui::Text("Finde die Übereinstimmung mit dem FarbWORT:");
                         break;
-                    case GameMode::MATCH_IMVEC4:
+                    case MATCH_IMVEC4:
                         ImGui::Text("Finde die Übereinstimmung mit der SchriftFARBE:");
                         break;
                 }
@@ -78,7 +81,7 @@ namespace games {
     void ColorMatch::start() {
         reset();
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-                std::vector<GameMode>{GameMode::MATCH_STRING, GameMode::MATCH_IMVEC4});
+            std::vector<GameMode>{MATCH_STRING, MATCH_IMVEC4});
         _isGameRunning = true;
         _showEndBox = false;
         _timer.start();
@@ -117,7 +120,7 @@ namespace games {
      * @brief Displays color words from _randomColorsString (e.g. "rot"), using
      * the respective element from _randomColorImVec4 as font color.
      */
-    void ColorMatch::displayRandomColors() {
+    void ColorMatch::displayRandomColors() const {
         for (int i{0}; i < _randomColorsString.size(); i++) {
             ImGui::SameLine(0.f, 70); // some spacing
             // current color has bigger font
@@ -145,16 +148,16 @@ namespace games {
             bool isCurrentColor;
             std::string buttonID;
             switch (_currentGameMode) {
-                case GameMode::MATCH_STRING:
+                case MATCH_STRING:
                     // create colored buttons with no label
                     isCurrentColor = _availableColorsString.at(i) == _randomColorsString.at(_indexOfCurrentColor);
                     buttonID = "##" + _availableColorsString.at(i);
                     ImGui::PushStyleColor(ImGuiCol_Button, _availableColorsImVec4.at(i)); // Normal state
                     ImGui::PushStyleColor(ImGuiCol_ButtonHovered,
                                           commons::ColorHelper::adjustBrightness(_availableColorsImVec4.at(i),
-                                                                                 1.2f)); // Hover state equals normal state
+                                              1.2f)); // Hover state equals normal state
                     break;
-                case GameMode::MATCH_IMVEC4:
+                case MATCH_IMVEC4:
                     // create gray buttons with color names (e.g. "rot") as button labels
                     isCurrentColor = commons::ColorHelper::isEqual(_availableColorsImVec4.at(i),
                                                                    _randomColorsImVec4.at(_indexOfCurrentColor));
@@ -168,8 +171,8 @@ namespace games {
             // show whether click was correct via quick color change
             ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                                   isCurrentColor
-                                  ? commons::ColorTheme::SUCCESS_COLOR
-                                  : commons::ColorTheme::ERROR_COLOR);
+                                      ? commons::ColorTheme::SUCCESS_COLOR
+                                      : commons::ColorTheme::ERROR_COLOR);
 
             if (ImGui::Button(buttonID.c_str(), ImVec2(80.f, 40.f))) {
                 onClick(isCurrentColor);
@@ -212,6 +215,6 @@ namespace games {
 
     void ColorMatch::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
-                                                                                     _numberOfCorrectClicksInTotal);
+            _numberOfCorrectClicksInTotal);
     }
 }

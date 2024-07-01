@@ -1,4 +1,5 @@
 #include "Logger.hpp"
+
 #include <iostream>
 #include <filesystem>
 
@@ -19,17 +20,17 @@ namespace logger {
      * @param entry a QueueEntry
      */
     void Logger::log(QueueEntry const &entry) {
-        std::string dateString {getDateString(entry.timestamp) };
-        if(entry.entryType == LogType::DEBUG){
+        std::string const dateString{getDateString(entry.timestamp)};
+        if (entry.entryType == DEBUG) {
             _outputStream << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
             std::cout << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
         }
-        if(entry.entryType == LogType::INFORMATION){
+        if (entry.entryType == INFORMATION) {
             _outputStream << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
             std::cout << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
         }
-        if(entry.entryType == LogType::SEVERE){
-            _outputStream << "[SEVERE]: " << dateString  << " " << entry.content << std::endl;
+        if (entry.entryType == SEVERE) {
+            _outputStream << "[SEVERE]: " << dateString << " " << entry.content << std::endl;
             std::cerr << "[SEVERE]: " << dateString << " " << entry.content << std::endl;
         }
     }
@@ -38,9 +39,9 @@ namespace logger {
      * Background Task for writing to IO
      * @param logger an Instance of Logger
      */
-    void Logger::sinkTask(Logger &logger){
-        while(!logger._stop){
-            while(!logger._sink.empty()){
+    void Logger::sinkTask(Logger &logger) {
+        while (!logger._stop) {
+            while (!logger._sink.empty()) {
                 logger.log(logger._sink.front());
                 logger._sink.pop();
             }
@@ -51,16 +52,16 @@ namespace logger {
     /*
      * Static Method for a singleton of Logger
      */
-    logger::Logger& logger::Logger::getInstance() {
+    Logger &Logger::getInstance() {
         static Logger logger;
         if (!logger._initialized) {
-            std::string path {"logs/session_"};
+            std::string path{"logs/session_"};
             path.append(std::to_string(time(nullptr)));
             path.append(".txt");
 
             logger._initialized = true;
             logger._outputStream.open(path);
-            logger._sinkBackgroundTask = std::async(std::launch::async, [&](){
+            logger._sinkBackgroundTask = std::async(std::launch::async, [&] {
                 sinkTask(logger);
             });
         }
@@ -83,8 +84,8 @@ namespace logger {
      * @param content a string
      * @param type a LogType
      */
-    void Logger::log(std::string const &content, LogType type) {
-        QueueEntry entry {
+    void Logger::log(std::string const &content, LogType const type) {
+        QueueEntry entry{
             .timestamp = time(nullptr),
             .content = content,
             .entryType = type
@@ -96,13 +97,12 @@ namespace logger {
     void createLogDir(std::string const &path) {
         if (!std::filesystem::exists(path)) {
             if (std::filesystem::create_directories(path)) {
-                Logger::getInstance().log("Directory created: " + path, LogType::INFORMATION);
+                Logger::getInstance().log("Directory created: " + path, INFORMATION);
             } else {
-                Logger::getInstance().log("Failed to create directory: " + path, LogType::SEVERE);
+                Logger::getInstance().log("Failed to create directory: " + path, SEVERE);
             }
         } else {
-            Logger::getInstance().log("Failed to create directory: " + path, LogType::SEVERE);
+            Logger::getInstance().log("Directory already exists: " + path, INFORMATION);
         }
     }
-}
-
+} // logger

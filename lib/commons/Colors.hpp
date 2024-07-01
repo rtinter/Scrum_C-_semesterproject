@@ -33,6 +33,4 @@ namespace commons {
         static ImVec4 const GOLD;
         static ImVec4 const EARTH_YELLOW;
     };
-}
-
-// commons
+} // commons

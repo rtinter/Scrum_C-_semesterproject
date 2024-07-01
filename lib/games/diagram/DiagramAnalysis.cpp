@@ -1,4 +1,7 @@
 #include "DiagramAnalysis.hpp"
+
+#include <iostream>
+
 #include "DiagramHelper.hpp"
 #include "Fonts.hpp"
 #include "GameIDs.hpp"
@@ -43,8 +46,7 @@ namespace games {
 
         for (auto const &pair : this->_answers) {
             std::string const _answer{pair.first.c_str()};
-            bool const state{pair.second};
-            if (state) {
+            if (pair.second) {
                 answer = _answer;
                 break;
             }

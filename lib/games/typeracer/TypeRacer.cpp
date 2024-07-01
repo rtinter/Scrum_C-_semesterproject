@@ -1,19 +1,19 @@
 #include "TypeRacer.hpp"
 
-#include <Fonts.hpp>
-#include <InfoBox.hpp>
-#include <TextCentered.hpp>
-#include <Window.hpp>
-#include <sstream>
 #include <iomanip>
-#include "fireDepartmentAndPoliceTexts.hpp"
+#include <sstream>
+
+#include "FireDepartmentAndPoliceTexts.hpp"
+#include "Fonts.hpp"
 #include "GameSessionManager.hpp"
+#include "InfoBox.hpp"
 #include "RandomPicker.hpp"
 #include "SoundPolice.hpp"
+#include "Window.hpp"
 
 
 namespace games {
-    TypeRacer::TypeRacer() : abstract_game::Game(abstract_game::GameID::TYPERACER) {
+    TypeRacer::TypeRacer() : Game(abstract_game::GameID::TYPERACER), _windowWidth(0), _textWidth(0), _input{} {
         _gameName = "Type Racer";
         _gameDescription =
                 "TypeRacer ist ein spannendes Tipp-Spiel, das deine Tippgeschwindigkeit und Genauigkeit herausfordert.\n"
@@ -41,28 +41,28 @@ namespace games {
 
     void TypeRacer::render() {
         ui_elements::InfoBox(
-                _gameID,
-                _showStartBox,
-                "Startbox",
-                _gameName,
-                _gameDescription,
-                _gameRules,
-                _gameControls,
-                [this]() {
-                    reset();
-                    _randomIndex = commons::RandomPicker::randomInt(0,
-                                                                    FireDepartmentAndPoliceTexts::_mixedTexts.size());
-                }).render();
+            _gameID,
+            _showStartBox,
+            "Startbox",
+            _gameName,
+            _gameDescription,
+            _gameRules,
+            _gameControls,
+            [this] {
+                reset();
+                _randomIndex = commons::RandomPicker::randomInt(0,
+                                                                typeracer::FireDepartmentAndPoliceTexts::_mixedTexts.size());
+            }).render();
 
         ui_elements::InfoBox(
-                _gameID,
-                _showEndBox,
-                "Endbox",
-                _endBoxTitle,
-                _endBoxText,
-                [this]() {
-                    reset();
-                }).render();
+            _gameID,
+            _showEndBox,
+            "Endbox",
+            _endBoxTitle,
+            _endBoxText,
+            [this] {
+                reset();
+            }).render();
 
         if (_isGameRunning) {
             renderGame();
@@ -71,13 +71,13 @@ namespace games {
 
     void TypeRacer::renderGame() {
         ImGui::PushStyleColor(ImGuiCol_WindowBg, _windowColor);
-        ui_elements::Window(_gameName).render([this]() {
+        ui_elements::Window(_gameName).render([this] {
             _windowWidth = ImGui::GetWindowWidth();
             _textWidth = ImGui::CalcTextSize(_sentence.c_str()).x;
 
             // For testing purposes comment out the desired _sentence and uncomment the other _sentence
             // Get a random sentence from the list
-            _sentence = FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
+            _sentence = typeracer::FireDepartmentAndPoliceTexts::_mixedTexts[_randomIndex];
             //_sentence= "Dies ist ein Test.";
 
             // for spacing to the top of the window
@@ -127,8 +127,6 @@ namespace games {
                     i++;
                 }
                 ImGui::SameLine(0.0f, 0.0f);
-
-
             }
 
             // Render the _input field beneath the sentence
@@ -154,8 +152,7 @@ namespace games {
                 auto const currentTime{std::chrono::steady_clock::now()};
                 std::chrono::duration<float> const elapsedSeconds{currentTime - _startPoint};
                 float const minutes{elapsedSeconds.count() / 60.0f};
-                // cant use {}
-                int const numChars = strlen(_input);
+                int const numChars{static_cast<int>(strlen(_input))};
                 _wpm = (numChars / 5.0f) / minutes;
 
                 std::stringstream wpmStream;
@@ -179,7 +176,7 @@ namespace games {
     }
 
     void TypeRacer::stop() {
-        commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+        commons::SoundPolice::safePlaySound(Sound::CORRECT);
         _endBoxTitle = "Geschafft!";
         _runTimer = false;
         _showEndBox = true;
@@ -206,7 +203,7 @@ namespace games {
 
     void TypeRacer::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("Wörter pro Minute",
-                                                                                     _wpm);
+            _wpm);
     }
 
     std::string TypeRacer::getName() const {
@@ -223,4 +220,4 @@ namespace games {
         _sentence.clear();
         _mistypedIndices.clear();
     }
-} // typeracer
+} // games

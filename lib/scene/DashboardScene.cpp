@@ -1,28 +1,29 @@
 #include "DashboardScene.hpp"
-#include "ResultsScene.hpp"
-#include "SceneManager.hpp"
-#include "GameScene.hpp"
-#include "Reaction.hpp"
-#include "LetterSalad.hpp"
-#include "ColorMatch.hpp"
-#include "SimonSays.hpp"
+
 #include "AimTrainer.hpp"
-#include "Remembering.hpp"
-#include "TypeRacer.hpp"
-#include "MatrixGame.hpp"
-#include "RowsOfNumbers.hpp"
-#include "Memory.hpp"
 #include "Analogy.hpp"
 #include "Calc.hpp"
+#include "ColorMatch.hpp"
+#include "Conclusions.hpp"
+#include "GameScene.hpp"
+#include "LetterSalad.hpp"
+#include "MatrixGame.hpp"
+#include "Memory.hpp"
+#include "Reaction.hpp"
+#include "Remembering.hpp"
+#include "ResultsScene.hpp"
+#include "RowsOfNumbers.hpp"
 #include "RowsOfSymbols.hpp"
 #include "DiagramAnalysis.hpp"
-#include "Conclusions.hpp"
+#include "SceneManager.hpp"
+#include "SimonSays.hpp"
+#include "TypeRacer.hpp"
 
 
 using Tile = ui_elements::Tile;
 
 scene::DashboardScene::DashboardScene() {
-    _header = std::make_unique<views::Header>("Home", "Meine Werte", []() {
+    _header = std::make_unique<views::Header>("Home", "Meine Werte", [] {
         // linking to user result site
         SceneManager::getInstance().switchTo(std::make_unique<ResultsScene>());
     });
@@ -38,44 +39,44 @@ scene::DashboardScene::DashboardScene() {
 
     // Kategorie: Reaktion
     reactionCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Reaktionsspiel",
-                    "Klicke, sobald es grün wird!",
-                    commons::Colors::BLUE,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Reaction> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Reaktionsspiel",
+            "Klicke, sobald es grün wird!",
+            commons::Colors::BLUE,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::Reaction> >()
+                );
+            }
+        )
     );
 
     reactionCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Farbe & Wort",
-                    "Welche Farbe passt zum Wort?\n"
-                    "Welches Wort passt zur Farbe?",
-                    commons::Colors::BLUE,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::ColorMatch> >());
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Farbe & Wort",
+            "Welche Farbe passt zum Wort?\n"
+            "Welches Wort passt zur Farbe?",
+            commons::Colors::BLUE,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::ColorMatch> >());
+            }
+        )
     );
 
     reactionCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Aim Trainer",
-                    "Triff die Ziele schnell",
-                    commons::Colors::BLUE,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::AimTrainer> >());
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Aim Trainer",
+            "Triff die Ziele schnell",
+            commons::Colors::BLUE,
+            []() {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::AimTrainer> >());
+            }
+        )
     );
 
     reactionCategory.push_back(
@@ -84,7 +85,7 @@ scene::DashboardScene::DashboardScene() {
             "Symbolreihen",
             "Symbole erkennen und einordnen",
             commons::Colors::BLUE,
-            []() {
+            [] {
                 SceneManager::getInstance().switchTo(
                     std::make_unique<GameScene<games::RowsOfSymbols> >());
             }
@@ -93,148 +94,148 @@ scene::DashboardScene::DashboardScene() {
 
     // Kategorie: Genauigkeit
     accuracyCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Type Racer",
-                    "Schnelles Tippen",
-                    commons::Colors::ORANGE,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::TypeRacer> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Type Racer",
+            "Schnelles Tippen",
+            commons::Colors::ORANGE,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::TypeRacer> >()
+                );
+            }
+        )
     );
 
 
     // Kategorie: Problemlösung
     problemSolvingCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Buchstabensalat",
-                    "Finde alle Wörter in vorgegebener Zeit",
-                    commons::Colors::GREEN,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::LetterSalad> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Buchstabensalat",
+            "Finde alle Wörter in vorgegebener Zeit",
+            commons::Colors::GREEN,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::LetterSalad> >()
+                );
+            }
+        )
     );
 
     problemSolvingCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Matrix",
-                    "Finde die gedrehte\nbzw. gespiegelte Matrix",
-                    commons::Colors::GREEN,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::MatrixGame> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Matrix",
+            "Finde die gedrehte\nbzw. gespiegelte Matrix",
+            commons::Colors::GREEN,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::MatrixGame> >()
+                );
+            }
+        )
     );
 
     // Kategorie: Merkfähigkeit
     rememberCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Fakten merken",
-                    "Merke dir möglichst viele Fakten",
-                    commons::Colors::YELLOW,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Remembering> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Fakten merken",
+            "Merke dir möglichst viele Fakten",
+            commons::Colors::YELLOW,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::Remembering> >()
+                );
+            }
+        )
     );
     rememberCategory.push_back(
-            std::make_unique<Tile>(
-                    "",
-                    "Simon Says",
-                    "Merke dir die Reihenfolge!",
-                    commons::Colors::YELLOW,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::SimonSays> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Simon Says",
+            "Merke dir die Reihenfolge!",
+            commons::Colors::YELLOW,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::SimonSays> >()
+                );
+            }
+        )
     );
 
     rememberCategory.push_back(
-            std::make_unique<Tile>(
-                    "\uF5FD",
-                    "Memory",
-                    "Finde alle Paare",
-                    commons::Colors::YELLOW,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<memory::Memory>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "\uF5FD",
+            "Memory",
+            "Finde alle Paare",
+            commons::Colors::YELLOW,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::Memory> >()
+                );
+            }
+        )
     );
 
     // Kategorie: Logisches Denken
     logicalThinking.push_back(
-            std::make_unique<Tile>(
-                    "1235?",
-                    "Zahlenreihen",
-                    "Finde die fehlende Zahl",
-                    commons::Colors::SEAFOAM,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::RowsOfNumbers> >()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "1235?",
+            "Zahlenreihen",
+            "Finde die fehlende Zahl",
+            commons::Colors::SEAFOAM,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::RowsOfNumbers> >()
+                );
+            }
+        )
     );
 
     logicalThinking.push_back(
-            std::make_unique<Tile>(
-                    "\uF1EC",
-                    "Schnelles Rechnen",
-                    "Löse Rechenaufgaben",
-                    commons::Colors::SEAFOAM,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Calc>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "\uF1EC",
+            "Schnelles Rechnen",
+            "Löse Rechenaufgaben",
+            commons::Colors::SEAFOAM,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::Calc> >()
+                );
+            }
+        )
     );
 
 
     // Kategorie: Logisches Denken
     logicalThinking.push_back(
-            std::make_unique<Tile>(
-                    "\uE13A",
-                    "Analogien",
-                    "Finde das passende Wort",
-                    commons::Colors::SEAFOAM,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Analogy>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "\uE13A",
+            "Analogien",
+            "Finde das passende Wort",
+            commons::Colors::SEAFOAM,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::Analogy> >()
+                );
+            }
+        )
     );
 
     logicalThinking.push_back(
-            std::make_unique<Tile>(
-                    " ",
-                    "Schlussfolgerungen",
-                    "Erschließe die logische Schlussfolgerung",
-                    commons::Colors::SEAFOAM,
-                    []() {
-                        SceneManager::getInstance().switchTo(
-                                std::make_unique<GameScene<games::Conclusions>>()
-                        );
-                    }
-            )
+        std::make_unique<Tile>(
+            "",
+            "Schlussfolgerungen",
+            "Erschließe die logische Schlussfolgerung",
+            commons::Colors::SEAFOAM,
+            [] {
+                SceneManager::getInstance().switchTo(
+                    std::make_unique<GameScene<games::Conclusions> >()
+                );
+            }
+        )
     );
 
 

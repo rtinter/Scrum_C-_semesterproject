@@ -1,28 +1,24 @@
 #pragma once
 
+#include <deque>
+
+#include "Game.hpp"
+#include "SymbolType.hpp"
+#include "Timer.hpp"
+
 #define NR_OF_SHOWN_SYMBOLS 6 // number of shown symbols in the row
 #define TOTAL_TIME_SEC 90 // time limit for the game
 #define SYMBOL_TIME_SEC 1.5f // time between symbol changes
 #define WRONG_ANSWER_TIME_REDUCTION_SEC 5 // time reduction for wrong answer in seconds
 #define NUMBER_OF_RECENTLY_USED_SYMBOLS 3 // number of recently used symbols that will not be shown next
 
-#include <list>
-#include <deque>
-#include "Game.hpp"
-#include "imgui.h"
-#include "SymbolType.hpp"
-#include "Timer.hpp"
-
 namespace games {
-
     /**
      * @brief The RowsOfSymbols game class, which represents the logic and rendering of the game.
      */
-
-    class RowsOfSymbols : abstract_game::Game {
-
+    class RowsOfSymbols final : abstract_game::Game {
         // list (deque) of currently shown symbols
-        std::deque<SymbolType> _symbols;
+        std::deque<rows_of_symbols::SymbolType> _symbols;
 
         // number of correct symbols clicked
         int _correctSymbols;
@@ -31,7 +27,7 @@ namespace games {
         int _wrongSymbols;
 
         // list (deque) of recently used symbols
-        std::deque<SymbolType> _lastAddedSymbols;
+        std::deque<rows_of_symbols::SymbolType> _lastAddedSymbols;
 
         // timer for the game to end the run-through after a certain time
         ui_elements::Timer _timer;
@@ -88,16 +84,19 @@ namespace games {
 
     public:
         RowsOfSymbols();
+
         std::string getName() const override;
 
         void render() override;
+
         void renderGame() override;
 
         void start() override;
+
         void reset() override;
+
         void stop() override;
 
         void updateStatistics() override;
-
     };
-}
+} // games

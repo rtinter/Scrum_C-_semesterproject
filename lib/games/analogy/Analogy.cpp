@@ -1,17 +1,24 @@
 #include "Analogy.hpp"
-#include "nlohmann/json.hpp"
+
+#include <iostream>
+#include <nlohmann/json.hpp>
+
+#include "Fonts.hpp"
+#include "GameSessionManager.hpp"
+#include "InfoBox.hpp"
 #include "Logger.hpp"
+#include "TextCentered.hpp"
+#include "Window.hpp"
 
 using json = nlohmann::json;
 
 namespace games {
-
     // Constructor: Initializes the game with name, description, rules, controls, and loads questions
-    Analogy::Analogy() : abstract_game::Game(abstract_game::GameID::ANALOGY), _selectedOption{'\0'} {
+    Analogy::Analogy() : Game(abstract_game::GameID::ANALOGY), _selectedOption{'\0'} {
         _gameName = "Analogien";
         _gameDescription = "Finde das passende Wort.";
         _gameRules = "1. Analysiere die angezeigte Wortverbindung.\n2. Finde das dazu passende Wort.\n"
-                     "3. Bestätige deine Auswahl mit dem Button.\n";
+                "3. Bestätige deine Auswahl mit dem Button.\n";
         _gameControls = "Linke Maustaste zur Auswahl der Antwort und ebenfalls zum Bestätigen des Buttons";
 
         loadQuestions();
@@ -20,27 +27,27 @@ namespace games {
     // Renders the game, including start box, end box, and the game itself
     void Analogy::render() {
         ui_elements::InfoBox(
-                _gameID,
-                _showStartBox,
-                "Startbox",
-                _gameName,
-                _gameDescription,
-                _gameRules,
-                _gameControls,
-                [this] {
-                    start();
-                }
+            _gameID,
+            _showStartBox,
+            "Startbox",
+            _gameName,
+            _gameDescription,
+            _gameRules,
+            _gameControls,
+            [this] {
+                start();
+            }
         ).render();
 
         ui_elements::InfoBox(
-                _gameID,
-                _showEndBox,
-                "Endbox",
-                _endBoxTitle,
-                _endBoxText,
-                [this] {
-                    reset();
-                }
+            _gameID,
+            _showEndBox,
+            "Endbox",
+            _endBoxTitle,
+            _endBoxText,
+            [this] {
+                reset();
+            }
         ).render();
 
         if (_isGameRunning) {
@@ -50,7 +57,7 @@ namespace games {
 
     // Renders the main game content
     void Analogy::renderGame() {
-        ui_elements::Window("Analogien").render([this]() {
+        ui_elements::Window("Analogien").render([this] {
             if (_questions.empty()) {
                 std::cout << "No questions loaded." << std::endl;
                 return;
@@ -66,10 +73,9 @@ namespace games {
 
     // Renders the current question and answer options
     void Analogy::renderQuestion() {
-
-        static constexpr float const BUTTON_WIDTH{100.0f};
+        static constexpr float BUTTON_WIDTH{100.0f};
         float const buttonOffsetX{(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
-        static constexpr float const ITEM_WIDTH{100.0f};
+        static constexpr float ITEM_WIDTH{100.0f};
         float const itemOffsetX{(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
 
         ImGui::PushFont(commons::Fonts::_header2);
@@ -129,13 +135,13 @@ namespace games {
 
     // Loads questions/answers from the questionnaire JSON file
     void Analogy::loadQuestions() {
-        logger::Logger& logger { logger::Logger::getInstance()};
+        logger::Logger &logger{logger::Logger::getInstance()};
 
-        std::fstream file;
         try {
+            std::fstream file;
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
             file.open("assets/games/analogy/questionnaire.json");
-            logger.log("Loading files for Analogy-Game", LogType::INFORMATION);
+            logger.log("Loading files for Analogy-Game", logger::LogType::INFORMATION);
 
             json data;
             file >> data;
@@ -156,7 +162,7 @@ namespace games {
             std::stringstream error;
             error << "Error opening or reading the file questionnaire.json: " << e.what();
             std::cerr << error.str() << std::endl;
-            logger.log(error.str(), LogType::SEVERE);
+            logger.log(error.str(), logger::LogType::SEVERE);
         }
     }
 
@@ -203,4 +209,4 @@ namespace games {
     void Analogy::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten", _solved);
     }
-}
+} // games

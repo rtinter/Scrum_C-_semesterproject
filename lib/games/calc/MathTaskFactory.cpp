@@ -1,14 +1,15 @@
-// MathTaskFactory.cpp
 #include "MathTaskFactory.hpp"
-#include "SimpleMultiplicationTable.hpp"
-#include "EquationBuilder.hpp"
-#include <random>
+
 #include <chrono>
+#include <random>
 #include <stdexcept>
 
-namespace math_task_factory {
+#include "EquationBuilder.hpp"
+#include "SimpleMultiplicationTable.hpp"
 
-    std::unique_ptr<MathTask> createMathTask(MathTaskType type) {
+namespace calc {
+
+    std::unique_ptr<MathTask> createMathTask(MathTaskType const type) {
         switch (type) {
             case MathTaskType::SIMPLE_MULTIPLICATION_TABLE:
                 return std::make_unique<SimpleMultiplicationTable>();
@@ -30,9 +31,9 @@ namespace math_task_factory {
         std::mt19937 gen(seedSeq);
 
         // Create a uniform distribution from 0 to the last enum value (excluding Count)
-        std::uniform_int_distribution<> dis(0, static_cast<int>(MathTaskType::EQUATION_BUILDER));
+        std::uniform_int_distribution dis(0, static_cast<int>(MathTaskType::EQUATION_BUILDER));
 
         auto const randomType {static_cast<MathTaskType>(dis(gen))};
         return createMathTask(randomType);
     }
-}
+} // calc

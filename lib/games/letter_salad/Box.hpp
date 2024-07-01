@@ -1,18 +1,21 @@
-#ifndef ATHENA_LIB_GAMES_LETTER_SALAD_BOX_HPP_
-#define ATHENA_LIB_GAMES_LETTER_SALAD_BOX_HPP_
+#pragma once
 
 #include <string>
-#include <utility>
-#include <iostream>
-class Box {
-  std::string _letter;
- public:
-  explicit Box(std::string const &letter);
-  bool isSelected{false};
-  bool isSolved{false};
-  char const *getChar() const;
-  std::string getLetter() const;
-  void setLetter(std::string const &letter);
-};
 
-#endif //ATHENA_LIB_GAMES_LETTER_SALAD_BOX_HPP_
+namespace letter_salad {
+    class Box {
+        std::string _letter;
+
+    public:
+        explicit Box(std::string const &letter);
+
+        bool isSelected{false};
+        bool isSolved{false};
+
+        char const *getChar() const;
+
+        std::string getLetter() const;
+
+        void setLetter(std::string const &letter);
+    };
+} // letter_salad

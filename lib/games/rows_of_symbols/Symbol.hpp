@@ -1,5 +1,10 @@
 #pragma once
 
+#include <imgui.h>
+
+#include "RelativePointPosition.hpp"
+#include "SymbolType.hpp"
+
 #define SYMBOL_SIZE 150.0f // size of a single symbol excluding margin
 #define LINE_THICKNESS 8.0f // thickness of the lines in the symbol
 #define INNER_GAP 0.16f // gap between the inner and outer shape
@@ -8,18 +13,11 @@
 #define HIGHLIGHT_GREYSCALE 20 // greyscale value for the highlighted symbol
 #define HIGHLIGHT_ROUNDING 20.0f // rounding of the highlighted symbol
 
-#include "SymbolType.hpp"
-#include "RelativePointPosition.hpp"
-#include "imgui.h"
-
-namespace games {
-
+namespace rows_of_symbols {
     /**
      * @brief The Symbol class, which represents the rendering of a symbol.
      */
-
     class Symbol {
-
         /**
          * Renders the outer circle of the symbol.
          * @param drawList the ImDrawList to render the symbol on
@@ -43,7 +41,7 @@ namespace games {
          * @param relativePointPosition the position of the point relative to the center
          * @param drawList the ImDrawList to render the symbol on
          */
-        static void renderPoint(RelativePointPosition relativePointPosition, ImDrawList &drawList);
+        static void renderPoint(rows_of_symbols::RelativePointPosition relativePointPosition, ImDrawList &drawList);
 
         /**
          * Completes the rendering of the symbol.
@@ -59,4 +57,4 @@ namespace games {
          */
         static void renderSymbolType(SymbolType symbolType, bool highlighted);
     };
-}
+} // rows_of_symbols

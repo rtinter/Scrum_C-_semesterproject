@@ -1,9 +1,9 @@
-#ifndef GAMESESSIONMANAGER_HPP
-#define GAMESESSIONMANAGER_HPP
+#pragma once
 
-#include "GameSession.hpp"
-#include "GameIDs.hpp"
 #include <memory>
+
+#include "GameIDs.hpp"
+#include "GameSession.hpp"
 
 namespace abstract_game {
     /**
@@ -40,11 +40,7 @@ namespace abstract_game {
          */
         static std::shared_ptr<GameSession> getCurrentSession();
 
-
     private:
-
         static std::shared_ptr<GameSession> _currentSession; ///< The current game session.
     };
-} // namespace abstract_game
-
-#endif // GAMESESSIONMANAGER_HPP
+} // abstract_game

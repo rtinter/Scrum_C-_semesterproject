@@ -9,13 +9,13 @@ using json = nlohmann::json;
 
 class DiagramHelper {
 public:
-    std::vector<DiagramQuestion> getQuestions(){
+    static std::vector<DiagramQuestion> getQuestions(){
         logger::Logger& logger {logger::Logger::getInstance()};
         std::vector<DiagramQuestion> questions;
 
         std::fstream file("./assets/games/diagrams/diagrams.json");
         if (!file) {
-            logger.log("Unable to open file diagrams.json", LogType::SEVERE);
+            logger.log("Unable to open file diagrams.json", logger::LogType::SEVERE);
             return questions;
         }
 

@@ -1,14 +1,14 @@
 #pragma once
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations" // safe wrapped
+
+#include <unordered_map>
+#include <SFML/Audio/Music.hpp>
+#include <SFML/Audio/Sound.hpp>
 
 #include "Sound.hpp"
-#include "SFML/Audio/Music.hpp"
-#include "SFML/Audio/Sound.hpp"
-#include "unordered_map"
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations" // safe wrapped
 
 
 namespace commons {
-
     /**
      * @brief The SoundManager class is a singleton class that manages the sound effects.
      *
@@ -16,7 +16,6 @@ namespace commons {
      * To ensure the safe use of sounds, you should use the SoundPolice class instead, which is a wrapper for this class.
      */
     class SoundManager {
-
         /**
          * The path to the sound files.
          */
@@ -30,14 +29,14 @@ namespace commons {
         /**
          * The sound buffer map.
          */
-        static std::unordered_map<commons::Sound, sf::SoundBuffer> _soundBufferMap;
+        static std::unordered_map<Sound, sf::SoundBuffer> _soundBufferMap;
 
         /**
          * Initializes a sound buffer.
          * @param sound The sound.
          * @param filename The filename.
          */
-        static void initSoundBuffer(commons::Sound sound, std::string const &filename);
+        static void initSoundBuffer(Sound sound, std::string const &filename);
 
     public:
         SoundManager() = delete;
@@ -53,7 +52,7 @@ namespace commons {
          * @deprecated
          */
         [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
-        static void playSound(commons::Sound sound);
+        static void playSound(Sound sound);
 
         /**
          * Plays a sound with a given volume.
@@ -62,7 +61,7 @@ namespace commons {
          * @deprecated
          */
         [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
-        static void playSound(commons::Sound sound, int volumeInPercent);
+        static void playSound(Sound sound, int volumeInPercent);
 
         /**
          * Plays a sound with a given volume and pitch.
@@ -72,6 +71,6 @@ namespace commons {
          * @deprecated
          */
         [[deprecated("Do not use because this crashes on linux and mac, use commons::SoundPolice::playSound instead")]]
-        static void playSound(commons::Sound sound, int volumeInPercent, float pitch);
+        static void playSound(Sound sound, int volumeInPercent, float pitch);
     };
 }

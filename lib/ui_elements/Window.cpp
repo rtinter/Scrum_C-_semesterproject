@@ -1,14 +1,14 @@
 #include "Window.hpp"
 
-#include "imgui.h"
+#include <imgui.h>
 
 namespace ui_elements {
-
     // Constructor definition
-    Window::Window(std::string const &name, bool *p_open, ImGuiWindowFlags flags)
-            : _name(name), _pOpen(p_open), _flags(flags) {}
+    Window::Window(std::string const &name, bool *p_open, ImGuiWindowFlags const flags)
+        : _name(name), _pOpen(p_open), _flags(flags) {
+    }
 
-    bool Window::begin() {
+    bool Window::begin() const {
         if (_name.empty()) {
             return false;
         }
@@ -18,5 +18,4 @@ namespace ui_elements {
     void Window::end() {
         ImGui::End();
     }
-
-}
+} // ui_element

@@ -1,10 +1,6 @@
-#ifndef ATHENA_TEXTCENTERED_HPP
-#define ATHENA_TEXTCENTERED_HPP
-
-#include <string>
+#pragma once
 
 namespace ui_elements {
-
     /**
     * @brief A helper class for rendering centered text in an ImGui window.
     *
@@ -12,7 +8,6 @@ namespace ui_elements {
     * It calculates the appropriate cursor position based on the window width and the size of the text.
     */
     class TextCentered {
-
     public:
         /**
         * @brief Renders the provided text centered horizontally in the current ImGui window.
@@ -23,9 +18,5 @@ namespace ui_elements {
         *       It sets the cursor position and renders the text using ImGui::Text().
         */
         explicit TextCentered(char const *content);
-
     };
-
 } // ui_elements
-
-#endif //ATHENA_TEXTCENTERED_HPP

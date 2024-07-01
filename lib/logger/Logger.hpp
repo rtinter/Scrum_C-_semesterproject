@@ -1,21 +1,25 @@
 #pragma once
 
-#include <queue>
-#include <string>
 #include <chrono>
-
-#include <future>
-#include <thread>
 #include <fstream>
+#include <future>
 #include <iomanip>
-#include "sstream"
+#include <queue>
+#include <sstream>
+#include <string>
+#include <thread>
 
 #include "QueueEntry.hpp"
 #include "LogType.hpp"
 
 namespace logger {
-
-    class Logger {
+    /**
+     * @brief The Logger class is responsible for logging messages to a file.
+     *
+     * The Logger class provides methods for logging messages of different types (DEBUG, INFORMATION, SEVERE).
+     * It also provides methods for flushing the log queue and stopping the logging process.
+     */
+    class Logger final {
     private:
         std::queue<QueueEntry> _sink;
 
@@ -23,8 +27,8 @@ namespace logger {
         bool _stop{false};
         std::ofstream _outputStream;
 
-        LogType _type {LogType::DEBUG};
-        std::future<void> _sinkBackgroundTask {};
+        LogType _type{LogType::DEBUG};
+        std::future<void> _sinkBackgroundTask{};
 
         void log(QueueEntry const &entry);
 
@@ -36,6 +40,7 @@ namespace logger {
         void flush();
 
         void log(std::string const &content, LogType type);
+
         static void sinkTask(Logger &logger);
 
         static std::string getDateString(time_t timestamp) {
@@ -46,32 +51,32 @@ namespace logger {
 
         Logger &operator<<(std::string const &content) {
             this->_sink.emplace(QueueEntry{
-                    .timestamp = time(nullptr),
-                    .content = content,
-                    .entryType = _type,
+                .timestamp = time(nullptr),
+                .content = content,
+                .entryType = _type,
             });
             return *this;
         }
 
         Logger &operator<<(int content) {
             this->_sink.emplace(QueueEntry{
-                    .timestamp = time(nullptr),
-                    .content = std::to_string(content),
-                    .entryType = _type,
+                .timestamp = time(nullptr),
+                .content = std::to_string(content),
+                .entryType = _type,
             });
             return *this;
         }
 
         Logger &operator<<(float content) {
             this->_sink.emplace(QueueEntry{
-                    .timestamp = time(nullptr),
-                    .content = std::to_string(content),
-                    .entryType = _type,
+                .timestamp = time(nullptr),
+                .content = std::to_string(content),
+                .entryType = _type,
             });
             return *this;
         }
 
-        Logger &operator<<(LogType type) {
+        Logger &operator<<(LogType const type) {
             this->_type = type;
             return *this;
         }
@@ -79,4 +84,3 @@ namespace logger {
 
     void createLogDir(std::string const &path);
 }
-

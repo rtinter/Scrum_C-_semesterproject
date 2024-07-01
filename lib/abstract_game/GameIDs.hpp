@@ -1,10 +1,8 @@
-#ifndef GAMEIDS_HPP
-#define GAMEIDS_HPP
+#pragma once
 
 #include <string>
 
 namespace abstract_game {
-
     /*********************************
     * Enumeration for different Game IDs.
     * Each game is assigned a unique integer identifier.
@@ -32,7 +30,7 @@ namespace abstract_game {
     * @param gameID The unique identifier of the game.
     * @return The name of the game as a string. Returns "Unknown" if the GameID is not recognized.
     ***********************************/
-    static std::string getGameName(GameID gameID) {
+    static std::string getGameName(GameID const gameID) {
         switch (gameID) {
             case GameID::REACTION:
                 return "Reaktion";
@@ -69,6 +67,3 @@ namespace abstract_game {
         }
     }
 } // namespace abstract_game
-
-#endif // GAMEIDS_HPP
-

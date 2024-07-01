@@ -1,14 +1,11 @@
-#ifndef ATHENA_DATAMANAGER_HPP
-#define ATHENA_DATAMANAGER_HPP
+#pragma once
 
-#include <string>
-#include <memory>
 #include <vector>
+
 #include "GameIDs.hpp"
 #include "GameRunThrough.hpp"
 
 namespace abstract_game {
-
     /**
      * @brief Abstract base class for managing game data.
      *
@@ -32,18 +29,14 @@ namespace abstract_game {
          * @param ended Boolean indicating if the session has ended.
          */
         virtual void saveGameSession(
-                size_t sessionUID,
-                int userID,
-                GameID gameID,
-                time_t start,
-                time_t end,
-                bool ended
+            size_t sessionUID,
+            int userID,
+            GameID gameID,
+            time_t start,
+            time_t end,
+            bool ended
         ) = 0;
 
         virtual void saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) = 0;
-
     };
-
 } // abstract_game
-
-#endif //ATHENA_DATAMANAGER_HPP
