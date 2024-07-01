@@ -22,7 +22,7 @@ namespace ui_elements {
         * @note This function should be called within an ImGui window context (between ImGui::Begin() and ImGui::End()).
         *       It sets the cursor position and renders the text using ImGui::Text().
         */
-        explicit TextCentered(const char *content);
+        explicit TextCentered(char const *content);
 
     };
 

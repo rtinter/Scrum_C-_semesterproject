@@ -21,10 +21,10 @@ namespace scene {
         std::map<int, std::vector<std::pair<std::string, std::vector<std::string>>>> _sessionsMap;
 
         void loadSessionData();
+
         void displayResults();
-        static std::time_t stringToTimeT(const std::string &timeStr) {
-            return std::stoll(timeStr);
-        }
+
+        static std::time_t stringToTimeT(std::string const &timeStr);
 
     public:
         ResultsScene();

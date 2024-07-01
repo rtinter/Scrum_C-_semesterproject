@@ -27,7 +27,7 @@ namespace csv {
             }
 
             file.close();
-        } catch (const std::exception &e) {
+        } catch (std::exception const &e) {
             std::cerr << e.what() << std::endl;
         }
         return data;

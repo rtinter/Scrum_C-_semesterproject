@@ -1,7 +1,3 @@
-//
-// Created by jannik on 10/06/2024.
-//
-
 #include "Blob.hpp"
 
 

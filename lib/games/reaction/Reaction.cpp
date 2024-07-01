@@ -4,7 +4,6 @@
 #include <InfoBox.hpp>
 #include <Overlay.hpp>
 #include <random>
-#include <SceneManager.hpp>
 #include <TextCentered.hpp>
 #include <Window.hpp>
 #include "GameSessionManager.hpp"
@@ -58,8 +57,8 @@ namespace games {
 
                     commons::SoundPolice::safePlaySound(commons::Sound::CLICK);
 
-                    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(
-                            _finishPoint - _startPoint).count();
+                    auto const duration {std::chrono::duration_cast<std::chrono::milliseconds>(
+                            _finishPoint - _startPoint).count()};
 
                     _showEndBox = true;
                     _statisticResult = duration;

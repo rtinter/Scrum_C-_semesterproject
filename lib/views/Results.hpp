@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 #include "StatisticsGameTable.hpp"
-#include "TableContainer.h"
+#include "TableContainer.hpp"
 
 namespace views {
 
@@ -18,15 +18,15 @@ namespace views {
 
         std::vector<ui_elements::TableContainer> _gameTableContainers;
         std::map<int, std::vector<std::string>> _tableNamesAndOrder;
-        std::vector<ui_elements::StatisticsGameTable> _gameTables {ui_elements::StatisticsGameTable{_tableNamesAndOrder}};
+        std::vector<ui_elements::StatisticsGameTable> _gameTables{
+                ui_elements::StatisticsGameTable{_tableNamesAndOrder}
+        };
 
 
     public:
         void render();
 
-        void addGameTableContainer(const ui_elements::TableContainer &tableContainer);
-        void addGameTableContainers(const std::vector<ui_elements::TableContainer> &tableContainers);
-
+        void addGameTableContainer(ui_elements::TableContainer const &tableContainer);
     };
 
 } // views

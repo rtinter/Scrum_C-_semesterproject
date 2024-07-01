@@ -50,7 +50,8 @@ namespace games {
                 _gameControls,
                 [this]() {
                     reset();
-                    _randomIndex = commons::RandomPicker::randomInt(0,FireDepartmentAndPoliceTexts::_mixedTexts.size());
+                    _randomIndex = commons::RandomPicker::randomInt(0,
+                                                                    FireDepartmentAndPoliceTexts::_mixedTexts.size());
                 }).render();
 
         ui_elements::InfoBox(
@@ -150,10 +151,11 @@ namespace games {
              *  stop the timer when the sentence is completed and save the WPM
             ***********************************/
             if (_runTimer && strlen(_input) > 0) {
-                auto currentTime{std::chrono::steady_clock::now()};
-                std::chrono::duration<float> elapsedSeconds{currentTime - _startPoint};
-                float minutes{elapsedSeconds.count() / 60.0f};
-                int numChars = strlen(_input);
+                auto const currentTime{std::chrono::steady_clock::now()};
+                std::chrono::duration<float> const elapsedSeconds{currentTime - _startPoint};
+                float const minutes{elapsedSeconds.count() / 60.0f};
+                // cant use {}
+                int const numChars = strlen(_input);
                 _wpm = (numChars / 5.0f) / minutes;
 
                 std::stringstream wpmStream;
@@ -189,7 +191,7 @@ namespace games {
         _wpm = 0.0f;
         _endBoxText = "";
 
-        for (char &i : _input) {
+        for (char &i: _input) {
             i = '\0';
         }
 
@@ -214,7 +216,7 @@ namespace games {
     TypeRacer::~TypeRacer() {
         _wpm = 0.0f;
         _runTimer = false;
-        for (char &i : _input) {
+        for (char &i: _input) {
             i = '\0';
         }
         _randomIndex = 0;

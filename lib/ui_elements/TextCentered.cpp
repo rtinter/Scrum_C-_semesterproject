@@ -3,10 +3,10 @@
 
 namespace ui_elements {
 
-    TextCentered::TextCentered(const char *content) {
-        ImVec2 textSize = ImGui::CalcTextSize(content);
+    TextCentered::TextCentered(char const *content) {
+        float textSizeX {ImGui::CalcTextSize(content).x};
 
-        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - textSize.x) / 2.0f);
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - textSizeX) / 2.0f);
         ImGui::Text("%s", content);
     }
 } // ui_elements

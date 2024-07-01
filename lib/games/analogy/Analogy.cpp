@@ -67,10 +67,10 @@ namespace games {
     // Renders the current question and answer options
     void Analogy::renderQuestion() {
 
-        float const buttonWidth{100.0f};
-        float const buttonOffsetX{(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
-        float const itemWidth{100.0f};
-        float const itemOffsetX{(ImGui::GetWindowWidth() - itemWidth) / 2.0f};
+        static constexpr float const BUTTON_WIDTH{100.0f};
+        float const buttonOffsetX{(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
+        static constexpr float const ITEM_WIDTH{100.0f};
+        float const itemOffsetX{(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
 
         ImGui::PushFont(commons::Fonts::_header2);
         ui_elements::TextCentered(_currentQuestion.questionText.c_str());
@@ -81,7 +81,7 @@ namespace games {
 
         for (auto const &option: _currentQuestion.options) {
             ImGui::SetCursorPosX(itemOffsetX);
-            std::string label{"  " + option.second};
+            std::string const label{"  " + option.second};
             if (ImGui::RadioButton(label.c_str(), _selectedOption == option.first)) {
                 _selectedOption = option.first;
             }

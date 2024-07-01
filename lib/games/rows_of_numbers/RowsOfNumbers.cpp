@@ -38,11 +38,12 @@ namespace games {
                 return;
             }
 
-            json data = json::parse(file);
+            // Cant use {} for initialization due to runtime error
+            json const data = json::parse(file);
             _sequences = {data["sequences"].begin(), data["sequences"].end()};
 
             file.close();
-        } catch (const std::exception &e) {
+        } catch (std::exception const &e) {
             std::cerr << "Error while reading file: " << e.what() << std::endl;
         }
     }

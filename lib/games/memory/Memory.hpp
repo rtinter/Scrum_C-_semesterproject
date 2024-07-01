@@ -9,6 +9,7 @@
 #include "RandomPicker.hpp"
 #include "MemoryTile.hpp"
 #include "MemoryGameImageManager.hpp"
+#include "WindowConfig.hpp"
 #include <imgui.h>
 #include <vector>
 #include <memory>

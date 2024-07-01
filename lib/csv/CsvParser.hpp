@@ -16,7 +16,7 @@ namespace csv {
     class CsvParser {
         std::string _filename;
     public:
-        explicit CsvParser(const std::string &filename) : _filename(filename) {}
+        explicit CsvParser(std::string const &filename) : _filename(filename) {}
 
         std::vector<std::vector<std::string>> parse();
     };

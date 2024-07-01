@@ -75,21 +75,21 @@ namespace games {
 
     // Renders the current question and answer options
     void Conclusions::renderQuestion() {
-        float const buttonWidth {100.0f};
-        float const buttonOffsetX {(ImGui::GetWindowWidth() - buttonWidth) / 2.0f};
-        float const itemWidth {100.0f};
-        float const itemOffsetX {(ImGui::GetWindowWidth() - itemWidth) / 2.0f};
-        float const textWrapWidth {1350.0f}; // Set a fixed wrap width for the question text
+        static constexpr float const BUTTON_WIDTH {100.0f};
+        float const buttonOffsetX {(ImGui::GetWindowWidth() - BUTTON_WIDTH) / 2.0f};
+        static constexpr float const ITEM_WIDTH {100.0f};
+        float const itemOffsetX {(ImGui::GetWindowWidth() - ITEM_WIDTH) / 2.0f};
+        static constexpr float const TEXT_WRAP_WIDTH {1350.0f}; // Set a fixed wrap width for the question text
 
         ImGui::PushFont(commons::Fonts::_header2);
 
         // Calculate the position to center the text within textWrapWidth
-        float textStartPosX {(ImGui::GetWindowWidth() - textWrapWidth) / 2.0f};
+        float const textStartPosX {(ImGui::GetWindowWidth() - TEXT_WRAP_WIDTH) / 2.0f};
         ImGui::SetCursorPosX(textStartPosX);
 
         // Wrap the text within the specified width and center it
-        ImGui::PushTextWrapPos(textStartPosX + textWrapWidth);
-        ImGui::TextWrapped(_currentQuestion.questionText.c_str());
+        ImGui::PushTextWrapPos(textStartPosX + TEXT_WRAP_WIDTH);
+        ImGui::TextWrapped("%s", _currentQuestion.questionText.c_str());
         ImGui::PopTextWrapPos();
 
         ImGui::PopFont();
@@ -120,8 +120,8 @@ namespace games {
 
     // Renders a message and current score when the correct answer is given
     void Conclusions::renderCorrectMessage(){
-        auto now {std::chrono::steady_clock::now()};
-        auto duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
+        auto const now {std::chrono::steady_clock::now()};
+        auto const duration { std::chrono::duration_cast<std::chrono::seconds>(now - _correctMessageStartTime).count()};
 
         if (duration < 2) {
             ImGui::PushFont(commons::Fonts::_header2);
@@ -171,7 +171,7 @@ namespace games {
 
             // Log the loaded questions
             for (const auto &q : _questions) {
-                logger.log("Loaded question: " + q.questionText + " Answer: " + std::to_string(q.isCorrectAnswer), QueueEntryType::INFORMATION);
+                logger.log("Loaded question: " + q.questionText + " Answer: " + std::to_string(static_cast<int>(q.isCorrectAnswer)), QueueEntryType::INFORMATION);
             }
 
         } catch (std::exception const &e) {

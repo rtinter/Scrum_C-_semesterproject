@@ -8,7 +8,7 @@ namespace games {
 class Blob : public GameObject {
 private:
     float _radius {120.0};
-    ImVec4 _color{};
+    ImVec4 _color;
 public:
     Blob(float x, float y, float z);
     float getRadius() const {return _radius;};

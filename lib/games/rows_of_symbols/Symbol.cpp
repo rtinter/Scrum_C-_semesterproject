@@ -69,40 +69,40 @@ namespace games {
 
     void Symbol::renderOuterCircle(ImDrawList &drawList) {
 
-        ImU32 colorCircle {IM_COL32(205, 0, 0, 255)};
-        float radius {SYMBOL_SIZE * 0.5f};
+        static constexpr ImU32 const COLOR_CIRCLE {IM_COL32(205, 0, 0, 255)};
+        static constexpr float const RADIUS {SYMBOL_SIZE * 0.5f};
 
         // calculate the center of the circle
-        ImVec2 circleCenter {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN)};
+        ImVec2 const circleCenter {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN)};
 
         // draw the outer circle
-        drawList.AddCircle(circleCenter, radius, colorCircle, 0, LINE_THICKNESS);
+        drawList.AddCircle(circleCenter, RADIUS, COLOR_CIRCLE, 0, LINE_THICKNESS);
     }
 
     void Symbol::renderInnerRect(ImDrawList &drawList) {
 
-        ImU32 colorSquare {IM_COL32(205, 0, 0, 255)};
-        float innerGap {SYMBOL_SIZE * INNER_GAP};
+        static constexpr ImU32 const COLOR_SQUARE {IM_COL32(205, 0, 0, 255)};
+        static constexpr auto INGAP {SYMBOL_SIZE * INNER_GAP};
 
         // calculate the top left and bottom right corner of the inner square
-        ImVec2 topLeft {ImVec2(ImGui::GetCursorScreenPos().x + innerGap + MARGIN, ImGui::GetCursorScreenPos().y + innerGap + MARGIN)};
-        ImVec2 bottomRight {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE - innerGap + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE - innerGap + MARGIN)};
+        ImVec2 const topLeft {ImVec2(ImGui::GetCursorScreenPos().x + INGAP + MARGIN, ImGui::GetCursorScreenPos().y + INGAP + MARGIN)};
+        ImVec2 const bottomRight {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE - INGAP + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE - INGAP + MARGIN)};
 
         // draw the inner square
-        drawList.AddRect(topLeft, bottomRight, colorSquare, 0.f, ImDrawFlags_None, LINE_THICKNESS);
+        drawList.AddRect(topLeft, bottomRight, COLOR_SQUARE, 0.f, ImDrawFlags_None, LINE_THICKNESS);
     }
 
     void Symbol::renderInnerCircle(ImDrawList &drawList) {
 
-        ImU32 colorCircle {IM_COL32(205, 0, 0, 255)};
-        float radius {SYMBOL_SIZE * 0.5f};
-        float innerGap {SYMBOL_SIZE * INNER_GAP};
+        static constexpr ImU32 const COLOR_CIRCLE {IM_COL32(205, 0, 0, 255)};
+        static constexpr float const RADIUS {SYMBOL_SIZE * 0.5f};
+        static constexpr float const INGAP {SYMBOL_SIZE * INNER_GAP};
 
         // calculate the center of the circle
-        ImVec2 circleCenter {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN)};
+        ImVec2 const circleCenter {ImVec2(ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN, ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN)};
 
         // draw the inner circle
-        drawList.AddCircle(circleCenter, radius - innerGap, colorCircle, 0, LINE_THICKNESS);
+        drawList.AddCircle(circleCenter, RADIUS - INGAP, COLOR_CIRCLE, 0, LINE_THICKNESS);
     }
 
     void Symbol::completeRenderSymbol() {
@@ -116,7 +116,7 @@ namespace games {
 
     void Symbol::renderPoint(RelativePointPosition relativePointPosition, ImDrawList &drawList) {
 
-        ImU32 color {IM_COL32(238, 0, 0, 255)};
+        static constexpr ImU32 const COLOR {IM_COL32(238, 0, 0, 255)};
         float x {ImGui::GetCursorScreenPos().x + SYMBOL_SIZE * 0.5f + MARGIN};
         float y {ImGui::GetCursorScreenPos().y + SYMBOL_SIZE * 0.5f + MARGIN};
 
@@ -145,9 +145,9 @@ namespace games {
                 y += SYMBOL_SIZE * POINT_OFFSET;
                 break;
         }
-        ImVec2 pointPosition {ImVec2(x, y)};
+        ImVec2 const pointPosition {ImVec2(x, y)};
 
         // draw the point at the calculated position
-        drawList.AddCircleFilled(pointPosition, LINE_THICKNESS, color);
+        drawList.AddCircleFilled(pointPosition, LINE_THICKNESS, COLOR);
     }
 }
