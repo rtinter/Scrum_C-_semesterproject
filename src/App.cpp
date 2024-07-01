@@ -59,7 +59,6 @@ void App::start() {
 
             if (event.type == sf::Event::Closed) {
                 logger << "App close initialized";
-                //MemoryGameImageManager::getInstance().releaseResources(); // Release resources before closing the window
                 window.close();
             }
         }
