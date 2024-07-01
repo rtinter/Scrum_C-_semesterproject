@@ -114,7 +114,7 @@ namespace games {
 
         logger::Logger &logger{logger::Logger::getInstance()};
 
-        std::fstream file("./config/games/letter_salad_words.json");
+        std::fstream file("assets/games/letter_salad/letter_salad_words.json");
         if (!file) {
             logger.log("Error opening or reading the file letter_salad_words.json", QueueEntryType::SEVERE);
             return;

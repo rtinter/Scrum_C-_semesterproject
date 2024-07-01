@@ -32,7 +32,7 @@ namespace games {
     ***********************************/
     void RowsOfNumbers::loadWordsFromFile() {
         try {
-            std::fstream file("./config/games/rows_of_numbers.json");
+            std::fstream file("assets/games/rows_of_numbers/rows_of_numbers.json");
             if (!file) {
                 std::cerr << "Unable to open file letter_salad_words.json";
                 return;

@@ -134,7 +134,7 @@ namespace games {
         std::fstream file;
         try {
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-            file.open("./config/games/questionnaire.json");
+            file.open("assets/games/analogy/questionnaire.json");
             logger.log("Loading files for Analogy-Game", QueueEntryType::INFORMATION);
 
             json data;

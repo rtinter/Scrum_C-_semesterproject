@@ -25,7 +25,7 @@ namespace memory {
 
     void MemoryGameImageManager::loadImages() {
         for (int i{0}; i < 15; ++i) {
-            _imagePaths.push_back("images/image" + std::to_string(i) + ".png");
+            _imagePaths.push_back("assets/games/memory/images/image" + std::to_string(i) + ".png");
         }
     }
 
