@@ -1,0 +1,8 @@
+add_subdirectory(abstract_game)
+add_subdirectory(commons)
+add_subdirectory(games)
+add_subdirectory(ui_elements)
+add_subdirectory(views)
+add_subdirectory(scene)
+add_subdirectory(csv)
+add_subdirectory(logger)
