@@ -16,6 +16,15 @@
 #include "Timer.hpp"
 
 namespace games {
+
+/**
+ * @brief The AimTrainer class implements an aim training game.
+ *
+ * The game spawns blobs (circles) at random positions on the screen, and the player needs to click on them to score points.
+ * The game tracks the number of successful hits and missed blobs. The game becomes progressively more challenging as the
+ * number of blobs increases and their size decreases over time. A timer limits the game duration.
+ */
+
 class AimTrainer : abstract_game::Game {
 private:
     std::future<void> _backgroundBlobTask;
@@ -34,7 +43,14 @@ private:
     std::unique_ptr<ui_elements::Timer> _timer;
     float _missedFactor {1};
 
+    /**
+     * @brief Spawns new blobs at random positions within the window.
+     */
     void spawnBlobs();
+
+    /**
+     * @brief Updates the state of current blobs and handles missed blobs.
+     */
     void updateBlobs();
 public:
     AimTrainer();

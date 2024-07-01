@@ -68,7 +68,7 @@ scene::DashboardScene::DashboardScene() {
             std::make_unique<Tile>(
                     "",
                     "Aim Trainer",
-                    "Aim Trainer Beschreibung",
+                    "Triff die Ziele schnell",
                     commons::Colors::BLUE,
                     []() {
                         SceneManager::getInstance().switchTo(
