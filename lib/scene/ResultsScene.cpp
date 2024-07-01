@@ -1,12 +1,14 @@
-#include <iostream>
 #include "ResultsScene.hpp"
-#include "DashboardScene.hpp"
-#include "SceneManager.hpp"
-#include "CsvParser.hpp"
-#include "GameIDs.hpp"
+
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
+
+#include "CsvParser.hpp"
+#include "CsvStorage.hpp"
+#include "DashboardScene.hpp"
+#include "GameIDs.hpp"
+#include "SceneManager.hpp"
 
 namespace scene {
 
@@ -81,7 +83,7 @@ namespace scene {
                     std::time_t const endTime{stringToTimeT(endTimeStr)};
 
                     // Calculate duration in seconds
-                    std::chrono::seconds const duration{std::chrono::seconds(endTime - startTime)};
+                    auto const duration{std::chrono::seconds(endTime - startTime)};
 
                     // Calculate mean result
                     double const meanResult{resultSum / nRunthroughs};
@@ -94,7 +96,7 @@ namespace scene {
                     combinedResult.append(" ").append(resultUnit);
 
                     // Create row with data
-                    std::vector<std::string> const sessionData{
+                    std::vector const sessionData{
                             dateString,
                             std::to_string(duration.count()) + " s",
                             std::to_string(nRunthroughs),
@@ -114,24 +116,24 @@ namespace scene {
     */
     void ResultsScene::displayResults() {
 
-        std::vector<std::string> stringvectorHeaderline{"Datum", "Dauer", "Versuche",
+        std::vector<std::string> const stringvectorHeaderline{"Datum", "Dauer", "Versuche",
                                                         "Durchschnittliches Ergebnis"};
         std::map<int, ui_elements::StatisticsGameTable> gameTables;
 
         // add data to gameTables
-        for (auto const &pair: _sessionsMap) {
-            std::string getGameName{abstract_game::getGameName(static_cast<abstract_game::GameID>(pair.first))};
+        for (const auto &[fst, snd]: _sessionsMap) {
+            std::string getGameName{abstract_game::getGameName(static_cast<abstract_game::GameID>(fst))};
             std::map<int, std::vector<std::string>> gameDataMap;
             gameDataMap[0] = stringvectorHeaderline;
 
             int rowIndex{1};
-            for (auto const &session: pair.second) {
-                std::vector<std::string> row{session.second};
+            for (const auto &[fst, snd]: snd) {
+                std::vector const row{snd};
                 gameDataMap[rowIndex++] = row;
             }
 
-            gameTables.emplace(pair.first, ui_elements::StatisticsGameTable(gameDataMap));
-            _results.addGameTableContainer(ui_elements::TableContainer(getGameName, gameTables.at(pair.first)));
+            gameTables.emplace(fst, ui_elements::StatisticsGameTable(gameDataMap));
+            _results.addGameTableContainer(ui_elements::TableContainer(getGameName, gameTables.at(fst)));
         }
     }
 

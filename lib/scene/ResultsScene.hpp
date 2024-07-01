@@ -1,24 +1,19 @@
+#pragma once
 
-#ifndef ATHENA_RESULTSSCENE_HPP
-#define ATHENA_RESULTSSCENE_HPP
+#include <string>
 
-#include "Scene.hpp"
 #include "Header.hpp"
 #include "Results.hpp"
-#include <string>
-#include <CsvStorage.hpp>
+#include "Scene.hpp"
 
 namespace scene {
-
-    /*********************************
-    * The ResultsScene class handles the loading, processing,
-    * and displaying of session results.
-    ***********************************/
-    class ResultsScene : public Scene {
-
+    /**
+     * @brief A scene representing the results of a session.
+     */
+    class ResultsScene final : public Scene {
         views::Header _header;
         views::Results _results;
-        std::map<int, std::vector<std::pair<std::string, std::vector<std::string>>>> _sessionsMap;
+        std::map<int, std::vector<std::pair<std::string, std::vector<std::string> > > > _sessionsMap;
 
         void loadSessionData();
 
@@ -33,7 +28,4 @@ namespace scene {
 
         std::string getName() const override;
     };
-
 } // scene
-
-#endif //ATHENA_RESULTSSCENE_HPP

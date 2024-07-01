@@ -1,15 +1,16 @@
 #pragma once
 
-#include <Dashboard.hpp>
-#include <Header.hpp>
-#include <Scene.hpp>
 #include <memory>
+
+#include "Dashboard.hpp"
+#include "Header.hpp"
+#include "Scene.hpp"
 
 namespace scene {
     /**
      * @brief A scene representing the dashboard of the application.
      */
-    class DashboardScene : public Scene {
+    class DashboardScene final : public Scene {
         std::unique_ptr<views::Header> _header;  // Unique pointer to the header view
         std::unique_ptr<views::Dashboard> _dashboard;  // Unique pointer to the dashboard view
 
@@ -30,4 +31,4 @@ namespace scene {
          */
         std::string getName() const override;
     };
-}
+} // scene
