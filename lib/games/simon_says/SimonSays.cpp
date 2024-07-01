@@ -11,7 +11,6 @@
 #include <thread>
 
 namespace games {
-
     SimonSays::SimonSays() : Game(abstract_game::GameID::SEQUENCE) {
         _gameName = "Abfolge-Merken-Spiel";
         _gameDescription = "Unser Abfolge-Merken-Spiel soll die Fähigkeit testen, sich Abfolgen einzuprägen\nund korrekt wiederzugeben.\n";

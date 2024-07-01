@@ -6,7 +6,6 @@
 #include "GameRunThrough.hpp"
 
 namespace abstract_game {
-
     /**
      * @brief Abstract base class for managing game data.
      *

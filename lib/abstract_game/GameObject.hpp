@@ -1,4 +1,5 @@
 #pragma once
+
 #include <imgui.h>
 
 namespace abstract_game {
@@ -13,6 +14,8 @@ namespace abstract_game {
         float _x, _y, _z; ///< The coordinates of the game object.
 
     public:
+        virtual ~GameObject() = default;
+
         /**
          * @brief Constructor to initialize the game object with coordinates.
          *

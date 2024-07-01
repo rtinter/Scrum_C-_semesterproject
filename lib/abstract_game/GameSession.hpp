@@ -10,14 +10,12 @@
 #include "GameRunThrough.hpp"
 
 namespace abstract_game {
-
     /**
      * @brief Class for holding game session information.
      *
      * This class holds information about a game session.
      */
     class GameSession {
-
         // General information
         GameID _gameID;
         int _userID;
@@ -63,7 +61,6 @@ namespace abstract_game {
         void writeToDataManager() const;
 
     public:
-
         GameSession(GameID gameID, int userID);
 
         /**
@@ -83,5 +80,4 @@ namespace abstract_game {
          */
         void addNewGameRunThrough(std::string const &resultUnit, double const &result);
     };
-
 } // abstract_game

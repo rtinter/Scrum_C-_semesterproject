@@ -3,8 +3,6 @@
 #include "DataManager.hpp"
 
 namespace abstract_game {
-
-
     /**
      * @brief Class for managing game data using CSV files.
      *
@@ -23,12 +21,12 @@ namespace abstract_game {
          * @param ended Boolean indicating if the session has ended.
          */
         void saveGameSession(
-                size_t sessionUID,
-                int userID,
-                GameID gameID,
-                time_t start,
-                time_t end,
-                bool ended
+            size_t sessionUID,
+            int userID,
+            GameID gameID,
+            time_t start,
+            time_t end,
+            bool ended
         ) override;
 
         /**
@@ -46,5 +44,4 @@ namespace abstract_game {
          */
         void saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) override;
     };
-
 } // abstract_game
