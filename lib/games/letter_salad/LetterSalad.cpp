@@ -12,6 +12,7 @@
 #include "SoundPolice.hpp"
 #include "TextCentered.hpp"
 #include "Window.hpp"
+#include "WindowConfig.hpp"
 
 #define DEBUG false
 
@@ -216,7 +217,7 @@ namespace games {
     }
 
     void LetterSalad::renderGameField() {
-        ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() / 2 - 360, 50));
+        ImGui::SetCursorPos(ImVec2(commons::WindowConfig::WINDOW_WIDTH / 2.f - 360, 50));
         ImGui::BeginChild("##gameField", ImVec2(720, 760));
         ImGui::PushStyleVar(ImGuiStyleVar_SelectableTextAlign, ImVec2(0.5f, 0.5f));
 
