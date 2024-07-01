@@ -10,10 +10,10 @@ namespace memory {
     }
 
     void MemoryGameImageManager::initialize() {
-        loadImages(); // Load the image paths
+        loadImages();
         for (const auto &path: _imagePaths) {
             sf::Texture texture;
-            loadTextureFromFile(path, texture); // Load each texture from file
+            loadTextureFromFile(path, texture);
             _textures.push_back(texture);
         }
     }
