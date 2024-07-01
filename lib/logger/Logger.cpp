@@ -21,15 +21,15 @@ namespace logger {
      */
     void Logger::log(QueueEntry const &entry) {
         std::string const dateString{getDateString(entry.timestamp)};
-        if (entry.entryType == LogType::DEBUG) {
+        if (entry.entryType == DEBUG) {
             _outputStream << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
             std::cout << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
         }
-        if (entry.entryType == LogType::INFORMATION) {
+        if (entry.entryType == INFORMATION) {
             _outputStream << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
             std::cout << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
         }
-        if (entry.entryType == LogType::SEVERE) {
+        if (entry.entryType == SEVERE) {
             _outputStream << "[SEVERE]: " << dateString << " " << entry.content << std::endl;
             std::cerr << "[SEVERE]: " << dateString << " " << entry.content << std::endl;
         }
@@ -84,7 +84,7 @@ namespace logger {
      * @param content a string
      * @param type a LogType
      */
-    void Logger::log(std::string const &content, LogType type) {
+    void Logger::log(std::string const &content, LogType const type) {
         QueueEntry entry{
             .timestamp = time(nullptr),
             .content = content,
@@ -97,12 +97,12 @@ namespace logger {
     void createLogDir(std::string const &path) {
         if (!std::filesystem::exists(path)) {
             if (std::filesystem::create_directories(path)) {
-                Logger::getInstance().log("Directory created: " + path, LogType::INFORMATION);
+                Logger::getInstance().log("Directory created: " + path, INFORMATION);
             } else {
-                Logger::getInstance().log("Failed to create directory: " + path, LogType::SEVERE);
+                Logger::getInstance().log("Failed to create directory: " + path, SEVERE);
             }
         } else {
-            Logger::getInstance().log("Failed to create directory: " + path, LogType::SEVERE);
+            Logger::getInstance().log("Directory already exists: " + path, INFORMATION);
         }
     }
-}
+} // logger
