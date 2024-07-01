@@ -1,21 +1,21 @@
 #pragma once
 
-#include <Game.hpp>
+#include <chrono>
 #include <imgui.h>
+#include <SFML/System/Clock.hpp>
 
-#include "SFML/System/Clock.hpp"
 #include "Colors.hpp"
+#include "Game.hpp"
 
-namespace reaction {
-    /******************************************************
+namespace games {
+    /**
      *<b>Reaction Test Game</b><br>
      *
      *Reaction ist ein einfaches, aber spannendes Spiel, das deine Reflexe auf die Probe stellt.<br>
      * Warte, bis der Bildschirm von Rot zu Grün wechselt, und klicke so schnell wie möglich die linke Maustaste,
      * um deine Reaktionszeit in Millisekunden zu messen.
-    **************************************************+***/
-
-    class Reaction : public abstract_game::Game {
+     */
+    class Reaction final : public abstract_game::Game {
         ImVec4 _windowColor{commons::Colors::RED};
         float _redDuration{0};
 
@@ -52,7 +52,6 @@ namespace reaction {
 
         void updateStatistics() override;
 
-        std::string getName() const override ;
+        std::string getName() const override;
     };
-
-} // reaction
+} // games

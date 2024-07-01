@@ -1,18 +1,22 @@
-//
-// Created by Benjamin Puhani on 08.06.2024.
-//
+#pragma once
 
-#ifndef ATHENA_LIB_GAMES_LETTER_SALAD_COORDINATES_HPP_
-#define ATHENA_LIB_GAMES_LETTER_SALAD_COORDINATES_HPP_
+namespace commons {
+    /**
+     * @brief The Coordinates class represents a coordinate in a 2D plane.
+     *
+     * This class represents a coordinate in a 2D plane and provides methods for comparing and manipulating coordinates.
+     */
+    class Coordinates {
+    public:
+        int y;
+        int x;
 
-class Coordinates {
- public:
-  int y;
-  int x;
-  Coordinates(int y, int x);
-  bool operator==(Coordinates const &rhs) const;
-  bool operator!=(Coordinates const &rhs) const;
-  bool operator<(Coordinates const &rhs) const;
-};
+        Coordinates(int y, int x);
 
-#endif //ATHENA_LIB_GAMES_LETTER_SALAD_COORDINATES_HPP_
+        bool operator==(Coordinates const &rhs) const;
+
+        bool operator!=(Coordinates const &rhs) const;
+
+        bool operator<(Coordinates const &rhs) const;
+    };
+} // commons

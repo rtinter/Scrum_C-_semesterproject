@@ -2,15 +2,16 @@
 #include <map>
 #include <memory>
 #include <string>
-#include "Scene.hpp"
+
 #include "Logger.hpp"
+#include "Scene.hpp"
 
 namespace scene {
     /**
    * @brief Manages scenes within the application, including switching and rendering scenes.
    */
     class SceneManager {
-        std::map<std::string, std::unique_ptr<Scene>> _scenes;
+        std::map<std::string, std::unique_ptr<Scene> > _scenes;
         std::unique_ptr<Scene> _currentScene;
         std::unique_ptr<Scene> _toBeDestroyedScene;
 
@@ -37,4 +38,4 @@ namespace scene {
          */
         void render();
     };
-}
+} // scene

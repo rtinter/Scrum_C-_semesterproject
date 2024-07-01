@@ -1,7 +1,6 @@
 #pragma once
 
-namespace game {
-
+namespace rows_of_symbols {
     /**
      * @brief Enum class for the relative position of a point
      */
@@ -13,4 +12,4 @@ namespace game {
         BOTTOM_CENTER,
         BOTTOM_RIGHT
     };
-}
+} // rows_of_symbols

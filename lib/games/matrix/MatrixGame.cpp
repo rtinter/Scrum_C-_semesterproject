@@ -1,28 +1,31 @@
 #include "MatrixGame.hpp"
-#include "Window.hpp"
-#include "InfoBox.hpp"
-#include "Fonts.hpp"
-#include "TextCentered.hpp"
-#include "RandomPicker.hpp"
-#include "Centered.hpp"
+
+#include <Colors.hpp>
+
 #include "ColorTheme.hpp"
+#include "Fonts.hpp"
+#include "InfoBox.hpp"
+#include "RandomPicker.hpp"
 #include "SoundPolice.hpp"
+#include "Window.hpp"
 
-namespace game {
-
-    MatrixGame::MatrixGame() : Game(abstract_game::GameID::MATRIX) {
+namespace games {
+    MatrixGame::MatrixGame() : Game(abstract_game::GameID::MATRIX), _nCorrectClicksInTotal(0), _longestStreak(0),
+                               _nMarkedCells(0),
+                               _nCorrectClicksSinceLastError(0),
+                               _idOfCorrectMatrix(0), _currentGameMode() {
         _gameName = "Matrix";
         _gameDescription =
                 "Das Spiel 'Matrix' trainiert Konzentrationsfähigkeit und räumliches Vorstellungsvermögen.\n"
-                "Für die Arbeit bei Feuerwehr und Polizei ist es essentiell, Aufgaben fokussiert und genau zu lösen.\n"
+                "Für die Arbeit bei Feuerwehr und Polizei ist es essenziell, Aufgaben fokussiert und genau zu lösen.\n"
                 "Ein gutes räumliches Vorstellungsvermögen hilft dabei, sich schnell auf Stadt- und Gebäudeplänen \nzu orientieren, "
                 "Zugänge zu erkennen und effektive Strategien für Rettungs- oder Einsatzmaßnahmen\nzu entwickeln.\n";
         _gameRules = "Finde jeweils die rotierte bzw. die gespiegelte Version der großen Matrix!\n"
-                     "Du hast 2 Minuten Zeit."
-                     "Bei einer falschen Antwort werden 10 Sekunden von der Zeit abgezogen.\n";
+                "Du hast 2 Minuten Zeit."
+                "Bei einer falschen Antwort werden 10 Sekunden von der Zeit abgezogen.\n";
         _gameControls = "Linke Maustaste: Klicke auf die richtige Matrix in der rechten Spalte.";
-        _nMarkedCellsMax = Matrix::getSize() * Matrix::getSize() / 2;
-        _nMarkedCellsMin = Matrix::getSize();
+        _nMarkedCellsMax = matrix::Matrix::getSize() * matrix::Matrix::getSize() / 2;
+        _nMarkedCellsMin = matrix::Matrix::getSize();
     }
 
     /**
@@ -67,7 +70,7 @@ namespace game {
      * @brief displays the question text ("rotiert?" or "gespiegelt?")
      * and the main matrix
      */
-    void MatrixGame::renderQuestion() {
+    void MatrixGame::renderQuestion() const {
         ImGui::SameLine(0.f, 600);
         ImGui::BeginGroup();
         renderQuestionText();
@@ -76,7 +79,7 @@ namespace game {
         ImGui::EndGroup();
     }
 
-    void MatrixGame::renderQuestionText() {
+    void MatrixGame::renderQuestionText() const {
         ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::BRIGHT_GREEN);
         ImGui::PushFont(commons::Fonts::_matrixFontBig);
         switch (_currentGameMode) {
@@ -96,7 +99,7 @@ namespace game {
      * that serve as answer buttons
      */
     void MatrixGame::renderAnswerOptions() {
-        float const displayedSize{static_cast<float>(Matrix::getSize() * Matrix::getCellSizeSmall())};
+        float const displayedSize{static_cast<float>(matrix::Matrix::getSize() * matrix::Matrix::getCellSizeSmall())};
         ImGui::BeginGroup();
         for (int i{0}; i < _matricesToChooseFrom.size(); i++) {
             bool const isCorrect{i == _idOfCorrectMatrix};
@@ -115,7 +118,7 @@ namespace game {
             ImGui::PushStyleColor(ImGuiCol_ButtonActive,
                                   isCorrect ? commons::ColorTheme::SUCCESS_COLOR : commons::ColorTheme::ERROR_COLOR);
 
-            static constexpr float const MARGIN{4.f}; // button should overlap matrix a little bit
+            static constexpr float MARGIN{4.f}; // button should overlap matrix a little bit
             std::string const buttonIdString{"buttonForMatrix" + std::to_string(i)};
             if (ImGui::Button(buttonIdString.c_str(), ImVec2(displayedSize + MARGIN, displayedSize + MARGIN))) {
                 onClick(isCorrect);
@@ -145,13 +148,13 @@ namespace game {
      */
     void MatrixGame::onClick(bool const &isCorrect) {
         if (isCorrect) {
-            commons::SoundPolice::safePlaySound(commons::Sound::CORRECT);
+            commons::SoundPolice::safePlaySound(Sound::CORRECT);
             _nCorrectClicksInTotal++;
             _nCorrectClicksSinceLastError++;
             _longestStreak = std::max(_nCorrectClicksSinceLastError, _longestStreak);
             generateNewMatrices();
         } else {
-            commons::SoundPolice::safePlaySound(commons::Sound::ERROR);
+            commons::SoundPolice::safePlaySound(Sound::ERROR);
             _nCorrectClicksSinceLastError = 0;
             _timer.reduceTime(5);
         }
@@ -209,10 +212,10 @@ namespace game {
      */
     void MatrixGame::initMatricesToChooseFrom() {
         _currentGameMode = commons::RandomPicker::pickRandomElement(
-                std::vector<GameMode>{GameMode::MIRROR, GameMode::ROTATE});
+            std::vector<GameMode>{GameMode::MIRROR, GameMode::ROTATE});
 
         // create matrices that are NOT correct
-        for (Matrix &matrix: _matricesToChooseFrom) {
+        for (matrix::Matrix &matrix: _matricesToChooseFrom) {
             matrix.init(_nMarkedCells);
             while (_currentGameMode == GameMode::MIRROR && matrix.isMirroredVersionOf(_mainMatrix) ||
                    _currentGameMode == GameMode::ROTATE && matrix.isRotatedVersionOf(_mainMatrix)) {
@@ -225,10 +228,10 @@ namespace game {
         // (will overwrite one of the previous incorrect options)
         int const id{commons::RandomPicker::randomInt(0, _matricesToChooseFrom.size() - 1)};
         switch (_currentGameMode) {
-            case GameMode::ROTATE :
+            case GameMode::ROTATE:
                 _matricesToChooseFrom[id] = _mainMatrix.getAMirroredVersion();
                 break;
-            case GameMode::MIRROR :
+            case GameMode::MIRROR:
                 _matricesToChooseFrom[id] = _mainMatrix.getARotatedVersion();
                 break;
         }
@@ -237,10 +240,10 @@ namespace game {
         // (will overwrite one of the incorrect options)
         _idOfCorrectMatrix = commons::RandomPicker::randomInt(0, _matricesToChooseFrom.size() - 1);
         switch (_currentGameMode) {
-            case GameMode::ROTATE :
+            case GameMode::ROTATE:
                 _matricesToChooseFrom[_idOfCorrectMatrix] = _mainMatrix.getARotatedVersion();
                 break;
-            case GameMode::MIRROR :
+            case GameMode::MIRROR:
                 _matricesToChooseFrom[_idOfCorrectMatrix] = _mainMatrix.getAMirroredVersion();
                 break;
         }
@@ -248,7 +251,6 @@ namespace game {
 
     void MatrixGame::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten",
-                                                                                     _nCorrectClicksInTotal);
+            _nCorrectClicksInTotal);
     }
-
 } // game

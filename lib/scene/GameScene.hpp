@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Header.hpp"
-#include "Scene.hpp"
-#include <string>
 #include <memory>
-#include "Reaction.hpp"
-#include "optional"
-#include "GameSessionManager.hpp"
+#include <string>
+
 #include "ColorMatch.hpp"
+#include "GameSessionManager.hpp"
+#include "Header.hpp"
+#include "Reaction.hpp"
+#include "Scene.hpp"
 
 namespace scene {
     /**
@@ -15,9 +15,10 @@ namespace scene {
     * @tparam T The type (name) of the game.
     */
     template<typename T>
-    class GameScene : public Scene {
+    class GameScene final : public Scene {
         std::unique_ptr<views::Header> _header;
         std::unique_ptr<T> _game;
+
     public:
         GameScene();
 
@@ -69,7 +70,7 @@ namespace scene {
 
     // Explicit instantiation of GameScene for reaction::Reaction
     template
-    class GameScene<reaction::Reaction>;
+    class GameScene<games::Reaction>;
 
     // Explicit instantiation of GameScene for games::ColorMatch
     template

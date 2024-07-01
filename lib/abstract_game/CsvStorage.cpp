@@ -1,29 +1,30 @@
-#include <fstream>
-#include <sstream>
-#include "GameRunThroughCsvWriter.hpp"
-#include "CsvParser.hpp"
 #include "CsvStorage.hpp"
-#include <iostream>
+
+#include <fstream>
 #include <iomanip>
+#include <iostream>
+#include <sstream>
+
+#include "CsvParser.hpp"
+#include "GameRunThroughCsvWriter.hpp"
 
 namespace abstract_game {
-    std::string const SESSION_CSV_FILENAME {"game_session.csv"};
-    std::string const RUNTHROUGH_CSV_FILENAME {"game_runthroughs.csv"};
+    std::string const SESSION_CSV_FILENAME{"game_session.csv"};
+    std::string const RUNTHROUGH_CSV_FILENAME{"game_runthroughs.csv"};
 
-    std::string CsvStorage::getDateString(time_t timestamp) {
+    std::string CsvStorage::getDateString(time_t const timestamp) {
         std::stringstream ss;
         ss << std::put_time(std::localtime(&timestamp), "%d.%m.%Y");
         return ss.str();
     }
 
     void CsvStorage::saveGameSession(
-            size_t sessionUID,
-            int userID,
-            GameID gameID,
-            time_t start,
-            time_t end,
-            bool ended) {
-
+        size_t sessionUID,
+        int userID,
+        GameID gameID,
+        time_t start,
+        time_t end,
+        bool ended) {
         bool isEmpty{false};
 
         // Check if the file is empty before opening in append mode
@@ -49,14 +50,14 @@ namespace abstract_game {
         // Write session data
         std::stringstream ss;
         ss
-            << static_cast<int>(gameID) << ","
-            << sessionUID << ","
-            << userID << ","
-            << start << ","
-            << end << ","
-            << ended << "\n";
+                << static_cast<int>(gameID) << ","
+                << sessionUID << ","
+                << userID << ","
+                << start << ","
+                << end << ","
+                << ended << "\n";
 
-        std::string const data {ss.str()};
+        std::string const data{ss.str()};
         file << data;
         file.close();
     }
@@ -72,7 +73,7 @@ namespace abstract_game {
         // Check if the file is empty before writing the header
         std::ifstream infile(RUNTHROUGH_CSV_FILENAME);
         infile.seekg(0, std::ios::end);
-        bool const isEmpty {infile.tellg() == 0};
+        bool const isEmpty{infile.tellg() == 0};
         infile.close();
 
 
@@ -89,12 +90,13 @@ namespace abstract_game {
             oss << std::fixed << runThrough.result;
 
             std::string result{oss.str()};
-            writer.writeRow({std::to_string(runThrough.gameRunThroughUID),
-                             std::to_string(runThrough.gameSessionUID),
-                             oss.str(),
-                             runThrough.resultUnit});
+            writer.writeRow({
+                std::to_string(runThrough.gameRunThroughUID),
+                std::to_string(runThrough.gameSessionUID),
+                oss.str(),
+                runThrough.resultUnit
+            });
         }
         writer.close();
     }
-
 } // abstract_game

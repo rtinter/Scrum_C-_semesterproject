@@ -1,9 +1,8 @@
-
 #include "Sequence.hpp"
 
 #include <utility>
 
-namespace game {
+namespace rows_of_numbers {
     Sequence::Sequence(std::string const &sequence, int const &solution, std::string const &explanation) :
     sequence(std::move(sequence)),
         solution(solution),
@@ -14,4 +13,4 @@ namespace game {
         config.at("solution").get_to(solution);
         config.at("explanation").get_to(explanation);
     }
-} // game
+} // rows_of_numbers

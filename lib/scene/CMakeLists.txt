@@ -27,6 +27,7 @@ set(CUSTOM_LIBS
         typeracer
         matrix
         rows_of_numbers
+        diagram
         rows_of_symbols
         memory
         csv

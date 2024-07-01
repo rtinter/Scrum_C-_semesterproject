@@ -1,9 +1,8 @@
 #pragma once
 
 #include <functional>
-#include <Game.hpp>
-#include <utility>
 #include <optional>
+
 #include "GameSessionManager.hpp"
 
 
@@ -41,6 +40,6 @@ namespace ui_elements {
                 std::function<void()> const &_callback
         );
 
-        void render();
+        void render() const;
     };
 }

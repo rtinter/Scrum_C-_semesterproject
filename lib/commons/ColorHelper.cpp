@@ -1,5 +1,6 @@
-#include <algorithm>
 #include "ColorHelper.hpp"
+
+#include <algorithm>
 
 namespace commons {
     /**
@@ -11,11 +12,13 @@ namespace commons {
      */
     ImVec4 ColorHelper::adjustBrightness(ImVec4 const &color, float const &factor) {
         ImVec4 adjusted{color};
-        if (factor > 1.0f) { // make color brighter
+        if (factor > 1.0f) {
+            // make color brighter
             adjusted.x += (1.0f - color.x) * (factor - 1.0f); // red
             adjusted.y += (1.0f - color.y) * (factor - 1.0f); // green
             adjusted.z += (1.0f - color.z) * (factor - 1.0f); // blue
-        } else { // make color darker
+        } else {
+            // make color darker
             adjusted.x *= factor; // red
             adjusted.y *= factor; // green
             adjusted.z *= factor; // blue
@@ -39,7 +42,6 @@ namespace commons {
                       color.y, // green
                       color.z, // blue
                       opacity);
-
     }
 
     /**
@@ -49,11 +51,10 @@ namespace commons {
      * @return boolean value: Are color1 and color2 the same color?
      */
     bool ColorHelper::isEqual(ImVec4 const &color1, ImVec4 const &color2) {
-        static constexpr float const EPSILON{0.005f}; // max. difference that is allowed for "same" colors
+        static constexpr float EPSILON{0.005f}; // max. difference that is allowed for "same" colors
         return std::abs(color1.x - color2.x) < EPSILON &&
                std::abs(color1.y - color2.y) < EPSILON &&
                std::abs(color1.z - color2.z) < EPSILON &&
                std::abs(color1.w - color2.w) < EPSILON;
     }
-
 } // commons

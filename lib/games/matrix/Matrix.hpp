@@ -1,53 +1,51 @@
-#ifndef ATHENA_MATRIX_HPP
-#define ATHENA_MATRIX_HPP
+#pragma once
 
 #include <array>
 
-/**
- * @brief Models a square matrix and provides functionalities to
- * initialize, render, rotate and mirror it, as well as to compare it
- * to another Matrix object
- */
-class Matrix {
-    int static constexpr SIZE{5};
-    float static constexpr CELL_SIZE_BIG{50.f};
-    float static constexpr CELL_SIZE_SMALL{29.f};
-    int _unmarked{-9999};
-    int _data[SIZE][SIZE];
+namespace matrix {
+    /**
+     * @brief Models a square matrix and provides functionalities to
+     * initialize, render, rotate and mirror it, as well as to compare it
+     * to another Matrix object
+     */
+    class Matrix {
+        int static constexpr SIZE{5};
+        float static constexpr CELL_SIZE_BIG{50.f};
+        float static constexpr CELL_SIZE_SMALL{29.f};
+        int _unmarked{-9999};
+        int _data[SIZE][SIZE]{};
 
-    Matrix rotate90DegreesRight(int nTimes) const;
+        Matrix rotate90DegreesRight(int nTimes) const;
 
-    Matrix mirrorHorizontally() const;
+        Matrix mirrorHorizontally() const;
 
-    Matrix mirrorVertically() const;
+        Matrix mirrorVertically() const;
 
-    void render(float cellSize);
+        void render(float cellSize) const;
 
-    std::array<Matrix, 2> getAllMirroredVersions() const;
+        std::array<Matrix, 2> getAllMirroredVersions() const;
 
-    std::array<Matrix, 3> getAllRotatedVersions() const;
+        std::array<Matrix, 3> getAllRotatedVersions() const;
 
-    bool isEqual(Matrix const &other) const;
+        bool isEqual(Matrix const &other) const;
 
-public:
+    public:
+        void renderBig() const;
 
-    void renderBig();
+        void renderSmall() const;
 
-    void renderSmall();
+        void init(int nMarkedCells);
 
-    void init(int nMarkedCells);
+        static int getSize();
 
-    static int getSize();
+        static int getCellSizeSmall();
 
-    static int getCellSizeSmall();
+        bool isMirroredVersionOf(Matrix const &other) const;
 
-    bool isMirroredVersionOf(Matrix const &other) const;
+        bool isRotatedVersionOf(Matrix const &other) const;
 
-    bool isRotatedVersionOf(Matrix const &other) const;
+        Matrix getAMirroredVersion() const;
 
-    Matrix getAMirroredVersion() const;
-
-    Matrix getARotatedVersion() const;
-};
-
-#endif //ATHENA_MATRIX_HPP
+        Matrix getARotatedVersion() const;
+    };
+} // matrix

@@ -1,10 +1,9 @@
 #include "GameSessionManager.hpp"
 
 namespace abstract_game {
-
     void GameSessionManager::startSession(GameID gameID) {
-        int const userID{1}; // Default or constant userID
-        _currentSession = std::make_shared<GameSession>(gameID, userID);
+        constexpr int USER_ID{1}; // Default or constant userID
+        _currentSession = std::make_shared<GameSession>(gameID, USER_ID);
     }
 
     void GameSessionManager::endSession() {
@@ -20,5 +19,4 @@ namespace abstract_game {
 
 
     std::shared_ptr<GameSession> GameSessionManager::_currentSession;
-
 } // namespace abstract_game

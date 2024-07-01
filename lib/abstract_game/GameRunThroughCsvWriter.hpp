@@ -1,14 +1,10 @@
-#ifndef GameRunThroughCsvWriter_HPP
-#define GameRunThroughCsvWriter_HPP
+#pragma once
 
 #include <fstream>
 #include <vector>
 #include <string>
-#include <sstream>
-#include <iostream>
 
 namespace abstract_game {
-
     /**
      * @brief Class for writing game run-through data to a CSV file.
      *
@@ -38,7 +34,7 @@ namespace abstract_game {
         * @param row A vector of strings representing the data columns.
         */
         void writeRow(std::vector<std::string> const &row) {
-            for (size_t i {0}; i < row.size(); ++i) {
+            for (size_t i{0}; i < row.size(); ++i) {
                 _file << row[i];
                 if (i != row.size() - 1) {
                     _file << ",";
@@ -58,8 +54,4 @@ namespace abstract_game {
         std::ofstream _file;
         std::string _filename;
     };
-
-
-}
-
-#endif // GameRunThroughCsvWriter_HPP
+} // abstract_game

@@ -1,19 +1,20 @@
-#include "SoundManager.hpp"
-#include "../logger/Logger.hpp"
-#include <SFML/Audio.hpp>
-
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "UnreachableCode"
-namespace commons {
 
-    std::string const SoundManager::PATH{"./sounds/"};
+#include "SoundManager.hpp"
+
+#include <SFML/Audio.hpp>
+
+#include "Logger.hpp"
+
+namespace commons {
+    std::string const SoundManager::PATH{"assets/commons/sounds/"};
 
     sf::Sound SoundManager::_activeSound;
 
-    std::unordered_map<commons::Sound, sf::SoundBuffer> SoundManager::_soundBufferMap;
+    std::unordered_map<Sound, sf::SoundBuffer> SoundManager::_soundBufferMap;
 
     void SoundManager::loadSounds() {
-
         logger::Logger &logger{logger::Logger::getInstance()};
 
 #if (!defined(_WIN32))
@@ -36,8 +37,7 @@ namespace commons {
         logger << "SoundManager loaded";
     }
 
-    void SoundManager::initSoundBuffer(commons::Sound sound, std::string const &filename) {
-
+    void SoundManager::initSoundBuffer(Sound const sound, std::string const &filename) {
         logger::Logger &logger{logger::Logger::getInstance()};
 
         sf::SoundBuffer soundBuffer;
@@ -48,16 +48,15 @@ namespace commons {
         }
     }
 
-    void SoundManager::playSound(commons::Sound sound) {
+    void SoundManager::playSound(Sound const sound) {
         playSound(sound, 100.0f);
     }
 
-    void SoundManager::playSound(commons::Sound sound, int volumeInPercent) {
+    void SoundManager::playSound(Sound const sound, int const volumeInPercent) {
         playSound(sound, volumeInPercent, 1.0f);
     }
 
-    void SoundManager::playSound(commons::Sound sound, int volumeInPercent, float pitch) {
-
+    void SoundManager::playSound(Sound sound, int volumeInPercent, float pitch) {
 #if (!defined(_WIN32))
         // only play sound on windows
         return;

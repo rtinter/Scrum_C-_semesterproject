@@ -1,29 +1,31 @@
-#ifndef ATHENA_SIMPLE_MULTIPLICATION_TABLE_HPP
-#define ATHENA_SIMPLE_MULTIPLICATION_TABLE_HPP
+#pragma once
+
+#include <random>
 
 #include "MathTask.hpp"
-#include <random>
-#include "SoundPolice.hpp"
 
-/**
- * @brief A class that generates and handles a simple multiplication task.
- */
-class SimpleMultiplicationTable : public MathTask {
-public:
-    SimpleMultiplicationTable();
+namespace calc {
+    /**
+     * @brief A class that generates and handles a simple multiplication task.
+     */
+    class SimpleMultiplicationTable final : public MathTask {
+    public:
+        SimpleMultiplicationTable();
 
-    void start() override;
-    bool isRunning() const override;
-    bool wasSuccessfullyCompleted() const override;
-    void render() override;
+        void start() override;
 
-private:
-    int _leftOperand;
-    int _rightOperand;
-    int _answer;
-    std::vector<char> _input;
+        bool isRunning() const override;
 
-    void generateTask();
-};
+        bool wasSuccessfullyCompleted() const override;
 
-#endif //ATHENA_SIMPLE_MULTIPLICATION_TABLE_HPP
+        void render() override;
+
+    private:
+        int _leftOperand;
+        int _rightOperand;
+        int _answer;
+        std::vector<char> _input;
+
+        void generateTask();
+    };
+} // calc

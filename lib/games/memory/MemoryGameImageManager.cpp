@@ -1,9 +1,9 @@
 #include "MemoryGameImageManager.hpp"
+
 #include <iostream>
 
 
 namespace memory {
-
     MemoryGameImageManager &MemoryGameImageManager::getInstance() {
         static MemoryGameImageManager instance;
         return instance;
@@ -25,7 +25,7 @@ namespace memory {
 
     void MemoryGameImageManager::loadImages() {
         for (int i{0}; i < 15; ++i) {
-            _imagePaths.push_back("images/image" + std::to_string(i) + ".png");
+            _imagePaths.push_back("assets/games/memory/images/image" + std::to_string(i) + ".png");
         }
     }
 
@@ -35,12 +35,11 @@ namespace memory {
         }
     }
 
-    sf::Texture &MemoryGameImageManager::getTexture(int index) {
+    sf::Texture &MemoryGameImageManager::getTexture(int const index) {
         if (index < 0 || index >= _textures.size()) {
             static sf::Texture empty;
             return empty;
         }
         return _textures[index];
     }
-
 } // memory

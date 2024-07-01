@@ -1,11 +1,13 @@
 #pragma once
 
 #include <string>
-#include "QueueEntryType.hpp"
-#include <chrono>
 
-struct QueueEntry {
-    time_t timestamp;
-    std::string content;
-    QueueEntryType entryType{QueueEntryType::INFORMATION};
-};
+#include "LogType.hpp"
+
+namespace logger {
+    struct QueueEntry {
+        time_t timestamp;
+        std::string content;
+        LogType entryType{INFORMATION};
+    };
+} // logger

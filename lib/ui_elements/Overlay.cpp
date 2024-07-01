@@ -1,4 +1,5 @@
 #include "Overlay.hpp"
+
 #include <imgui.h>
 
 namespace ui_elements {
@@ -9,8 +10,8 @@ namespace ui_elements {
         if (_showModal) {
             ImGui::OpenPopup(_name);
 
-            static constexpr float const WINDOW_HEIGHT {600};
-            static constexpr float const WINDOW_WIDTH {1000};
+            static constexpr float WINDOW_HEIGHT{600};
+            static constexpr float WINDOW_WIDTH{1000};
 
             ImGui::SetNextWindowSize(ImVec2(WINDOW_WIDTH, WINDOW_HEIGHT), ImGuiCond_Always);
             ImGui::SetNextWindowPos(ImVec2((ImGui::GetIO().DisplaySize.x / 2) - (WINDOW_WIDTH / 2),
@@ -25,6 +26,4 @@ namespace ui_elements {
             }
         }
     }
-}
-
-// ui_elements
+} // ui_elements

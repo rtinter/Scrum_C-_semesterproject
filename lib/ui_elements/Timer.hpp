@@ -1,17 +1,15 @@
-#include "UiElement.hpp"
-#include <string>
-#include <functional>
-#include <imgui.h>
-#include <chrono>
-
 #pragma once
+
+#include <chrono>
+#include <string>
+
+#include "UiElement.hpp"
 
 namespace ui_elements {
     /**
      * @brief A timer that counts down from a given time.
      */
-    class Timer : public UiElement {
-
+    class Timer final : public UiElement {
         float const _height{80};
         float const _width{200};
         std::string const _windowName;
@@ -25,7 +23,7 @@ namespace ui_elements {
 
         std::chrono::steady_clock::time_point _startPoint;
 
-        bool _highlighted {false};
+        bool _highlighted{false};
         std::chrono::steady_clock::time_point _highlightUntil;
 
         /**
@@ -85,10 +83,10 @@ namespace ui_elements {
          */
         bool isExpired() const;
 
-/**
-         * @brief Returns if the timer is in the expired state now. Only returns true once.
-         * @return bool
-         */
+        /**
+                 * @brief Returns if the timer is in the expired state now. Only returns true once.
+                 * @return bool
+                 */
         bool isExpiredNow();
 
         /**
@@ -96,9 +94,10 @@ namespace ui_elements {
          * @return bool
          */
         bool isHighlighted() const;
-/**
-         * @brief Starts the timer.
-         */
+
+        /**
+                 * @brief Starts the timer.
+                 */
         void start();
 
         /**
@@ -118,5 +117,4 @@ namespace ui_elements {
          */
         void resetWithNewTime(int newTimeInSeconds);
     };
-
-}
+} // ui_elements

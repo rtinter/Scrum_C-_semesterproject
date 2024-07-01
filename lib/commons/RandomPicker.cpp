@@ -1,8 +1,6 @@
-
 #include "RandomPicker.hpp"
 
 namespace commons {
-
     std::random_device RandomPicker::_rd;
 
     /**

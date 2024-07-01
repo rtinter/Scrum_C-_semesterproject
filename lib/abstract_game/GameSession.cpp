@@ -1,28 +1,34 @@
-#include <sstream>
-#include <iostream>
 #include "GameSession.hpp"
+
+#include <iostream>
+#include <sstream>
+
 #include "DataManagerFactory.hpp"
 
 namespace abstract_game {
-
-    GameSession::GameSession(GameID gameID, int userID) :
-    _gameSessionUID{calcGameSessionUID()},
-    _userID{userID},
-    _gameID{gameID},
-    _startPoint{std::chrono::steady_clock::now()},
-    _ended{false},
-    _dataManager{DataManagerFactory::create("CsvManager")},
-    _begin{time(nullptr)}{}
+    GameSession::GameSession(GameID const gameID, int const userID) : _gameID{gameID},
+                                                                      _userID{userID},
+                                                                      _gameSessionUID{calcGameSessionUID()},
+                                                                      _begin{time(nullptr)},
+                                                                      _end(0),
+                                                                      _startPoint{std::chrono::steady_clock::now()},
+                                                                      _ended{false},
+                                                                      _dataManager{
+                                                                          DataManagerFactory::create("CsvManager")
+                                                                      } {
+    }
 
     size_t GameSession::calcGameSessionUID() {
         // get current time as string
-        std::string timeString {std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()))};
+        std::string const timeString{
+            std::to_string(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()))
+        };
 
         // get random value as string
         auto const duration{std::chrono::system_clock::now().time_since_epoch()};
         auto const nanos{std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count()};
         std::srand(nanos);
-        std::string randomString{std::to_string(std::rand() % 1000 + 1)};
+        std::string const randomString{std::to_string(std::rand() % 1000 + 1)};
 
         // concatenate timeString and random value for hash input
         std::stringstream ss;
@@ -40,20 +46,13 @@ namespace abstract_game {
     }
 
     void GameSession::writeToDataManager() const {
-        // size_t sessionUID,
-        // int userID,
-        // GameID gameID,
-        // time_t start,
-        // time_t end,
-        // bool ended
-
         _dataManager->saveGameSession(
-                _gameSessionUID,
-                _userID,
-                _gameID,
-                _begin,
-                _end,
-                _ended
+            _gameSessionUID,
+            _userID,
+            _gameID,
+            _begin,
+            _end,
+            _ended
         );
         _dataManager->saveRunThroughs(_gameRunThroughs);
     }
@@ -70,6 +69,5 @@ namespace abstract_game {
     void GameSession::addNewGameRunThrough(std::string const &resultUnit, double const &result) {
         increaseRunThroughCount();
         _gameRunThroughs.emplace_back(_gameSessionUID, _runThroughCount, resultUnit, result);
-
     }
 } // abstract_game

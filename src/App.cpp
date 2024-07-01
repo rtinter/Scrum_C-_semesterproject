@@ -1,14 +1,14 @@
 #include "App.hpp"
-#include <imgui-SFML.h>
-#include <SceneManager.hpp>
-#include <StyleManager.hpp>
-#include "MemoryGameImageManager.hpp"
 
-#include "SFML/Graphics/RenderWindow.hpp"
-#include "SFML/Window/Event.hpp"
+#include <imgui-SFML.h>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Window/Event.hpp>
 
 #include "Logger.hpp"
-#include "QueueEntryType.hpp"
+#include "MemoryGameImageManager.hpp"
+#include "LogType.hpp"
+#include "SceneManager.hpp"
+#include "StyleManager.hpp"
 #include "WindowConfig.hpp"
 
 #if (defined(_WIN32))
@@ -22,13 +22,15 @@ void App::start() {
     // Initialize ImageManager singleton
     memory::MemoryGameImageManager::getInstance().initialize();
 
+    logger::createLogDir("logs");
+
     logger::Logger &logger{logger::Logger::getInstance()};
-    logger << QueueEntryType::INFORMATION;
+    logger << logger::LogType::INFORMATION;
     logger << "App Start";
 
-    sf::VideoMode videoMode(WindowConfig::WINDOW_WIDTH, WindowConfig::WINDOW_HEIGHT);
-    sf::RenderWindow window(videoMode, WindowConfig::TILE, sf::Style::Close);
-    window.setFramerateLimit(WindowConfig::FRAME_RATE);
+    sf::VideoMode videoMode(commons::WindowConfig::WINDOW_WIDTH, commons::WindowConfig::WINDOW_HEIGHT);
+    sf::RenderWindow window(videoMode, commons::WindowConfig::TILE, sf::Style::Close);
+    window.setFramerateLimit(commons::WindowConfig::FRAME_RATE);
 
     //init singleton and start Dashboard
     scene::SceneManager &sceneManager{scene::SceneManager::getInstance()};

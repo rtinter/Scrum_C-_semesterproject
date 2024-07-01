@@ -1,19 +1,16 @@
-#ifndef MEMORYTILE_HPP
-#define MEMORYTILE_HPP
+#pragma once
 
-#include "Tile.hpp"
-#include <string>
 #include <functional>
 #include <imgui.h>
-#include <Colors.hpp>
 #include <SFML/Graphics.hpp>
+
+#include "Tile.hpp"
 
 namespace memory {
     /**
      * @brief MemoryTile class. Represents a tile in the Memory game.
      */
-    class MemoryTile : public ui_elements::Tile {
-    private:
+    class MemoryTile final : public ui_elements::Tile {
         sf::Texture _frontTexture;
         ImVec4 _backColor{commons::ColorTheme::PRIMARY_COLOR};
         std::function<void()> _onClick;
@@ -23,16 +20,19 @@ namespace memory {
         ImVec2 _position;
 
     public:
-        MemoryTile(sf::Texture const &frontTexture, std::function<void()> const &onClick, ImVec2 const &size, int index);
+        MemoryTile(sf::Texture const &frontTexture, std::function<void()> const &onClick, ImVec2 const &size,
+                   int index);
+
         void render() override;
+
         void flip();
+
         void reset();
+
         bool isFaceUp() const;
+
         int getIndex() const;
         void setPosition(ImVec2 const &position);
         ImVec2 getPosition() const;
     };
-
-} // namespace memory
-
-#endif //MEMORYTILE_HPP
+} // memory

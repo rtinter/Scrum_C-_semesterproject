@@ -1,11 +1,12 @@
-
-#include <iostream>
 #include "CsvParser.hpp"
 
-namespace csv {
+#include <fstream>
+#include <iostream>
+#include <sstream>
 
-    std::vector<std::vector<std::string>> CsvParser::parse() {
-        std::vector<std::vector<std::string>> data;
+namespace csv {
+    std::vector<std::vector<std::string> > CsvParser::parse() const {
+        std::vector<std::vector<std::string> > data;
         try {
             std::ifstream file(_filename);
 

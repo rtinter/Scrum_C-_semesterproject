@@ -1,19 +1,14 @@
-#ifndef ATHENA_CSVSTORAGE_HPP
-#define ATHENA_CSVSTORAGE_HPP
+#pragma once
 
-
-#include <iostream>
 #include "DataManager.hpp"
-#include <chrono>
 
 namespace abstract_game {
-
     /**
      * @brief Class for managing game data using CSV files.
      *
      * This class provides methods to save game session and run-through data into CSV files.
      */
-    class CsvStorage : public DataManager {
+    class CsvStorage final : public DataManager {
     public:
         /**
          * @brief Save game session information to a CSV file.
@@ -26,12 +21,12 @@ namespace abstract_game {
          * @param ended Boolean indicating if the session has ended.
          */
         void saveGameSession(
-                size_t sessionUID,
-                int userID,
-                GameID gameID,
-                time_t start,
-                time_t end,
-                bool ended
+            size_t sessionUID,
+            int userID,
+            GameID gameID,
+            time_t start,
+            time_t end,
+            bool ended
         ) override;
 
         /**
@@ -49,7 +44,4 @@ namespace abstract_game {
          */
         void saveRunThroughs(std::vector<GameRunThrough> _gameRunThroughs) override;
     };
-
 } // abstract_game
-
-#endif //ATHENA_CSVSTORAGE_HPP

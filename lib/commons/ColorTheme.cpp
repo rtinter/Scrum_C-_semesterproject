@@ -1,5 +1,7 @@
 #include "ColorTheme.hpp"
+
 #include "ColorHelper.hpp"
+#include "Colors.hpp"
 
 namespace commons {
     ImVec4 const ColorTheme::BACKGROUND_COLOR{Colors::WHITE};
@@ -13,7 +15,7 @@ namespace commons {
 
     /**
     * @brief assigns chosen colors to respective ImGuiStyle,
-    * e. g. ImGuiCol_WindowBg, ImGuiCol_ButtonHovered,....
+    * e.g. ImGuiCol_WindowBg, ImGuiCol_ButtonHovered,....
     */
     void ColorTheme::setup() {
         ImGuiStyle &style{ImGui::GetStyle()};
