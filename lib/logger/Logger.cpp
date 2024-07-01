@@ -2,6 +2,8 @@
 #include <iostream>
 #include <filesystem>
 
+using namespace std::chrono_literals;
+
 namespace logger {
     /*
      * Flushes the sink
@@ -17,14 +19,18 @@ namespace logger {
      * @param entry a QueueEntry
      */
     void Logger::log(QueueEntry const &entry) {
-        if(entry.entryType == QueueEntryType::DEBUG){
-            _outputStream << "[DEBUG]: " << getDateString(entry.timestamp) << " " << entry.content << std::endl;
+        std::string dateString {getDateString(entry.timestamp) };
+        if(entry.entryType == LogType::DEBUG){
+            _outputStream << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
+            std::cout << "[DEBUG]: " << dateString << " " << entry.content << std::endl;
         }
-        if(entry.entryType == QueueEntryType::INFORMATION){
-            _outputStream << "[INFORMATION]: " << getDateString(entry.timestamp) << " " << entry.content << std::endl;
+        if(entry.entryType == LogType::INFORMATION){
+            _outputStream << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
+            std::cout << "[INFORMATION]: " << dateString << " " << entry.content << std::endl;
         }
-        if(entry.entryType == QueueEntryType::SEVERE){
-            _outputStream << "[SEVERE]: " << getDateString(entry.timestamp)  << " " << entry.content << std::endl;
+        if(entry.entryType == LogType::SEVERE){
+            _outputStream << "[SEVERE]: " << dateString  << " " << entry.content << std::endl;
+            std::cerr << "[SEVERE]: " << dateString << " " << entry.content << std::endl;
         }
     }
 
@@ -38,6 +44,7 @@ namespace logger {
                 logger.log(logger._sink.front());
                 logger._sink.pop();
             }
+            std::this_thread::sleep_for(100ms);
         }
     }
 
@@ -74,9 +81,9 @@ namespace logger {
     /*
      * Manual Method for Logging
      * @param content a string
-     * @param type a QueueEntryType
+     * @param type a LogType
      */
-    void Logger::log(std::string const &content, QueueEntryType type) {
+    void Logger::log(std::string const &content, LogType type) {
         QueueEntry entry {
             .timestamp = time(nullptr),
             .content = content,
@@ -89,12 +96,12 @@ namespace logger {
     void createLogDir(std::string const &path) {
         if (!std::filesystem::exists(path)) {
             if (std::filesystem::create_directories(path)) {
-                Logger::getInstance().log("Directory created: " + path, QueueEntryType::INFORMATION);
+                Logger::getInstance().log("Directory created: " + path, LogType::INFORMATION);
             } else {
-                Logger::getInstance().log("Failed to create directory: " + path, QueueEntryType::SEVERE);
+                Logger::getInstance().log("Failed to create directory: " + path, LogType::SEVERE);
             }
         } else {
-            Logger::getInstance().log("Failed to create directory: " + path, QueueEntryType::SEVERE);
+            Logger::getInstance().log("Failed to create directory: " + path, LogType::SEVERE);
         }
     }
 }

@@ -1,0 +1,79 @@
+[
+	{
+		"question": "Was ist, wenn der Warenbestand 10% unter dem Soll-Wert A liegt?",
+		"answers": [
+			"Die Bestellung wird durchgeführt.",
+			"Die Bestellung wird vorgemerkt.",
+			"Die Bestellung wird verschoben.",
+			"Der Warenbestand wird im nächsten Zyklus erneut geprüft."
+		],
+		"answer": "Die Bestellung wird vorgemerkt.",
+		"explanation" : "",
+		"image" : "fdigrmaswrt_1_1.png"
+	},
+	{
+		"question": "Wann beginnt der Wahlprozess von vorne?",
+		"answers": [
+			"Wenn nach dem 3. Wahlgang kein Kandidat mehr als 50% erreicht \nund ein Gremium keinen Kandidaten ernannt hat.",
+			"Wenn nach dem 3. Wahlgang kein Kandidat mehr als 30% erreicht \noder ein Gremium keinen Kandidaten ernannt hat.",
+			"Wenn nach dem 3. Wahlgang kein Kandidat mehr als 30% erreicht \nund ein Gremium keinen Kandidaten ernannt hat.",
+			"Wenn nach dem 3. Wahlgang kein Kandidat mehr als 50% erreicht \noder ein Gremium keinen Kandidaten ernannt hat.",
+			"Keine der genannten Lösungen stimmt."
+		],
+		"answer": "Wenn nach dem 3. Wahlgang kein Kandidat mehr als 30% erreicht \noder ein Gremium keinen Kandidaten ernannt hat.",
+		"explanation" : "",
+		"image" : "fdigrmaswrt_1_1.png"
+	},
+	{
+		"question": "Welche Kandidaten stehen beim 3. Wahlgang zur Wahl?",
+		"answers": [
+			"alle Kandidaten, die die Mitglieder vorgeschlagen haben",
+			"die vier Kandidaten mit den meisten Stimmen aus den vorherigen Wahlgängen",
+			"die Kandidaten, die ein Gremium vorgeschlagen hat",
+			"alle Mitglieder des Vereins",
+			"Keine der genannten Antworten ist richtig."
+		],
+		"answer": "die vier Kandidaten mit den meisten Stimmen aus den vorherigen Wahlgängen",
+		"explanation" : "",
+		"image" : "fdigrmaswrt_1_1.png"
+	},
+	{
+		"question": "Was ist, wenn beim 2. Wahlgang ein Kandidat 45% der Stimmen erhält?",
+		"answers": [
+			"Der Kandidat wird als neuer Vorstand ins Amt berufen.",
+			"Ein 3. Wahlgang findet statt.",
+			"Ein Gremium ernennt einen Kandidaten.",
+			"Die Mitglieder schlagen einen Kandidaten vor.",
+			"Keine der genannten Lösungen stimmt."
+		],
+		"answer": "Ein 3. Wahlgang findet statt.",
+		"explanation" : "",
+		"image" : "fdigrmaswrt_1_1.png"
+	},
+	{
+		"question": "Wann findet nur ein Wahlgang statt?",
+		"answers": [
+			"Wenn ein Gremium einen Kandidaten ernennt.",
+			"Wenn ein Kandidat beim 1. Wahlgang mehr als 30% der Stimmen erhält.",
+			"Wenn ein Kandidat beim 1. Wahlgang mehr als 50% der Stimmen erhält.",
+			"Wenn nur ein Kandidat zur Wahl steht.",
+			"Keine der genannten Antworten ist richtig."
+		],
+		"answer": "Wenn ein Kandidat beim 1. Wahlgang mehr als 50% der Stimmen erhält.",
+		"explanation" : "",
+		"image" : "fdigrmaswrt_1_1.png"
+	},
+	{
+		"question": "Welche Beschriftung ist für das gelblich unterlegte Feld mit der Zahl 1 sinnvoll?",
+		"answers": [
+			"Warenbestand prüfen",
+			"Warenbestand kritisch?",
+			"Warenbestand ausreichend?",
+			"Warenbestand reduzieren",
+			"Keine der genannten Beschriftungen ist sinnvoll."
+		],
+		"answer": "Warenbestand ausreichend?",
+		"explanation" : "",
+		"image" : "F1_digrmm_1_1.jpg"
+	}
+]

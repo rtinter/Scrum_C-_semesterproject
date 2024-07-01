@@ -135,7 +135,7 @@ namespace games {
         try {
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
             file.open("assets/games/analogy/questionnaire.json");
-            logger.log("Loading files for Analogy-Game", QueueEntryType::INFORMATION);
+            logger.log("Loading files for Analogy-Game", LogType::INFORMATION);
 
             json data;
             file >> data;
@@ -156,7 +156,7 @@ namespace games {
             std::stringstream error;
             error << "Error opening or reading the file questionnaire.json: " << e.what();
             std::cerr << error.str() << std::endl;
-            logger.log(error.str(), QueueEntryType::SEVERE);
+            logger.log(error.str(), LogType::SEVERE);
         }
     }
 
