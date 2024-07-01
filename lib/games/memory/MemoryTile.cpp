@@ -48,4 +48,12 @@ namespace memory {
     int MemoryTile::getIndex() const {
         return _index;
     }
+
+    void MemoryTile::setPosition(ImVec2 const &position) {
+        _position = position;
+    }
+
+    ImVec2 MemoryTile::getPosition() const {
+        return _position;
+    }
 } // namespace memory

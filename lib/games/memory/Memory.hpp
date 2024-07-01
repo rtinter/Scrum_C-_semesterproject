@@ -10,6 +10,7 @@
 #include "MemoryTile.hpp"
 #include "MemoryGameImageManager.hpp"
 #include "WindowConfig.hpp"
+#include "StressButton.hpp"
 #include <imgui.h>
 #include <vector>
 #include <memory>
@@ -18,6 +19,7 @@
 #include <random>
 #include <algorithm>
 #include <chrono>
+
 
 namespace memory {
     /**
@@ -49,6 +51,7 @@ namespace memory {
         bool _initialDisplayDone{false};
         bool _delayActive{false};
         bool _timerPaused{true};
+        StressButton _stressButton;
 
         /**
          * @brief Initializes the tiles for the game.

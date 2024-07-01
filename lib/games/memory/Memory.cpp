@@ -91,7 +91,7 @@ namespace memory {
         float const totalWidth{columns * (_tileSize.x + _tilePadding) - _tilePadding};
         float const totalHeight{5 * (_tileSize.y + _tilePadding) - _tilePadding};
 
-        // Calculae the start position for the tile formation
+        // Calculate the start position for the tile formation
         float const startX{(WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
         float const startY{(WindowConfig::WINDOW_HEIGHT - totalHeight) / 2};
 
@@ -296,9 +296,11 @@ namespace memory {
                     initializeTiles();
                     arrangeTiles();
                     centerCoordinates();
+                    _stressButton.setTileData(_tiles, _tileSize); // Provide tile data to StressButton
                     startGameTimer();
                     _timerPaused = false;
                 }
+                _stressButton.update();
             }
 
             // Check for game over when the timer expires
@@ -322,8 +324,12 @@ namespace memory {
                 auto const &tile {_tiles[i]};
                 auto const coords {_coordinates[i]};
                 ImGui::SetCursorPos(ImVec2(coords.x, coords.y));
+                tile->setPosition(ImVec2(coords.x, coords.y)); // Set the position of the tile
                 tile->render();
             }
+
+            // Render the StressButton after MemoryTiles to ensure it is on top
+            _stressButton.render();
 
         });
         ImGui::PopStyleColor();
