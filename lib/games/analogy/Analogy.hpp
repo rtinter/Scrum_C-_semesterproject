@@ -1,26 +1,18 @@
 #pragma once
 
-#include "Logger.hpp"
-#include <Colors.hpp>
-#include <Game.hpp>
-#include <imgui.h>
+#include <chrono>
 #include <map>
-#include "UiElement.hpp"
-#include "InfoBox.hpp"
-#include "Window.hpp"
-#include "Fonts.hpp"
-#include "TextCentered.hpp"
-#include "Centered.hpp"
+#include <SFML/System/Clock.hpp>
+
+#include "Game.hpp"
+#include "Logger.hpp"
 #include "RandomPicker.hpp"
-#include "chrono"
-#include "SFML/System/Clock.hpp"
 
 namespace games {
     /**
      * @brief The Analogy game class, which represents the logic and rendering of the game.
      */
-    class Analogy : public abstract_game::Game {
-
+    class Analogy final : public abstract_game::Game {
         /**
           * @brief A structure representing a question in the analogy game.
           */
@@ -72,8 +64,6 @@ namespace games {
         void renderGameOver();
 
     public:
-
-
         /**
          * @brief Constructor for the Analogy game.
          */
@@ -108,6 +98,5 @@ namespace games {
          * @brief Updates the game statistics.
          */
         void updateStatistics() override;
-
     };
-}
+} // games
