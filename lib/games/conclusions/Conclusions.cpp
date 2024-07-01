@@ -155,7 +155,7 @@ namespace games {
         std::fstream file;
         try {
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-            file.open("./config/games/conclusions.json");
+            file.open("assets/games/conclusions/conclusions.json");
             logger.log("Loading files for Conclusions-Game", logger::QueueEntryType::INFORMATION);
 
             json data;

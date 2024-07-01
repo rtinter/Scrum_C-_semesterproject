@@ -22,10 +22,3 @@ target_link_libraries(${LIBRARY_NAME} PUBLIC
         sfml-audio
         box2d
 )
-
-
-file(GLOB SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*")
-
-foreach (FILE ${SOURCE_FILES})
-    file(COPY ${FILE} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/sounds)
-endforeach ()
