@@ -1,24 +1,29 @@
 #include "SimonSays.hpp"
-#include "Fonts.hpp"
-#include "Colors.hpp"
-#include "ColorTheme.hpp"
-#include "InfoBox.hpp"
-#include "TextCentered.hpp"
-#include "Window.hpp"
-#include "Centered.hpp"
-#include "SoundPolice.hpp"
+
 #include <random>
 #include <thread>
 
+#include "Centered.hpp"
+#include "Colors.hpp"
+#include "ColorTheme.hpp"
+#include "Fonts.hpp"
+#include "InfoBox.hpp"
+#include "SoundPolice.hpp"
+#include "Window.hpp"
+
 namespace games {
-    SimonSays::SimonSays() : Game(abstract_game::GameID::SEQUENCE) {
+    SimonSays::SimonSays() : Game(abstract_game::GameID::SEQUENCE), _currentGameMode(), _levelCounter(0),
+                             _sequenceButtonIterator(0),
+                             _correctClicksOfCurrentSequence(0),
+                             _buttonStates() {
         _gameName = "Abfolge-Merken-Spiel";
-        _gameDescription = "Unser Abfolge-Merken-Spiel soll die Fähigkeit testen, sich Abfolgen einzuprägen\nund korrekt wiederzugeben.\n";
+        _gameDescription =
+                "Unser Abfolge-Merken-Spiel soll die Fähigkeit testen, sich Abfolgen einzuprägen\nund korrekt wiederzugeben.\n";
         _gameRules = "Auf dem Bildschirm werden 9 verschiedene Buttons angezeigt.\n"
-                     "Diese Buttons werden nacheinander aufleuchten und anschließend müssen die Buttons in exakt dieser\n"
-                     "Reihenfolge angeklickt werden. Die Abfolge muss also wiederholt werden.\n"
-                     "Die Abfolge wird schrittweise ausgegeben. Also erst nur ein Button, dann zwei, dann drei usw.\n"
-                     "Teste deine Fähigkeiten und schaue, wie weit du kommst!\n";
+                "Diese Buttons werden nacheinander aufleuchten und anschließend müssen die Buttons in exakt dieser\n"
+                "Reihenfolge angeklickt werden. Die Abfolge muss also wiederholt werden.\n"
+                "Die Abfolge wird schrittweise ausgegeben. Also erst nur ein Button, dann zwei, dann drei usw.\n"
+                "Teste deine Fähigkeiten und schaue, wie weit du kommst!\n";
         _gameControls = "Linke Maustaste: Klicken der Buttons in der korrekten Reihenfolge.\n";
     }
 
@@ -35,12 +40,10 @@ namespace games {
         if (_isGameRunning) {
             renderGame();
         }
-
     }
 
     void SimonSays::renderGame() {
         ui_elements::Window("Sequence Game").render(([this] {
-
             ui_elements::Centered(true, true, [this] {
                 ImGui::PushFont(commons::Fonts::_header3);
                 switch (_currentGameMode) {
@@ -56,7 +59,6 @@ namespace games {
                 displayButtons();
             });
         }));
-
     }
 
     void SimonSays::start() {
@@ -72,9 +74,8 @@ namespace games {
         _buttonStates.fill(0);
 
         chooseNextRandomButton();
-        nextLevel();        //first level
+        nextLevel(); //first level
         showSequence();
-
     }
 
     void SimonSays::reset() {
@@ -93,11 +94,10 @@ namespace games {
 
     void SimonSays::updateStatistics() {
         abstract_game::GameSessionManager::getCurrentSession()->addNewGameRunThrough("korrekte Antworten in Folge",
-                                                                                     _longestReproducedSequence);
+            _longestReproducedSequence);
     }
 
     void SimonSays::displayButtons() {
-
         ImGui::NewLine();
 
         for (int i{1}; i <= K_NUMBER_OF_BUTTONS; i++) {
@@ -113,17 +113,20 @@ namespace games {
 
                     checkWaitTimeExpired();
                     checkLitUpExpired(
-                            _buttonStates[buttonID]);       //check, if Button is currently already lit up and then should be turned off
+                        _buttonStates[buttonID]);
+                //check, if Button is currently already lit up and then should be turned off
                     if (_wasLastButtonOfSequence) {
                         switchGameMode();
                     }
 
-                    if (_buttonStates[buttonID]) {        //button is supposed to light up -> light button up by pushing accentColor
+                    if (_buttonStates[buttonID]) {
+                        //button is supposed to light up -> light button up by pushing accentColor
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::ACCENT_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_Text, commons::Colors::TRANSPARENT);
-                    } else {                            //button is not supposed to light up -> normal render color
+                    } else {
+                        //button is not supposed to light up -> normal render color
                         ImGui::PushStyleColor(ImGuiCol_Button, commons::ColorTheme::PRIMARY_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonActive, commons::ColorTheme::PRIMARY_COLOR);
                         ImGui::PushStyleColor(ImGuiCol_ButtonHovered, commons::ColorTheme::PRIMARY_COLOR);
@@ -148,33 +151,29 @@ namespace games {
                     }
 
                     break;
-
             }
 
             ImGui::PopStyleColor(3);
         }
-
     }
 
     void SimonSays::isClickedInCorrectOrder(int const &buttonID) {
-
         if (buttonID ==
-            _buttonsClickedSequence[_sequenceButtonIterator]) {     //if clicked button is the right button to be clicked in sequence
+            _buttonsClickedSequence[_sequenceButtonIterator]) {
+            //if clicked button is the right button to be clicked in sequence
             _correctClicksOfCurrentSequence++;
             playButtonSound(buttonID);
-            _sequenceButtonIterator++;  //make sure that the next button in line gets rated as correct now!
+            _sequenceButtonIterator++; //make sure that the next button in line gets rated as correct now!
             if (_correctClicksOfCurrentSequence == _levelCounter) {
                 //go to next level and switch back to watch gamemode
                 _longestReproducedSequence = _correctClicksOfCurrentSequence;
                 nextLevel();
                 switchGameMode();
             }
-
         } else {
             commons::SoundPolice::safePlaySound(Sound::BEEP_FAIL);
-            stop();     //wrong button clicked -> GAMEOVER!
+            stop(); //wrong button clicked -> GAMEOVER!
         }
-
     }
 
     void SimonSays::chooseNextRandomButton() {
@@ -186,16 +185,16 @@ namespace games {
     }
 
     void SimonSays::showSequence() {
-        int buttonForLoopIteration{0};  //to keep iterator of button in sequence in sync with the sequence displayed
+        int buttonForLoopIteration{0}; //to keep iterator of button in sequence in sync with the sequence displayed
         for (int button: _buttonsClickedSequence) {
             if ((_buttonStates[button] == 0) &&
                 _canShowNextButtonInSequence && (_sequenceButtonIterator ==
                                                  buttonForLoopIteration) &&
-                !_mustWait) {        //if chosen button is not yet lit up AND no other button is currently lit up AND wait time between light ups is over, light it up!
-                lightUp(_buttonStates[button], button);    //light up button X by setting state of button X to 1/true
+                !_mustWait) {
+                //if chosen button is not yet lit up AND no other button is currently lit up AND wait time between light ups is over, light it up!
+                lightUp(_buttonStates[button], button); //light up button X by setting state of button X to 1/true
             }
             buttonForLoopIteration++;
-
         }
     }
 
@@ -205,16 +204,15 @@ namespace games {
                 std::chrono::steady_clock::now() + std::chrono::milliseconds(_lightUpDurationInMilliseconds);
         buttonState = 1;
         playButtonSound(buttonID);
-        _canShowNextButtonInSequence = false;   //another button is currently lit up, this variable assures no other button is being lit up at the same time
+        _canShowNextButtonInSequence = false;
+        //another button is currently lit up, this variable assures no other button is being lit up at the same time
     }
 
     void SimonSays::checkLitUpExpired(int &buttonState) {
-
         //if Lighting up time is expired
         if ((buttonState == 1) && std::chrono::steady_clock::now() > _stopHighlightingHere) {
             buttonState = 0;
             waitInBetweenButtons();
-
         }
     }
 
@@ -258,8 +256,8 @@ namespace games {
             _mustWait = false;
 
             if (_sequenceButtonIterator <= _levelCounter) {
-
-                _canShowNextButtonInSequence = true;    //Button ist wieder aus, also kann nun der nächste Button aufleuchten
+                _canShowNextButtonInSequence = true;
+                //Button ist wieder aus, also kann nun der nächste Button aufleuchten
                 moveOnToNextButton();
                 showSequence();
                 if (_sequenceButtonIterator == _levelCounter) {
@@ -301,7 +299,6 @@ namespace games {
             default:
                 commons::SoundPolice::safePlaySound(Sound::BEEP, 100, 1.0f);
                 break;
-
         }
     }
-}
+} // games

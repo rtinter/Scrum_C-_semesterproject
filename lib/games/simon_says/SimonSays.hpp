@@ -1,5 +1,4 @@
-#ifndef ATHENA_SEQUENCE_H
-#define ATHENA_SEQUENCE_H
+#pragma once
 
 #include <array>
 #include <chrono>
@@ -8,24 +7,24 @@
 #include "Game.hpp"
 
 namespace games {
-
     /**
-     * Sequence is a game meant to test the user's ability to memorize an ever growing sequence of buttons they need to press
+     * Sequence is a game meant to test the user's ability to memorize an ever-growing sequence of buttons they need to press
      * in the right order. Each button also plays a sound in different pitches to further support the user's memory.
      */
-    class SimonSays : public abstract_game::Game {
-
+    class SimonSays final : public abstract_game::Game {
         /**
          * Enums to switch between two different modes in the game. WATCH for letting the computer play the sequence and
          * then REPEAT so the user can take over again and repeat the sequence they just saw.
          */
         enum GameMode {
-            WATCH,  // watch the sequence and try to remember it
-            REPEAT  // repeat the sequence you just saw
+            WATCH, // watch the sequence and try to remember it
+            REPEAT // repeat the sequence you just saw
         };
+
         GameMode _currentGameMode;
 
-        int _levelCounter;  // keeps track of the user's level, aka the length of the current sequence as it gets longer with each round
+        int _levelCounter;
+        // keeps track of the user's level, aka the length of the current sequence as it gets longer with each round
         int _longestReproducedSequence{0};
         std::string _endBoxString;
 
@@ -171,9 +170,5 @@ namespace games {
         void stop() override;
 
         void updateStatistics() override;
-
     };
-
-} // sequence
-
-#endif //ATHENA_SEQUENCE_H
+} // simon_says
