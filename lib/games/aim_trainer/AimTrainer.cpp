@@ -43,7 +43,7 @@ void games::AimTrainer::updateBlobs() {
             std::remove_if(
                     _currentBlobs.begin(),
                     _currentBlobs.end(),
-                    [&missed](games::Blob &b) {
+                    [&missed](aim_trainer::Blob &b) {
 
                         bool dispose{b.canBeDisposed()};
                         if (dispose)
@@ -68,13 +68,13 @@ void games::AimTrainer::render() {
     if (ImGui::IsMouseClicked(0)) {
         auto const mousePos{ImGui::GetMousePos()};
 
-        std::vector<games::Blob> blobsToDelete;
+        std::vector<aim_trainer::Blob> blobsToDelete;
         bool hit{false};
         _currentBlobs.erase(
                 std::remove_if(
                         _currentBlobs.begin(),
                         _currentBlobs.end(),
-                        [this, &hit, mousePos](games::Blob &b) {
+                        [this, &hit, mousePos](aim_trainer::Blob &b) {
 
                             auto const coordsx{b.getCoords().x};
                             auto const coordsy{b.getCoords().y};

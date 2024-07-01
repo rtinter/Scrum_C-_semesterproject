@@ -21,7 +21,7 @@ private:
     std::future<void> _backgroundBlobTask;
     std::future<void> _spawnBlobTask;
 
-    std::vector<games::Blob> _currentBlobs;
+    std::vector<aim_trainer::Blob> _currentBlobs;
 
     int _successCounter {0};
     int _missedCounter {0};
