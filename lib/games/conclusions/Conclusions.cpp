@@ -159,7 +159,7 @@ namespace games {
             std::fstream file;
             file.exceptions(std::ifstream::failbit | std::ifstream::badbit);
             file.open("assets/games/conclusions/conclusions.json");
-            logger.log("Loading files for Conclusions-Game", logger::QueueEntryType::INFORMATION);
+            logger.log("Loading files for Conclusions-Game", LogType::INFORMATION);
 
             json data;
             file >> data;
@@ -173,16 +173,14 @@ namespace games {
             }
 
             // Log the loaded questions
-            for (const auto &q: _questions) {
-                logger.log(
-                    "Loaded question: " + q.questionText + " Answer: " + std::to_string(
-                        static_cast<int>(q.isCorrectAnswer)), logger::QueueEntryType::INFORMATION);
+            for (const auto &q : _questions) {
+                logger.log("Loaded question: " + q.questionText + " Answer: " + std::to_string(static_cast<int>(q.isCorrectAnswer)), LogType::INFORMATION);
             }
         } catch (std::exception const &e) {
             std::stringstream error;
             error << "Error opening or reading the file conclusions.json: " << e.what();
             std::cerr << error.str() << std::endl;
-            logger.log(error.str(), logger::QueueEntryType::SEVERE);
+            logger.log(error.str(), LogType::SEVERE);
         }
     }
 

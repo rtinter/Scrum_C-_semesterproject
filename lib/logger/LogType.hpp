@@ -1,7 +1,7 @@
 #pragma once
 
 namespace logger {
-    enum QueueEntryType {
+    enum LogType {
         INFORMATION,
         DEBUG,
         SEVERE,

@@ -6,7 +6,7 @@
 
 #include "Logger.hpp"
 #include "MemoryGameImageManager.hpp"
-#include "QueueEntryType.hpp"
+#include "LogType.hpp"
 #include "SceneManager.hpp"
 #include "StyleManager.hpp"
 #include "WindowConfig.hpp"
@@ -25,7 +25,7 @@ void App::start() {
     logger::createLogDir("logs");
 
     logger::Logger &logger{logger::Logger::getInstance()};
-    logger << logger::QueueEntryType::INFORMATION;
+    logger << LogType::INFORMATION;
     logger << "App Start";
 
     sf::VideoMode videoMode(commons::WindowConfig::WINDOW_WIDTH, commons::WindowConfig::WINDOW_HEIGHT);

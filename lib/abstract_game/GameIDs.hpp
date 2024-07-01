@@ -21,7 +21,8 @@ namespace abstract_game {
         SEQUENCE = 1011,
         ROWS_OF_SYMBOLS = 1012,
         ABSURD_QUESTIONS = 1013,
-        MEMORY = 1014
+        DIAGRAM = 1014,
+        MEMORY = 1015
     };
 
     /*********************************
@@ -59,6 +60,8 @@ namespace abstract_game {
                 return "Schlussfolgerungen";
             case GameID::MEMORY:
                 return "Memory";
+            case GameID::DIAGRAM:
+                return "Diagramm analysieren";
             default:
                 return "Unknown";
         }

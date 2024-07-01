@@ -14,6 +14,7 @@
 #include "ResultsScene.hpp"
 #include "RowsOfNumbers.hpp"
 #include "RowsOfSymbols.hpp"
+#include "DiagramAnalysis.hpp"
 #include "SceneManager.hpp"
 #include "SimonSays.hpp"
 #include "TypeRacer.hpp"
@@ -238,6 +239,19 @@ scene::DashboardScene::DashboardScene() {
     );
 
 
+    logicalThinking.push_back(
+            std::make_unique<Tile>(
+                    "\uE473",
+                    "Diagramme analysieren",
+                    "Analysiere das Diagram",
+                    commons::Colors::SEAFOAM,
+                    []() {
+                        SceneManager::getInstance().switchTo(
+                                std::make_unique<GameScene<games::DiagramAnalysis>>()
+                        );
+                    }
+            )
+    );
     /* Durch die unordered_map und die fehlende rbegin()-Funktion wird die Reihenfolge der Kategorien
      * hier festgelegt.
     */

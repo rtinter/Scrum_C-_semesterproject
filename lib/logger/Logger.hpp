@@ -10,7 +10,7 @@
 #include <thread>
 
 #include "QueueEntry.hpp"
-#include "QueueEntryType.hpp"
+#include "LogType.hpp"
 
 namespace logger {
 
@@ -22,8 +22,8 @@ namespace logger {
         bool _stop{false};
         std::ofstream _outputStream;
 
-        QueueEntryType _type{QueueEntryType::DEBUG};
-        std::future<void> _sinkBackgroundTask;
+        LogType _type {LogType::DEBUG};
+        std::future<void> _sinkBackgroundTask {};
 
         void log(QueueEntry const &entry);
 
@@ -34,8 +34,7 @@ namespace logger {
 
         void flush();
 
-        void log(std::string const &content, QueueEntryType type);
-
+        void log(std::string const &content, LogType type);
         static void sinkTask(Logger &logger);
 
         static std::string getDateString(time_t timestamp) {
@@ -71,7 +70,7 @@ namespace logger {
             return *this;
         }
 
-        Logger &operator<<(QueueEntryType type) {
+        Logger &operator<<(LogType type) {
             this->_type = type;
             return *this;
         }
