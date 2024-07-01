@@ -39,11 +39,11 @@ namespace memory {
             ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 1));
             ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 
-            ImVec2 textSize{ImGui::CalcTextSize("Click")};
-            ImVec2 textPos{ImVec2(
+            ImVec2 textSize = ImGui::CalcTextSize("Click");
+            ImVec2 textPos = ImVec2(
                     (_stressButtonSize.x - textSize.x) / 2.0f,
                     (_stressButtonSize.y - textSize.y) / 2.0f
-            )};
+            );
 
             ImGui::SetCursorPos(ImVec2(_stressButtonPosition.x + textPos.x, _stressButtonPosition.y + textPos.y));
             if (ImGui::Button("Click##StressButton", _stressButtonSize)) {
