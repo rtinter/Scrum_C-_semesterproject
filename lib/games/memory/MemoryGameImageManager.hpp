@@ -16,7 +16,7 @@ namespace memory {
          * @brief Accessor for the singleton instance of the MemoryGameImageManager.
          * @return Reference to the singleton instance.
          */
-        static MemoryGameImageManager &getInstance(); // Singleton instance accessor
+        static MemoryGameImageManager &getInstance();
 
         /**
          * @brief Initializes the image manager by loading textures.

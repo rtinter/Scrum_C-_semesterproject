@@ -34,7 +34,7 @@ namespace memory {
     }
 
     void Memory::initializeTiles() {
-        _tiles.clear(); // Clear existing tiles
+        _tiles.clear();
 
         // Create pairs of indices for the images
         std::vector<int> indices(30);
@@ -55,7 +55,7 @@ namespace memory {
             // Create a new memory tile with the retrieved texture, a click handler, tile size, and image index
             auto const tile {std::make_shared<memory::MemoryTile>(texture, [this, i]() { handleTileClick(i); }, _tileSize,
                                                              imageIndex)};
-            // Add the created tile to the _tiles vector
+
             _tiles.push_back(tile);
         }
     }
@@ -63,13 +63,12 @@ namespace memory {
 
     void Memory::arrangeTiles() {
 
-        // Define the number of columns and rows for the tile arrangement
         int const columns{10};
         int const rows[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
-        _coordinates.clear(); // Clear coordinates before arranging
+        _coordinates.clear();
 
-        // Assign coordinates to each tile based on the number of rows and columns, tileSize and tilePadding
+        // Assign coordinates to each tile
         int index{0};
         for (int col{0}; col < columns; ++col) {
             for (int row{0}; row < rows[col]; ++row) {
@@ -83,7 +82,6 @@ namespace memory {
 
     void Memory::centerCoordinates() {
 
-        // Define the number of columns and rows for the tile arrangement
         int const columns{10};
         int const rows[]{1, 2, 3, 4, 5, 5, 4, 3, 2, 1};
 
@@ -91,20 +89,16 @@ namespace memory {
         float const totalWidth{columns * (_tileSize.x + _tilePadding) - _tilePadding};
         float const totalHeight{5 * (_tileSize.y + _tilePadding) - _tilePadding};
 
-        // Calculae the start position for the tile formation
+        // Calculate the start position for the tile formation
         float const startX{(WindowConfig::WINDOW_WIDTH - totalWidth) / 2};
         float const startY{(WindowConfig::WINDOW_HEIGHT - totalHeight) / 2};
 
         int index{0};
 
-        // Loop through each column to arrange the tiles
         for (int col{0}; col < columns; ++col) {
-            // Calculate vertical offset to center each column vertically
             int const yOffset{static_cast<int>(startY + (5 - rows[col]) * (_tileSize.y + _tilePadding) /
                                                   2)};
-            // Loop through each row for the current column to position the tiles
             for (int row{0}; row < rows[col]; ++row) {
-                // Calculate x and y positions for the tile
                 float const x{startX + col * (_tileSize.x + _tilePadding)};
                 float const y{yOffset + row * (_tileSize.y + _tilePadding)};
                 // Assign the calculated coordinates to the tile if within bounds
@@ -139,25 +133,22 @@ namespace memory {
 
     void Memory::handleTileClick(int tileID) {
         if (_isCheckingMatch) {
-            handleMismatch(); // Immediately handle mismatch if a new tile is clicked
+            handleMismatch();
         }
 
-        auto const &tile{_tiles[tileID]}; // Get the tile that was clicked
+        auto const &tile{_tiles[tileID]};
 
         if (tile->isFaceUp()) {
-            return; // Ignore if the tile is already flipped face-up
+            return;
         }
 
-        tile->flip(); // Flip the clicked tile
+        tile->flip();
 
-        // Play sound when a tile is flipped open
         commons::SoundPolice::safePlaySound(commons::Sound::CARD_FLIP, 60, 2.5f);
 
-        // If no first tile is selected, set this as the first tile
         if (!_firstTile) {
             _firstTile = tile;
         }
-        // If the first tile is already selected, set this as the second tile and start match checking
         else if (!_secondTile) {
             _secondTile = tile;
             _isCheckingMatch = true;
@@ -174,7 +165,7 @@ namespace memory {
             _secondTile = nullptr;
             _isCheckingMatch = false;
             if (_pairsFound == 15) {
-                checkForWin(); // Check for win immediately when all pairs are found
+                checkForWin();
             }
         }
         // If the two tiles do not match, delay for 2 seconds before flipping them back
@@ -196,15 +187,12 @@ namespace memory {
     }
 
     void Memory::checkForWin() {
-        // Calculate time taken
         int const timeTaken{_totalGameTime - _timer->getSecondsLeft()};
         int const minutes{timeTaken / 60};
         int const seconds{timeTaken % 60};
 
-        // Format time as <minutes:seconds>
         _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
 
-        // Update end box message
         _endBoxTitle = "Gut gemacht!";
         _endBoxText = "Du hast " + std::to_string(_pairsFound) + " Paare gefunden.\n"
                                                                  "Dafür hast du " + _timeTakenString +
@@ -215,15 +203,13 @@ namespace memory {
 
 
     void Memory::handleGameOver() {
-        // Calculate time taken
+
         int const timeTaken{_totalGameTime - _timer->getSecondsLeft()};
         int const minutes{timeTaken / 60};
         int const seconds{timeTaken % 60};
 
-        // Format time as <minutes:seconds>
         _timeTakenString = std::to_string(minutes) + ":" + (seconds < 10 ? "0" : "") + std::to_string(seconds);
 
-        // Update end box message
         std::string const pairString{_pairsFound == 1 ? "Paar" : "Paare"};
         _endBoxTitle = "Spiel vorbei!";
         _endBoxText = "Zeit abgelaufen.\n"
@@ -275,7 +261,6 @@ namespace memory {
 
             _timer->render();
 
-            // Handle the initial preview display of the tiles for 3 seconds
             auto const now{std::chrono::steady_clock::now()};
             if (std::chrono::duration_cast<std::chrono::seconds>(now - _initialDisplayStartTime).count() < 3) {
 
@@ -301,16 +286,12 @@ namespace memory {
                 }
             }
 
-            // Check for game over when the timer expires
             if (_timer && _timer->isExpiredNow()) {
                 handleGameOver();
             }
 
             if (_delayActive) {
-                // Capture the current time to check against the match check start time
                 auto const nowDelay{std::chrono::steady_clock::now()};
-
-                // Calculate the duration since the mismatch check started
                 if (std::chrono::duration_cast<std::chrono::seconds>(nowDelay - _matchCheckTime).count() >= 2) {
                     // If 2 seconds have passed, handle the mismatch
                     handleMismatch();

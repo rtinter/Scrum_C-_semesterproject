@@ -15,17 +15,15 @@ namespace memory {
             ImGui::Image(reinterpret_cast<ImTextureID>(_frontTexture.getNativeHandle()), _size);
         } else {
             ImGui::PushStyleColor(ImGuiCol_Button, _backColor);
-            ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 1)); // Black border
-            ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);   // Border size
+            ImGui::PushStyleColor(ImGuiCol_Border, ImVec4(0, 0, 0, 1));
+            ImGui::PushStyleVar(ImGuiStyleVar_FrameBorderSize, 1.0f);
 
-            // Render the back of the tile as a button
             ImGui::Button(" ", _size);
 
             ImGui::PopStyleVar();
             ImGui::PopStyleColor(2);
         }
 
-        // Check if the rendered item (tile) was clicked
         if (ImGui::IsItemClicked()) {
             if (_onClick) {
                 _onClick();
