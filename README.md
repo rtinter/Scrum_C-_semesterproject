@@ -117,7 +117,7 @@ pacman -S mingw-w64-x86_64-sfml mingw-w64-x86_64-boost mingw-w64-x86_64-toolchai
 
 ### Terminal Installation
 
-IDE unabhängige Installation für: Linux, Mac
+IDE unabhängige Installation für: Windows, Linux, Mac
 
 Vorausgesetzte Programme: 
 Cmake, Git, C++ Compiler (MingW, Visual Studio Compiler, G++)
