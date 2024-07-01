@@ -1,5 +1,4 @@
-#ifndef STRESS_BUTTON_HPP
-#define STRESS_BUTTON_HPP
+#pragma once
 
 #include <imgui.h>
 #include <chrono>
@@ -83,7 +82,4 @@ namespace memory {
          */
         void updateNextSpawnInterval();
     };
-
 } // namespace memory
-
-#endif // STRESS_BUTTON_HPP

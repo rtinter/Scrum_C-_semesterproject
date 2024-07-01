@@ -119,5 +119,4 @@ namespace memory {
         return _totalCount;
     }
 
-
 } // namespace memory
