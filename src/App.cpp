@@ -23,7 +23,7 @@ void App::start() {
     memory::MemoryGameImageManager::getInstance().initialize();
 
     logger::Logger &logger{logger::Logger::getInstance()};
-    logger << QueueEntryType::INFORMATION;
+    logger << logger::QueueEntryType::INFORMATION;
     logger << "App Start";
 
     sf::VideoMode videoMode(commons::WindowConfig::WINDOW_WIDTH, commons::WindowConfig::WINDOW_HEIGHT);

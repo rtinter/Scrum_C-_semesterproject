@@ -1,14 +1,13 @@
 #pragma once
 
-#include <queue>
-#include <string>
 #include <chrono>
-
-#include <future>
-#include <thread>
 #include <fstream>
+#include <future>
 #include <iomanip>
-#include "sstream"
+#include <queue>
+#include <sstream>
+#include <string>
+#include <thread>
 
 #include "QueueEntry.hpp"
 #include "QueueEntryType.hpp"
@@ -78,4 +77,3 @@ namespace logger {
         }
     };
 }
-

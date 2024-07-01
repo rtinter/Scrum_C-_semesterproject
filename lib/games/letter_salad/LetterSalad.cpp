@@ -54,7 +54,7 @@ namespace games {
 
         if (_wordList.empty()) {
             logger::Logger &logger{logger::Logger::getInstance()};
-            logger.log("There are no words in the wordlist. Aborting LetterSalad!", QueueEntryType::SEVERE);
+            logger.log("There are no words in the wordlist. Aborting LetterSalad!", logger::QueueEntryType::SEVERE);
             _showEndBox = true;
             return;
         }
@@ -116,14 +116,14 @@ namespace games {
 
         std::fstream file("./config/games/letter_salad_words.json");
         if (!file) {
-            logger.log("Error opening or reading the file letter_salad_words.json", QueueEntryType::SEVERE);
+            logger.log("Error opening or reading the file letter_salad_words.json", logger::QueueEntryType::SEVERE);
             return;
         }
 
         // cant use uniform initializer :( An exception will be thrown if used.
         json const data = json::parse(file);
         _wordList = {data["wordlist"].begin(), data["wordlist"].end()};
-        logger.log("LetterSalad wordlist loaded", QueueEntryType::INFORMATION);
+        logger.log("LetterSalad wordlist loaded", logger::QueueEntryType::INFORMATION);
 
         file.close();
     }

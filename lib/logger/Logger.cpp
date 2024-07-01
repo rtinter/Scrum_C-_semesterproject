@@ -1,4 +1,5 @@
 #include "Logger.hpp"
+
 #include <iostream>
 
 namespace logger {
@@ -16,14 +17,14 @@ namespace logger {
      * @param entry a QueueEntry
      */
     void Logger::log(QueueEntry const &entry) {
-        if(entry.entryType == QueueEntryType::DEBUG){
+        if (entry.entryType == DEBUG) {
             _outputStream << "[DEBUG]: " << getDateString(entry.timestamp) << " " << entry.content << std::endl;
         }
-        if(entry.entryType == QueueEntryType::INFORMATION){
+        if (entry.entryType == INFORMATION) {
             _outputStream << "[INFORMATION]: " << getDateString(entry.timestamp) << " " << entry.content << std::endl;
         }
-        if(entry.entryType == QueueEntryType::SEVERE){
-            _outputStream << "[SEVERE]: " << getDateString(entry.timestamp)  << " " << entry.content << std::endl;
+        if (entry.entryType == SEVERE) {
+            _outputStream << "[SEVERE]: " << getDateString(entry.timestamp) << " " << entry.content << std::endl;
         }
     }
 
@@ -31,9 +32,9 @@ namespace logger {
      * Background Task for writing to IO
      * @param logger an Instance of Logger
      */
-    void Logger::sinkTask(Logger &logger){
-        while(!logger._stop){
-            while(!logger._sink.empty()){
+    void Logger::sinkTask(Logger &logger) {
+        while (!logger._stop) {
+            while (!logger._sink.empty()) {
                 logger.log(logger._sink.front());
                 logger._sink.pop();
             }
@@ -43,16 +44,16 @@ namespace logger {
     /*
      * Static Method for a singleton of Logger
      */
-    logger::Logger& logger::Logger::getInstance() {
+    Logger &Logger::getInstance() {
         static Logger logger;
         if (!logger._initialized) {
-            std::string path {"session_"};
+            std::string path{"session_"};
             path.append(std::to_string(time(nullptr)));
             path.append(".txt");
 
             logger._initialized = true;
             logger._outputStream.open(path);
-            logger._sinkBackgroundTask = std::async(std::launch::async, [&](){
+            logger._sinkBackgroundTask = std::async(std::launch::async, [&]() {
                 sinkTask(logger);
             });
         }
@@ -75,8 +76,8 @@ namespace logger {
      * @param content a string
      * @param type a QueueEntryType
      */
-    void Logger::log(std::string const &content, QueueEntryType type) {
-        QueueEntry entry {
+    void Logger::log(std::string const &content, QueueEntryType const type) {
+        QueueEntry entry{
             .timestamp = time(nullptr),
             .content = content,
             .entryType = type
@@ -85,4 +86,3 @@ namespace logger {
         this->_sink.emplace(entry);
     }
 }
-
