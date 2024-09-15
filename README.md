@@ -2,8 +2,6 @@
 
 ## Athena
 
-### [Projektbeiträge: Eigener Beitrag](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/aem_projekt_beitraege/-/tree/main/Projektbeitrag?ref_type=heads) | [Projektdokumentation im Wiki](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/home)
-
 ## Produktvision
 Das **Ziel** des Projektes ist es, eine unterhaltsame und benutzerfreundliche Plattform für die kognitive Leistungsmessung und -verbesserung durch Tests, im weiteren Spiele genannt, zu erstellen. Diese Spiele werden im Speziellen auf Fähigkeiten, wie Reaktionsschnelligkeit, Erinnerungsvermögen, Mustererkennung, Resilienz sowie Moral abgestimmt sein. Dadurch soll Anwärter:innen auf Assessment-Centern bei der Polizei und der Feuerwehr eine erste Abschätzung gegeben werden, ob sie sich für diese Art von Arbeit eignen und sich gegebenenfalls verbessern. (Wörtlich aus der Produktwahl übernommen.)
 
@@ -134,8 +132,6 @@ cmake --build .
 
 Disclaimer: Der Build-Prozess wurde unter Windows 11 & Linux erfolgreich getestet.
 
-## [Anforderungsnachweise](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/blob/dev/Anforderungs-nachweis.md)
-
 ## Herausforderungen
 
 | Herausforderung | Lösung |
@@ -162,9 +158,6 @@ Die Zukunft unserer Anwendung ist mehr als rosig. Wir haben einen guten Grundste
 - Usermanagement: Account, Einloggen, Registrieren, Freunde finden, Vergleich zu anderen
 - Datenbank anbinden, um die Ergebnisse zu speichern
 - Monetarisierung durch Werbung oder ein Abo Modell
-
-Wikiseite für unsere [Roadmap](https://gitlab.iue.fh-kiel.de/aem/aem-2024/aem-team-1/human-benchmark/athena/-/wikis/Produkt/RoadMap) 
-
 
 
 ## Selbsteinschätzung des Teams
