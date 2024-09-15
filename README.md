@@ -18,19 +18,19 @@ Der **Mehrwert** unserer Anwendung besteht darin, das Konzept der Leistungsmessu
 ## Unser Team
 Gruppe: AEM-1
  
-| Rolle | Teilnehmer              | Matr.-Nr. |
-|-------|-------------------------|-----------|
-| PO    | Jane Schönfeld          | 941120    |
-| SM    | Benjamin Puhani         | 941077    |
-| DEV   | Jannik Brozy            | 940986    |
-| DEV   | René Marcel Tinter      | 940995    |
-| DEV   | Caspar Quast            | 941155    |
-| DEV   | Noah Zepner             | 941167    |
-| DEV   | Timo Michaelis          | 941362    |
-| DEV   | Sebastian Elisa Reineke | 941070    |
-| DEV   | Karlina Jung            | 941169    |
-| DEV   | Jonas Neumann           | 941341    |
-| DEV   | Gerrit Koch             | 941213    |
+| Rolle | Teilnehmer              | 
+|-------|-------------------------|
+| PO    | Jane Schönfeld          | 
+| SM    | Benjamin Puhani         | 
+| DEV   | Jannik Brozy            | 
+| DEV   | René Marcel Tinter      | 
+| DEV   | Caspar Quast            | 
+| DEV   | Noah Zepner             | 
+| DEV   | Timo Michaelis          | 
+| DEV   | Sebastian Elisa Reineke | 
+| DEV   | Karlina Jung            | 
+| DEV   | Jonas Neumann           | 
+| DEV   | Gerrit Koch             |
 
 
 ## Table of Contents
